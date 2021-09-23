@@ -6,7 +6,6 @@
 
 
 class Capacitor:
-
     name = "Capacitor"
     name_plural = "Capacitors"
     columns = ['basefreq', 'bus1', 'bus2', 'cmatrix', 'conn', 'cuf', 'emergamps', 'enabled', 'faultrate', 'harm',

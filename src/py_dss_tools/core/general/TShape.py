@@ -6,10 +6,10 @@
 
 
 class TShape:
-    id = 0
     name = "TShape"
     name_plural = "TShapes"
-    columns = []
+    columns = ['action', 'csvfile', 'dblfile', 'hour', 'interval', 'like', 'mean', 'minterval', 'npts', 'sinterval',
+               'sngfile', 'stddev', 'temp']
 
     def __init__(self):
         pass

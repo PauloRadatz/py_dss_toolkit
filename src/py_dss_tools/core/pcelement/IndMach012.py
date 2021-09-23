@@ -6,10 +6,11 @@
 
 
 class IndMach012:
-
-    id = 0
     name = "IndMach012"
     name_plural = "IndMach012s"
+    columns = ['basefreq', 'bus1', 'conn', 'd', 'daily', 'debugtrace', 'duty', 'enabled', 'h', 'kv', 'kva', 'kw',
+               'like', 'maxslip', 'pf', 'phases', 'purr', 'purs', 'puxm', 'puxr', 'puxs', 'slip', 'slipoption',
+               'spectrum', 'yearly']
 
     def __init__(self):
         pass

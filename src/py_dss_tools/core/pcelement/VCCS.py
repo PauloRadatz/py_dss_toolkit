@@ -6,10 +6,10 @@
 
 
 class VCCS:
-
-    id = 0
     name = "VCCS"
     name_plural = "VCCSs"
+    columns = ['basefreq', 'bp1', 'bp2', 'bus1', 'enabled', 'filter', 'fsample', 'imaxpu', 'irmstau', 'like', 'phases',
+               'ppct', 'prated', 'rmsmode', 'spectrum', 'vrated', 'vrmstau']
 
     def __init__(self):
         pass

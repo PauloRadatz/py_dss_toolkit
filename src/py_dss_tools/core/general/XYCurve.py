@@ -6,10 +6,10 @@
 
 
 class XYCurve:
-    id = 0
     name = "XYCurve"
     name_plural = "XYCurves"
-    columns = []
+    columns = ['csvfile', 'dblfile', 'like', 'npts', 'points', 'sngfile', 'x', 'xarray', 'xscale', 'xshift', 'y',
+               'yarray', 'yscale', 'yshift']
 
     def __init__(self):
         pass

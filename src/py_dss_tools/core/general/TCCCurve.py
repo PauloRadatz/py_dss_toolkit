@@ -6,10 +6,9 @@
 
 
 class TCCCurve:
-    id = 0
     name = "TCCCurve"
     name_plural = "TCCCurves"
-    columns = []
+    columns = ['c_array', 'like', 'npts', 't_array']
 
     def __init__(self):
         pass

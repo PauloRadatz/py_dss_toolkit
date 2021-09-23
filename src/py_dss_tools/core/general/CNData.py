@@ -6,10 +6,11 @@
 
 
 class CNData:
-    id = 0
     name = "CNData"
     name_plural = "CNData"
-    columns = []
+    columns = ['capradius', 'diacable', 'diains', 'diam', 'diastrand', 'emergamps', 'epsr', 'gmrac', 'gmrstrand',
+               'gmrunits', 'inslayer', 'k', 'like', 'normamps', 'rac', 'radius', 'radunits', 'ratings', 'rdc',
+               'rstrand', 'runits', 'seasons']
 
     def __init__(self):
         pass

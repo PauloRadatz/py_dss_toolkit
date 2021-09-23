@@ -6,10 +6,10 @@
 
 
 class ISource:
-    id = 0
     name = "ISource"
     name_plural = "ISources"
-    columns = []
+    columns = ['amps', 'angle', 'basefreq', 'bus1', 'bus2', 'daily', 'duty', 'enabled', 'frequency', 'like', 'phases',
+               'scantype', 'sequence', 'spectrum', 'yearly']
 
     def __init__(self):
         pass

@@ -6,10 +6,9 @@
 
 
 class Monitor:
-    id = 0
     name = "Monitor"
     name_plural = "Monitors"
-    columns = []
+    columns = ['action', 'basefreq', 'element', 'enabled', 'like', 'mode', 'ppolar', 'residual', 'terminal', 'vipolar']
 
     def __init__(self):
         pass

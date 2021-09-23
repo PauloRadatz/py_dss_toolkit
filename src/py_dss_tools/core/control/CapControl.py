@@ -6,9 +6,12 @@
 
 
 class CapControl:
+
     name = "CapControl"
     name_plural = "CapControls"
-    columns = []
+    columns = ['basefreq', 'capacitor', 'ctphase', 'ctratio', 'deadtime', 'delay', 'delayoff', 'element', 'enabled',
+               'eventlog', 'like', 'offsetting', 'onsetting', 'pctminkvar', 'ptphase', 'ptratio', 'reset', 'terminal',
+               'type', 'userdata', 'usermodel', 'vbus', 'vmax', 'vmin', 'voltoverride']
 
     def __init__(self):
         pass

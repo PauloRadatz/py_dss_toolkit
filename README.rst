@@ -2,7 +2,7 @@
 Overview
 ========
 
-py-dss-tools is a python package that focus on ...
+py-dss-tools is a python framewor that focus on ...
 
 * Free software: MIT license
 

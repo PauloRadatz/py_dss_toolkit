@@ -6,10 +6,11 @@
 
 
 class LineCode:
-    id = 0
     name = "LineCode"
     name_plural = "LineCodes"
-    columns = []
+    columns = ['b0', 'b1', 'basefreq', 'c0', 'c1', 'cmatrix', 'emergamps', 'faultrate', 'kron', 'like', 'linetype',
+               'neutral', 'normamps', 'nphases', 'pctperm', 'r0', 'r1', 'ratings', 'repair', 'rg', 'rho', 'rmatrix',
+               'seasons', 'units', 'x0', 'x1', 'xg', 'xmatrix']
 
     def __init__(self):
         pass

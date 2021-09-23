@@ -8,7 +8,11 @@
 class Relay:
     name = "Relay"
     name_plural = "Relays"
-    columns = []
+    columns = ['46%pickup', '46baseamps', '46isqt', '47%pickup', 'action', 'basefreq', 'breakertime', 'delay',
+               'enabled', 'groundcurve', 'groundinst', 'groundtrip', 'kvbase', 'like', 'monitoredobj', 'monitoredterm',
+               'overtrip', 'overvoltcurve', 'phasecurve', 'phaseinst', 'phasetrip', 'recloseintervals', 'reset',
+               'shots', 'switchedobj', 'switchedterm', 'tdground', 'tdphase', 'type', 'undertrip', 'undervoltcurve',
+               'variable']
 
     def __init__(self):
         pass

@@ -6,10 +6,9 @@
 
 
 class Spectrum:
-    id = 0
     name = "Spectrum"
     name_plural = "Spectrums"
-    columns = []
+    columns = ['%mag', 'angle', 'csvfile', 'harmonic', 'like', 'numharm']
 
     def __init__(self):
         pass

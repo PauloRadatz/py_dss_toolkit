@@ -6,10 +6,10 @@
 
 
 class Sensor:
-    id = 0
     name = "Sensor"
     name_plural = "Sensors"
-    columns = []
+    columns = ['%error', 'action', 'basefreq', 'clear', 'conn', 'currents', 'deltadirection', 'element', 'enabled',
+               'kvars', 'kvbase', 'kvs', 'kws', 'like', 'terminal', 'weight']
 
     def __init__(self):
         pass

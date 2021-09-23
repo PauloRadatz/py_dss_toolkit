@@ -6,10 +6,10 @@
 
 
 class VSConverter:
-
-    id = 0
     name = "VSConverter"
     name_plural = "VSConverterS"
+    columns = ['basefreq', 'bus1', 'd0', 'enabled', 'iacmax', 'idcmax', 'kvac', 'kvdc', 'kw', 'like', 'm0', 'mmax',
+               'mmin', 'ndc', 'pacref', 'phases', 'qacref', 'rac', 'spectrum', 'vacref', 'vdcref', 'vscmode', 'xac']
 
     def __init__(self):
         pass

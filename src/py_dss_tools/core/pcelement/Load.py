@@ -6,9 +6,13 @@
 
 
 class Load:
-    id = 0
     name = "Load"
     name_plural = "Loads"
+    columns = ['%mean', '%seriesrl', '%stddev', 'allocationfactor', 'basefreq', 'bus1', 'cfactor', 'class', 'conn',
+               'cvrcurve', 'cvrvars', 'cvrwatts', 'daily', 'duty', 'enabled', 'growth', 'kv', 'kva', 'kvar', 'kw',
+               'kwh', 'kwhdays', 'like', 'model', 'numcust', 'pf', 'phases', 'puxharm', 'relweight', 'rneut',
+               'spectrum', 'status', 'vlowpu', 'vmaxpu', 'vminemerg', 'vminnorm', 'vminpu', 'xfkva', 'xneut', 'xrharm',
+               'yearly', 'zipv']
 
     def __init__(self):
         pass

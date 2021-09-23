@@ -6,10 +6,9 @@
 
 
 class GrowthShape:
-    id = 0
     name = "GrowthShape"
     name_plural = "GrowthShapes"
-    columns = []
+    columns = ['csvfile', 'dblfile', 'like', 'mult', 'npts', 'sngfile', 'year']
 
     def __init__(self):
         pass

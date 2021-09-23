@@ -6,10 +6,10 @@
 
 
 class GICSource:
-    id = 0
     name = "GICSource"
     name_plural = "GICSources"
-    columns = []
+    columns = ['angle', 'basefreq', 'ee', 'en', 'enabled', 'frequency', 'lat1', 'lat2', 'like', 'lon1', 'lon2',
+               'phases', 'spectrum', 'volts']
 
     def __init__(self):
         pass

@@ -7,13 +7,6 @@ from py_dss_interface import DSS
 
 from py_dss_tools.core.secondary.Circuit import Circuit
 
-from py_dss_tools.core.pdelement.AutoTrans import AutoTrans
-from py_dss_tools.core.pdelement.Capacitor import Capacitor
-from py_dss_tools.core.pdelement.GICTransformer import GICTransformer
-from py_dss_tools.core.pdelement.Line import Line
-from py_dss_tools.core.pdelement.Reactor import Reactor
-from py_dss_tools.core.pdelement.Transformer import Transformer
-
 from py_dss_tools.core.pcelement.Generator import Generator
 from py_dss_tools.core.pcelement.Generic5 import Generic5
 from py_dss_tools.core.pcelement.GICLine import GICLine
@@ -24,6 +17,13 @@ from py_dss_tools.core.pcelement.Storage import Storage
 from py_dss_tools.core.pcelement.UPFC import UPFC
 from py_dss_tools.core.pcelement.VCCS import VCCS
 from py_dss_tools.core.pcelement.VSConverter import VSConverter
+
+from py_dss_tools.core.pdelement.AutoTrans import AutoTrans
+from py_dss_tools.core.pdelement.Capacitor import Capacitor
+from py_dss_tools.core.pdelement.GICTransformer import GICTransformer
+from py_dss_tools.core.pdelement.Line import Line
+from py_dss_tools.core.pdelement.Reactor import Reactor
+from py_dss_tools.core.pdelement.Transformer import Transformer
 
 from py_dss_tools.core.control.CapControl import CapControl
 from py_dss_tools.core.control.ESPVLControl import ESPVLControl
@@ -89,7 +89,7 @@ class Scenario:
     def print_header(element_type):
         print(75 * "#" + " " + element_type.name_plural + " " + 75 * "#")
 
-    # PD Elements
+    # region PD Elements
     def print_auto_trans(self):
         Scenario.print_header(AutoTrans)
         print(self.circuit.auto_trans)
@@ -122,7 +122,9 @@ class Scenario:
         self.print_reactors()
         self.print_transformers()
 
-    # PC Elements
+    # endregion
+
+    # region PC Elements
     def print_generators(self):
         Scenario.print_header(Generator)
         print(self.circuit.generators)
@@ -175,7 +177,9 @@ class Scenario:
         self.print_vccs()
         self.print_vsconverters()
 
-    # Controls
+    # endregion
+
+    # region Controls
     def print_cap_controls(self):
         Scenario.print_header(CapControl)
         print(self.circuit.cap_controls)
@@ -238,7 +242,9 @@ class Scenario:
         self.print_swt_controls()
         self.print_upfc_controls()
 
-    # General
+    # endregion
+
+    # region General
     def print_cn_data(self):
         Scenario.print_header(CNData)
         print(self.circuit.cn_data)
@@ -311,7 +317,9 @@ class Scenario:
         self.print_xfmr_codes()
         self.print_xy_curves()
 
-    # Meters
+    # endregion
+
+    # region Meters
     def print_energymeters(self):
         Scenario.print_header(EnergyMeter)
         print(self.circuit.energymeters)
@@ -334,7 +342,9 @@ class Scenario:
         self.print_monitors()
         self.print_sensors()
 
-    # Other
+    # endregion
+
+    # region Other
     def print_faults(self):
         Scenario.print_header(Fault)
         print(self.circuit.faults)
@@ -356,3 +366,8 @@ class Scenario:
         self.print_gic_sources()
         self.print_i_sources()
         self.print_v_sources()
+
+    # endregion
+
+    def create_scenario(self):
+        pass

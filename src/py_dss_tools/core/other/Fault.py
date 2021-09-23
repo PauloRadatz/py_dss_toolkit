@@ -6,10 +6,10 @@
 
 
 class Fault:
-    id = 0
     name = "Fault"
     name_plural = "Faults"
-    columns = []
+    columns = ['%stddev', 'basefreq', 'bus1', 'bus2', 'emergamps', 'enabled', 'faultrate', 'gmatrix', 'like', 'minamps',
+               'normamps', 'ontime', 'pctperm', 'phases', 'r', 'repair', 'temporary']
 
     def __init__(self):
         pass

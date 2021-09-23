@@ -6,10 +6,9 @@
 
 
 class LineSpacing:
-    id = 0
     name = "LineSpacing"
     name_plural = "LineSpacings"
-    columns = []
+    columns = ['h', 'like', 'nconds', 'nphases', 'units', 'x']
 
     def __init__(self):
         pass

@@ -8,7 +8,8 @@
 class SwtControl:
     name = "SwtControl"
     name_plural = "SwtControls"
-    columns = []
+    columns = ['action', 'basefreq', 'delay', 'enabled', 'like', 'lock', 'normal', 'reset', 'state', 'switchedobj',
+               'switchedterm']
 
     def __init__(self):
         pass

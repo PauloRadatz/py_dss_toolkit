@@ -6,9 +6,13 @@
 
 
 class Generator:
-    id = 0
     name = "Generator"
     name_plural = "Generators"
+    columns = ['%fuel', '%reserve', 'balanced', 'basefreq', 'bus1', 'class', 'conn', 'd', 'daily', 'debugtrace',
+               'dispmode', 'dispvalue', 'duty', 'dutystart', 'enabled', 'forceon', 'fuelkwh', 'h', 'kv', 'kva', 'kvar',
+               'kw', 'like', 'maxkvar', 'minkvar', 'model', 'mva', 'pf', 'phases', 'pvfactor', 'refuel', 'rneut',
+               'shaftdata', 'shaftmodel', 'spectrum', 'status', 'usefuel', 'userdata', 'usermodel', 'vmaxpu', 'vminpu',
+               'vpu', 'xd', 'xdp', 'xdpp', 'xneut', 'xrdp', 'yearly']
 
     def __init__(self):
         pass
