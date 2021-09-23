@@ -4,24 +4,7 @@
  Project: py_dss_tools [set, 2021]
 """
 
-from py_dss_tools import Scenario
+from py_dss_tools.core.secondary.Scenario import Scenario
 
 scenario = Scenario()
-
-# PD Elements
-print(scenario.circuit.auto_transformers)
-print(scenario.circuit.capacitors)
-print(scenario.circuit.gictransformers)
-print(scenario.circuit.lines)
-print(scenario.circuit.reactors)
-print(scenario.circuit.transformers)
-
-# PC Elements
-print(scenario.circuit.generators)
-print(scenario.circuit.generic5)
-print(scenario.circuit.giclines)
-print(scenario.circuit.indmach012)
-print(scenario.circuit.loads)
-print(scenario.circuit.pvsystems)
-print(scenario.circuit.storages)
-print(scenario.circuit.upfcs)
+scenario.print_gic_trans()

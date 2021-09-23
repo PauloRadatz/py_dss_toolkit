@@ -6,6 +6,9 @@
 
 
 class PVSystem:
+    id = 0
+    name = "PCSystem"
+    name_plural = "PVSystems"
 
     def __init__(self, dss):
         self.dss = dss

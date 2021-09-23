@@ -6,6 +6,9 @@
 
 
 class Generator:
+    id = 0
+    name = "Generator"
+    name_plural = "Generators"
 
     def __init__(self):
         pass
