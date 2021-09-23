@@ -6,6 +6,9 @@
 
 
 class Fuse:
+    name = "Fuse"
+    name_plural = "Fuses"
+    columns = []
 
     def __init__(self):
         pass

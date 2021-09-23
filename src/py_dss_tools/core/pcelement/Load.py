@@ -6,6 +6,9 @@
 
 
 class Load:
+    id = 0
+    name = "Load"
+    name_plural = "Loads"
 
     def __init__(self):
         pass

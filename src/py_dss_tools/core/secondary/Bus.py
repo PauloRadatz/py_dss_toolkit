@@ -7,6 +7,11 @@ import pandas as pd
 
 
 class Bus:
+
+    name = "Bus"
+    name_plural = "Buses"
+    columns = []
+
     def __init__(self, dss):
         self.dss = dss
 

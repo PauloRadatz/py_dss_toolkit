@@ -4,6 +4,10 @@
  Project: py_dss_tools [set, 2021]
 """
 import pandas as pd
+from py_dss_tools.core.pdelement.Capacitor import Capacitor
+from py_dss_tools.core.pdelement.GICTransformer import GICTransformer
+from py_dss_tools.core.pdelement.Line import Line
+from py_dss_tools.core.pdelement.Transformer import Transformer
 
 
 class Circuit:
@@ -18,9 +22,9 @@ class Circuit:
             self.dss = dss
 
             # PD Elements
-            self.auto_transformers = Circuit.__create_df_autofrans()
+            self.auto_trans = Circuit.__create_df_autofrans()
             self.capacitors = Circuit.__create_df_capacitors()
-            self.gictransformers = Circuit.__create_df_gictransformers()
+            self.gic_transformers = Circuit.__create_df_gictransformers()
             self.lines = Circuit.__create_df_lines()
             self.reactors = Circuit.__create_df_reactors()
             self.transformers = Circuit.__create_df_transformers()
@@ -35,18 +39,51 @@ class Circuit:
             self.storages = Circuit.__create_df_storages()
             self.upfcs = Circuit.__create_df_upfcs()
             self.vccs = Circuit.__create_df_vccs()
-            self.vsconvertes = Circuit.__create_df_vccs()
+            self.vsconverters = Circuit.__create_df_vccs()
+
+            # Controls
+            self.cap_controls = None
+            self.espv_controls = None
+            self.exp_controls = None
+            self.fuses = None
+            self.gen_dispatchers = None
+            self.inv_controls = None
+            self.reg_closers = None
+            self.reg_controls = None
+            self.relays = None
+            self.storage_controllers = None
+            self.swt_controls = None
+            self.upfc_controls = None
+
+            # general
+            self.cn_data = None
+            self.growth_shapes = None
+            self.line_codes = None
+            self.line_geometries = None
+            self.line_spacings = None
+            self.load_shapes = None
+            self.price_shapes = None
+            self.spectrums = None
+            self.tcc_curves = None
+            self.ts_data = None
+            self.tshapes = None
+            self.wire_data = None
+            self.xfmr_codes = None
+            self.xy_curves = None
 
             # Meters
             self.energymeters = None
+            self.f_monitors = None
             self.monitors = None
             self.sensors = None
 
-            # General
-            self.line_codes = None
-            self.line_geometries = None
-            self.load_shapes = None
+            # Other
+            self.faults = None
+            self.gic_sources = None
+            self.i_sources = None
+            self.v_sources = None
 
+            # Utils
             # self.buses = Bus(dss).get_buses()
 
     # PD Elements
@@ -58,24 +95,17 @@ class Circuit:
 
     @staticmethod
     def __create_df_capacitors():
-        columns = ['basefreq', 'bus1', 'bus2', 'cmatrix', 'conn', 'cuf', 'emergamps', 'enabled', 'faultrate', 'harm',
-                   'kv', 'kvar', 'like', 'normamps', 'numsteps', 'pctperm', 'phases', 'r', 'repair', 'states', 'xl']
-        return pd.DataFrame(columns=columns)
+        return pd.DataFrame(columns=Capacitor.columns)
 
     @staticmethod
     def __create_df_gictransformers():
-        columns = ['%r1', '%r2', 'basefreq', 'bush', 'busnh', 'busnx', 'busx', 'emergamps', 'enabled', 'faultrate',
-                   'k', 'kvll1', 'kvll2', 'like', 'mva', 'normamps', 'pctperm', 'phases', 'r1', 'r2', 'repair',
-                   'type', 'varcurve']
-        return pd.DataFrame(columns=columns)
+
+        return pd.DataFrame(columns=GICTransformer.columns)
 
     @staticmethod
     def __create_df_lines():
-        columns = ['b0', 'b1', 'basefreq', 'bus1', 'bus2', 'c0', 'c1', 'cmatrix', 'cncables', 'earthmodel', 'emergamps',
-                   'enabled', 'faultrate', 'geometry', 'length', 'like', 'linecode', 'linetype', 'normamps', 'pctperm',
-                   'phases', 'r0', 'r1', 'ratings', 'repair', 'rg', 'rho', 'rmatrix', 'seasons', 'spacing', 'swtich',
-                   'tscables', 'units', 'wires', 'x0', 'x1', 'xg', 'xmatrix']
-        return pd.DataFrame(columns=columns)
+
+        return pd.DataFrame(columns=Line.columns)
 
     @staticmethod
     def __create_df_reactors():
@@ -86,13 +116,7 @@ class Circuit:
 
     @staticmethod
     def __create_df_transformers():
-        columns = ['%imag', '%loadloss', '%noloadloss', '%r', '%rs', 'bank', 'basefreq', 'bus', 'buses', 'conn',
-                   'conns', 'core', 'emergamps', 'emerghkva', 'enabled', 'faultrate', 'flrise', 'hsrise', 'kv', 'kva',
-                   'kvas', 'kvs', 'leadlag', 'like', 'm', 'maxtap', 'mintap', 'n', 'normamps', 'normhkva', 'numtaps',
-                   'pctperm', 'phases', 'ppm_antifloat', 'ratings', 'rdcohms', 'repair', 'rneut', 'seasons', 'sub',
-                   'subname', 'tap', 'taps', 'thermal', 'wdg', 'wdgcurrents', 'windings', 'x12', 'x13', 'x23',
-                   'xfmrcode', 'xhl', 'xht', 'xlt', 'xneut', 'xrconst', 'xscarray']
-        return pd.DataFrame(columns=columns)
+        return pd.DataFrame(columns=Transformer.columns)
 
     # PC Elements
     @staticmethod

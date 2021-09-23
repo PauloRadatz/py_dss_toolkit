@@ -6,6 +6,10 @@
 
 
 class LoadShape:
+    id = 0
+    name = "LoadShape"
+    name_plural = "LoadShapes"
+    columns = []
 
     def __init__(self):
         pass
