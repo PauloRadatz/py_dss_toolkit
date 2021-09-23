@@ -8,7 +8,7 @@
 class UPFCControl:
     name = "UPFCControl"
     name_plural = "UPFCControls"
-    columns = []
+    columns = ['basefreq', 'element', 'enabled', 'genlist', 'kvarlimit', 'kwband', 'kwlimit', 'like', 'terminal']
 
     def __init__(self):
         pass

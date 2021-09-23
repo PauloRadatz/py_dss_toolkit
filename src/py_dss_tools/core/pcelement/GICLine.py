@@ -6,9 +6,10 @@
 
 
 class GICLine:
-    id = 0
     name = "GICLine"
     name_plural = "GICLines"
+    columns = ['angle', 'basefreq', 'bus1', 'bus2', 'c', 'ee', 'en', 'enabled', 'frequency', 'lat1', 'lat2', 'like',
+               'lon1', 'lon2', 'phases', 'r', 'spectrum', 'volts', 'x']
 
     def __init__(self):
         pass

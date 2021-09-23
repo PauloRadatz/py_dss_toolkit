@@ -6,10 +6,10 @@
 
 
 class PriceShape:
-    id = 0
     name = "PriceShape"
     name_plural = "PriceShapes"
-    columns = []
+    columns = ['action', 'csvfile', 'dblfile', 'hour', 'interval', 'like', 'mean', 'minterval', 'npts', 'price',
+               'sinterval', 'sngfile', 'stddev']
 
     def __init__(self):
         pass

@@ -6,10 +6,10 @@
 
 
 class LoadShape:
-    id = 0
     name = "LoadShape"
     name_plural = "LoadShapes"
-    columns = []
+    columns = ['action', 'csvfile', 'dblfile', 'hour', 'interval', 'like', 'mean', 'minterval', 'mult', 'npts', 'pbase',
+               'pmax', 'pmult', 'pqcsvfile', 'qbase', 'qmax', 'qmult', 'sinterval', 'sngfile', 'stddev', 'useactual']
 
     def __init__(self):
         pass

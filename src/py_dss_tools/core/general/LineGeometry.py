@@ -6,10 +6,10 @@
 
 
 class LineGeometry:
-    id = 0
     name = "LineGeometry"
     name_plural = "LineGeometries"
-    columns = []
+    columns = ['cncable', 'cncables', 'cond', 'emergamps', 'h', 'like', 'linetype', 'nconds', 'normamps', 'nphases',
+               'ratings', 'reduce', 'seasons', 'spacing', 'tscable', 'tscables', 'units', 'wire', 'wires', 'x']
 
     def __init__(self):
         pass

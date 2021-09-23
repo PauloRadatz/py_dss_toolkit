@@ -6,9 +6,10 @@
 
 
 class UPFC:
-    id = 0
     name = "UPFC"
     name_plural = "UPFCs"
+    columns = ['basefreq', 'bus1', 'bus2', 'climit', 'enabled', 'frequency', 'kvarlimit', 'like', 'losscurve', 'mode',
+               'pf', 'phases', 'refkv', 'refkv2', 'spectrum', 'tol1', 'vhlimit', 'vllimit', 'vpqmax', 'xs']
 
     def __init__(self):
         pass

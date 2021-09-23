@@ -6,9 +6,12 @@
 
 
 class ESPVLControl:
+
     name = "ESPVLControl"
     name_plural = "ESPVLControls"
-    columns = []
+    columns = ['basefreq', 'element', 'enabled', 'forecast', 'kvarlimit', 'kwband', 'like', 'localcontrollist',
+               'localcontrolweights', 'pvsystemlist', 'pvsystemweights', 'storagelist', 'storageweights', 'terminal',
+               'type']
 
     def __init__(self):
         pass

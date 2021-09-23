@@ -8,7 +8,11 @@
 class StorageController:
     name = "StorageController"
     name_plural = "StorageControllers"
-    columns = []
+    columns = ['%kwband', '%kwbandlow', '%ratecharge', '%ratekw', '%reserve', 'basefreq', 'daily', 'dispfactor', 'duty',
+               'element', 'elementlist', 'enabled', 'eventlog', 'inhibittime', 'kwactual', 'kwband', 'kwbandlow',
+               'kwhactual', 'kwhtotal', 'kwneed', 'kwtarget', 'kwtargetlow', 'kwthreshold', 'kwtotal', 'like',
+               'modecharge', 'modedischarge', 'monphase', 'resetlevel', 'seasons', 'seasontargets', 'seasontargetslow',
+               'tdn', 'terminal', 'tflat', 'timechargetrigger', 'timedischargetrigger', 'tup', 'weights', 'yearly']
 
     def __init__(self):
         pass

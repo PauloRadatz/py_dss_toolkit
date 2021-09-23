@@ -8,7 +8,7 @@
 class GenDispatcher:
     name = "GenDispatcher"
     name_plural = "GenDispatchers"
-    columns = []
+    columns = ['basefreq', 'element', 'enabled', 'genlist', 'kvarlimit', 'kwband', 'kwlimit', 'like', 'terminal']
 
     def __init__(self):
         pass

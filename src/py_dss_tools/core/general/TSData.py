@@ -6,10 +6,11 @@
 
 
 class TSData:
-    id = 0
     name = "TSData"
     name_plural = "TSData"
-    columns = []
+    columns = ['capradius', 'diacable', 'diains', 'diam', 'diashield', 'emergamps', 'epsr', 'gmrac', 'gmrunits',
+               'inslayer', 'like', 'normamps', 'rac', 'radius', 'radunits', 'ratings', 'rdc', 'runits', 'seasons',
+               'tapelap', 'tapelayer']
 
     def __init__(self):
         pass

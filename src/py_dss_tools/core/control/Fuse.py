@@ -8,7 +8,8 @@
 class Fuse:
     name = "Fuse"
     name_plural = "Fuses"
-    columns = []
+    columns = ['action', 'basefreq', 'delay', 'enabled', 'fusecurve', 'like', 'monitoredobj', 'monitoredterm',
+               'ratedcurrent', 'switchedobj', 'switchedterm']
 
     def __init__(self):
         pass

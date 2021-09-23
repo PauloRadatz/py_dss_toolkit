@@ -8,7 +8,10 @@
 class RegControl:
     name = "RegControl"
     name_plural = "RegControls"
-    columns = []
+    columns = ['band', 'basefreq', 'bus', 'cogen', 'ctprim', 'debugtrace', 'delay', 'enabled', 'eventlog',
+               'inversetime', 'ldc_z', 'like', 'maxtapchange', 'ptphase', 'ptratio', 'r', 'remoteptratio', 'reset',
+               'rev_z', 'revband', 'revdelay', 'reversible', 'revneutral', 'revr', 'revthreshold', 'revvreg', 'revx',
+               'tapdelay', 'tapnum', 'tapwinding', 'transformer', 'vlimit', 'vreg', 'winding', 'x']
 
     def __init__(self):
         pass

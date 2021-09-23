@@ -8,7 +8,10 @@
 class RegCloser:
     name = "RegCloser"
     name_plural = "RegClosers"
-    columns = []
+    columns = ['action', 'basefreq', 'delay', 'enabled', 'grounddelayed', 'groundfast', 'groundinst', 'groundtrip',
+               'like', 'monitoredobj', 'monitoredterm', 'numfast', 'phasedelayed', 'phasefast', 'phaseinst',
+               'phasetrip', 'recloseintervals', 'reset', 'shots', 'switchedobj', 'switchedterm', 'tdgrdelayed',
+               'tdgrfast', 'tdphdelayed', 'tdphfast']
 
     def __init__(self):
         pass

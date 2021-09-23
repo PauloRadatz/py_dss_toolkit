@@ -6,10 +6,12 @@
 
 
 class XFMRCode:
-    id = 0
     name = "XFMRCode"
     name_plural = "XFMRCodes"
-    columns = []
+    columns = ['%imag', '%loadloss', '%noloadloss', '%r', '%rs', 'conn', 'conns', 'emerghkva', 'flrise', 'hsrise', 'kv',
+               'kva', 'kvas', 'kvs', 'like', 'm', 'maxtap', 'mintap', 'n', 'normhkva', 'numtaps', 'phases',
+               'ppm_antifloat', 'ratings', 'rdcohms', 'rneut', 'seasons', 'tap', 'taps', 'thermal', 'wdg', 'windings',
+               'x12', 'x13', 'x23', 'xhl', 'xht', 'xlt', 'xneut', 'xscarray']
 
     def __init__(self):
         pass

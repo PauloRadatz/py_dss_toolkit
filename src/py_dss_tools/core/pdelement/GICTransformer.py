@@ -6,7 +6,6 @@
 
 
 class GICTransformer:
-
     name = "GICTransformer"
     name_plural = "GICTransformers"
     columns = ['%r1', '%r2', 'basefreq', 'bush', 'busnh', 'busnx', 'busx', 'emergamps', 'enabled', 'faultrate',

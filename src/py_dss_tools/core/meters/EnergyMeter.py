@@ -6,10 +6,12 @@
 
 
 class EnergyMeter:
-    id = 0
     name = "EnergyMeter"
     name_plural = "EnergyMeters"
-    columns = []
+    columns = ['3phaselosses', 'action', 'basefreq', 'caidi', 'custinterrupts', 'element', 'enabled', 'int_duration',
+               'int_rate', 'kvaemerg', 'kvanormal', 'like', 'linelosses', 'localonly', 'losses', 'mask', 'option',
+               'peakcurrent', 'phasevoltagereport', 'saidi', 'saifi', 'saifikw', 'seqlosses', 'terminal', 'vbaselosses',
+               'xfmrlosses', 'zonelist']
 
     def __init__(self):
         pass

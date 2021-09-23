@@ -6,7 +6,6 @@
 
 
 class Line:
-    id = 0
     name = "Line"
     name_plural = "Lines"
     columns = ['b0', 'b1', 'basefreq', 'bus1', 'bus2', 'c0', 'c1', 'cmatrix', 'cncables', 'earthmodel', 'emergamps',

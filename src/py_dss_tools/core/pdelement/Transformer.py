@@ -6,7 +6,6 @@
 
 
 class Transformer:
-    id = 0
     name = "Transformer"
     name_plural = "Transformer"
     columns = ['%imag', '%loadloss', '%noloadloss', '%r', '%rs', 'bank', 'basefreq', 'bus', 'buses', 'conn',

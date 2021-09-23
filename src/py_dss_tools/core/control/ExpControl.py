@@ -8,7 +8,8 @@
 class ExpControl:
     name = "ExpControl"
     name_plural = "ExpControls"
-    columns = []
+    columns = ['basefreq', 'deltaq_factor', 'enabled', 'eventlog', 'like', 'preferq', 'pvsystemlist', 'qbias',
+               'qmaxlag', 'qmaxlead', 'slope', 'tresponse', 'vreg', 'vregmax', 'vregmin', 'vregtau']
 
     def __init__(self):
         pass

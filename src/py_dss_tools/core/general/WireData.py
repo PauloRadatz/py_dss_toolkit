@@ -6,10 +6,10 @@
 
 
 class WireData:
-    id = 0
     name = "WireData"
     name_plural = "WireData"
-    columns = []
+    columns = ['capradius', 'diam', 'emergamps', 'gmrac', 'gmrunits', 'like', 'normamps', 'rac', 'radius', 'radunits',
+               'ratings', 'rdc', 'runits', 'seasons']
 
     def __init__(self):
         pass

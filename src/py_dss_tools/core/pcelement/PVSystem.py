@@ -6,9 +6,13 @@
 
 
 class PVSystem:
-    id = 0
     name = "PCSystem"
     name_plural = "PVSystems"
+    columns = ['%cutin', '%cutout', '%pminkvarmax', '%pminnovars', '%pmpp', '%r', '%x', 'balanced', 'basefreq', 'bus1',
+               'class', 'conn', 'daily', 'debugtrace', 'duty', 'dutystart', 'effcurve', 'enabled', 'irradiance', 'kv',
+               'kva', 'kvar', 'kvarmax', 'kvarmaxabs', 'like', 'limitcurrent', 'model', 'pf', 'pfpriority', 'phases',
+               'pmpp', 'p-tcurve', 'spectrum', 'tdaily', 'tduty', 'temperature', 'tyearly', 'userdata', 'usermodel',
+               'varfollowinverter', 'vmaxpu', 'vminpu', 'wattpriority', 'yearly']
 
     def __init__(self, dss):
         self.dss = dss

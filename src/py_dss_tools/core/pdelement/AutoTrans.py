@@ -8,7 +8,11 @@
 class AutoTrans:
     name = "AutoTrans"
     name_plural = "AutoTrans"
-    columns = []
+    columns = ['%imag', '%loadloss', '%noloadloss', '%r', '%rs', 'bank', 'basefreq', 'bus', 'buses', 'conn', 'conns',
+               'core', 'emergamps', 'emerghkva', 'enabled', 'faultrate', 'flrise', 'hsrise', 'kv', 'kva', 'kvas', 'kvs',
+               'leadlag', 'like', 'm', 'maxtap', 'mintap', 'n', 'normamps', 'normhkva', 'numtaps', 'pctperm', 'phases',
+               'ppm_antifloat', 'rdcohms', 'repair', 'sub', 'subname', 'tap', 'taps', 'thermal', 'wdg', 'wdgcurrents',
+               'windings', 'xfmrcode', 'xht', 'xhx', 'xrconst', 'xscarray', 'xxt']
 
     def __init__(self, dss):
         self.dss = dss

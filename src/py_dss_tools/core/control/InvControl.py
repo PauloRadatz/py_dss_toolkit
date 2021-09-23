@@ -8,7 +8,12 @@
 class InvControl:
     name = "InvControl"
     name_plural = "InvControls"
-    columns = []
+    columns = ['activepchangetolerance', 'argrahiv', 'argralowv', 'avgwindowlen', 'basefreq', 'combimode', 'dbvmax',
+               'dbvmin', 'deltap_factor', 'deltaq_factor', 'derlist', 'dynreacavgwindowlen', 'enabled', 'eventlog',
+               'hysteresis_offset', 'like', 'lpftau', 'mode', 'monbus', 'monbusesvbase', 'monvoltagecalc',
+               'pvsystemlist', 'rateofchangemode', 'refreactivepower', 'risefalllimit', 'varchangetolerance',
+               'voltage_curvex_ref', 'voltagechangetolerance', 'voltwatt_curve', 'voltwattch_curve', 'voltwattyaxis',
+               'vv_refreactivepower', 'vvc_curve1', 'wattpf_curve', 'wattvar_curve']
 
     def __init__(self):
         pass
