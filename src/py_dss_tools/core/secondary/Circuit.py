@@ -5,140 +5,123 @@
 """
 import pandas as pd
 
-from py_dss_tools.core.pcelement.Generator import Generator
-from py_dss_tools.core.pcelement.Generic5 import Generic5
-from py_dss_tools.core.pcelement.GICLine import GICLine
-from py_dss_tools.core.pcelement.IndMach012 import IndMach012
-from py_dss_tools.core.pcelement.Load import Load
-from py_dss_tools.core.pcelement.PVSystem import PVSystem
-from py_dss_tools.core.pcelement.Storage import Storage
-from py_dss_tools.core.pcelement.UPFC import UPFC
-from py_dss_tools.core.pcelement.VCCS import VCCS
-from py_dss_tools.core.pcelement.VSConverter import VSConverter
-
-from py_dss_tools.core.pdelement.AutoTrans import AutoTrans
-from py_dss_tools.core.pdelement.Capacitor import Capacitor
-from py_dss_tools.core.pdelement.GICTransformer import GICTransformer
-from py_dss_tools.core.pdelement.Line import Line
-from py_dss_tools.core.pdelement.Reactor import Reactor
-from py_dss_tools.core.pdelement.Transformer import Transformer
-
-from py_dss_tools.core.control.CapControl import CapControl
-from py_dss_tools.core.control.ESPVLControl import ESPVLControl
-from py_dss_tools.core.control.ExpControl import ExpControl
-from py_dss_tools.core.control.Fuse import Fuse
-from py_dss_tools.core.control.GenDispatcher import GenDispatcher
-from py_dss_tools.core.control.InvControl import InvControl
-from py_dss_tools.core.control.RegCloser import RegCloser
-from py_dss_tools.core.control.RegControl import RegControl
-from py_dss_tools.core.control.Relay import Relay
-from py_dss_tools.core.control.StorageController import StorageController
-from py_dss_tools.core.control.SwtControl import SwtControl
-from py_dss_tools.core.control.UPFCControl import UPFCControl
-
-from py_dss_tools.core.general.CNData import CNData
-from py_dss_tools.core.general.GrowthShape import GrowthShape
-from py_dss_tools.core.general.LineCode import LineCode
-from py_dss_tools.core.general.LineGeometry import LineGeometry
-from py_dss_tools.core.general.LineSpacing import LineSpacing
-from py_dss_tools.core.general.LoadShape import LoadShape
-from py_dss_tools.core.general.PriceShape import PriceShape
-from py_dss_tools.core.general.Spectrum import Spectrum
-from py_dss_tools.core.general.TCCCurve import TCCCurve
-from py_dss_tools.core.general.TSData import TSData
-from py_dss_tools.core.general.TShape import TShape
-from py_dss_tools.core.general.WireData import WireData
-from py_dss_tools.core.general.XFMRCode import XFMRCode
-from py_dss_tools.core.general.XYCurve import XYCurve
-
-from py_dss_tools.core.meters.EnergyMeter import EnergyMeter
-from py_dss_tools.core.meters.FMonitor import FMonitor
-from py_dss_tools.core.meters.Monitor import Monitor
-from py_dss_tools.core.meters.Sensor import Sensor
-
-from py_dss_tools.core.other.Fault import Fault
-from py_dss_tools.core.other.GICSource import GICSource
-from py_dss_tools.core.other.ISource import ISource
-from py_dss_tools.core.other.VSource import VSource
+from py_dss_tools.core import *
 
 
 class Circuit(VSource):
-    id = 0
-    name = "Circuit"
+    __id = 0
+    name_ = "Circuit"
 
-    def __init__(self, dss):
+    def __init__(self, dss, name, basekv, bus1, pu, phases, angle, mvasc3, mvasc1):
         super().__init__()
-        if Circuit.id > 0:
+        if Circuit.__id > 0:
             print("Only one Circuit's instance is allowed!")
             exit()
         else:
-            Circuit.id = Circuit.id + 1
-            self.dss = dss
+            Circuit.__id += 1
+            self.__dss = dss
+
+            self.__name = name
+            self.__basekv = basekv
+            self.__pu = pu
+            self.__phases = phases
+            self.__bus1 = bus1
+            self.__angle = angle
+            self.__mvasc3 = mvasc3
+            self.__mvasc1 = mvasc1
 
             # region PD Elements
-            self.auto_trans = Circuit.__create_df_autofrans()
-            self.capacitors = Circuit.__create_df_capacitors()
-            self.gic_transformers = Circuit.__create_df_gictransformers()
-            self.lines = Circuit.__create_df_lines()
-            self.reactors = Circuit.__create_df_reactors()
-            self.transformers = Circuit.__create_df_transformers()
+            self.__df__auto_trans = Circuit.__create_df_autofrans()
+            self.__df__capacitors = Circuit.__create_df_capacitors()
+            self.__df__gic_transformers = Circuit.__create_df_gictransformers()
+            self.__df__lines = Circuit.__create_df_lines()
+            self.__df__reactors = Circuit.__create_df_reactors()
+            self.__df__transformers = Circuit.__create_df_transformers()
             # endregion
             # region PC Elements
-            self.generators = Circuit.__create_df_generators()
-            self.generic5 = Circuit.__create_df_generic5()
-            self.giclines = Circuit.__create_df_giclines()
-            self.indmach012 = Circuit.__create_df_indmach012()
-            self.loads = Circuit.__create_df_loads()
-            self.pvsystems = Circuit.__create_df_pvsystems()
-            self.storages = Circuit.__create_df_storages()
-            self.upfcs = Circuit.__create_df_upfcs()
-            self.vccs = Circuit.__create_df_vccs()
-            self.vsconverters = Circuit.__create_df_vccs()
+            self.__df__generators = Circuit.__create_df_generators()
+            self.__df__generic5 = Circuit.__create_df_generic5()
+            self.__df__giclines = Circuit.__create_df_giclines()
+            self.__df__indmach012 = Circuit.__create_df_indmach012()
+            self.__df__loads = Circuit.__create_df_loads()
+            self.__df__pvsystems = Circuit.__create_df_pvsystems()
+            self.__df__storages = Circuit.__create_df_storages()
+            self.__df__upfcs = Circuit.__create_df_upfcs()
+            self.__df__vccs = Circuit.__create_df_vccs()
+            self.__df__vsconverters = Circuit.__create_df_vccs()
             # endregion
             # region Controls
-            self.cap_controls = None
-            self.espv_controls = None
-            self.exp_controls = None
-            self.fuses = None
-            self.gen_dispatchers = None
-            self.inv_controls = None
-            self.reg_closers = None
-            self.reg_controls = None
-            self.relays = None
-            self.storage_controllers = None
-            self.swt_controls = None
-            self.upfc_controls = None
+            self.__df__cap_controls = Circuit.__create_df_cap_controls()
+            self.__df__espv_controls = Circuit.__create_df_espvcontrols()
+            self.__df__exp_controls = Circuit.__create_df_exp_controls()
+            self.__df__fuses = Circuit.__create_df_exp_controls()
+            self.__df__gen_dispatchers = Circuit.__create_df_gen_dispatchers()
+            self.__df__inv_controls = Circuit.__create_df_invcontrols()
+            self.__df__reg_closers = Circuit.__create_df_regclosers()
+            self.__df__reg_controls = Circuit.__create_df_regcontrols()
+            self.__df__relays = Circuit.__create_df_relays()
+            self.__df__storage_controllers = Circuit.__create_df_storage_controllers()
+            self.__df__swt_controls = Circuit.__create_df_swt_controls()
+            self.__df__upfc_controls = Circuit.__create_df_upfc_controls()
             # endregion
             # region General
-            self.cn_data = None
-            self.growth_shapes = None
-            self.line_codes = None
-            self.line_geometries = None
-            self.line_spacings = None
-            self.load_shapes = None
-            self.price_shapes = None
-            self.spectrums = None
-            self.tcc_curves = None
-            self.ts_data = None
-            self.tshapes = None
-            self.wire_data = None
-            self.xfmr_codes = None
-            self.xy_curves = None
+            self.__df__cn_data = Circuit.__create_df_cndata()
+            self.__df__growth_shapes = Circuit.__create_df_growth_shape()
+            self.__df__line_codes = Circuit.__create_df_line_codes()
+            self.__df__line_geometries = Circuit.__create_df_line_geometries()
+            self.__df__line_spacings = Circuit.__create_df_line_spacing()
+            self.__df__load_shapes = Circuit.__create_df_load_shapes()
+            self.__df__price_shapes = Circuit.__create_df_price_shapes()
+            self.__df__spectrums = Circuit.__create_df_spectrums()
+            self.__df__tcc_curves = Circuit.__create_df_tcc_curves()
+            self.__df__ts_data = Circuit.__create_df_tsdata()
+            self.__df__tshapes = Circuit.__create_df_tshapes()
+            self.__df__wire_data = Circuit.__create_df_wire_data()
+            self.__df__xfmr_codes = Circuit.__create_df_xfmr_codes()
+            self.__df__xy_curves = Circuit.__create_df_xy_curves()
             # endregion
             # region Meters
-            self.energymeters = None
-            self.f_monitors = None
-            self.monitors = None
-            self.sensors = None
+            self.__df__energymeters = Circuit.__create_df_energy_meters()
+            self.__df__f_monitors = Circuit.__create_df_f_monitors()
+            self.__df__monitors = Circuit.__create_df_monitors()
+            self.__df__sensors = Circuit.__create_df_sensors()
             # endregion
             # region Other
-            self.faults = None
-            self.gic_sources = None
-            self.i_sources = None
-            self.v_sources = None
+            self.__df__faults = Circuit.__create_df_faults()
+            self.__df__gic_sources = Circuit.__create_df_gic_sources()
+            self.__df__i_sources = Circuit.__create_df_i_sources()
+            self.__df__v_sources = Circuit.__create_df_v_sources()
             # endregion
             # Utils
             # self.buses = Bus(dss).get_buses()
+
+    @property
+    def dss(self):
+        return self.__dss
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, value):
+        self.__name = value
+
+    @property
+    def basekv(self):
+        return self.__basekv
+
+    @basekv.setter
+    def basekv(self, value):
+        self.__basekv = value
+
+    @property
+    def phases(self):
+        return self.__phases
+
+    @phases.setter
+    def phases(self, value):
+        self.__phases = value
 
     # region PD Elements
     @staticmethod
@@ -271,7 +254,7 @@ class Circuit(VSource):
         return pd.DataFrame(columns=GrowthShape.columns)
 
     @staticmethod
-    def __create_df_():
+    def __create_df_line_codes():
         return pd.DataFrame(columns=LineCode.columns)
 
     @staticmethod
@@ -343,15 +326,19 @@ class Circuit(VSource):
     @staticmethod
     def __create_df_faults():
         return pd.DataFrame(columns=Fault.columns)
+
     @staticmethod
     def __create_df_gic_sources():
         return pd.DataFrame(columns=GICSource.columns)
+
     @staticmethod
     def __create_df_i_sources():
         return pd.DataFrame(columns=ISource.columns)
+
     @staticmethod
     def __create_df_v_sources():
         return pd.DataFrame(columns=VSource.columns)
+
     # endregion
 
     # def create_circuit(self, dss_file):
@@ -360,17 +347,6 @@ class Circuit(VSource):
     # def get_all_buses(self):
     #     buses = Bus(self.dss)
     #     return buses.get_buses()
-
-    # print(dss.circuit_name())
-    # print(dss.circuit_num_ckt_elements())
-    # print(dss.circuit_num_buses())
-    # print(dss.circuit_num_nodes())
-    # print(dss.circuit_all_bus_volts())
-    # print(dss.circuit_all_element_names())
-    # print(dss.circuit_all_bus_names())
-    # print(dss.cktelement_read_display())
-    # print(dss.bus_voltages())
-    # print(dss.bus_line_list())
 
     # def get_all_lines(self):
     #     self.dss.lines_first()
