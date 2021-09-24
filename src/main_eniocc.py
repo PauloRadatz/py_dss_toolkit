@@ -3,8 +3,10 @@
  Created by Ênio Viana at 01/09/2021 at 19:27:32
  Project: py_dss_tools [set, 2021]
 """
+import py_dss_tools as pt
 
-from py_dss_tools.core.secondary.Scenario import Scenario
+# TODO tqdm
 
-scenario = Scenario()
-scenario.print_gic_trans()
+sc = pt.create_scenario()
+pt.create_circuit(sc, name="Meu_Circuito", bus1="sourcebus", angle=30)
+sc.circuit.dss.text("FormEdit circuit.Meu_Circuito")
