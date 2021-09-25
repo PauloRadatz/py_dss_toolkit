@@ -8,6 +8,7 @@ from .Generic5 import *
 from .GICLine import *
 from .IndMach012 import *
 from .Load import *
+from .PCElement import *
 from .PVSystem import *
 from .Storage import *
 from .UPFC import *

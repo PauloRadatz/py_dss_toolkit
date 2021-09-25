@@ -5,5 +5,6 @@
 """
 from .EnergyMeter import *
 from .FMonitor import *
+from .MeterElement import *
 from .Monitor import *
 from .Sensor import *

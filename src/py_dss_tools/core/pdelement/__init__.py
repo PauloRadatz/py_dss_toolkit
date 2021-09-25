@@ -7,5 +7,6 @@ from .AutoTrans import *
 from .Capacitor import *
 from .GICTransformer import *
 from .Line import *
+from .PDElement import *
 from .Reactor import *
 from .Transformer import *
