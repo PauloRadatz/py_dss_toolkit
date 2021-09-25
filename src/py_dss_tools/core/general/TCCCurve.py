@@ -11,4 +11,30 @@ class TCCCurve:
     columns = ['c_array', 'like', 'npts', 't_array']
 
     def __init__(self):
-        pass
+        self.__c_array = None
+        self.__npts = None
+        self.__t_array = None
+
+    @property
+    def c_array(self):
+        return self.__c_array
+
+    @c_array.setter
+    def c_array(self, value):
+        self.__c_array = value
+
+    @property
+    def npts(self):
+        return self.__npts
+
+    @npts.setter
+    def npts(self, value):
+        self.__npts = value
+
+    @property
+    def t_array(self):
+        return self.__t_array
+
+    @t_array.setter
+    def t_array(self, value):
+        self.__t_array = value
