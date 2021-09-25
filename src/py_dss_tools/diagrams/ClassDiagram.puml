@@ -1,6 +1,12 @@
 @startuml
 'https://plantuml.com/class-diagram
+!theme cyborg
+package "py-dss-interface"{
+    class DSS {
+    }
+}
 
+package "py-dss-tools"{
 class Scenario {
     -id: int
     -created: boolean
@@ -13,10 +19,6 @@ class Scenario {
 
     -void print_header()
 }
-
-class DSS {
-}
-
 class Circuit {
     -id: int
     -created: boolean
@@ -79,6 +81,6 @@ ControlElement "1" <|-- "*" Relay
 ControlElement "1" <|-- "*" StorageController
 ControlElement "1" <|-- "*" SwtControl
 ControlElement "1" <|-- "*" UPFCControl
-
+}
 
 @enduml
