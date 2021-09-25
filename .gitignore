@@ -77,3 +77,4 @@ docs/_build
 src/teste.txt
 src/main_aux.py
 src/main_eniocc.py
+src/py_dss_tools/diagrams/ClassDiagram.puml
