@@ -7,7 +7,6 @@ from py_dss_tools.core.secondary import Scenario
 
 
 def conv_circuit(sc: Scenario):
-    print("Convertendo o circuito")
     dss = sc.dss
     circuit = sc.circuit
 
@@ -23,11 +22,31 @@ def conv_circuit(sc: Scenario):
                 continue
             else:
                 my_dict[item] = value
-        # if '_VSource' in item or '_Circuit' in item and type(item) is str:
-        #     print(item, "==", value)
 
     result = ''
     for k, v in my_dict.items():
         result += f"{k}={v} "
     dss.text(f"new circuit.{sc.circuit.name} {result}")
-    dss.text(f"FormEdit circuit.{sc.circuit.name}")
+    # dss.text(f"FormEdit circuit.{sc.circuit.name}")
+
+
+def conv_line(sc: Scenario, row):
+    total = zip(sc.circuit.df_lines.columns, row)
+    result = ''
+    name = 'unknow_line'
+    for item, value in total:
+        if item == 'name':
+            name = value
+            continue
+        if value == '':
+            continue
+        result += f" {item}={value} "
+    result = f"new line.{name} {result}"
+    sc.dss.text(result)
+
+
+
+
+
+    # for index, line in sc.circuit.df_lines.iterrows():
+    #     print(index, line['bus1'], line['bus2'])

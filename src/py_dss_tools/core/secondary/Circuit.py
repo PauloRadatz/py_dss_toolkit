@@ -10,6 +10,7 @@ from py_dss_tools.core import *
 
 class Circuit(VSource):
     __id = 0
+    __created = False
     name_ = "Circuit"
 
     def __init__(self, dss, name, basekv, bus1, pu, phases, angle, mvasc3, mvasc1):
@@ -19,6 +20,7 @@ class Circuit(VSource):
             exit()
         else:
             Circuit.__id += 1
+            Circuit.__created = True
             self.__dss = dss
 
             self.__name = name
@@ -100,6 +102,10 @@ class Circuit(VSource):
         return self.__dss
 
     @property
+    def created(self):
+        return Circuit.__created
+
+    @property
     def name(self):
         return self.__name
 
@@ -122,6 +128,15 @@ class Circuit(VSource):
     @phases.setter
     def phases(self, value):
         self.__phases = value
+
+    @property
+    def df_lines(self):
+        return self.__df__lines
+
+    @df_lines.setter
+    def df_lines(self, value):
+        a_series = pd.Series(value, index=self.__df__lines.columns)
+        self.__df__lines = self.__df__lines.append(a_series, ignore_index=True)
 
     # region PD Elements
     @staticmethod

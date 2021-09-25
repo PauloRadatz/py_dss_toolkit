@@ -17,6 +17,7 @@ class Scenario:
 
     def __init__(self, name="My Scenario"):
 
+        py_dss_tools.open_dss()
         py_dss_tools.bear()
 
         if Scenario.__id > 0:
@@ -24,7 +25,7 @@ class Scenario:
             exit()
         else:
             self.__dss = DSS.DSSDLL()
-            print(63 * '_', end="\n\n")
+            print(57 * '_', end="\n\n")
 
             self.__name = name
             self.__circuit = None
