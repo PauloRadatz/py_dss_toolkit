@@ -4,6 +4,7 @@
  Project: py_dss_tools [set, 2021]
 """
 from .CNData import *
+from .GeneralElement import *
 from .GrowthShape import *
 from .LineCode import *
 from .LineGeometry import *
