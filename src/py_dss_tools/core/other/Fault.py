@@ -3,7 +3,7 @@
  Created by Ênio Viana at 22/09/2021 at 23:11:29
  Project: py_dss_tools [set, 2021]
 """
-from .Other import Other
+from .OtherElement import Other
 
 
 class Fault(Other):

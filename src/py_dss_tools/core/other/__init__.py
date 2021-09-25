@@ -6,5 +6,5 @@
 from .Fault import *
 from .GICSource import *
 from .ISource import *
-from .Other import *
+from .OtherElement import *
 from .VSource import *

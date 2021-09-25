@@ -11,4 +11,57 @@ class UPFCControl:
     columns = ['basefreq', 'element', 'enabled', 'genlist', 'kvarlimit', 'kwband', 'kwlimit', 'like', 'terminal']
 
     def __init__(self):
-        pass
+        self.__element = None
+        self.__genlist = None
+        self.__kvarlimit = None
+        self.__kwband = None
+        self.__kwlimit = None
+        self.__terminal = None
+
+    @property
+    def element(self):
+        return self.__element
+
+    @element.setter
+    def element(self, value):
+        self.__element = value
+
+    @property
+    def genlist(self):
+        return self.__genlist
+
+    @genlist.setter
+    def genlist(self, value):
+        self.__genlist = value
+
+    @property
+    def kvarlimit(self):
+        return self.__kvarlimit
+
+    @kvarlimit.setter
+    def kvarlimit(self, value):
+        self.__kvarlimit = value
+
+    @property
+    def kwband(self):
+        return self.__kwband
+
+    @kwband.setter
+    def kwband(self, value):
+        self.__kwband = value
+
+    @property
+    def kwlimit(self):
+        return self.__kwlimit
+
+    @kwlimit.setter
+    def kwlimit(self, value):
+        self.__kwlimit = value
+
+    @property
+    def terminal(self):
+        return self.__terminal
+
+    @terminal.setter
+    def terminal(self, value):
+        self.__terminal = value
