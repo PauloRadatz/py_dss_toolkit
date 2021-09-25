@@ -11,9 +11,9 @@ def conv_circuit(sc: Scenario):
     circuit = sc.circuit
 
     my_dict = {}
-
     for item, value in circuit.__dict__.items():
         if '_df' not in item and 'dss' not in item:
+            item = item.replace("_Other__", "")
             item = item.replace("_VSource__", "")
             item = item.replace("_Circuit__", "")
             if item == 'name':

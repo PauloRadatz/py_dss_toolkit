@@ -465,3 +465,21 @@ class Circuit(VSource):
     ~ bus1=MainBus basekV=230 pu=1.0 isc3=15000 isc1=17000 phases=3 z0=[10, 10] z1=[10, 10] angle=0 mvasc3=200000
     mvasc1=200000
     """
+
+    # def __str__(self):
+    #     output = ""
+    #     for _, var in vars(self).items():
+    #         output += str(var)
+    #     return output
+
+    def __str__(self):
+        output = ""
+        for attrib_name, attrib_value in self.__dict__.items():
+            if '_Circuit__df' in attrib_name or 'dss' in attrib_name:
+                continue
+            else:
+                attrib_name = attrib_name.replace("_Other__", "")
+                attrib_name = attrib_name.replace("_VSource__", "")
+                attrib_name = attrib_name.replace("_Circuit__", "")
+                output += f"{attrib_name} = {attrib_value}\n"
+        return output

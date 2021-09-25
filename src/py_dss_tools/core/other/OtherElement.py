@@ -8,11 +8,10 @@
 class Other:
 
     def __init__(self):
-        self.__basefreq = None
-        self.__enabled = None
-        self.__like = None
-        self.__phases = None
-        self.__ = None
+        self.__basefreq = 60
+        self.__enabled = 'true'
+        self.__like = ''
+        self.__phases = 3
 
     @property
     def basefreq(self):

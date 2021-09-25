@@ -19,37 +19,37 @@ class VSource(Other):
 
     def __init__(self):
         super().__init__()
-        self.__angle = None
-        self.__basekv = None
-        self.__basemva = None
-        self.__bus1 = None
-        self.__bus2 = None
-        self.__daily = None
-        self.__duty = None
-        self.__frequency = None
-        self.__isc1 = None
-        self.__isc3 = None
-        self.__model = None
-        self.__mvasc1 = None
-        self.__mvasc3 = None
-        self.__pu = None
-        self.__puz0 = None
-        self.__puz1 = None
-        self.__puz2 = None
-        self.__puzideal = None
-        self.__r0 = None
-        self.__r1 = None
-        self.__scantype = None
-        self.__sequence = None
-        self.__spectrum = None
-        self.__x0 = None
-        self.__x0r0 = None
-        self.__x1 = None
-        self.__x1r1 = None
-        self.__yearly = None
-        self.__z0 = None
-        self.__z1 = None
-        self.__z2 = None
+        self.__angle = 0
+        self.__basekv = ''
+        self.__basemva = ''
+        self.__bus1 = ''
+        self.__bus2 = ''
+        self.__daily = ''
+        self.__duty = ''
+        self.__frequency = 60
+        self.__isc1 = ''
+        self.__isc3 = ''
+        self.__model = 'Thevenin'
+        self.__mvasc1 = 21000
+        self.__mvasc3 = 20000
+        self.__pu = 1.0001
+        self.__puz0 = ''
+        self.__puz1 = ''
+        self.__puz2 = ''
+        self.__puzideal = ''
+        self.__r0 = ''
+        self.__r1 = ''
+        self.__scantype = 'Pos'
+        self.__sequence = 'Pos'
+        self.__spectrum = 'defaultvsource'
+        self.__x0 = ''
+        self.__x0r0 = ''
+        self.__x1 = ''
+        self.__x1r1 = ''
+        self.__yearly = ''
+        self.__z0 = ''
+        self.__z1 = ''
+        self.__z2 = ''
 
     @property
     def angle(self):

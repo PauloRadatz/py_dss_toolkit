@@ -30,6 +30,8 @@ class Scenario:
             self.__name = name
             self.__circuit = None
 
+            self.__frequency_base = 60
+
             Scenario.__id += 1
             Scenario.__created = True
 
@@ -48,6 +50,14 @@ class Scenario:
     @name.setter
     def name(self, value):
         self.__name = value
+
+    @property
+    def frequency_base(self):
+        return self.__frequency_base
+
+    @frequency_base.setter
+    def frequency_base(self, value):
+        self.__frequency_base = value
 
     @property
     def circuit(self):
