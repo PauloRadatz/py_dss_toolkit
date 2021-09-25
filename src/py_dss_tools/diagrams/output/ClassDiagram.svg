@@ -1,0 +1,1242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     contentScriptType="application/ecmascript" contentStyleType="text/css" height="1554.2px" preserveAspectRatio="none"
+     style="width:9566px;height:1554px;background:#FFFFFF;" version="1.1" viewBox="0 0 6566 1554" width="6566.4px"
+     zoomAndPan="magnify">
+    <defs>
+        <filter height="300%" id="f1bs8e17ic84bl" width="300%" x="-1" y="-1">
+            <feGaussianBlur result="blurOut" stdDeviation="3.7999999999999994"/>
+            <feColorMatrix in="blurOut" result="blurOut2" type="matrix"
+                           values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/>
+            <feOffset dx="7.599999999999999" dy="7.599999999999999" in="blurOut2" result="blurOut3"/>
+            <feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/>
+        </filter>
+    </defs>
+    <g><!--MD5=[29a734366a9d833137e0d64fdb581bd0]
+cluster py-dss-interface-->
+        <polygon fill="#FFFFFF" filter="url(#f1bs8e17ic84bl)"
+                 points="2943.1,1350.9,3171.1,1350.9,3184.4,1395.7578,3190.1,1395.7578,3190.1,1540.9,2943.1,1540.9,2943.1,1350.9"
+                 style="stroke:#000000;stroke-width:2.8499999999999996;"/>
+        <line style="stroke:#000000;stroke-width:2.8499999999999996;" x1="2943.1" x2="3184.4" y1="1395.7578"
+              y2="1395.7578"/>
+        <text fill="#000000" font-family="sans-serif" font-size="26.6" font-weight="bold" lengthAdjust="spacing"
+              textLength="216.6" x="2950.7" y="1382.3131">py-dss-interface
+        </text><!--MD5=[2b9982ccc2a007795e0a04d8a34e55f9]
+cluster py-dss-tools-->
+        <polygon fill="#FFFFFF" filter="url(#f1bs8e17ic84bl)"
+                 points="30.4,11.4,205.2,11.4,218.5,56.2578,6551.4,56.2578,6551.4,1255.9,30.4,1255.9,30.4,11.4"
+                 style="stroke:#000000;stroke-width:2.8499999999999996;"/>
+        <line style="stroke:#000000;stroke-width:2.8499999999999996;" x1="30.4" x2="218.5" y1="56.2578" y2="56.2578"/>
+        <text fill="#000000" font-family="sans-serif" font-size="26.6" font-weight="bold" lengthAdjust="spacing"
+              textLength="163.4" x="38" y="42.8131">py-dss-tools
+        </text><!--MD5=[1c9adb740291c9a7598d0b93255a4bee]
+class DSS-->
+        <rect codeLine="3" fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="DSS"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="108.3" x="3012.45" y="1419.3"/>
+        <ellipse cx="3040.95" cy="1449.7" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M3044.75,1443.05 Q3045.1359,1442.1 3045.5812,1441.625 Q3046.0266,1441.15 3046.5312,1441.15 Q3047.4219,1441.15 3047.9859,1441.6844 Q3048.55,1442.2187 3048.55,1443.4656 L3048.55,1446.4344 Q3048.55,1447.6812 3048.0156,1448.2156 Q3047.4812,1448.75 3046.65,1448.75 Q3045.9078,1448.75 3045.4328,1448.4234 Q3044.9578,1448.0969 3044.75,1447.2359 Q3044.6609,1446.6422 3044.3344,1446.3156 Q3043.7406,1445.6922 3042.6719,1445.3359 Q3041.6031,1444.95 3040.5344,1444.95 Q3039.1984,1444.95 3038.0703,1445.4844 Q3036.9719,1446.0187 3036.1109,1447.2062 Q3035.25,1448.3937 3035.25,1450.0266 L3035.25,1451.7781 Q3035.25,1453.7375 3036.8531,1455.0437 Q3038.4562,1456.35 3041.3062,1456.35 Q3042.9984,1456.35 3044.1859,1455.9641 Q3044.8687,1455.7562 3045.6406,1455.0734 Q3046.1453,1454.6875 3046.4125,1454.5687 Q3046.6797,1454.45 3047.0062,1454.45 Q3047.6297,1454.45 3048.075,1454.9547 Q3048.55,1455.4297 3048.55,1456.1125 Q3048.55,1456.7656 3047.8969,1457.5375 Q3046.9469,1458.6656 3045.4328,1459.2891 Q3043.4437,1460.15 3041.0094,1460.15 Q3038.1594,1460.15 3035.8734,1459.0219 Q3034.0328,1458.1312 3032.7266,1456.2016 Q3031.45,1454.2719 3031.45,1451.9859 L3031.45,1449.9078 Q3031.45,1447.5328 3032.5781,1445.4547 Q3033.7359,1443.3766 3035.725,1442.2781 Q3037.7437,1441.15 3040,1441.15 Q3041.3656,1441.15 3042.5531,1441.625 Q3043.7406,1442.1 3044.75,1443.05 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="47.5"
+              x="3067.55" y="1459.0293">DSS
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="3014.35" x2="3118.85" y1="1480.1"
+              y2="1480.1"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="3014.35" x2="3118.85" y1="1495.3"
+              y2="1495.3"/><!--MD5=[3618a374bd976662547feba7b42f282d]
+class Scenario-->
+        <rect codeLine="8" fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="327.7945" id="Scenario"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="233.7" x="2488.05" y="79.8"/>
+        <ellipse cx="2552.46" cy="110.2" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M2556.26,103.55 Q2556.6459,102.6 2557.0913,102.125 Q2557.5366,101.65 2558.0412,101.65 Q2558.9319,101.65 2559.4959,102.1844 Q2560.06,102.7187 2560.06,103.9656 L2560.06,106.9344 Q2560.06,108.1812 2559.5256,108.7156 Q2558.9912,109.25 2558.16,109.25 Q2557.4178,109.25 2556.9428,108.9234 Q2556.4678,108.5969 2556.26,107.7359 Q2556.1709,107.1422 2555.8444,106.8156 Q2555.2506,106.1922 2554.1819,105.8359 Q2553.1131,105.45 2552.0444,105.45 Q2550.7084,105.45 2549.5803,105.9844 Q2548.4819,106.5187 2547.6209,107.7062 Q2546.76,108.8937 2546.76,110.5266 L2546.76,112.2781 Q2546.76,114.2375 2548.3631,115.5437 Q2549.9663,116.85 2552.8163,116.85 Q2554.5084,116.85 2555.6959,116.4641 Q2556.3788,116.2562 2557.1506,115.5734 Q2557.6553,115.1875 2557.9225,115.0687 Q2558.1897,114.95 2558.5162,114.95 Q2559.1397,114.95 2559.585,115.4547 Q2560.06,115.9297 2560.06,116.6125 Q2560.06,117.2656 2559.4069,118.0375 Q2558.4569,119.1656 2556.9428,119.7891 Q2554.9537,120.65 2552.5194,120.65 Q2549.6694,120.65 2547.3834,119.5219 Q2545.5428,118.6312 2544.2366,116.7016 Q2542.96,114.7719 2542.96,112.4859 L2542.96,110.4078 Q2542.96,108.0328 2544.0881,105.9547 Q2545.2459,103.8766 2547.235,102.7781 Q2549.2538,101.65 2551.51,101.65 Q2552.8756,101.65 2554.0631,102.125 Q2555.2506,102.6 2556.26,103.55 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="93.1"
+              x="2587.04" y="119.5293">Scenario
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2489.95" x2="2719.85" y1="140.6" y2="140.6"/>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2503.25"
+              y="155.8"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="47.5"
+              x="2526.05" y="169.896">id: int
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2503.25"
+              y="182.0883"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="153.9"
+              x="2526.05" y="196.1843">created: boolean
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2503.25"
+              y="208.3766"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="114"
+              x="2526.05" y="222.4726">name: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2503.25"
+              y="234.6648"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="123.5"
+              x="2526.05" y="248.7608">circuit: Circuit
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2503.25"
+              y="260.9531"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="184.3"
+              x="2526.05" y="275.0491">frequency_base: int
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2503.25"
+              y="287.2414"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="85.5"
+              x="2526.05" y="301.3374">dss: DSS
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2503.25"
+              y="313.5297"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="57"
+              x="2526.05" y="327.6257">logger
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2503.25"
+              y="339.818"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="72.2"
+              x="2526.05" y="353.914">dss_file
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2489.95" x2="2719.85" y1="366.1062"
+              y2="366.1062"/>
+        <rect fill="#F24D5C" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4"
+              x="2503.25" y="381.3062"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="174.8"
+              x="2526.05" y="395.4022">void print_header()
+        </text><!--MD5=[ec764fd255517cf4e1e73b5288bf6dc7]
+class Circuit-->
+        <rect codeLine="20" fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="380.3711" id="Circuit"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="203.3" x="2816.75" y="701.1"/>
+        <ellipse cx="2879.45" cy="731.5" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M2883.25,724.85 Q2883.6359,723.9 2884.0812,723.425 Q2884.5266,722.95 2885.0312,722.95 Q2885.9219,722.95 2886.4859,723.4844 Q2887.05,724.0187 2887.05,725.2656 L2887.05,728.2344 Q2887.05,729.4812 2886.5156,730.0156 Q2885.9812,730.55 2885.15,730.55 Q2884.4078,730.55 2883.9328,730.2234 Q2883.4578,729.8969 2883.25,729.0359 Q2883.1609,728.4422 2882.8344,728.1156 Q2882.2406,727.4922 2881.1719,727.1359 Q2880.1031,726.75 2879.0344,726.75 Q2877.6984,726.75 2876.5703,727.2844 Q2875.4719,727.8187 2874.6109,729.0062 Q2873.75,730.1937 2873.75,731.8266 L2873.75,733.5781 Q2873.75,735.5375 2875.3531,736.8437 Q2876.9562,738.15 2879.8062,738.15 Q2881.4984,738.15 2882.6859,737.7641 Q2883.3687,737.5562 2884.1406,736.8734 Q2884.6453,736.4875 2884.9125,736.3687 Q2885.1797,736.25 2885.5062,736.25 Q2886.1297,736.25 2886.575,736.7547 Q2887.05,737.2297 2887.05,737.9125 Q2887.05,738.5656 2886.3969,739.3375 Q2885.4469,740.4656 2883.9328,741.0891 Q2881.9437,741.95 2879.5094,741.95 Q2876.6594,741.95 2874.3734,740.8219 Q2872.5328,739.9312 2871.2266,738.0016 Q2869.95,736.0719 2869.95,733.7859 L2869.95,731.7078 Q2869.95,729.3328 2871.0781,727.2547 Q2872.2359,725.1766 2874.225,724.0781 Q2876.2437,722.95 2878.5,722.95 Q2879.8656,722.95 2881.0531,723.425 Q2882.2406,723.9 2883.25,724.85 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="66.5"
+              x="2913.65" y="740.8293">Circuit
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2818.65" x2="3018.15" y1="761.9" y2="761.9"/>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="777.1"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="47.5"
+              x="2854.75" y="791.196">id: int
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="803.3883"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="153.9"
+              x="2854.75" y="817.4843">created: boolean
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="829.6766"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="114"
+              x="2854.75" y="843.7726">name: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="855.9648"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="144.4"
+              x="2854.75" y="870.0608">basekv: basekv
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="882.2531"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="74.1"
+              x="2854.75" y="896.3491">pu: float
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="908.5414"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="100.7"
+              x="2854.75" y="922.6374">phases: int
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="934.8297"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="110.2"
+              x="2854.75" y="948.9257">bus1: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="961.118"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="100.7"
+              x="2854.75" y="975.214">angle: float
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="987.4062"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="123.5"
+              x="2854.75" y="1001.5022">mvasc3: float
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2831.95"
+              y="1013.6945"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="123.5"
+              x="2854.75" y="1027.7905">mvasc1: float
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2818.65" x2="3018.15" y1="1039.9828"
+              y2="1039.9828"/>
+        <rect fill="#F24D5C" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4"
+              x="2831.95" y="1055.1828"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="87.4"
+              x="2854.75" y="1069.2788">df_lines()
+        </text><!--MD5=[8d4435d2bfa87854ea11afda5165ac8d]
+class VSource-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="VSource"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="148.2" x="2272.4" y="198.55"/>
+        <ellipse cx="2300.9" cy="228.95" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M2304.7,222.3 Q2305.0859,221.35 2305.5312,220.875 Q2305.9766,220.4 2306.4813,220.4 Q2307.3719,220.4 2307.9359,220.9344 Q2308.5,221.4687 2308.5,222.7156 L2308.5,225.6844 Q2308.5,226.9312 2307.9656,227.4656 Q2307.4312,228 2306.6,228 Q2305.8578,228 2305.3828,227.6734 Q2304.9078,227.3469 2304.7,226.4859 Q2304.6109,225.8922 2304.2844,225.5656 Q2303.6906,224.9422 2302.6219,224.5859 Q2301.5531,224.2 2300.4844,224.2 Q2299.1484,224.2 2298.0203,224.7344 Q2296.9219,225.2687 2296.0609,226.4562 Q2295.2,227.6437 2295.2,229.2766 L2295.2,231.0281 Q2295.2,232.9875 2296.8031,234.2937 Q2298.4062,235.6 2301.2562,235.6 Q2302.9484,235.6 2304.1359,235.2141 Q2304.8187,235.0062 2305.5906,234.3234 Q2306.0953,233.9375 2306.3625,233.8187 Q2306.6297,233.7 2306.9562,233.7 Q2307.5797,233.7 2308.025,234.2047 Q2308.5,234.6797 2308.5,235.3625 Q2308.5,236.0156 2307.8469,236.7875 Q2306.8969,237.9156 2305.3828,238.5391 Q2303.3937,239.4 2300.9594,239.4 Q2298.1094,239.4 2295.8234,238.2719 Q2293.9828,237.3812 2292.6766,235.4516 Q2291.4,233.5219 2291.4,231.2359 L2291.4,229.1578 Q2291.4,226.7828 2292.5281,224.7047 Q2293.6859,222.6266 2295.675,221.5281 Q2297.6937,220.4 2299.95,220.4 Q2301.3156,220.4 2302.5031,220.875 Q2303.6906,221.35 2304.7,222.3 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="87.4"
+              x="2327.5" y="238.2793">VSource
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2274.3" x2="2418.7" y1="259.35" y2="259.35"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2274.3" x2="2418.7" y1="274.55" y2="274.55"/><!--MD5=[6a8314cb3db5d928c5dd6d6c3663fc0b]
+class ControlElement-->
+        <rect codeLine="40" fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="170.0648" id="ControlElement"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="224.2" x="1191.3" y="158.65"/>
+        <ellipse cx="1219.8" cy="189.05" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M1223.6,182.4 Q1223.9859,181.45 1224.4312,180.975 Q1224.8766,180.5 1225.3813,180.5 Q1226.2719,180.5 1226.8359,181.0344 Q1227.4,181.5687 1227.4,182.8156 L1227.4,185.7844 Q1227.4,187.0312 1226.8656,187.5656 Q1226.3312,188.1 1225.5,188.1 Q1224.7578,188.1 1224.2828,187.7734 Q1223.8078,187.4469 1223.6,186.5859 Q1223.5109,185.9922 1223.1844,185.6656 Q1222.5906,185.0422 1221.5219,184.6859 Q1220.4531,184.3 1219.3844,184.3 Q1218.0484,184.3 1216.9203,184.8344 Q1215.8219,185.3687 1214.9609,186.5562 Q1214.1,187.7437 1214.1,189.3766 L1214.1,191.1281 Q1214.1,193.0875 1215.7031,194.3937 Q1217.3062,195.7 1220.1562,195.7 Q1221.8484,195.7 1223.0359,195.3141 Q1223.7187,195.1062 1224.4906,194.4234 Q1224.9953,194.0375 1225.2625,193.9187 Q1225.5297,193.8 1225.8562,193.8 Q1226.4797,193.8 1226.925,194.3047 Q1227.4,194.7797 1227.4,195.4625 Q1227.4,196.1156 1226.7469,196.8875 Q1225.7969,198.0156 1224.2828,198.6391 Q1222.2937,199.5 1219.8594,199.5 Q1217.0094,199.5 1214.7234,198.3719 Q1212.8828,197.4812 1211.5766,195.5516 Q1210.3,193.6219 1210.3,191.3359 L1210.3,189.2578 Q1210.3,186.8828 1211.4281,184.8047 Q1212.5859,182.7266 1214.575,181.6281 Q1216.5937,180.5 1218.85,180.5 Q1220.2156,180.5 1221.4031,180.975 Q1222.5906,181.45 1223.6,182.4 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="163.4"
+              x="1246.4" y="198.3793">ControlElement
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1193.2" x2="1413.6" y1="219.45" y2="219.45"/>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="1206.5"
+              y="234.65"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="134.9"
+              x="1229.3" y="248.746">basefreq: float
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="1206.5"
+              y="260.9383"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="155.8"
+              x="1229.3" y="275.0343">enabled: boolean
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="1206.5"
+              y="287.2266"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="93.1"
+              x="1229.3" y="301.3226">like: String
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1193.2" x2="1413.6" y1="313.5148"
+              y2="313.5148"/><!--MD5=[e2a93234cec0067326ddcce6684a4c83]
+class CapControl-->
+        <rect codeLine="46" fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="669.5422" id="CapControl"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="222.3" x="2250.55" y="556.7"/>
+        <ellipse cx="2297.86" cy="587.1" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M2301.66,580.45 Q2302.0459,579.5 2302.4912,579.025 Q2302.9366,578.55 2303.4413,578.55 Q2304.3319,578.55 2304.8959,579.0844 Q2305.46,579.6187 2305.46,580.8656 L2305.46,583.8344 Q2305.46,585.0813 2304.9256,585.6156 Q2304.3912,586.15 2303.56,586.15 Q2302.8178,586.15 2302.3428,585.8234 Q2301.8678,585.4969 2301.66,584.6359 Q2301.5709,584.0422 2301.2444,583.7156 Q2300.6506,583.0922 2299.5819,582.7359 Q2298.5131,582.35 2297.4444,582.35 Q2296.1084,582.35 2294.9803,582.8844 Q2293.8819,583.4187 2293.0209,584.6062 Q2292.16,585.7937 2292.16,587.4266 L2292.16,589.1781 Q2292.16,591.1375 2293.7631,592.4437 Q2295.3662,593.75 2298.2163,593.75 Q2299.9084,593.75 2301.0959,593.3641 Q2301.7788,593.1562 2302.5506,592.4734 Q2303.0553,592.0875 2303.3225,591.9687 Q2303.5897,591.85 2303.9162,591.85 Q2304.5397,591.85 2304.985,592.3547 Q2305.46,592.8297 2305.46,593.5125 Q2305.46,594.1656 2304.8069,594.9375 Q2303.8569,596.0656 2302.3428,596.6891 Q2300.3537,597.55 2297.9194,597.55 Q2295.0694,597.55 2292.7834,596.4219 Q2290.9428,595.5312 2289.6366,593.6016 Q2288.36,591.6719 2288.36,589.3859 L2288.36,587.3078 Q2288.36,584.9328 2289.4881,582.8547 Q2290.6459,580.7766 2292.635,579.6781 Q2294.6538,578.55 2296.91,578.55 Q2298.2756,578.55 2299.4631,579.025 Q2300.6506,579.5 2301.66,580.45 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="119.7"
+              x="2328.64" y="596.4293">CapControl
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2252.45" x2="2470.95" y1="617.5" y2="617.5"/>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="632.7"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="150.1"
+              x="2288.55" y="646.796">capacitor: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="658.9883"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="138.7"
+              x="2288.55" y="673.0843">ctphase: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="685.2766"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="121.6"
+              x="2288.55" y="699.3726">ctratio: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="711.5648"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="146.3"
+              x="2288.55" y="725.6608">deadtime: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="737.8531"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="114"
+              x="2288.55" y="751.9491">delay: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="764.1414"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="140.6"
+              x="2288.55" y="778.2374">delayoff: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="790.4297"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="134.9"
+              x="2288.55" y="804.5257">element: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="816.718"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="142.5"
+              x="2288.55" y="830.814">eventlog: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="843.0062"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="152"
+              x="2288.55" y="857.1022">offsetting: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="869.2945"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="148.2"
+              x="2288.55" y="883.3905">onsetting: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="895.5828"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="163.4"
+              x="2288.55" y="909.6788">pctminkvar: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="921.8711"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="138.7"
+              x="2288.55" y="935.9671">ptphase: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="948.1594"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="121.6"
+              x="2288.55" y="962.2554">ptratio: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="974.4477"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="112.1"
+              x="2288.55" y="988.5437">reset: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="1000.7359"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="134.9"
+              x="2288.55" y="1014.8319">terminal: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="1027.0242"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="104.5"
+              x="2288.55" y="1041.1202">type: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="1053.3125"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="146.3"
+              x="2288.55" y="1067.4085">userdata: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="1079.6008"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="159.6"
+              x="2288.55" y="1093.6968">usermodel: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="1105.8891"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="110.2"
+              x="2288.55" y="1119.9851">vbus: String
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="1132.1773"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="100.7"
+              x="2288.55" y="1146.2733">vmax: float
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="1158.4656"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="93.1"
+              x="2288.55" y="1172.5616">vmin: float
+        </text>
+        <rect fill="none" height="11.4" style="stroke:#C82930;stroke-width:1.8999999999999997;" width="11.4" x="2265.75"
+              y="1184.7539"/>
+        <text fill="#000000" font-family="sans-serif" font-size="20.9" lengthAdjust="spacing" textLength="172.9"
+              x="2288.55" y="1198.8499">voltoverride: String
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2252.45" x2="2470.95" y1="1211.0422"
+              y2="1211.0422"/><!--MD5=[059b2c1c52f35575ce91abcf3c052443]
+class ESPVLControl-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="ESPVLControl"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="209" x="2540.3" y="845.5"/>
+        <ellipse cx="2568.8" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M2572.6,869.25 Q2572.9859,868.3 2573.4312,867.825 Q2573.8766,867.35 2574.3812,867.35 Q2575.2719,867.35 2575.8359,867.8844 Q2576.4,868.4187 2576.4,869.6656 L2576.4,872.6344 Q2576.4,873.8812 2575.8656,874.4156 Q2575.3312,874.95 2574.5,874.95 Q2573.7578,874.95 2573.2828,874.6234 Q2572.8078,874.2969 2572.6,873.4359 Q2572.5109,872.8422 2572.1844,872.5156 Q2571.5906,871.8922 2570.5219,871.5359 Q2569.4531,871.15 2568.3844,871.15 Q2567.0484,871.15 2565.9203,871.6844 Q2564.8219,872.2187 2563.9609,873.4062 Q2563.1,874.5937 2563.1,876.2266 L2563.1,877.9781 Q2563.1,879.9375 2564.7031,881.2437 Q2566.3062,882.55 2569.1562,882.55 Q2570.8484,882.55 2572.0359,882.1641 Q2572.7187,881.9562 2573.4906,881.2734 Q2573.9953,880.8875 2574.2625,880.7687 Q2574.5297,880.65 2574.8562,880.65 Q2575.4797,880.65 2575.925,881.1547 Q2576.4,881.6297 2576.4,882.3125 Q2576.4,882.9656 2575.7469,883.7375 Q2574.7969,884.8656 2573.2828,885.4891 Q2571.2937,886.35 2568.8594,886.35 Q2566.0094,886.35 2563.7234,885.2219 Q2561.8828,884.3312 2560.5766,882.4016 Q2559.3,880.4719 2559.3,878.1859 L2559.3,876.1078 Q2559.3,873.7328 2560.4281,871.6547 Q2561.5859,869.5766 2563.575,868.4781 Q2565.5937,867.35 2567.85,867.35 Q2569.2156,867.35 2570.4031,867.825 Q2571.5906,868.3 2572.6,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="148.2"
+              x="2595.4" y="885.2293">ESPVLControl
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2542.2" x2="2747.4" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2542.2" x2="2747.4" y1="921.5" y2="921.5"/><!--MD5=[faa3acb7ab84459ff1fef2d087273d78]
+class ExpControl-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="ExpControl"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="174.8" x="60.8" y="845.5"/>
+        <ellipse cx="89.3" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M93.1,869.25 Q93.4859,868.3 93.9312,867.825 Q94.3766,867.35 94.8812,867.35 Q95.7719,867.35 96.3359,867.8844 Q96.9,868.4187 96.9,869.6656 L96.9,872.6344 Q96.9,873.8812 96.3656,874.4156 Q95.8312,874.95 95,874.95 Q94.2578,874.95 93.7828,874.6234 Q93.3078,874.2969 93.1,873.4359 Q93.0109,872.8422 92.6844,872.5156 Q92.0906,871.8922 91.0219,871.5359 Q89.9531,871.15 88.8844,871.15 Q87.5484,871.15 86.4203,871.6844 Q85.3219,872.2187 84.4609,873.4062 Q83.6,874.5937 83.6,876.2266 L83.6,877.9781 Q83.6,879.9375 85.2031,881.2437 Q86.8062,882.55 89.6562,882.55 Q91.3484,882.55 92.5359,882.1641 Q93.2187,881.9562 93.9906,881.2734 Q94.4953,880.8875 94.7625,880.7687 Q95.0297,880.65 95.3562,880.65 Q95.9797,880.65 96.425,881.1547 Q96.9,881.6297 96.9,882.3125 Q96.9,882.9656 96.2469,883.7375 Q95.2969,884.8656 93.7828,885.4891 Q91.7937,886.35 89.3594,886.35 Q86.5094,886.35 84.2234,885.2219 Q82.3828,884.3312 81.0766,882.4016 Q79.8,880.4719 79.8,878.1859 L79.8,876.1078 Q79.8,873.7328 80.9281,871.6547 Q82.0859,869.5766 84.075,868.4781 Q86.0937,867.35 88.35,867.35 Q89.7156,867.35 90.9031,867.825 Q92.0906,868.3 93.1,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="114" x="115.9"
+              y="885.2293">ExpControl
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="62.7" x2="233.7" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="62.7" x2="233.7" y1="921.5" y2="921.5"/><!--MD5=[98d7029a3c4174ff184e047ad36b2a3d]
+class Fuse-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="Fuse"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="114" x="302.1" y="845.5"/>
+        <ellipse cx="330.6" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M334.4,869.25 Q334.7859,868.3 335.2312,867.825 Q335.6766,867.35 336.1812,867.35 Q337.0719,867.35 337.6359,867.8844 Q338.2,868.4187 338.2,869.6656 L338.2,872.6344 Q338.2,873.8812 337.6656,874.4156 Q337.1312,874.95 336.3,874.95 Q335.5578,874.95 335.0828,874.6234 Q334.6078,874.2969 334.4,873.4359 Q334.3109,872.8422 333.9844,872.5156 Q333.3906,871.8922 332.3219,871.5359 Q331.2531,871.15 330.1844,871.15 Q328.8484,871.15 327.7203,871.6844 Q326.6219,872.2187 325.7609,873.4062 Q324.9,874.5937 324.9,876.2266 L324.9,877.9781 Q324.9,879.9375 326.5031,881.2437 Q328.1062,882.55 330.9562,882.55 Q332.6484,882.55 333.8359,882.1641 Q334.5187,881.9562 335.2906,881.2734 Q335.7953,880.8875 336.0625,880.7687 Q336.3297,880.65 336.6562,880.65 Q337.2797,880.65 337.725,881.1547 Q338.2,881.6297 338.2,882.3125 Q338.2,882.9656 337.5469,883.7375 Q336.5969,884.8656 335.0828,885.4891 Q333.0937,886.35 330.6594,886.35 Q327.8094,886.35 325.5234,885.2219 Q323.6828,884.3312 322.3766,882.4016 Q321.1,880.4719 321.1,878.1859 L321.1,876.1078 Q321.1,873.7328 322.2281,871.6547 Q323.3859,869.5766 325.375,868.4781 Q327.3937,867.35 329.65,867.35 Q331.0156,867.35 332.2031,867.825 Q333.3906,868.3 334.4,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="53.2"
+              x="357.2" y="885.2293">Fuse
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="304" x2="414.2" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="304" x2="414.2" y1="921.5" y2="921.5"/><!--MD5=[1db3fb57d04597428b8130a8b417d932]
+class GenDispatcher-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="GenDispatcher"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="218.5" x="483.55" y="845.5"/>
+        <ellipse cx="512.05" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M515.85,869.25 Q516.2359,868.3 516.6812,867.825 Q517.1266,867.35 517.6312,867.35 Q518.5219,867.35 519.0859,867.8844 Q519.65,868.4187 519.65,869.6656 L519.65,872.6344 Q519.65,873.8812 519.1156,874.4156 Q518.5813,874.95 517.75,874.95 Q517.0078,874.95 516.5328,874.6234 Q516.0578,874.2969 515.85,873.4359 Q515.7609,872.8422 515.4344,872.5156 Q514.8406,871.8922 513.7719,871.5359 Q512.7031,871.15 511.6344,871.15 Q510.2984,871.15 509.1703,871.6844 Q508.0719,872.2187 507.2109,873.4062 Q506.35,874.5937 506.35,876.2266 L506.35,877.9781 Q506.35,879.9375 507.9531,881.2437 Q509.5562,882.55 512.4062,882.55 Q514.0984,882.55 515.2859,882.1641 Q515.9687,881.9562 516.7406,881.2734 Q517.2453,880.8875 517.5125,880.7687 Q517.7797,880.65 518.1062,880.65 Q518.7297,880.65 519.175,881.1547 Q519.65,881.6297 519.65,882.3125 Q519.65,882.9656 518.9969,883.7375 Q518.0469,884.8656 516.5328,885.4891 Q514.5437,886.35 512.1094,886.35 Q509.2594,886.35 506.9734,885.2219 Q505.1328,884.3312 503.8266,882.4016 Q502.55,880.4719 502.55,878.1859 L502.55,876.1078 Q502.55,873.7328 503.6781,871.6547 Q504.8359,869.5766 506.825,868.4781 Q508.8437,867.35 511.1,867.35 Q512.4656,867.35 513.6531,867.825 Q514.8406,868.3 515.85,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="157.7"
+              x="538.65" y="885.2293">GenDispatcher
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="485.45" x2="700.15" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="485.45" x2="700.15" y1="921.5" y2="921.5"/><!--MD5=[2d4fb7a8a3d7eb24a0413532fe67e9ed]
+class InvControl-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="InvControl"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="165.3" x="768.55" y="845.5"/>
+        <ellipse cx="797.05" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M800.85,869.25 Q801.2359,868.3 801.6812,867.825 Q802.1266,867.35 802.6312,867.35 Q803.5219,867.35 804.0859,867.8844 Q804.65,868.4187 804.65,869.6656 L804.65,872.6344 Q804.65,873.8812 804.1156,874.4156 Q803.5812,874.95 802.75,874.95 Q802.0078,874.95 801.5328,874.6234 Q801.0578,874.2969 800.85,873.4359 Q800.7609,872.8422 800.4344,872.5156 Q799.8406,871.8922 798.7719,871.5359 Q797.7031,871.15 796.6344,871.15 Q795.2984,871.15 794.1703,871.6844 Q793.0719,872.2187 792.2109,873.4062 Q791.35,874.5937 791.35,876.2266 L791.35,877.9781 Q791.35,879.9375 792.9531,881.2437 Q794.5562,882.55 797.4062,882.55 Q799.0984,882.55 800.2859,882.1641 Q800.9687,881.9562 801.7406,881.2734 Q802.2453,880.8875 802.5125,880.7687 Q802.7797,880.65 803.1062,880.65 Q803.7297,880.65 804.175,881.1547 Q804.65,881.6297 804.65,882.3125 Q804.65,882.9656 803.9969,883.7375 Q803.0469,884.8656 801.5328,885.4891 Q799.5437,886.35 797.1094,886.35 Q794.2594,886.35 791.9734,885.2219 Q790.1328,884.3312 788.8266,882.4016 Q787.55,880.4719 787.55,878.1859 L787.55,876.1078 Q787.55,873.7328 788.6781,871.6547 Q789.8359,869.5766 791.825,868.4781 Q793.8437,867.35 796.1,867.35 Q797.4656,867.35 798.6531,867.825 Q799.8406,868.3 800.85,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="104.5"
+              x="823.65" y="885.2293">InvControl
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="770.45" x2="931.95" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="770.45" x2="931.95" y1="921.5" y2="921.5"/><!--MD5=[eec65e54572f27b04e7610443ebe7247]
+class RegCloser-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="RegCloser"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="174.8" x="1001.3" y="845.5"/>
+        <ellipse cx="1029.8" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M1033.6,869.25 Q1033.9859,868.3 1034.4312,867.825 Q1034.8766,867.35 1035.3813,867.35 Q1036.2719,867.35 1036.8359,867.8844 Q1037.4,868.4187 1037.4,869.6656 L1037.4,872.6344 Q1037.4,873.8812 1036.8656,874.4156 Q1036.3312,874.95 1035.5,874.95 Q1034.7578,874.95 1034.2828,874.6234 Q1033.8078,874.2969 1033.6,873.4359 Q1033.5109,872.8422 1033.1844,872.5156 Q1032.5906,871.8922 1031.5219,871.5359 Q1030.4531,871.15 1029.3844,871.15 Q1028.0484,871.15 1026.9203,871.6844 Q1025.8219,872.2187 1024.9609,873.4062 Q1024.1,874.5937 1024.1,876.2266 L1024.1,877.9781 Q1024.1,879.9375 1025.7031,881.2437 Q1027.3062,882.55 1030.1562,882.55 Q1031.8484,882.55 1033.0359,882.1641 Q1033.7187,881.9562 1034.4906,881.2734 Q1034.9953,880.8875 1035.2625,880.7687 Q1035.5297,880.65 1035.8562,880.65 Q1036.4797,880.65 1036.925,881.1547 Q1037.4,881.6297 1037.4,882.3125 Q1037.4,882.9656 1036.7469,883.7375 Q1035.7969,884.8656 1034.2828,885.4891 Q1032.2937,886.35 1029.8594,886.35 Q1027.0094,886.35 1024.7234,885.2219 Q1022.8828,884.3312 1021.5766,882.4016 Q1020.3,880.4719 1020.3,878.1859 L1020.3,876.1078 Q1020.3,873.7328 1021.4281,871.6547 Q1022.5859,869.5766 1024.575,868.4781 Q1026.5937,867.35 1028.85,867.35 Q1030.2156,867.35 1031.4031,867.825 Q1032.5906,868.3 1033.6,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="114"
+              x="1056.4" y="885.2293">RegCloser
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1003.2" x2="1174.2" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1003.2" x2="1174.2" y1="921.5" y2="921.5"/><!--MD5=[ef71e731ccdc267b4331c5ecd96b1849]
+class Relay-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="Relay"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="119.7" x="1243.55" y="845.5"/>
+        <ellipse cx="1272.05" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M1275.85,869.25 Q1276.2359,868.3 1276.6812,867.825 Q1277.1266,867.35 1277.6312,867.35 Q1278.5219,867.35 1279.0859,867.8844 Q1279.65,868.4187 1279.65,869.6656 L1279.65,872.6344 Q1279.65,873.8812 1279.1156,874.4156 Q1278.5812,874.95 1277.75,874.95 Q1277.0078,874.95 1276.5328,874.6234 Q1276.0578,874.2969 1275.85,873.4359 Q1275.7609,872.8422 1275.4344,872.5156 Q1274.8406,871.8922 1273.7719,871.5359 Q1272.7031,871.15 1271.6344,871.15 Q1270.2984,871.15 1269.1703,871.6844 Q1268.0719,872.2187 1267.2109,873.4062 Q1266.35,874.5937 1266.35,876.2266 L1266.35,877.9781 Q1266.35,879.9375 1267.9531,881.2437 Q1269.5562,882.55 1272.4062,882.55 Q1274.0984,882.55 1275.2859,882.1641 Q1275.9687,881.9562 1276.7406,881.2734 Q1277.2453,880.8875 1277.5125,880.7687 Q1277.7797,880.65 1278.1062,880.65 Q1278.7297,880.65 1279.175,881.1547 Q1279.65,881.6297 1279.65,882.3125 Q1279.65,882.9656 1278.9969,883.7375 Q1278.0469,884.8656 1276.5328,885.4891 Q1274.5437,886.35 1272.1094,886.35 Q1269.2594,886.35 1266.9734,885.2219 Q1265.1328,884.3312 1263.8266,882.4016 Q1262.55,880.4719 1262.55,878.1859 L1262.55,876.1078 Q1262.55,873.7328 1263.6781,871.6547 Q1264.8359,869.5766 1266.825,868.4781 Q1268.8437,867.35 1271.1,867.35 Q1272.4656,867.35 1273.6531,867.825 Q1274.8406,868.3 1275.85,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="58.9"
+              x="1298.65" y="885.2293">Relay
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1245.45" x2="1361.35" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1245.45" x2="1361.35" y1="921.5" y2="921.5"/><!--MD5=[4c78b00086521ab9d92130a81928776c]
+class StorageController-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="StorageController"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="245.1" x="1429.75" y="845.5"/>
+        <ellipse cx="1458.25" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M1462.05,869.25 Q1462.4359,868.3 1462.8812,867.825 Q1463.3266,867.35 1463.8312,867.35 Q1464.7219,867.35 1465.2859,867.8844 Q1465.85,868.4187 1465.85,869.6656 L1465.85,872.6344 Q1465.85,873.8812 1465.3156,874.4156 Q1464.7812,874.95 1463.95,874.95 Q1463.2078,874.95 1462.7328,874.6234 Q1462.2578,874.2969 1462.05,873.4359 Q1461.9609,872.8422 1461.6344,872.5156 Q1461.0406,871.8922 1459.9719,871.5359 Q1458.9031,871.15 1457.8344,871.15 Q1456.4984,871.15 1455.3703,871.6844 Q1454.2719,872.2187 1453.4109,873.4062 Q1452.55,874.5937 1452.55,876.2266 L1452.55,877.9781 Q1452.55,879.9375 1454.1531,881.2437 Q1455.7562,882.55 1458.6062,882.55 Q1460.2984,882.55 1461.4859,882.1641 Q1462.1687,881.9562 1462.9406,881.2734 Q1463.4453,880.8875 1463.7125,880.7687 Q1463.9797,880.65 1464.3062,880.65 Q1464.9297,880.65 1465.375,881.1547 Q1465.85,881.6297 1465.85,882.3125 Q1465.85,882.9656 1465.1969,883.7375 Q1464.2469,884.8656 1462.7328,885.4891 Q1460.7437,886.35 1458.3094,886.35 Q1455.4594,886.35 1453.1734,885.2219 Q1451.3328,884.3312 1450.0266,882.4016 Q1448.75,880.4719 1448.75,878.1859 L1448.75,876.1078 Q1448.75,873.7328 1449.8781,871.6547 Q1451.0359,869.5766 1453.025,868.4781 Q1455.0437,867.35 1457.3,867.35 Q1458.6656,867.35 1459.8531,867.825 Q1461.0406,868.3 1462.05,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="184.3"
+              x="1484.85" y="885.2293">StorageController
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1431.65" x2="1672.95" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1431.65" x2="1672.95" y1="921.5" y2="921.5"/><!--MD5=[ba4d9291688534e40dfe47cb93ad8292]
+class SwtControl-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="SwtControl"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="174.8" x="1742.3" y="845.5"/>
+        <ellipse cx="1770.8" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M1774.6,869.25 Q1774.9859,868.3 1775.4312,867.825 Q1775.8766,867.35 1776.3812,867.35 Q1777.2719,867.35 1777.8359,867.8844 Q1778.4,868.4187 1778.4,869.6656 L1778.4,872.6344 Q1778.4,873.8812 1777.8656,874.4156 Q1777.3312,874.95 1776.5,874.95 Q1775.7578,874.95 1775.2828,874.6234 Q1774.8078,874.2969 1774.6,873.4359 Q1774.5109,872.8422 1774.1844,872.5156 Q1773.5906,871.8922 1772.5219,871.5359 Q1771.4531,871.15 1770.3844,871.15 Q1769.0484,871.15 1767.9203,871.6844 Q1766.8219,872.2187 1765.9609,873.4062 Q1765.1,874.5937 1765.1,876.2266 L1765.1,877.9781 Q1765.1,879.9375 1766.7031,881.2437 Q1768.3062,882.55 1771.1562,882.55 Q1772.8484,882.55 1774.0359,882.1641 Q1774.7187,881.9562 1775.4906,881.2734 Q1775.9953,880.8875 1776.2625,880.7687 Q1776.5297,880.65 1776.8562,880.65 Q1777.4797,880.65 1777.925,881.1547 Q1778.4,881.6297 1778.4,882.3125 Q1778.4,882.9656 1777.7469,883.7375 Q1776.7969,884.8656 1775.2828,885.4891 Q1773.2937,886.35 1770.8594,886.35 Q1768.0094,886.35 1765.7234,885.2219 Q1763.8828,884.3312 1762.5766,882.4016 Q1761.3,880.4719 1761.3,878.1859 L1761.3,876.1078 Q1761.3,873.7328 1762.4281,871.6547 Q1763.5859,869.5766 1765.575,868.4781 Q1767.5937,867.35 1769.85,867.35 Q1771.2156,867.35 1772.4031,867.825 Q1773.5906,868.3 1774.6,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="114"
+              x="1797.4" y="885.2293">SwtControl
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1744.2" x2="1915.2" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1744.2" x2="1915.2" y1="921.5" y2="921.5"/><!--MD5=[0c5ea42fc12d0c4ae12611746017cc16]
+class UPFCControl-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="UPFCControl"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="199.5" x="1984.55" y="845.5"/>
+        <ellipse cx="2013.05" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M2016.85,869.25 Q2017.2359,868.3 2017.6812,867.825 Q2018.1266,867.35 2018.6312,867.35 Q2019.5219,867.35 2020.0859,867.8844 Q2020.65,868.4187 2020.65,869.6656 L2020.65,872.6344 Q2020.65,873.8812 2020.1156,874.4156 Q2019.5812,874.95 2018.75,874.95 Q2018.0078,874.95 2017.5328,874.6234 Q2017.0578,874.2969 2016.85,873.4359 Q2016.7609,872.8422 2016.4344,872.5156 Q2015.8406,871.8922 2014.7719,871.5359 Q2013.7031,871.15 2012.6344,871.15 Q2011.2984,871.15 2010.1703,871.6844 Q2009.0719,872.2187 2008.2109,873.4062 Q2007.35,874.5937 2007.35,876.2266 L2007.35,877.9781 Q2007.35,879.9375 2008.9531,881.2437 Q2010.5562,882.55 2013.4062,882.55 Q2015.0984,882.55 2016.2859,882.1641 Q2016.9687,881.9562 2017.7406,881.2734 Q2018.2453,880.8875 2018.5125,880.7687 Q2018.7797,880.65 2019.1062,880.65 Q2019.7297,880.65 2020.175,881.1547 Q2020.65,881.6297 2020.65,882.3125 Q2020.65,882.9656 2019.9969,883.7375 Q2019.0469,884.8656 2017.5328,885.4891 Q2015.5437,886.35 2013.1094,886.35 Q2010.2594,886.35 2007.9734,885.2219 Q2006.1328,884.3312 2004.8266,882.4016 Q2003.55,880.4719 2003.55,878.1859 L2003.55,876.1078 Q2003.55,873.7328 2004.6781,871.6547 Q2005.8359,869.5766 2007.825,868.4781 Q2009.8437,867.35 2012.1,867.35 Q2013.4656,867.35 2014.6531,867.825 Q2015.8406,868.3 2016.85,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="138.7"
+              x="2039.65" y="885.2293">UPFCControl
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1986.45" x2="2182.15" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="1986.45" x2="2182.15" y1="921.5" y2="921.5"/><!--MD5=[931edbcdfc77d43e5c6c35973db2ed1c]
+class GeneralElement-->
+        <rect codeLine="83" fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="GeneralElement"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="231.8" x="2789.2" y="198.55"/>
+        <ellipse cx="2817.7" cy="228.95" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M2821.5,222.3 Q2821.8859,221.35 2822.3312,220.875 Q2822.7766,220.4 2823.2812,220.4 Q2824.1719,220.4 2824.7359,220.9344 Q2825.3,221.4687 2825.3,222.7156 L2825.3,225.6844 Q2825.3,226.9312 2824.7656,227.4656 Q2824.2312,228 2823.4,228 Q2822.6578,228 2822.1828,227.6734 Q2821.7078,227.3469 2821.5,226.4859 Q2821.4109,225.8922 2821.0844,225.5656 Q2820.4906,224.9422 2819.4219,224.5859 Q2818.3531,224.2 2817.2844,224.2 Q2815.9484,224.2 2814.8203,224.7344 Q2813.7219,225.2687 2812.8609,226.4562 Q2812,227.6437 2812,229.2766 L2812,231.0281 Q2812,232.9875 2813.6031,234.2937 Q2815.2062,235.6 2818.0562,235.6 Q2819.7484,235.6 2820.9359,235.2141 Q2821.6187,235.0062 2822.3906,234.3234 Q2822.8953,233.9375 2823.1625,233.8187 Q2823.4297,233.7 2823.7562,233.7 Q2824.3797,233.7 2824.825,234.2047 Q2825.3,234.6797 2825.3,235.3625 Q2825.3,236.0156 2824.6469,236.7875 Q2823.6969,237.9156 2822.1828,238.5391 Q2820.1937,239.4 2817.7594,239.4 Q2814.9094,239.4 2812.6234,238.2719 Q2810.7828,237.3812 2809.4766,235.4516 Q2808.2,233.5219 2808.2,231.2359 L2808.2,229.1578 Q2808.2,226.7828 2809.3281,224.7047 Q2810.4859,222.6266 2812.475,221.5281 Q2814.4937,220.4 2816.75,220.4 Q2818.1156,220.4 2819.3031,220.875 Q2820.4906,221.35 2821.5,222.3 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="171"
+              x="2844.3" y="238.2793">GeneralElement
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2791.1" x2="3019.1" y1="259.35" y2="259.35"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="2791.1" x2="3019.1" y1="274.55" y2="274.55"/><!--MD5=[787c5bb382c8baea1255be09bc49f49f]
+class CNData-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="CNData"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="144.4" x="3298.4" y="845.5"/>
+        <ellipse cx="3326.9" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M3330.7,869.25 Q3331.0859,868.3 3331.5312,867.825 Q3331.9766,867.35 3332.4812,867.35 Q3333.3719,867.35 3333.9359,867.8844 Q3334.5,868.4187 3334.5,869.6656 L3334.5,872.6344 Q3334.5,873.8812 3333.9656,874.4156 Q3333.4312,874.95 3332.6,874.95 Q3331.8578,874.95 3331.3828,874.6234 Q3330.9078,874.2969 3330.7,873.4359 Q3330.6109,872.8422 3330.2844,872.5156 Q3329.6906,871.8922 3328.6219,871.5359 Q3327.5531,871.15 3326.4844,871.15 Q3325.1484,871.15 3324.0203,871.6844 Q3322.9219,872.2187 3322.0609,873.4062 Q3321.2,874.5937 3321.2,876.2266 L3321.2,877.9781 Q3321.2,879.9375 3322.8031,881.2437 Q3324.4062,882.55 3327.2562,882.55 Q3328.9484,882.55 3330.1359,882.1641 Q3330.8187,881.9562 3331.5906,881.2734 Q3332.0953,880.8875 3332.3625,880.7687 Q3332.6297,880.65 3332.9562,880.65 Q3333.5797,880.65 3334.025,881.1547 Q3334.5,881.6297 3334.5,882.3125 Q3334.5,882.9656 3333.8469,883.7375 Q3332.8969,884.8656 3331.3828,885.4891 Q3329.3937,886.35 3326.9594,886.35 Q3324.1094,886.35 3321.8234,885.2219 Q3319.9828,884.3312 3318.6766,882.4016 Q3317.4,880.4719 3317.4,878.1859 L3317.4,876.1078 Q3317.4,873.7328 3318.5281,871.6547 Q3319.6859,869.5766 3321.675,868.4781 Q3323.6937,867.35 3325.95,867.35 Q3327.3156,867.35 3328.5031,867.825 Q3329.6906,868.3 3330.7,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="83.6"
+              x="3353.5" y="885.2293">CNData
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="3300.3" x2="3440.9" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="3300.3" x2="3440.9" y1="921.5" y2="921.5"/><!--MD5=[ea9a6fcb657bafc6d2ea50991017adeb]
+class GrowthShape-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="GrowthShape"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="203.3" x="3510.25" y="845.5"/>
+        <ellipse cx="3538.75" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M3542.55,869.25 Q3542.9359,868.3 3543.3812,867.825 Q3543.8266,867.35 3544.3312,867.35 Q3545.2219,867.35 3545.7859,867.8844 Q3546.35,868.4187 3546.35,869.6656 L3546.35,872.6344 Q3546.35,873.8812 3545.8156,874.4156 Q3545.2812,874.95 3544.45,874.95 Q3543.7078,874.95 3543.2328,874.6234 Q3542.7578,874.2969 3542.55,873.4359 Q3542.4609,872.8422 3542.1344,872.5156 Q3541.5406,871.8922 3540.4719,871.5359 Q3539.4031,871.15 3538.3344,871.15 Q3536.9984,871.15 3535.8703,871.6844 Q3534.7719,872.2187 3533.9109,873.4062 Q3533.05,874.5937 3533.05,876.2266 L3533.05,877.9781 Q3533.05,879.9375 3534.6531,881.2437 Q3536.2562,882.55 3539.1062,882.55 Q3540.7984,882.55 3541.9859,882.1641 Q3542.6687,881.9562 3543.4406,881.2734 Q3543.9453,880.8875 3544.2125,880.7687 Q3544.4797,880.65 3544.8062,880.65 Q3545.4297,880.65 3545.875,881.1547 Q3546.35,881.6297 3546.35,882.3125 Q3546.35,882.9656 3545.6969,883.7375 Q3544.7469,884.8656 3543.2328,885.4891 Q3541.2437,886.35 3538.8094,886.35 Q3535.9594,886.35 3533.6734,885.2219 Q3531.8328,884.3312 3530.5266,882.4016 Q3529.25,880.4719 3529.25,878.1859 L3529.25,876.1078 Q3529.25,873.7328 3530.3781,871.6547 Q3531.5359,869.5766 3533.525,868.4781 Q3535.5437,867.35 3537.8,867.35 Q3539.1656,867.35 3540.3531,867.825 Q3541.5406,868.3 3542.55,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="142.5"
+              x="3565.35" y="885.2293">GrowthShape
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="3512.15" x2="3711.65" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="3512.15" x2="3711.65" y1="921.5" y2="921.5"/><!--MD5=[ec69a7000c4f74bbc4d2117b38cb93b6]
+class LineCode-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="LineCode"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="163.4" x="3781" y="845.5"/>
+        <ellipse cx="3809.5" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M3813.3,869.25 Q3813.6859,868.3 3814.1312,867.825 Q3814.5766,867.35 3815.0812,867.35 Q3815.9719,867.35 3816.5359,867.8844 Q3817.1,868.4187 3817.1,869.6656 L3817.1,872.6344 Q3817.1,873.8812 3816.5656,874.4156 Q3816.0312,874.95 3815.2,874.95 Q3814.4578,874.95 3813.9828,874.6234 Q3813.5078,874.2969 3813.3,873.4359 Q3813.2109,872.8422 3812.8844,872.5156 Q3812.2906,871.8922 3811.2219,871.5359 Q3810.1531,871.15 3809.0844,871.15 Q3807.7484,871.15 3806.6203,871.6844 Q3805.5219,872.2187 3804.6609,873.4062 Q3803.8,874.5937 3803.8,876.2266 L3803.8,877.9781 Q3803.8,879.9375 3805.4031,881.2437 Q3807.0062,882.55 3809.8562,882.55 Q3811.5484,882.55 3812.7359,882.1641 Q3813.4187,881.9562 3814.1906,881.2734 Q3814.6953,880.8875 3814.9625,880.7687 Q3815.2297,880.65 3815.5562,880.65 Q3816.1797,880.65 3816.625,881.1547 Q3817.1,881.6297 3817.1,882.3125 Q3817.1,882.9656 3816.4469,883.7375 Q3815.4969,884.8656 3813.9828,885.4891 Q3811.9937,886.35 3809.5594,886.35 Q3806.7094,886.35 3804.4234,885.2219 Q3802.5828,884.3312 3801.2766,882.4016 Q3800,880.4719 3800,878.1859 L3800,876.1078 Q3800,873.7328 3801.1281,871.6547 Q3802.2859,869.5766 3804.275,868.4781 Q3806.2937,867.35 3808.55,867.35 Q3809.9156,867.35 3811.1031,867.825 Q3812.2906,868.3 3813.3,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="102.6"
+              x="3836.1" y="885.2293">LineCode
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="3782.9" x2="3942.5" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="3782.9" x2="3942.5" y1="921.5" y2="921.5"/><!--MD5=[201b71e455f11775c89bd305bbb36c31]
+class LineGeometry-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="LineGeometry"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="207.1" x="4011.85" y="845.5"/>
+        <ellipse cx="4040.35" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M4044.15,869.25 Q4044.5359,868.3 4044.9812,867.825 Q4045.4266,867.35 4045.9312,867.35 Q4046.8219,867.35 4047.3859,867.8844 Q4047.95,868.4187 4047.95,869.6656 L4047.95,872.6344 Q4047.95,873.8812 4047.4156,874.4156 Q4046.8812,874.95 4046.05,874.95 Q4045.3078,874.95 4044.8328,874.6234 Q4044.3578,874.2969 4044.15,873.4359 Q4044.0609,872.8422 4043.7344,872.5156 Q4043.1406,871.8922 4042.0719,871.5359 Q4041.0031,871.15 4039.9344,871.15 Q4038.5984,871.15 4037.4703,871.6844 Q4036.3719,872.2187 4035.5109,873.4062 Q4034.65,874.5937 4034.65,876.2266 L4034.65,877.9781 Q4034.65,879.9375 4036.2531,881.2437 Q4037.8562,882.55 4040.7062,882.55 Q4042.3984,882.55 4043.5859,882.1641 Q4044.2687,881.9562 4045.0406,881.2734 Q4045.5453,880.8875 4045.8125,880.7687 Q4046.0797,880.65 4046.4062,880.65 Q4047.0297,880.65 4047.475,881.1547 Q4047.95,881.6297 4047.95,882.3125 Q4047.95,882.9656 4047.2969,883.7375 Q4046.3469,884.8656 4044.8328,885.4891 Q4042.8437,886.35 4040.4094,886.35 Q4037.5594,886.35 4035.2734,885.2219 Q4033.4328,884.3312 4032.1266,882.4016 Q4030.85,880.4719 4030.85,878.1859 L4030.85,876.1078 Q4030.85,873.7328 4031.9781,871.6547 Q4033.1359,869.5766 4035.125,868.4781 Q4037.1437,867.35 4039.4,867.35 Q4040.7656,867.35 4041.9531,867.825 Q4043.1406,868.3 4044.15,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="146.3"
+              x="4066.95" y="885.2293">LineGeometry
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="4013.75" x2="4217.05" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="4013.75" x2="4217.05" y1="921.5" y2="921.5"/><!--MD5=[32053a4034b1688f40ca25f1e735d640]
+class LineSpacing-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="LineSpacing"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="191.9" x="4285.45" y="845.5"/>
+        <ellipse cx="4313.95" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M4317.75,869.25 Q4318.1359,868.3 4318.5812,867.825 Q4319.0266,867.35 4319.5312,867.35 Q4320.4219,867.35 4320.9859,867.8844 Q4321.55,868.4187 4321.55,869.6656 L4321.55,872.6344 Q4321.55,873.8812 4321.0156,874.4156 Q4320.4812,874.95 4319.65,874.95 Q4318.9078,874.95 4318.4328,874.6234 Q4317.9578,874.2969 4317.75,873.4359 Q4317.6609,872.8422 4317.3344,872.5156 Q4316.7406,871.8922 4315.6719,871.5359 Q4314.6031,871.15 4313.5344,871.15 Q4312.1984,871.15 4311.0703,871.6844 Q4309.9719,872.2187 4309.1109,873.4062 Q4308.25,874.5937 4308.25,876.2266 L4308.25,877.9781 Q4308.25,879.9375 4309.8531,881.2437 Q4311.4562,882.55 4314.3063,882.55 Q4315.9984,882.55 4317.1859,882.1641 Q4317.8688,881.9562 4318.6406,881.2734 Q4319.1453,880.8875 4319.4125,880.7687 Q4319.6797,880.65 4320.0062,880.65 Q4320.6297,880.65 4321.075,881.1547 Q4321.55,881.6297 4321.55,882.3125 Q4321.55,882.9656 4320.8969,883.7375 Q4319.9469,884.8656 4318.4328,885.4891 Q4316.4437,886.35 4314.0094,886.35 Q4311.1594,886.35 4308.8734,885.2219 Q4307.0328,884.3312 4305.7266,882.4016 Q4304.45,880.4719 4304.45,878.1859 L4304.45,876.1078 Q4304.45,873.7328 4305.5781,871.6547 Q4306.7359,869.5766 4308.725,868.4781 Q4310.7438,867.35 4313,867.35 Q4314.3656,867.35 4315.5531,867.825 Q4316.7406,868.3 4317.75,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="131.1"
+              x="4340.55" y="885.2293">LineSpacing
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="4287.35" x2="4475.45" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="4287.35" x2="4475.45" y1="921.5" y2="921.5"/><!--MD5=[244fef209cc915224ec66b705e2bbc3b]
+class LoadShape-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="LoadShape"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="182.4" x="4544.8" y="845.5"/>
+        <ellipse cx="4573.3" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M4577.1,869.25 Q4577.4859,868.3 4577.9313,867.825 Q4578.3766,867.35 4578.8812,867.35 Q4579.7719,867.35 4580.3359,867.8844 Q4580.9,868.4187 4580.9,869.6656 L4580.9,872.6344 Q4580.9,873.8812 4580.3656,874.4156 Q4579.8312,874.95 4579,874.95 Q4578.2578,874.95 4577.7828,874.6234 Q4577.3078,874.2969 4577.1,873.4359 Q4577.0109,872.8422 4576.6844,872.5156 Q4576.0906,871.8922 4575.0219,871.5359 Q4573.9531,871.15 4572.8844,871.15 Q4571.5484,871.15 4570.4203,871.6844 Q4569.3219,872.2187 4568.4609,873.4062 Q4567.6,874.5937 4567.6,876.2266 L4567.6,877.9781 Q4567.6,879.9375 4569.2031,881.2437 Q4570.8063,882.55 4573.6562,882.55 Q4575.3484,882.55 4576.5359,882.1641 Q4577.2187,881.9562 4577.9906,881.2734 Q4578.4953,880.8875 4578.7625,880.7687 Q4579.0297,880.65 4579.3562,880.65 Q4579.9797,880.65 4580.425,881.1547 Q4580.9,881.6297 4580.9,882.3125 Q4580.9,882.9656 4580.2469,883.7375 Q4579.2969,884.8656 4577.7828,885.4891 Q4575.7937,886.35 4573.3594,886.35 Q4570.5094,886.35 4568.2234,885.2219 Q4566.3828,884.3312 4565.0766,882.4016 Q4563.8,880.4719 4563.8,878.1859 L4563.8,876.1078 Q4563.8,873.7328 4564.9281,871.6547 Q4566.0859,869.5766 4568.075,868.4781 Q4570.0937,867.35 4572.35,867.35 Q4573.7156,867.35 4574.9031,867.825 Q4576.0906,868.3 4577.1,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="121.6"
+              x="4599.9" y="885.2293">LoadShape
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="4546.7" x2="4725.3" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="4546.7" x2="4725.3" y1="921.5" y2="921.5"/><!--MD5=[ff8400b9f504bd8c89d5b7258615e1d5]
+class PriceShape-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="PriceShape"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="182.4" x="4793.7" y="845.5"/>
+        <ellipse cx="4822.2" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M4826,869.25 Q4826.3859,868.3 4826.8312,867.825 Q4827.2766,867.35 4827.7812,867.35 Q4828.6719,867.35 4829.2359,867.8844 Q4829.8,868.4187 4829.8,869.6656 L4829.8,872.6344 Q4829.8,873.8812 4829.2656,874.4156 Q4828.7312,874.95 4827.9,874.95 Q4827.1578,874.95 4826.6828,874.6234 Q4826.2078,874.2969 4826,873.4359 Q4825.9109,872.8422 4825.5844,872.5156 Q4824.9906,871.8922 4823.9219,871.5359 Q4822.8531,871.15 4821.7844,871.15 Q4820.4484,871.15 4819.3203,871.6844 Q4818.2219,872.2187 4817.3609,873.4062 Q4816.5,874.5937 4816.5,876.2266 L4816.5,877.9781 Q4816.5,879.9375 4818.1031,881.2437 Q4819.7062,882.55 4822.5563,882.55 Q4824.2484,882.55 4825.4359,882.1641 Q4826.1188,881.9562 4826.8906,881.2734 Q4827.3953,880.8875 4827.6625,880.7687 Q4827.9297,880.65 4828.2562,880.65 Q4828.8797,880.65 4829.325,881.1547 Q4829.8,881.6297 4829.8,882.3125 Q4829.8,882.9656 4829.1469,883.7375 Q4828.1969,884.8656 4826.6828,885.4891 Q4824.6937,886.35 4822.2594,886.35 Q4819.4094,886.35 4817.1234,885.2219 Q4815.2828,884.3312 4813.9766,882.4016 Q4812.7,880.4719 4812.7,878.1859 L4812.7,876.1078 Q4812.7,873.7328 4813.8281,871.6547 Q4814.9859,869.5766 4816.975,868.4781 Q4818.9938,867.35 4821.25,867.35 Q4822.6156,867.35 4823.8031,867.825 Q4824.9906,868.3 4826,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="121.6"
+              x="4848.8" y="885.2293">PriceShape
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="4795.6" x2="4974.2" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="4795.6" x2="4974.2" y1="921.5" y2="921.5"/><!--MD5=[c72e0f1d657745ecae4651dbc538eb54]
+class Spectrum-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="Spectrum"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="161.5" x="5043.55" y="845.5"/>
+        <ellipse cx="5072.05" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M5075.85,869.25 Q5076.2359,868.3 5076.6812,867.825 Q5077.1266,867.35 5077.6312,867.35 Q5078.5219,867.35 5079.0859,867.8844 Q5079.65,868.4187 5079.65,869.6656 L5079.65,872.6344 Q5079.65,873.8812 5079.1156,874.4156 Q5078.5812,874.95 5077.75,874.95 Q5077.0078,874.95 5076.5328,874.6234 Q5076.0578,874.2969 5075.85,873.4359 Q5075.7609,872.8422 5075.4344,872.5156 Q5074.8406,871.8922 5073.7719,871.5359 Q5072.7031,871.15 5071.6344,871.15 Q5070.2984,871.15 5069.1703,871.6844 Q5068.0719,872.2187 5067.2109,873.4062 Q5066.35,874.5937 5066.35,876.2266 L5066.35,877.9781 Q5066.35,879.9375 5067.9531,881.2437 Q5069.5562,882.55 5072.4062,882.55 Q5074.0984,882.55 5075.2859,882.1641 Q5075.9687,881.9562 5076.7406,881.2734 Q5077.2453,880.8875 5077.5125,880.7687 Q5077.7797,880.65 5078.1062,880.65 Q5078.7297,880.65 5079.175,881.1547 Q5079.65,881.6297 5079.65,882.3125 Q5079.65,882.9656 5078.9969,883.7375 Q5078.0469,884.8656 5076.5328,885.4891 Q5074.5437,886.35 5072.1094,886.35 Q5069.2594,886.35 5066.9734,885.2219 Q5065.1328,884.3312 5063.8266,882.4016 Q5062.55,880.4719 5062.55,878.1859 L5062.55,876.1078 Q5062.55,873.7328 5063.6781,871.6547 Q5064.8359,869.5766 5066.825,868.4781 Q5068.8437,867.35 5071.1,867.35 Q5072.4656,867.35 5073.6531,867.825 Q5074.8406,868.3 5075.85,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="100.7"
+              x="5098.65" y="885.2293">Spectrum
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5045.45" x2="5203.15" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5045.45" x2="5203.15" y1="921.5" y2="921.5"/><!--MD5=[483c75e58c34f71c6eecc21f2475a1fb]
+class TCCCurve-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="TCCCurve"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="169.1" x="5271.55" y="845.5"/>
+        <ellipse cx="5300.05" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M5303.85,869.25 Q5304.2359,868.3 5304.6812,867.825 Q5305.1266,867.35 5305.6312,867.35 Q5306.5219,867.35 5307.0859,867.8844 Q5307.65,868.4187 5307.65,869.6656 L5307.65,872.6344 Q5307.65,873.8812 5307.1156,874.4156 Q5306.5812,874.95 5305.75,874.95 Q5305.0078,874.95 5304.5328,874.6234 Q5304.0578,874.2969 5303.85,873.4359 Q5303.7609,872.8422 5303.4344,872.5156 Q5302.8406,871.8922 5301.7719,871.5359 Q5300.7031,871.15 5299.6344,871.15 Q5298.2984,871.15 5297.1703,871.6844 Q5296.0719,872.2187 5295.2109,873.4062 Q5294.35,874.5937 5294.35,876.2266 L5294.35,877.9781 Q5294.35,879.9375 5295.9531,881.2437 Q5297.5562,882.55 5300.4062,882.55 Q5302.0984,882.55 5303.2859,882.1641 Q5303.9687,881.9562 5304.7406,881.2734 Q5305.2453,880.8875 5305.5125,880.7687 Q5305.7797,880.65 5306.1062,880.65 Q5306.7297,880.65 5307.175,881.1547 Q5307.65,881.6297 5307.65,882.3125 Q5307.65,882.9656 5306.9969,883.7375 Q5306.0469,884.8656 5304.5328,885.4891 Q5302.5437,886.35 5300.1094,886.35 Q5297.2594,886.35 5294.9734,885.2219 Q5293.1328,884.3312 5291.8266,882.4016 Q5290.55,880.4719 5290.55,878.1859 L5290.55,876.1078 Q5290.55,873.7328 5291.6781,871.6547 Q5292.8359,869.5766 5294.825,868.4781 Q5296.8437,867.35 5299.1,867.35 Q5300.4656,867.35 5301.6531,867.825 Q5302.8406,868.3 5303.85,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="108.3"
+              x="5326.65" y="885.2293">TCCCurve
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5273.45" x2="5438.75" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5273.45" x2="5438.75" y1="921.5" y2="921.5"/><!--MD5=[759d5e102ea24baaf6b7e365a53e2b88]
+class TSData-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="TSData"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="138.7" x="5507.15" y="845.5"/>
+        <ellipse cx="5535.65" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M5539.45,869.25 Q5539.8359,868.3 5540.2812,867.825 Q5540.7266,867.35 5541.2312,867.35 Q5542.1219,867.35 5542.6859,867.8844 Q5543.25,868.4187 5543.25,869.6656 L5543.25,872.6344 Q5543.25,873.8812 5542.7156,874.4156 Q5542.1812,874.95 5541.35,874.95 Q5540.6078,874.95 5540.1328,874.6234 Q5539.6578,874.2969 5539.45,873.4359 Q5539.3609,872.8422 5539.0344,872.5156 Q5538.4406,871.8922 5537.3719,871.5359 Q5536.3031,871.15 5535.2344,871.15 Q5533.8984,871.15 5532.7703,871.6844 Q5531.6719,872.2187 5530.8109,873.4062 Q5529.95,874.5937 5529.95,876.2266 L5529.95,877.9781 Q5529.95,879.9375 5531.5531,881.2437 Q5533.1562,882.55 5536.0062,882.55 Q5537.6984,882.55 5538.8859,882.1641 Q5539.5687,881.9562 5540.3406,881.2734 Q5540.8453,880.8875 5541.1125,880.7687 Q5541.3797,880.65 5541.7062,880.65 Q5542.3297,880.65 5542.775,881.1547 Q5543.25,881.6297 5543.25,882.3125 Q5543.25,882.9656 5542.5969,883.7375 Q5541.6469,884.8656 5540.1328,885.4891 Q5538.1437,886.35 5535.7094,886.35 Q5532.8594,886.35 5530.5734,885.2219 Q5528.7328,884.3312 5527.4266,882.4016 Q5526.15,880.4719 5526.15,878.1859 L5526.15,876.1078 Q5526.15,873.7328 5527.2781,871.6547 Q5528.4359,869.5766 5530.425,868.4781 Q5532.4437,867.35 5534.7,867.35 Q5536.0656,867.35 5537.2531,867.825 Q5538.4406,868.3 5539.45,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="77.9"
+              x="5562.25" y="885.2293">TSData
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5509.05" x2="5643.95" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5509.05" x2="5643.95" y1="921.5" y2="921.5"/><!--MD5=[8b698a7d14736dca6a7335a8f8abe2b8]
+class TShape-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="TShape"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="142.5" x="5712.35" y="845.5"/>
+        <ellipse cx="5740.85" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M5744.65,869.25 Q5745.0359,868.3 5745.4812,867.825 Q5745.9266,867.35 5746.4312,867.35 Q5747.3219,867.35 5747.8859,867.8844 Q5748.45,868.4187 5748.45,869.6656 L5748.45,872.6344 Q5748.45,873.8812 5747.9156,874.4156 Q5747.3812,874.95 5746.55,874.95 Q5745.8078,874.95 5745.3328,874.6234 Q5744.8578,874.2969 5744.65,873.4359 Q5744.5609,872.8422 5744.2344,872.5156 Q5743.6406,871.8922 5742.5719,871.5359 Q5741.5031,871.15 5740.4344,871.15 Q5739.0984,871.15 5737.9703,871.6844 Q5736.8719,872.2187 5736.0109,873.4062 Q5735.15,874.5937 5735.15,876.2266 L5735.15,877.9781 Q5735.15,879.9375 5736.7531,881.2437 Q5738.3562,882.55 5741.2062,882.55 Q5742.8984,882.55 5744.0859,882.1641 Q5744.7687,881.9562 5745.5406,881.2734 Q5746.0453,880.8875 5746.3125,880.7687 Q5746.5797,880.65 5746.9062,880.65 Q5747.5297,880.65 5747.975,881.1547 Q5748.45,881.6297 5748.45,882.3125 Q5748.45,882.9656 5747.7969,883.7375 Q5746.8469,884.8656 5745.3328,885.4891 Q5743.3437,886.35 5740.9094,886.35 Q5738.0594,886.35 5735.7734,885.2219 Q5733.9328,884.3312 5732.6266,882.4016 Q5731.35,880.4719 5731.35,878.1859 L5731.35,876.1078 Q5731.35,873.7328 5732.4781,871.6547 Q5733.6359,869.5766 5735.625,868.4781 Q5737.6437,867.35 5739.9,867.35 Q5741.2656,867.35 5742.4531,867.825 Q5743.6406,868.3 5744.65,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="81.7"
+              x="5767.45" y="885.2293">TShape
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5714.25" x2="5852.95" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5714.25" x2="5852.95" y1="921.5" y2="921.5"/><!--MD5=[23c7724961e749d6f4dec35289f7f619]
+class WireData-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="WireData"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="157.7" x="5921.35" y="845.5"/>
+        <ellipse cx="5949.85" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M5953.65,869.25 Q5954.0359,868.3 5954.4812,867.825 Q5954.9266,867.35 5955.4312,867.35 Q5956.3219,867.35 5956.8859,867.8844 Q5957.45,868.4187 5957.45,869.6656 L5957.45,872.6344 Q5957.45,873.8812 5956.9156,874.4156 Q5956.3812,874.95 5955.55,874.95 Q5954.8078,874.95 5954.3328,874.6234 Q5953.8578,874.2969 5953.65,873.4359 Q5953.5609,872.8422 5953.2344,872.5156 Q5952.6406,871.8922 5951.5719,871.5359 Q5950.5031,871.15 5949.4344,871.15 Q5948.0984,871.15 5946.9703,871.6844 Q5945.8719,872.2187 5945.0109,873.4062 Q5944.15,874.5937 5944.15,876.2266 L5944.15,877.9781 Q5944.15,879.9375 5945.7531,881.2437 Q5947.3562,882.55 5950.2062,882.55 Q5951.8984,882.55 5953.0859,882.1641 Q5953.7687,881.9562 5954.5406,881.2734 Q5955.0453,880.8875 5955.3125,880.7687 Q5955.5797,880.65 5955.9062,880.65 Q5956.5297,880.65 5956.975,881.1547 Q5957.45,881.6297 5957.45,882.3125 Q5957.45,882.9656 5956.7969,883.7375 Q5955.8469,884.8656 5954.3328,885.4891 Q5952.3437,886.35 5949.9094,886.35 Q5947.0594,886.35 5944.7734,885.2219 Q5942.9328,884.3312 5941.6266,882.4016 Q5940.35,880.4719 5940.35,878.1859 L5940.35,876.1078 Q5940.35,873.7328 5941.4781,871.6547 Q5942.6359,869.5766 5944.625,868.4781 Q5946.6437,867.35 5948.9,867.35 Q5950.2656,867.35 5951.4531,867.825 Q5952.6406,868.3 5953.65,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="96.9"
+              x="5976.45" y="885.2293">WireData
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5923.25" x2="6077.15" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="5923.25" x2="6077.15" y1="921.5" y2="921.5"/><!--MD5=[dc84cc01b92474ec3cbc0f3a74613e0e]
+class XFMRCode-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="XFMRCode"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="178.6" x="6146.5" y="845.5"/>
+        <ellipse cx="6175" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M6178.8,869.25 Q6179.1859,868.3 6179.6312,867.825 Q6180.0766,867.35 6180.5812,867.35 Q6181.4719,867.35 6182.0359,867.8844 Q6182.6,868.4187 6182.6,869.6656 L6182.6,872.6344 Q6182.6,873.8812 6182.0656,874.4156 Q6181.5312,874.95 6180.7,874.95 Q6179.9578,874.95 6179.4828,874.6234 Q6179.0078,874.2969 6178.8,873.4359 Q6178.7109,872.8422 6178.3844,872.5156 Q6177.7906,871.8922 6176.7219,871.5359 Q6175.6531,871.15 6174.5844,871.15 Q6173.2484,871.15 6172.1203,871.6844 Q6171.0219,872.2187 6170.1609,873.4062 Q6169.3,874.5937 6169.3,876.2266 L6169.3,877.9781 Q6169.3,879.9375 6170.9031,881.2437 Q6172.5062,882.55 6175.3562,882.55 Q6177.0484,882.55 6178.2359,882.1641 Q6178.9187,881.9562 6179.6906,881.2734 Q6180.1953,880.8875 6180.4625,880.7687 Q6180.7297,880.65 6181.0562,880.65 Q6181.6797,880.65 6182.125,881.1547 Q6182.6,881.6297 6182.6,882.3125 Q6182.6,882.9656 6181.9469,883.7375 Q6180.9969,884.8656 6179.4828,885.4891 Q6177.4937,886.35 6175.0594,886.35 Q6172.2094,886.35 6169.9234,885.2219 Q6168.0828,884.3312 6166.7766,882.4016 Q6165.5,880.4719 6165.5,878.1859 L6165.5,876.1078 Q6165.5,873.7328 6166.6281,871.6547 Q6167.7859,869.5766 6169.775,868.4781 Q6171.7937,867.35 6174.05,867.35 Q6175.4156,867.35 6176.6031,867.825 Q6177.7906,868.3 6178.8,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="117.8"
+              x="6201.6" y="885.2293">XFMRCode
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="6148.4" x2="6323.2" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="6148.4" x2="6323.2" y1="921.5" y2="921.5"/><!--MD5=[d75d807604d6ac8dbcfb4ba4a629fa6e]
+class XYCurve-->
+        <rect fill="#FEFECE" filter="url(#f1bs8e17ic84bl)" height="91.2" id="XYCurve"
+              style="stroke:#A80036;stroke-width:2.8499999999999996;" width="148.2" x="6391.6" y="845.5"/>
+        <ellipse cx="6420.1" cy="875.9" fill="#ADD1B2" rx="20.9" ry="20.9"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <path
+            d="M6423.9,869.25 Q6424.2859,868.3 6424.7312,867.825 Q6425.1766,867.35 6425.6812,867.35 Q6426.5719,867.35 6427.1359,867.8844 Q6427.7,868.4187 6427.7,869.6656 L6427.7,872.6344 Q6427.7,873.8812 6427.1656,874.4156 Q6426.6312,874.95 6425.8,874.95 Q6425.0578,874.95 6424.5828,874.6234 Q6424.1078,874.2969 6423.9,873.4359 Q6423.8109,872.8422 6423.4844,872.5156 Q6422.8906,871.8922 6421.8219,871.5359 Q6420.7531,871.15 6419.6844,871.15 Q6418.3484,871.15 6417.2203,871.6844 Q6416.1219,872.2187 6415.2609,873.4062 Q6414.4,874.5937 6414.4,876.2266 L6414.4,877.9781 Q6414.4,879.9375 6416.0031,881.2437 Q6417.6062,882.55 6420.4562,882.55 Q6422.1484,882.55 6423.3359,882.1641 Q6424.0187,881.9562 6424.7906,881.2734 Q6425.2953,880.8875 6425.5625,880.7687 Q6425.8297,880.65 6426.1562,880.65 Q6426.7797,880.65 6427.225,881.1547 Q6427.7,881.6297 6427.7,882.3125 Q6427.7,882.9656 6427.0469,883.7375 Q6426.0969,884.8656 6424.5828,885.4891 Q6422.5937,886.35 6420.1594,886.35 Q6417.3094,886.35 6415.0234,885.2219 Q6413.1828,884.3312 6411.8766,882.4016 Q6410.6,880.4719 6410.6,878.1859 L6410.6,876.1078 Q6410.6,873.7328 6411.7281,871.6547 Q6412.8859,869.5766 6414.875,868.4781 Q6416.8937,867.35 6419.15,867.35 Q6420.5156,867.35 6421.7031,867.825 Q6422.8906,868.3 6423.9,869.25 Z "
+            fill="#000000"/>
+        <text fill="#000000" font-family="sans-serif" font-size="22.8" lengthAdjust="spacing" textLength="87.4"
+              x="6446.7" y="885.2293">XYCurve
+        </text>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="6393.5" x2="6537.9" y1="906.3" y2="906.3"/>
+        <line style="stroke:#A80036;stroke-width:2.8499999999999996;" x1="6393.5" x2="6537.9" y1="921.5" y2="921.5"/><!--MD5=[de1b05be30f105798972ca72892aee57]
+link Scenario to Circuit-->
+        <path codeLine="35"
+              d="M2704.175,409.032 C2731.231,456 2759.655,507.775 2783.5,556.7 C2805.882,602.623 2827.77,653.239 2847.188,700.834 "
+              fill="none" id="Scenario-Circuit" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="#000000" points="2764.8809,491.4645,2762.3318,473.5752,2752.3035,478.4901,2764.8809,491.4645"
+                 style="stroke:#000000;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="49.4"
+              x="2777.8" y="493.0407">have
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="2697.9666" y="448.5205">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="2827.9267" y="680.3551">1
+        </text><!--MD5=[f7ab94542fc90d7bbf62887858f832f3]
+link Scenario to DSS-->
+        <path codeLine="36"
+              d="M2722.263,379.734 C2733.511,389.975 2745.139,399.722 2756.9,408.5 C2874.928,496.584 2970.878,434.625 3053.3,556.7 C3235.339,826.329 3099.109,961.248 3112.2,1286.3 C3112.808,1301.481 3114.537,1305.49 3112.2,1320.5 C3106.918,1354.377 3094.948,1391.199 3084.612,1418.939 "
+              fill="none" id="Scenario-DSS" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="#000000" points="3160.9278,900.4043,3160.5422,882.3384,3149.9969,886.0153,3160.9278,900.4043"
+                 style="stroke:#000000;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="49.4"
+              x="3174.9" y="901.5407">have
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="2736.602" y="388.9851">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3074.2235" y="1398.5928">1
+        </text><!--MD5=[53ed1178b52189555d752b13083f9c35]
+link Circuit to DSS-->
+        <path codeLine="37"
+              d="M2965.102,1081.613 C2983.836,1156.131 3005.895,1242.448 3026.7,1320.5 C3035.497,1353.522 3045.928,1390.686 3053.908,1418.787 "
+              fill="none" id="Circuit-DSS" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="#000000" points="3038.6196,1312.9207,3039.6423,1294.8796,3028.8427,1297.724,3038.6196,1312.9207"
+                 style="stroke:#000000;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="49.4"
+              x="3053.3" y="1313.8407">have
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="2954.7433" y="1122.3717">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3035.6516" y="1398.4018">1
+        </text><!--MD5=[2a5aaa67de00bf0df4358e807a8a00de]
+reverse link VSource to Circuit-->
+        <path codeLine="38"
+              d="M2385.982,323.646 C2403.899,353.115 2427.269,385.149 2454.8,408.5 C2577.046,512.126 2672.369,441.237 2783.5,556.7 C2821.956,596.638 2849.962,649.002 2870.159,700.321 "
+              fill="none" id="VSource-backto-Circuit" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="2374.297,329.992,2367.248,290.358,2397.477,316.958,2374.297,329.992"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/><!--MD5=[71294b118782eb20cbc711d56d0fa4c6]
+reverse link ControlElement to CapControl-->
+        <path codeLine="71"
+              d="M1453.956,259.844 C1652.297,285.494 2001.156,357.599 2217.3,556.7 C2229.099,567.568 2239.986,579.576 2250.018,592.382 "
+              fill="none" id="ControlElement-backto-CapControl"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1451.923,272.992,1415.804,255.227,1455.115,246.582,1451.923,272.992"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1431.0578" y="250.0422">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="2225.6001" y="547.3972">*
+        </text><!--MD5=[be6f97b95f2cd95ac86e531e1743e5a5]
+reverse link ControlElement to ESPVLControl-->
+        <path codeLine="72"
+              d="M1454.108,267.938 C1740.343,312.189 2348.229,419.843 2506.1,556.7 C2594.013,632.909 2627.396,773.889 2639.081,845.31 "
+              fill="none" id="ControlElement-backto-ESPVLControl"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1451.486,280.991,1415.937,262.124,1455.495,254.695,1451.486,280.991"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1430.4629" y="291.9055">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="2626.8983" y="825.0076">*
+        </text><!--MD5=[46068b6cbf0444dbab4e26c0f77978b8]
+reverse link ControlElement to ExpControl-->
+        <path codeLine="73"
+              d="M1152.35,247.893 C927.751,259.008 506.673,313.481 267.9,556.7 C188.385,637.697 161.291,775.276 152.361,845.348 "
+              fill="none" id="ControlElement-backto-ExpControl"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1152.084,234.593,1190.597,246.316,1153.167,261.155,1152.084,234.593"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1162.7387" y="240.0659">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="142.7101" y="825.0554">*
+        </text><!--MD5=[80efb1e9446b1a7b8eaab293d9ed5272]
+reverse link ControlElement to Fuse-->
+        <path codeLine="74"
+              d="M1152.768,259.35 C961.97,284.316 635.74,355.49 450.3,556.7 C375.25,638.134 361.038,775.504 358.929,845.443 "
+              fill="none" id="ControlElement-backto-Fuse" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1151.438,246.107,1190.768,254.752,1154.63,272.517,1151.438,246.107"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1162.9305" y="283.635">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="348.168" y="825.1747">*
+        </text><!--MD5=[16fa2f6c1d39b97100e34fcb98c2a496]
+reverse link ControlElement to GenDispatcher-->
+        <path codeLine="75"
+              d="M1155.181,295.602 C1028.945,344.451 850.212,430.255 735.3,556.7 C657.59,642.219 617.975,776.568 601.825,845.386 "
+              fill="none" id="ControlElement-backto-GenDispatcher"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1150.678,283.081,1190.939,282.207,1160.007,307.99,1150.678,283.081"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1163.1223" y="314.4361">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="593.4205" y="825.1031">*
+        </text><!--MD5=[0a30e0fb66525a40dbaedb29d6769aed]
+reverse link ControlElement to InvControl-->
+        <path codeLine="76"
+              d="M1161.033,350.645 C1094.457,405.669 1018.685,478.021 967.1,556.7 C906.11,649.743 873.259,778.544 859.37,845.234 "
+              fill="none" id="ControlElement-backto-InvControl"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1152.92,340.1,1190.863,326.61,1169.602,360.81,1152.92,340.1"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1163.0371" y="364.2507">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="850.7464" y="824.9121">*
+        </text><!--MD5=[d00373fc5d36096c8023bca3833b621a]
+reverse link ControlElement to RegCloser-->
+        <path codeLine="77" d="M1263.139,366.662 C1214.727,511.651 1135.972,747.612 1103.444,845.006 " fill="none"
+              id="ControlElement-backto-RegCloser" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1250.675,361.969,1275.337,330.125,1275.907,370.386,1250.675,361.969"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1257.3724" y="369.4688">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="1096.505" y="824.6257">*
+        </text><!--MD5=[362b68b8bac241d99ef7801350d4405f]
+reverse link ControlElement to Relay-->
+        <path codeLine="78" d="M1303.4,368.505 C1303.4,513.665 1303.4,748.03 1303.4,845.006 " fill="none"
+              id="ControlElement-backto-Relay" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1290.1,368.125,1303.4,330.125,1316.7,368.125,1290.1,368.125"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1289.2064" y="369.4688">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="1292.6828" y="824.6257">*
+        </text><!--MD5=[346b6157a1c333e6ac571dec7d1f2631]
+reverse link ControlElement to StorageController-->
+        <path codeLine="79" d="M1349.722,365.731 C1405.791,510.644 1497.428,747.403 1535.2,845.006 " fill="none"
+              id="ControlElement-backto-StorageController" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1337.258,370.367,1335.947,330.125,1362.053,360.772,1337.258,370.367"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1326.1269" y="369.4688">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="1520.1009" y="824.6257">*
+        </text><!--MD5=[43ef458fea492ae9d890ede3c0d38315]
+reverse link ControlElement to SwtControl-->
+        <path codeLine="80"
+              d="M1448.75,328.529 C1534.44,383.553 1639.225,462.897 1708.1,556.7 C1774.486,647.121 1808.021,777.594 1821.796,845.063 "
+              fill="none" id="ControlElement-backto-SwtControl"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1441.549,339.72,1416.374,308.294,1455.647,317.148,1441.549,339.72"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1430.9532" y="343.7025">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="1809.0534" y="824.6973">*
+        </text><!--MD5=[44d91dd8f48cba36bcfec23b63e7e6c9]
+reverse link ControlElement to UPFCControl-->
+        <path codeLine="81"
+              d="M1452.873,283.442 C1597.957,326.819 1815.564,411.616 1951.3,556.7 C2029.675,640.471 2064.16,776.188 2077.308,845.481 "
+              fill="none" id="ControlElement-backto-UPFCControl"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="1448.674,296.077,1415.823,272.802,1456.027,270.522,1448.674,296.077"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="1430.335" y="303.8849">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="2064.7991" y="825.2224">*
+        </text><!--MD5=[fd35d8ce9d72b4b70cc74c1caefdaa89]
+reverse link GeneralElement to CNData-->
+        <path codeLine="86"
+              d="M3017.561,309.947 C3078.494,348.859 3151.663,403.047 3203.4,465.5 C3300.243,582.445 3345.881,762.299 3362.639,844.93 "
+              fill="none" id="GeneralElement-backto-CNData" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3010.531,321.233,2985.185,289.959,3024.515,298.604,3010.531,321.233"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="2989.7848" y="330.5521">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="3349.8818" y="824.5302">*
+        </text><!--MD5=[4cad57b8a3dcdd3000df41a8fa0c6788]
+reverse link GeneralElement to GrowthShape-->
+        <path codeLine="87"
+              d="M3057.214,295.678 C3184.571,344.166 3363.247,429.419 3477,556.7 C3553.38,642.162 3589.651,776.549 3604.015,845.367 "
+              fill="none" id="GeneralElement-backto-GrowthShape"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3052.179,307.99,3021.114,282.378,3061.375,283.024,3052.179,307.99"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3036.0637" y="314.571">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="3591.2773" y="825.0792">*
+        </text><!--MD5=[a672308fd1e569f330116cd8e7646333]
+reverse link GeneralElement to LineCode-->
+        <path codeLine="88"
+              d="M3059.114,263.036 C3246.169,291.612 3559.84,366.301 3746.8,556.7 C3826.049,637.393 3851.281,775.105 3859.185,845.272 "
+              fill="none" id="GeneralElement-backto-LineCode" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3056.929,276.165,3021.209,257.621,3060.71,249.831,3056.929,276.165"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3036.1703" y="252.6917">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="3847.5671" y="824.9599">*
+        </text><!--MD5=[48b122655dcff80e2cc3b76136c97d60]
+reverse link GeneralElement to LineGeometry-->
+        <path codeLine="89"
+              d="M3059.608,248.311 C3289.546,260.015 3722.176,315.21 3978.6,556.7 C4062.903,636.082 4096.856,775.01 4109.168,845.5 "
+              fill="none" id="GeneralElement-backto-LineGeometry"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3058.544,261.592,3021.133,246.677,3059.665,235.011,3058.544,261.592"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3036.085" y="274.5189">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="4096.8539" y="825.2463">*
+        </text><!--MD5=[df9b16f06546cbf0cf32d3320baf2d69]
+reverse link GeneralElement to LineSpacing-->
+        <path codeLine="90"
+              d="M3058.829,262.371 C3374.001,298.813 4078.369,396.378 4252.2,556.7 C4336.655,634.581 4366.542,774.174 4376.612,845.158 "
+              fill="none" id="GeneralElement-backto-LineSpacing"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3057.309,275.595,3021.057,258.096,3060.311,249.166,3057.309,275.595"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3035.7669" y="253.101">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="4364.6679" y="824.8167">*
+        </text><!--MD5=[d3170ed5d0552f0a0c1034310d846cbd]
+reverse link GeneralElement to LoadShape-->
+        <path codeLine="91"
+              d="M3059.475,255.74 C3419.202,281.371 4298.769,362.824 4510.6,556.7 C4595.017,633.973 4622.947,773.832 4631.915,845.025 "
+              fill="none" id="GeneralElement-backto-LoadShape" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3058.259,268.983,3021.266,253.08,3060.102,242.44,3058.259,268.983"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3036.2342" y="281.7023">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="4620.151" y="824.6496">*
+        </text><!--MD5=[40360e7c4aedcc7a11de2bb5b94c1757]
+reverse link GeneralElement to PriceShape-->
+        <path codeLine="92"
+              d="M3059.228,250.8 C3458.608,266.304 4513.222,328.415 4761.4,556.7 C4845.475,634.03 4872.55,773.87 4881.081,845.025 "
+              fill="none" id="GeneralElement-backto-PriceShape"
+              style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3058.487,264.081,3021.019,249.394,3059.475,237.5,3058.487,264.081"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3035.9571" y="243.462">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="4869.3852" y="824.6496">*
+        </text><!--MD5=[654d592644927470db190452759c9e37]
+reverse link GeneralElement to Spectrum-->
+        <path codeLine="93"
+              d="M3059.19,256.405 C3371.208,279.224 4099.022,341.924 4698.7,465.5 C4840.022,494.627 4905.971,457.007 5010.3,556.7 C5092.152,634.904 5115.237,774.345 5121.754,845.234 "
+              fill="none" id="GeneralElement-backto-Spectrum" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3057.993,269.648,3021.038,253.65,3059.893,243.124,3057.993,269.648"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3035.743" y="247.5157">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="5110.3844" y="824.9121">*
+        </text><!--MD5=[c60e76c401547a1114cbf8f1baafc913]
+reverse link GeneralElement to TCCCurve-->
+        <path codeLine="94"
+              d="M3059.57,256.785 C3391.177,281.295 4195.124,348.441 4860.2,465.5 C5030.44,495.463 5109.898,440.971 5238.3,556.7 C5322.907,632.966 5346.752,773.927 5353.478,845.329 "
+              fill="none" id="GeneralElement-backto-TCCCurve" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3058.449,270.047,3021.513,254.011,3060.387,243.523,3058.449,270.047"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3036.3398" y="286.1592">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="5342.0889" y="825.0315">*
+        </text><!--MD5=[b5c6fd64d64b427f7d7482982a917ef0]
+reverse link GeneralElement to TSData-->
+        <path codeLine="95"
+              d="M3059.589,255.854 C3413.844,279.642 4311.423,347.32 5054,465.5 C5242.594,495.52 5333.224,427.557 5473.9,556.7 C5556.683,632.681 5573.327,773.775 5576.253,845.253 "
+              fill="none" id="GeneralElement-backto-TSData" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3058.62,269.116,3021.589,253.327,3060.387,242.573,3058.62,269.116"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3035.8269" y="247.9099">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="5565.4725" y="824.936">*
+        </text><!--MD5=[59e66dc1f57099a457c7ac3d8f1e8b1d]
+reverse link GeneralElement to TShape-->
+        <path codeLine="96"
+              d="M3059.665,253.631 C3438.259,273.695 4441.402,335.711 5268.7,465.5 C5453.285,494.456 5541.426,430.369 5679.1,556.7 C5762.016,632.795 5779.61,773.832 5783.03,845.291 "
+              fill="none" id="GeneralElement-backto-TShape" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3058.601,266.893,3021.342,251.636,3059.969,240.331,3058.601,266.893"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3036.125" y="244.9856">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="5772.1667" y="824.9837">*
+        </text><!--MD5=[85b120b1c00d31e50d74632c583fdfac]
+reverse link GeneralElement to WireData-->
+        <path codeLine="97"
+              d="M3059.475,251.959 C3460.641,268.869 4568.227,325.565 5479.6,465.5 C5663.463,493.734 5749.799,432.288 5888.1,556.7 C5972.327,632.491 5993.341,773.661 5998.528,845.215 "
+              fill="none" id="GeneralElement-backto-WireData" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3058.639,265.24,3021.228,250.382,3059.741,238.659,3058.639,265.24"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3036.1916" y="278.6755">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="5987.3824" y="824.8883">*
+        </text><!--MD5=[037154de92315898c349cc7e5b339bc3]
+reverse link GeneralElement to XFMRCode-->
+        <path codeLine="98"
+              d="M3059.57,250.933 C3482.548,265.886 4694.387,319.257 5690.5,465.5 C5880.272,493.354 5967.349,431.091 6112.3,556.7 C6198.864,631.712 6224.837,773.243 6232.57,845.044 "
+              fill="none" id="GeneralElement-backto-XFMRCode" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3058.658,264.214,3021.133,249.603,3059.57,237.633,3058.658,264.214"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3035.8624" y="242.4316">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="6221.0251" y="824.6735">*
+        </text><!--MD5=[9e6ce565307374af0333190c75c08bb1]
+reverse link GeneralElement to XYCurve-->
+        <path codeLine="99"
+              d="M3059.912,250.534 C3504.398,264.879 4822.067,317.718 5905.2,465.5 C6109.165,493.335 6205.856,419.482 6359.3,556.7 C6443.337,631.845 6461.425,773.319 6465.035,845.063 "
+              fill="none" id="GeneralElement-backto-XYCurve" style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <polygon fill="none" points="3059.038,263.815,3021.475,249.318,3059.874,237.234,3059.038,263.815"
+                 style="stroke:#A80036;stroke-width:1.8999999999999997;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="13.3"
+              x="3036.4687" y="243.3768">1
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="24.7" lengthAdjust="spacing" textLength="9.5"
+              x="6454.1474" y="824.6973">*
+        </text><!--MD5=[123f7f6de85f1dbe11f5869d9ca6391c]
+@startuml
+'https://plantuml.com/class-diagram
+package "py-dss-interface"{
+    class DSS {
+    }
+}
+
+package "py-dss-tools"{
+class Scenario {
+    -id: int
+    -created: boolean
+    -name: String
+    -circuit: Circuit
+    -frequency_base: int
+    -dss: DSS
+    -logger
+    -dss_file
+
+    -void print_header()
+}
+class Circuit {
+    -id: int
+    -created: boolean
+    -name: String
+    -basekv: basekv
+    -pu: float
+    -phases: int
+    -bus1: String
+    -angle: float
+    -mvasc3: float
+    -mvasc1: float
+
+    -df_lines()
+}
+
+Scenario "1" - - "1" Circuit: have >
+Scenario "1" - - "1" DSS: have >
+Circuit "1" - - "1" DSS: have >
+VSource <|- - Circuit
+
+class ControlElement{
+    -basefreq: float
+    -enabled: boolean
+    -like: String
+}
+
+class CapControl{
+    -capacitor: String
+    -ctphase: String
+    -ctratio: String
+    -deadtime: String
+    -delay: String
+    -delayoff: String
+    -element: String
+    -eventlog: String
+    -offsetting: String
+    -onsetting: String
+    -pctminkvar: String
+    -ptphase: String
+    -ptratio: String
+    -reset: String
+    -terminal: String
+    -type: String
+    -userdata: String
+    -usermodel: String
+    -vbus: String
+    -vmax: float
+    -vmin: float
+    -voltoverride: String
+}
+
+ControlElement "1" <|- - "*" CapControl
+ControlElement "1" <|- - "*" ESPVLControl
+ControlElement "1" <|- - "*" ExpControl
+ControlElement "1" <|- - "*" Fuse
+ControlElement "1" <|- - "*" GenDispatcher
+ControlElement "1" <|- - "*" InvControl
+ControlElement "1" <|- - "*" RegCloser
+ControlElement "1" <|- - "*" Relay
+ControlElement "1" <|- - "*" StorageController
+ControlElement "1" <|- - "*" SwtControl
+ControlElement "1" <|- - "*" UPFCControl
+
+class GeneralElement{}
+}
+
+GeneralElement "1" <|- - "*" CNData
+GeneralElement "1" <|- - "*" GrowthShape
+GeneralElement "1" <|- - "*" LineCode
+GeneralElement "1" <|- - "*" LineGeometry
+GeneralElement "1" <|- - "*" LineSpacing
+GeneralElement "1" <|- - "*" LoadShape
+GeneralElement "1" <|- - "*" PriceShape
+GeneralElement "1" <|- - "*" Spectrum
+GeneralElement "1" <|- - "*" TCCCurve
+GeneralElement "1" <|- - "*" TSData
+GeneralElement "1" <|- - "*" TShape
+GeneralElement "1" <|- - "*" WireData
+GeneralElement "1" <|- - "*" XFMRCode
+GeneralElement "1" <|- - "*" XYCurve
+
+
+@enduml
+
+@startuml
+package "py-dss-interface"{
+    class DSS {
+    }
+}
+
+package "py-dss-tools"{
+class Scenario {
+    -id: int
+    -created: boolean
+    -name: String
+    -circuit: Circuit
+    -frequency_base: int
+    -dss: DSS
+    -logger
+    -dss_file
+
+    -void print_header()
+}
+class Circuit {
+    -id: int
+    -created: boolean
+    -name: String
+    -basekv: basekv
+    -pu: float
+    -phases: int
+    -bus1: String
+    -angle: float
+    -mvasc3: float
+    -mvasc1: float
+
+    -df_lines()
+}
+
+Scenario "1" - - "1" Circuit: have >
+Scenario "1" - - "1" DSS: have >
+Circuit "1" - - "1" DSS: have >
+VSource <|- - Circuit
+
+class ControlElement{
+    -basefreq: float
+    -enabled: boolean
+    -like: String
+}
+
+class CapControl{
+    -capacitor: String
+    -ctphase: String
+    -ctratio: String
+    -deadtime: String
+    -delay: String
+    -delayoff: String
+    -element: String
+    -eventlog: String
+    -offsetting: String
+    -onsetting: String
+    -pctminkvar: String
+    -ptphase: String
+    -ptratio: String
+    -reset: String
+    -terminal: String
+    -type: String
+    -userdata: String
+    -usermodel: String
+    -vbus: String
+    -vmax: float
+    -vmin: float
+    -voltoverride: String
+}
+
+ControlElement "1" <|- - "*" CapControl
+ControlElement "1" <|- - "*" ESPVLControl
+ControlElement "1" <|- - "*" ExpControl
+ControlElement "1" <|- - "*" Fuse
+ControlElement "1" <|- - "*" GenDispatcher
+ControlElement "1" <|- - "*" InvControl
+ControlElement "1" <|- - "*" RegCloser
+ControlElement "1" <|- - "*" Relay
+ControlElement "1" <|- - "*" StorageController
+ControlElement "1" <|- - "*" SwtControl
+ControlElement "1" <|- - "*" UPFCControl
+
+class GeneralElement{}
+}
+
+GeneralElement "1" <|- - "*" CNData
+GeneralElement "1" <|- - "*" GrowthShape
+GeneralElement "1" <|- - "*" LineCode
+GeneralElement "1" <|- - "*" LineGeometry
+GeneralElement "1" <|- - "*" LineSpacing
+GeneralElement "1" <|- - "*" LoadShape
+GeneralElement "1" <|- - "*" PriceShape
+GeneralElement "1" <|- - "*" Spectrum
+GeneralElement "1" <|- - "*" TCCCurve
+GeneralElement "1" <|- - "*" TSData
+GeneralElement "1" <|- - "*" TShape
+GeneralElement "1" <|- - "*" WireData
+GeneralElement "1" <|- - "*" XFMRCode
+GeneralElement "1" <|- - "*" XYCurve
+
+
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 09:40:07 BRT 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: Cp1252
+Language: pt
+Country: BR
+-->
+    </g>
+</svg>
