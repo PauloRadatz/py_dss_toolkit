@@ -5,6 +5,7 @@
 """
 from .OtherElement import Other
 
+
 class GICSource(Other):
     name = "GICSource"
     name_plural = "GICSources"
