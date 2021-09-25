@@ -6,4 +6,5 @@
 from .Fault import *
 from .GICSource import *
 from .ISource import *
+from .Other import *
 from .VSource import *
