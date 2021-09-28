@@ -72,9 +72,7 @@ docs/_build
 
 # Mypy Cache
 .mypy_cache/
-<<<<<<< HEAD
 /src/py_dss_tools/tutorials/simple/.ipynb_checkpoints/
-=======
 
 
 src/teste.txt
@@ -82,4 +80,3 @@ src/main_aux.py
 src/main_eniocc.py
 src/py_dss_tools/diagrams/ClassDiagram.puml
 src/py_dss_tools/diagrams/MindMap.puml
->>>>>>> 18958f542ac8b737198948d405f2838b44ae4753
