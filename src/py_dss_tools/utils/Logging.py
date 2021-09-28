@@ -17,7 +17,11 @@ class Logging:
         ch.setLevel(logging.DEBUG)
 
         # create formatter
+<<<<<<< HEAD
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+=======
+        formatter = logging.Formatter('%(asctime)s - %(_name)s - %(levelname)s - %(message)s')
+>>>>>>> 18958f542ac8b737198948d405f2838b44ae4753
 
         # add formatter to ch
         ch.setFormatter(formatter)

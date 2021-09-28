@@ -30,8 +30,8 @@ setup(
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
-    author='Paulo Radatz',
-    author_email='paulo.radatz@gmail.com',
+    author='Paulo Radatz, Ênio Viana, Rodolfo Londero',
+    author_email='paulo.radatz@gmail.com, eniocc@gmail.com, rodolfopl@gmail.com',
     url='https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-tools',
     packages=find_packages('src'),
     package_dir={'': 'src'},
