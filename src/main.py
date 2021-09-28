@@ -16,27 +16,27 @@ import pandas as pd
 scenario = Scenario()
 
 # PD Elements
-print(scenario.circuit.auto_transformers)
-print(scenario.circuit.capacitors)
-print(scenario.circuit.gictransformers)
-print(scenario.circuit.lines)
-print(scenario.circuit.reactors)
-print(scenario.circuit.transformers)
+# print(scenario.circuit.auto_transformers)
+# print(scenario.circuit.capacitors)
+# print(scenario.circuit.gictransformers)
+# print(scenario.circuit.lines)
+# print(scenario.circuit.reactors)
+# print(scenario.circuit.transformers)
 
 # PC Elements
-print(scenario.circuit.generators)
-print(scenario.circuit.generic5)
-print(scenario.circuit.giclines)
-print(scenario.circuit.indmach012)
-print(scenario.circuit.loads)
-print(scenario.circuit.pvsystems)
-print(scenario.circuit.storages)
-print(scenario.circuit.upfcs)
+# print(scenario.circuit.generators)
+# print(scenario.circuit.generic5)
+# print(scenario.circuit.giclines)
+# print(scenario.circuit.indmach012)
+# print(scenario.circuit.loads)
+# print(scenario.circuit.pvsystems)
+# print(scenario.circuit.storages)
+# print(scenario.circuit.upfcs)
 
-print(scenario.circuit.vccs)
-scenario.circuit.vccs.loc[0] = ['60', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
-print()
-print(scenario.circuit.vccs.loc[0]['basefreq'])
+# print(scenario.circuit.vccs)
+# scenario.circuit.vccs.loc[0] = ['60', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+# print()
+# print(scenario.circuit.vccs.loc[0]['basefreq'])
 
 
 
