@@ -72,3 +72,4 @@ docs/_build
 
 # Mypy Cache
 .mypy_cache/
+/src/py_dss_tools/tutorials/simple/.ipynb_checkpoints/
