@@ -74,9 +74,8 @@ docs/_build
 .mypy_cache/
 /src/py_dss_tools/tutorials/simple/.ipynb_checkpoints/
 
+*.puml
 
 src/teste.txt
 src/main_aux.py
 src/main_eniocc.py
-src/py_dss_tools/diagrams/ClassDiagram.puml
-src/py_dss_tools/diagrams/MindMap.puml
