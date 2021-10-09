@@ -3,20 +3,16 @@
  Created by Ênio Viana at 02/09/2021 at 00:42:09
  Project: py_dss_tools [set, 2021]
 """
-from .Circuit import Circuit
-from ..utils.Logging import Logging
-from ..utils.Utils import Utils
-
 from py_dss_interface import DSS
 
-import pandas as pd
+from .secondary.Circuit import Circuit
 
 
 class Scenario:
     id = 0
     log_scene = 'Scenario_Log_' + str(id)
 
-    def __init__(self, **kwargs):
+    def __init__(self):
         """
         :param kwargs:
         """
@@ -27,13 +23,6 @@ class Scenario:
             self.dss = DSS.DSSDLL()
             self.circuit = Circuit(self.dss)
             Scenario.id = Scenario.id + 1
-
-            self.logger = Logging().logger
-
-            if 'file' in kwargs:
-                self.dss_file = kwargs.get('file')
-            if 'logging' in kwargs:
-                self.logger.disabled = not kwargs.get('logging')
 
     # def end_scenario(self):
     #     Scenario.id = 0
@@ -138,5 +127,6 @@ class Scenario:
     # def about(self):
     #     return self.dss.text("about")
     #
-    def line_exist(self):
-        pass
+    @staticmethod
+    def line_exist():
+        return False

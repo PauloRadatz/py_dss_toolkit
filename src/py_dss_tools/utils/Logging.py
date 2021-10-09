@@ -3,7 +3,6 @@
  Created by Ênio Viana at 04/09/2021 at 03:12:33
  Project: py_dss_tools [set, 2021]
 """
-import logging
 
 
 class Logging:
@@ -30,11 +29,9 @@ class Logging:
 #         # add ch to logger
 #         self.logger.addHandler(ch)
 
-        # samples
-        # self.logger.debug('debug message')
-        # self.logger.info('info message')
-        # self.logger.warning('warn message')
-        # self.logger.error('error message')
-        # self.logger.critical('critical message')
-
-
+# samples
+# self.logger.debug('debug message')
+# self.logger.info('info message')
+# self.logger.warning('warn message')
+# self.logger.error('error message')
+# self.logger.critical('critical message')
