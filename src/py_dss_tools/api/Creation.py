@@ -4,8 +4,7 @@
  Project: py-dss-tools [out, 2021]
 """
 from py_dss_tools.api.Converter import conv_circuit, conv_line
-from py_dss_tools.core.Scenario import Scenario
-from py_dss_tools.core.secondary import Circuit
+from py_dss_tools.core.secondary import Scenario, Circuit
 from py_dss_tools.utils import Utils
 
 
