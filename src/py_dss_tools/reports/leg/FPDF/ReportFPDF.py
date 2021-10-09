@@ -49,7 +49,7 @@ class Report(FPDF):
         self.add_page()
 
         self.image("../../resources/header_cropped.jpg", 0, 0, 210)
-        self.cell(0,10, "TITLE", 0, 0, 210)
+        self.cell(0, 10, "TITLE", 0, 0, 210)
 
     def sample(self):
         for i in range(1, 41):

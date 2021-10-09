@@ -7,7 +7,6 @@ import pandas as pd
 
 
 class Bus:
-
     name = "Bus"
     name_plural = "Buses"
     columns = []
@@ -16,23 +15,23 @@ class Bus:
         self.dss = dss
 
     def get_buses(self):
-        buses = dict()
-        buses["names"] = self.dss.circuit_all_bus_names()
-        buses["base_kv"] = []
-        buses["num_nodes"] = []
-        buses["coordinates"] = []
-        buses["distance"] = []
-        buses["failure_rate_downstream"] = []
-        buses["bus_interruptions"] = []
-        buses["bus_interruptions_avg_h"] = []
-        buses["bus_interruptions_total_customers"] = []
-        buses["bus_outage_customer_accum_duration"] = []
-        buses["bus_line_total_miles"] = []
-        buses["latitude"] = []
-        buses["longitude"] = []
+        buses = {
+            'names': self.dss.circuit_all_bus_names(),
+            'base_kv': [],
+            'num_nodes': [],
+            'coordinates': [],
+            'distance': [],
+            'failure_rate_downstream': [],
+            'bus_interruptions': [],
+            'bus_interruptions_avg_h': [],
+            'bus_interruptions_total_customers': [],
+            'bus_outage_customer_accum_duration': [],
+            'bus_line_total_miles': [],
+            'latitude': [],
+            'longitude': [],
+        }
 
-        aux = 0
-        for __ in buses["names"]:
+        for aux, __ in enumerate(buses["names"]):
             self.dss.circuit_set_active_bus_i(aux)
             buses["base_kv"].append(self.dss.bus_kv_base())
             buses["num_nodes"].append(self.dss.bus_nodes())
@@ -46,10 +45,7 @@ class Bus:
             buses["bus_line_total_miles"].append(self.dss.bus_line_total_miles())
             buses["latitude"].append(self.dss.bus_read_latitude())
             buses["longitude"].append(self.dss.bus_read_longitude())
-            aux = aux + 1
-
-        df = pd.DataFrame.from_dict(buses)
-        return df
+        return pd.DataFrame.from_dict(buses)
 
     def get_all_one_phase_buses(self):
         buses = self.get_buses()

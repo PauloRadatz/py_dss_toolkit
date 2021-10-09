@@ -79,3 +79,6 @@ docs/_build
 src/teste.txt
 src/main_aux.py
 src/main_eniocc.py
+/classes.dot
+/packages.dot
+/src/main_testes_pdes.py
