@@ -1,19 +1,20 @@
 # -*- encoding: utf-8 -*-
 """
- Created by Ênio Viana at 22/09/2021 at 23:04:23
+ Created by Ênio Viana at 04/09/2021 at 20:37:43
  Project: py_dss_tools [set, 2021]
 """
-from py_dss_tools.core.model.pdelement.PDElement import PDElement
+from py_dss_tools.model.pdelement import PDElement
 
 
-class AutoTrans(PDElement):
-    name = "AutoTrans"
-    name_plural = "AutoTrans"
-    columns = ['%imag', '%loadloss', '%noloadloss', '%r', '%rs', 'bank', 'basefreq', 'bus', 'buses', 'conn', 'conns',
-               'core', 'emergamps', 'emerghkva', 'enabled', 'faultrate', 'flrise', 'hsrise', 'kv', 'kva', 'kvas', 'kvs',
-               'leadlag', 'like', 'm', 'maxtap', 'mintap', 'n', 'normamps', 'normhkva', 'numtaps', 'pctperm', 'phases',
-               'ppm_antifloat', 'rdcohms', 'repair', 'sub', 'subname', 'tap', 'taps', 'thermal', 'wdg', 'wdgcurrents',
-               'windings', 'xfmrcode', 'xht', 'xhx', 'xrconst', 'xscarray', 'xxt']
+class Transformer(PDElement):
+    name = "Transformer"
+    name_plural = "Transformer"
+    columns = ['%imag', '%loadloss', '%noloadloss', '%r', '%rs', 'bank', 'basefreq', 'bus', 'buses', 'conn',
+               'conns', 'core', 'emergamps', 'emerghkva', 'enabled', 'faultrate', 'flrise', 'hsrise', 'kv', 'kva',
+               'kvas', 'kvs', 'leadlag', 'like', 'm', 'maxtap', 'mintap', 'n', 'normamps', 'normhkva', 'numtaps',
+               'pctperm', 'phases', 'ppm_antifloat', 'ratings', 'rdcohms', 'repair', 'rneut', 'seasons', 'sub',
+               'subname', 'tap', 'taps', 'thermal', 'wdg', 'wdgcurrents', 'windings', 'x12', 'x13', 'x23',
+               'xfmrcode', 'xhl', 'xht', 'xlt', 'xneut', 'xrconst', 'xscarray']
 
     def __init__(self):
         super().__init__()
@@ -43,7 +44,10 @@ class AutoTrans(PDElement):
         self.__normhkva = None
         self.__numtaps = None
         self.__ppm_antifloat = None
+        self.__ratings = None
         self.__rdcohms = None
+        self.__rneut = None
+        self.__seasons = None
         self.__sub = None
         self.__subname = None
         self.__tap = None
@@ -52,12 +56,16 @@ class AutoTrans(PDElement):
         self.__wdg = None
         self.__wdgcurrents = None
         self.__windings = None
+        self.__x12 = None
+        self.__x13 = None
+        self.__x23 = None
         self.__xfmrcode = None
+        self.__xhl = None
         self.__xht = None
-        self.__xhx = None
+        self.__xlt = None
+        self.__xneut = None
         self.__xrconst = None
         self.__xscarray = None
-        self.__xxt = None
 
     @property
     def imag(self):
@@ -268,12 +276,36 @@ class AutoTrans(PDElement):
         self.__ppm_antifloat = value
 
     @property
+    def ratings(self):
+        return self.__ratings
+
+    @ratings.setter
+    def ratings(self, value):
+        self.__ratings = value
+
+    @property
     def rdcohms(self):
         return self.__rdcohms
 
     @rdcohms.setter
     def rdcohms(self, value):
         self.__rdcohms = value
+
+    @property
+    def rneut(self):
+        return self.__rneut
+
+    @rneut.setter
+    def rneut(self, value):
+        self.__rneut = value
+
+    @property
+    def seasons(self):
+        return self.__seasons
+
+    @seasons.setter
+    def seasons(self, value):
+        self.__seasons = value
 
     @property
     def sub(self):
@@ -340,12 +372,44 @@ class AutoTrans(PDElement):
         self.__windings = value
 
     @property
+    def x12(self):
+        return self.__x12
+
+    @x12.setter
+    def x12(self, value):
+        self.__x12 = value
+
+    @property
+    def x13(self):
+        return self.__x13
+
+    @x13.setter
+    def x13(self, value):
+        self.__x13 = value
+
+    @property
+    def x23(self):
+        return self.__x23
+
+    @x23.setter
+    def x23(self, value):
+        self.__x23 = value
+
+    @property
     def xfmrcode(self):
         return self.__xfmrcode
 
     @xfmrcode.setter
     def xfmrcode(self, value):
         self.__xfmrcode = value
+
+    @property
+    def xhl(self):
+        return self.__xhl
+
+    @xhl.setter
+    def xhl(self, value):
+        self.__xhl = value
 
     @property
     def xht(self):
@@ -356,12 +420,20 @@ class AutoTrans(PDElement):
         self.__xht = value
 
     @property
-    def xhx(self):
-        return self.__xhx
+    def xlt(self):
+        return self.__xlt
 
-    @xhx.setter
-    def xhx(self, value):
-        self.__xhx = value
+    @xlt.setter
+    def xlt(self, value):
+        self.__xlt = value
+
+    @property
+    def xneut(self):
+        return self.__xneut
+
+    @xneut.setter
+    def xneut(self, value):
+        self.__xneut = value
 
     @property
     def xrconst(self):
@@ -379,10 +451,22 @@ class AutoTrans(PDElement):
     def xscarray(self, value):
         self.__xscarray = value
 
-    @property
-    def xxt(self):
-        return self.__xxt
-
-    @xxt.setter
-    def xxt(self, value):
-        self.__xxt = value
+    # @property
+    # def name_(self):
+    #     return self.name
+    #
+    # @name_.setter
+    # def name_(self, value: str):
+    #     self.name_ = str(value)
+    #
+    # @staticmethod
+    # def new(self, **kwargs):
+    #     value = str
+    #     if '_name' in kwargs:
+    #         self.name_ = kwargs.get('_name')
+    #     # circuit.dss.text(
+    #     #     f"New Transformer.{self.name_} phases=3 windings=2 buses=(684, 680) Conns=(Wye, Wye) kVs=(4.16,4.16) "
+    #     #     "kVAs=(5000, 5000) %loadloss=2 xhl=4")
+    #
+    # def __str__(self):
+    #     print(f"{str(self.id)} - {self.name}")

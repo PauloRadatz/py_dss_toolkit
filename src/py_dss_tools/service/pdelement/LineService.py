@@ -3,7 +3,7 @@
  Created by Ênio Viana at 08/10/2021 at 20:17:55
  Project: py-dss-tools [out, 2021]
 """
-from py_dss_tools.core.model.pdelement.Line import Line
+from py_dss_tools.model.pdelement import Line
 
 
 class LineService:

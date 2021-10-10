@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List
 
-from py_dss_tools.core.model.pdelement.PDElementError import PDElementError
+from py_dss_tools.model.pdelement import PDElementError
 from py_dss_tools.utils.Utils import Utils
 
 

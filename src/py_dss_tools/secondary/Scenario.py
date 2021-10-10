@@ -7,11 +7,11 @@ from dataclasses import dataclass, field
 
 from py_dss_interface import DSS
 
+from py_dss_tools.controller.LineController import LineController
+from py_dss_tools.controller.ReactorController import ReactorController
+from py_dss_tools.model.pdelement import Line
+from py_dss_tools.model.pdelement import Reactor
 from .Circuit import Circuit
-from py_dss_tools.core.model.pdelement.Line import Line
-from py_dss_tools.core.controller.LineController import LineController
-from py_dss_tools.core.model.pdelement.Reactor import Reactor
-from py_dss_tools.core.controller.ReactorController import ReactorController
 
 
 @dataclass

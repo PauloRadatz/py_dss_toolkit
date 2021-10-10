@@ -5,13 +5,15 @@
 """
 import pandas as pd
 
-from py_dss_tools.core import *
-from py_dss_tools.core.model.pdelement.AutoTrans import AutoTrans
-from py_dss_tools.core.model.pdelement.Capacitor import Capacitor
-from py_dss_tools.core.model.pdelement.GICTransformer import GICTransformer
-from py_dss_tools.core.model.pdelement.Line import Line
-from py_dss_tools.core.model.pdelement.Reactor import Reactor
-from py_dss_tools.core.model.pdelement.Transformer import Transformer
+from py_dss_tools.model.control import CapControl, ESPVLControl, ExpControl, Fuse, GenDispatcher, InvControl, RegCloser, \
+    RegControl, Relay, StorageController, SwtControl, UPFCControl
+from py_dss_tools.model.general import CNData, GrowthShape, LineCode, LineGeometry, LineSpacing, LoadShape, PriceShape, \
+    Spectrum, TCCCurve, TSData, TShape, WireData, XFMRCode, XYCurve
+from py_dss_tools.model.meters import EnergyMeter, FMonitor, Monitor, Sensor
+from py_dss_tools.model.other import VSource, Fault, GICSource, ISource
+from py_dss_tools.model.pcelement import Generator, Generic5, GICLine, IndMach012, Load, PVSystem, Storage, UPFC, VCCS, \
+    VSConverter
+from py_dss_tools.model.pdelement import AutoTrans, Capacitor, GICTransformer, Line, Reactor, Transformer
 
 
 class Circuit(VSource):
@@ -41,7 +43,7 @@ class Circuit(VSource):
             self.__mvasc1 = mvasc1
 
             # region PD Elements
-            self.__df__auto_trans = pd.DataFrame(columns=AutoTrans.columns)
+            self.__df__auto_trans = pd.DataFrame(columns=AutoTrans.columns_)
             self.__df__capacitors = pd.DataFrame(columns=Capacitor.columns)
             self.__df__gic_transformers = pd.DataFrame(columns=GICTransformer.columns)
             self.__df__lines = pd.DataFrame(columns=Line.columns_)

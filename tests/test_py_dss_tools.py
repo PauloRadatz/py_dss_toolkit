@@ -1,5 +1,5 @@
 
-from py_dss_tools import main
+import py_dss_tools as pt
 
 
 def test_main():

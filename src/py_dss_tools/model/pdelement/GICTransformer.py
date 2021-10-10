@@ -3,7 +3,7 @@
  Created by Ênio Viana at 22/09/2021 at 22:44:49
  Project: py_dss_tools [set, 2021]
 """
-from py_dss_tools.core.model.pdelement.PDElement import PDElement
+from py_dss_tools.model.pdelement import PDElement
 
 
 class GICTransformer(PDElement):

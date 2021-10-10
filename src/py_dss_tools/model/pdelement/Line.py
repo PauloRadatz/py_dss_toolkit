@@ -5,8 +5,8 @@
 """
 from dataclasses import dataclass
 
-from py_dss_tools.core.common.Enumerations import EarthModel, LineType, Units
-from py_dss_tools.core.model.pdelement.PDElement import PDElement
+from py_dss_tools.common import EarthModel, LineType, Units
+from py_dss_tools.model.pdelement import PDElement
 from py_dss_tools.utils import Utils
 
 
