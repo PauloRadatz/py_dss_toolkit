@@ -3,3 +3,4 @@
  Created by Ênio Viana at 09/10/2021 at 01:07:18
  Project: py-dss-tools [out, 2021]
 """
+from .Converter import conv_line, conv_circuit
