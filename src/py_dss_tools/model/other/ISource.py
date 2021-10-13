@@ -3,10 +3,10 @@
  Created by Ênio Viana at 22/09/2021 at 23:11:45
  Project: py_dss_tools [set, 2021]
 """
-from .OtherElement import Other
+from .OtherElement import OtherElement
 
 
-class ISource(Other):
+class ISource(OtherElement):
     name = "ISource"
     name_plural = "ISources"
     columns = ['amps', 'angle', 'basefreq', 'bus1', 'bus2', 'daily', 'duty', 'enabled', 'frequency', 'like', 'phases',

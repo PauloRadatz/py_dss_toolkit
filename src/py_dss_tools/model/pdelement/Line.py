@@ -3,19 +3,19 @@
  Created by Ênio Viana at 04/09/2021 at 20:39:04
  Project: py_dss_tools [set, 2021]
 """
-from dataclasses import dataclass
+import attr
+import pandas as pd
 
-from py_dss_tools.common import EarthModel, LineType, Units
 from py_dss_tools.model.pdelement import PDElement
 from py_dss_tools.utils import Utils
 
 
-@dataclass
+@attr.s(kw_only=True)
 class Line(PDElement):
     """
-    _b0: Alternate way to specify C0. MicroS per unit length.
+    _b0 = alternate way to specify C0. MicroS per unit length.
 
-    _b1: Alternate way to specify C1. MicroS per unit length.
+    _b1 = alternate way to specify C1. MicroS per unit length.
 
     _bus1: Name of bus to which first terminal is connected.
         Example:
@@ -35,7 +35,7 @@ class Line(PDElement):
     Cmatrix forces program to use the matrix values for line impedance definition.  For balanced line models, you may
     use the standard symmetrical component data definition instead.
 
-    _cncables: Array of CNData names for use in a cable constants calculation. Must be used in conjunction with the
+    _cncables = array of CNData names for use in a cable constants calculation. Must be used in conjunction with the
     Spacing property. Specify the Spacing first, using "nphases" cncables. You may later specify "nconds-nphases" wires
     for separate neutrals.
 
@@ -65,15 +65,15 @@ class Line(PDElement):
     _r1: Positive-sequence Resistance, ohms per unit length. Setting any of R1, R0, X1, X0, C1, C0 forces the program
     to use the symmetrical component line definition. See also Rmatrix.
 
-    _ratings: An array of ratings to be used when the seasonal ratings flag is True. It can be used to insert multiple
+    _ratings = an array of ratings to be used when the seasonal ratings flag is True. It can be used to insert multiple
      ratings to change during a QSTS simulation to evaluate different ratings in lines.
 
     _rg: Carson earth return resistance per unit length used to compute impedance values at base frequency. Default is
      0.01805 = 60 Hz value in ohms per kft (matches default line impedances). This value is required for harmonic
      solutions if you wish to adjust the earth return impedances for frequency. If not, set both Rg and Xg = 0.
 
-    _rho: Default=100 meter ohms.  Earth resitivity used to compute earth correction factor. Overrides Line geometry
-    definition if specified.
+    _rho: default_factory=100 meter ohms.  Earth resitivity used to compute earth correction factor. Overrides Line
+    geometry definition if specified.
 
     _rmatrix: Resistance matrix, lower triangle, ohms per unit length. Order of the matrix is the number of phases.
     May be used to specify the impedance of any line configuration. Using any of Rmatrix, Xmatrix, Cmatrix forces
@@ -86,17 +86,17 @@ class Line(PDElement):
     _spacing: Reference to a LineSpacing for use in a line constants calculation. Must be used in conjunction with the
     Wires property. Specify this before the wires property.
 
-    _switch: {y/n | T/F}  Default= no/false.  Designates this line as a switch for graphics and algorithmic purposes.
-    SIDE EFFECT: Sets r1 = 1.0; x1 = 1.0; r0 = 1.0; x0 = 1.0; c1 = 1.1 ; c0 = 1.0;  length = 0.001; You must reset if
-    you want something different.
+    _switch: {y/n | T/F}  default_factory= no/false.  Designates this line as a switch for graphics and algorithmic
+    purposes. SIDE EFFECT: Sets r1 = 1.0; x1 = 1.0; r0 = 1.0; x0 = 1.0; c1 = 1.1 ; c0 = 1.0;  length = 0.001; You
+    must reset if you want something different.
 
-    _tscables: Array of TSData names for use in a cable constants calculation. Must be used in conjunction with the
+    _tscables = array of TSData names for use in a cable constants calculation. Must be used in conjunction with the
     Spacing property. Specify the Spacing first, using "nphases" tscables. You may later specify "nconds-nphases" wires
     for separate neutrals
 
     _units: Length Units = {none | mi|kft|km|m|Ft|in|cm } Default is None - assumes length units match impedance units.
 
-    _wires: Array of WireData names for use in an overhead line constants calculation. Must be used in conjunction with
+    _wires = array of WireData names for use in an overhead line constants calculation. Must be used in conjunction with
      the Spacing property. Specify the Spacing first, and "ncond" wires. May also be used to specify bare neutrals with
      cables, using "ncond-nphase" wires.
 
@@ -119,58 +119,72 @@ class Line(PDElement):
 
     title_ = "Line"
     plural_title_ = "Lines"
-    columns_ = ['b0', 'b1', 'basefreq', 'bus1', 'bus2', 'c0', 'c1', 'cmatrix', 'cncables', 'earthmodel', 'emergamps',
-                'enabled', 'faultrate', 'geometry', 'length', 'like', 'linecode', 'linetype', 'name', 'normamps',
-                'pctperm', 'phases', 'r0', 'r1', 'ratings', 'repair', 'rg', 'rho', 'rmatrix', 'seasons', 'spacing',
-                'switch', 'tscables', 'units', 'wires', 'x0', 'x1', 'xg', 'xmatrix']
+    columns_ = ['_b0', '_b1', '_basefreq', '_bus1', '_bus2', '_c0', '_c1', '_cmatrix', '_cncables', '_earthmodel',
+                '_emergamps', 'enabled', '_faultrate', '_geometry', '_length', '_like', '_linecode', '_linetype',
+                '_name', '_normamps', 'pctperm', '_phases', '_r0', '_r1', '_ratings', '_repair', '_rg', '_rho',
+                '_rmatrix', '_seasons', '_spacing', 'switch', '_tscables', '_units', '_wires', '_x0', '_x1', '_xg',
+                '_xmatrix']
+    columns_no_ = ['b0', 'b1', 'basefreq', 'bus1', 'bus2', 'c0', 'c1', 'cmatrix', 'cncables', 'earthmodel', 'emergamps',
+                   'enabled', 'faultrate', 'geometry', 'length', 'like', 'linecode', 'linetype', 'name', 'normamps',
+                   'pctperm', 'phases', 'r0', 'r1', 'ratings', 'repair', 'rg', 'rho', 'rmatrix', 'seasons', 'spacing',
+                   'switch', 'tscables', 'units', 'wires', 'x0', 'x1', 'xg', 'xmatrix']
 
-    _b0: float = 1.0
-    _b1: float = 1.0
-    _bus1: str = ''
-    _bus2: str = ''
-    _c0: float = 1.0
-    _c1: float = 1.1
-    _cmatrix: str = ''
-    # TODO: must be a array of CNData names
-    _cncables: str = ''
-    _earthmodel: str = EarthModel.Deri.value
-    # TODO: must be a LineGeometry object
-    _geometry: str = ''
-    _length: float = 1.0
-    # TODO: must be a LineCode object
-    _linecode: str = ''
-    _linetype: str = LineType.OH.value
-    # _name: str = 'my_line_' + Utils.generate_random_string()
-    _r0: float = 0.01
-    _r1: float = 0.01
-    _ratings: str = '400'
-    _rg: float = 0.01805
-    _rho: float = 100
-    _rmatrix: str = ''
-    _seasons: str = ''
-    _spacing: str = ''
-    # TODO: must be a enum here AND change values in r0 r1 x0 x1 x1 x0 length when true
-    _switch: str = 'false'
-    # TODO: must be a array of TSData
-    _tscables: str = ''
-    _units: str = Units.m.value
-    # TODO: must be a array of Wiredata
-    _wires: str = ''
-    _x0: float = 1.0
-    _x1: float = 1.0
-    _xg: float = 0.155081
-    _xmatrix: str = ''
+    _b0 = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.0)
+    _b1 = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.0)
+    _bus1 = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _bus2 = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _c0 = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.0)
+    _c1 = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.1)
+    _cmatrix = attr.ib(validator=attr.validators.instance_of(str), default='[]')
+    _cncables = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _earthmodel = attr.ib(validator=attr.validators.instance_of(str), default='Deri')
+    _geometry = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _length = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.0)
+    _linecode = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _linetype = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _phases = attr.ib(validator=attr.validators.instance_of(int), default=3)
+    _r0 = attr.ib(validator=attr.validators.instance_of((int, float)), default=0.01)
+    _r1 = attr.ib(validator=attr.validators.instance_of((int, float)), default=0.01)
+    _ratings = attr.ib(validator=attr.validators.instance_of(str), default='[400,]')
+    _rg = attr.ib(validator=attr.validators.instance_of((int, float)), default=0.01805)
+    _rho = attr.ib(validator=attr.validators.instance_of((int, float)), default=100)
+    _rmatrix = attr.ib(validator=attr.validators.instance_of(str), default='[]')
+    _seasons = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _spacing = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _switch = attr.ib(validator=attr.validators.instance_of(str), default='false')
+    _tscables = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _units = attr.ib(validator=attr.validators.instance_of(str), default='m')
+    _wires = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _x0 = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.0)
+    _x1 = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.0)
+    _xg = attr.ib(validator=attr.validators.instance_of((int, float)), default=0.155081)
+    _xmatrix = attr.ib(validator=attr.validators.instance_of(str), default='[]')
 
-    def _post_init_(self):
-        self._name = 'my_line_'
+    def __attrs_post_init__(self):
+        if self._name != '':
+            self._name = Utils.remove_blank_spaces(self._name)
+        else:
+            self._name = 'my_line_' + Utils.generate_random_string()
+
+        self._bus1 = Utils.remove_blank_spaces(self._bus1.lower())
+        self._bus2 = Utils.remove_blank_spaces(self._bus2.lower())
+
+    def to_dataframe(self):
+        return pd.DataFrame.from_records([self.__dict__])
+
+    def to_dict(self):
+        return self.__dict__
+
+    def to_list(self):
+        return list(self.__dict__)
 
     @property
-    def basefreq(self):
+    def basefreq(self) -> float:
         return self._basefreq
 
     @basefreq.setter
     def basefreq(self, value: float):
-        self.check_instance(value, 'basefreq', ['int', 'float'])
+        Utils.check_instance(value, 'basefreq', ['int', 'float'])
         self._basefreq = value
 
     @property
@@ -179,32 +193,57 @@ class Line(PDElement):
 
     @emergamps.setter
     def emergamps(self, value):
-        self.check_instance(value, 'emergamps', ['int', 'float'], )
+        Utils.check_instance(value, 'emergamps', ['int', 'float'], )
         self._emergamps = value
 
     @property
     def enabled(self):
-        return 0
+        return self._enabled
+
+    @enabled.setter
+    def enabled(self, value):
+        self._enabled = value
 
     @property
     def faultrate(self):
-        return 0
+        return self._faultrate
+
+    @faultrate.setter
+    def faultrate(self, value):
+        self._faultrate = value
 
     @property
-    def like(self):
-        return 0
+    def like(self) -> str:
+        return self._like
+
+    @like.setter
+    def like(self, value):
+        self._like = value
 
     @property
     def normamps(self):
-        return 0
+        return self._normamps
+
+    @normamps.setter
+    def normamps(self, value):
+        self._normamps = value
 
     @property
     def pctperm(self):
-        return 0
+        return self._pctperm
+
+    @pctperm.setter
+    def pctperm(self, value):
+        self._pctperm = value
 
     @property
     def phases(self):
-        return 0
+        return self._phases
+
+    @phases.setter
+    def phases(self, value):
+        print('setando phases ' + str(value))
+        self._phases = value
 
     @property
     def repair(self):
@@ -212,7 +251,7 @@ class Line(PDElement):
 
     @repair.setter
     def repair(self, value):
-        self.check_instance(value, 'repair', ['int', 'float'], )
+        Utils.check_instance(value, 'repair', ['int', 'float'], )
         self._repair = value
 
     @property
@@ -221,7 +260,7 @@ class Line(PDElement):
 
     @b0.setter
     def b0(self, value):
-        self.check_instance(value, 'b0', ['int', 'float'], )
+        Utils.check_instance(value, 'b0', ['int', 'float'], )
         self._b0 = value
 
     @property
@@ -230,7 +269,7 @@ class Line(PDElement):
 
     @b1.setter
     def b1(self, value):
-        self.check_instance(value, 'b1', ['int', 'float'], )
+        Utils.check_instance(value, 'b1', ['int', 'float'], )
         self._b1 = value
 
     @property
@@ -239,8 +278,8 @@ class Line(PDElement):
 
     @bus1.setter
     def bus1(self, value):
-        self.check_instance(value, 'bus1', ['str'], )
-        self._bus1 = value
+        Utils.check_instance(value, 'bus1', ['str'], )
+        self._bus1 = Utils.remove_blank_spaces(value.lower())
 
     @property
     def bus2(self):
@@ -248,7 +287,7 @@ class Line(PDElement):
 
     @bus2.setter
     def bus2(self, value):
-        self.check_instance(value, 'bus2', ['str'], )
+        Utils.check_instance(value, 'bus2', ['str'], )
         self._bus2 = value
 
     @property
@@ -257,7 +296,7 @@ class Line(PDElement):
 
     @c0.setter
     def c0(self, value):
-        self.check_instance(value, 'c0', ['int', 'float'], )
+        Utils.check_instance(value, 'c0', ['int', 'float'], )
         self._c0 = value
 
     @property
@@ -266,7 +305,7 @@ class Line(PDElement):
 
     @c1.setter
     def c1(self, value):
-        self.check_instance(value, 'c1', ['int', 'float'], )
+        Utils.check_instance(value, 'c1', ['int', 'float'], )
         self._c1 = value
 
     @property
@@ -275,7 +314,7 @@ class Line(PDElement):
 
     @cmatrix.setter
     def cmatrix(self, value):
-        self.check_instance(value, 'cmatrix', ['str'], )
+        Utils.check_instance(value, 'cmatrix', ['str'], )
         self._cmatrix = value
 
     @property
@@ -284,7 +323,7 @@ class Line(PDElement):
 
     @cncables.setter
     def cncables(self, value):
-        self.check_instance(value, 'cncables', ['str'], )
+        Utils.check_instance(value, 'cncables', ['str'], )
         self._cncables = value
 
     @property
@@ -293,7 +332,7 @@ class Line(PDElement):
 
     @earthmodel.setter
     def earthmodel(self, value):
-        self.check_instance(value, 'earthmodel', ['str'], )
+        Utils.check_instance(value, 'earthmodel', ['str'], )
         self._earthmodel = value
 
     @property
@@ -302,7 +341,7 @@ class Line(PDElement):
 
     @geometry.setter
     def geometry(self, value):
-        self.check_instance(value, 'geometry', ['str'], )
+        Utils.check_instance(value, 'geometry', ['str'], )
         self._geometry = value
 
     @property
@@ -311,7 +350,7 @@ class Line(PDElement):
 
     @length.setter
     def length(self, value):
-        self.check_instance(value, 'length', ['int', 'float'], )
+        Utils.check_instance(value, 'length', ['int', 'float'], )
         self._length = value
 
     @property
@@ -320,7 +359,7 @@ class Line(PDElement):
 
     @linecode.setter
     def linecode(self, value):
-        self.check_instance(value, 'linecode', ['str'], )
+        Utils.check_instance(value, 'linecode', ['str'], )
         self._linecode = value
 
     @property
@@ -329,16 +368,16 @@ class Line(PDElement):
 
     @linetype.setter
     def linetype(self, value):
-        self.check_instance(value, 'linetype', ['str'], )
+        Utils.check_instance(value, 'linetype', ['str'], )
         self._linetype = value
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     @name.setter
-    def name(self, value: str):
-        self.check_instance(value, 'name', ['str'], )
+    def name(self, value: str) -> None:
+        # Utils.check_instance(value, 'name', ['str'], )
         self._name = Utils.remove_blank_spaces(value)
 
     @property
@@ -347,7 +386,7 @@ class Line(PDElement):
 
     @r0.setter
     def r0(self, value):
-        self.check_instance(value, 'r0', ['int', 'float'], )
+        Utils.check_instance(value, 'r0', ['int', 'float'], )
         self._r0 = value
 
     @property
@@ -356,7 +395,7 @@ class Line(PDElement):
 
     @r1.setter
     def r1(self, value):
-        self.check_instance(value, 'r1', ['int', 'float'], )
+        Utils.check_instance(value, 'r1', ['int', 'float'], )
         self._r1 = value
 
     @property
@@ -365,7 +404,7 @@ class Line(PDElement):
 
     @ratings.setter
     def ratings(self, value):
-        self.check_instance(value, 'ratings', ['str'], )
+        Utils.check_instance(value, 'ratings', ['str'], )
         self._ratings = value
 
     @property
@@ -374,7 +413,7 @@ class Line(PDElement):
 
     @rg.setter
     def rg(self, value):
-        self.check_instance(value, 'rg', ['int', 'float'], )
+        Utils.check_instance(value, 'rg', ['int', 'float'], )
         self._rg = value
 
     @property
@@ -383,7 +422,7 @@ class Line(PDElement):
 
     @rho.setter
     def rho(self, value):
-        self.check_instance(value, 'rho', ['int', 'float'], )
+        Utils.check_instance(value, 'rho', ['int', 'float'], )
         self._rho = value
 
     @property
@@ -392,7 +431,7 @@ class Line(PDElement):
 
     @rmatrix.setter
     def rmatrix(self, value):
-        self.check_instance(value, 'rmatrix', ['str'], )
+        Utils.check_instance(value, 'rmatrix', ['str'], )
         self._rmatrix = value
 
     @property
@@ -401,7 +440,7 @@ class Line(PDElement):
 
     @seasons.setter
     def seasons(self, value):
-        self.check_instance(value, 'seasons', ['str'], )
+        Utils.check_instance(value, 'seasons', ['str'], )
         self._seasons = value
 
     @property
@@ -410,7 +449,7 @@ class Line(PDElement):
 
     @spacing.setter
     def spacing(self, value):
-        self.check_instance(value, 'spacing', ['str'], )
+        Utils.check_instance(value, 'spacing', ['str'], )
         self._spacing = value
 
     @property
@@ -419,7 +458,7 @@ class Line(PDElement):
 
     @switch.setter
     def switch(self, value):
-        self.check_instance(value, 'switch', ['str'], )
+        Utils.check_instance(value, 'switch', ['str'], )
         self._switch = value
 
     @property
@@ -428,7 +467,7 @@ class Line(PDElement):
 
     @tscables.setter
     def tscables(self, value):
-        self.check_instance(value, 'tscables', ['str'], )
+        Utils.check_instance(value, 'tscables', ['str'], )
         self._tscables = value
 
     @property
@@ -437,7 +476,7 @@ class Line(PDElement):
 
     @units.setter
     def units(self, value):
-        self.check_instance(value, 'units', ['str'], )
+        Utils.check_instance(value, 'units', ['str'], )
         self._units = value
 
     @property
@@ -446,7 +485,7 @@ class Line(PDElement):
 
     @wires.setter
     def wires(self, value):
-        self.check_instance(value, 'wires', ['str'], )
+        Utils.check_instance(value, 'wires', ['str'], )
         self._wires = value
 
     @property
@@ -455,7 +494,7 @@ class Line(PDElement):
 
     @x0.setter
     def x0(self, value):
-        self.check_instance(value, 'x0', ['int', 'float'], )
+        Utils.check_instance(value, 'x0', ['int', 'float'], )
         self._x0 = value
 
     @property
@@ -464,7 +503,7 @@ class Line(PDElement):
 
     @x1.setter
     def x1(self, value):
-        self.check_instance(value, 'x1', ['int', 'float'], )
+        Utils.check_instance(value, 'x1', ['int', 'float'], )
         self._x1 = value
 
     @property
@@ -473,7 +512,7 @@ class Line(PDElement):
 
     @xg.setter
     def xg(self, value):
-        self.check_instance(value, 'xg', ['int', 'float'], )
+        Utils.check_instance(value, 'xg', ['int', 'float'], )
         self._xg = value
 
     @property
@@ -482,5 +521,5 @@ class Line(PDElement):
 
     @xmatrix.setter
     def xmatrix(self, value):
-        self.check_instance(value, 'xmatrix', ['str'], )
+        Utils.check_instance(value, 'xmatrix', ['str'], )
         self._xmatrix = value

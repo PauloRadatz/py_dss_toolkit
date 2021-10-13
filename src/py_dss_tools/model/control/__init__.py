@@ -3,6 +3,8 @@
  Created by Ênio Viana at 22/09/2021 at 23:05:08
  Project: py_dss_tools [set, 2021]
 """
+from .ControlElement import ControlElement
+
 from .CapControl import CapControl
 from .ESPVLControl import ESPVLControl
 from .ExpControl import ExpControl

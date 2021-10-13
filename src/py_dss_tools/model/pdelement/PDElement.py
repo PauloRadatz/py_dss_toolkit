@@ -4,45 +4,62 @@
  Project: py_dss_tools [set, 2021]
 """
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import List
 
-from py_dss_tools.model.pdelement import PDElementError
-from py_dss_tools.utils.Utils import Utils
+import attr
+
+from py_dss_tools.utils import Utils
 
 
-@dataclass
+@attr.s(kw_only=True)
 class PDElement(ABC):
     """
-    __basefreq: Base Frequency for ratings.
+    _basefreq: Base Frequency for ratings.
 
-    __emergamps: Maximum or emerg current.
+    _emergamps: Maximum or emerg current.
 
-    __enabled: {Yes|No or True|False} Indicates whether this element is enabled.
+    _enabled: {Yes|No or True|False} Indicates whether this element is enabled.
 
-    __faultrate: Failure rate PER UNIT LENGTH per year. Length must be same units as LENGTH property. Default is 0.1
+    _faultrate: Failure rate PER UNIT LENGTH per year. Length must be same units as LENGTH property. Default is 0.1
     fault per unit length per year.
 
-    __like: Make like another object, e.g.: New Capacitor.C2 like=c1
+    _like: Make like another object, e.g.: New Capacitor.C2 like=c1
 
-    __normamps: Normal rated current.
+    _normamps: Normal rated current.
 
-    __pctperm: Percent of failures that become permanent. Default is 20.
+    _pctperm: Percent of failures that become permanent. Default is 20.
 
-    __phases: Number of phases, this line.
+    _phases: Number of phases, this line.
 
-    __repair: Hours to repair. Default is 3 hr.
+    _repair: Hours to repair. Default is 3 hr.
     """
-    _basefreq: float = 60
-    _emergamps: float = 600
-    _enabled: str = 'true'
-    _faultrate: float = 0.1
-    _like: str = ''
-    _name: str = 'my_pdelement_' + Utils.generate_random_string()
-    _normamps: float = 400
-    _pctperm: float = 20
-    _phases: int = 3
-    _repair: float = 3
+
+    _basefreq = attr.ib(validator=attr.validators.instance_of((int, float)), default=60)
+    _emergamps = attr.ib(validator=attr.validators.instance_of((int, float)), default=600)
+    _enabled = attr.ib(validator=attr.validators.instance_of(str), default='true')
+    _faultrate = attr.ib(validator=attr.validators.instance_of((int, float)), default=0.1)
+    _like = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _name = attr.ib(validator=attr.validators.instance_of(str), default='pdelement_' + Utils.generate_random_string(),
+                    converter=Utils.remove_blank_spaces)
+    _normamps = attr.ib(validator=attr.validators.instance_of((int, float)), default=400)
+    _pctperm = attr.ib(validator=attr.validators.instance_of((int, float)), default=20)
+    _phases = attr.ib(validator=attr.validators.instance_of((int, float)), default=3)
+    _repair = attr.ib(validator=attr.validators.instance_of((int, float)), default=3)
+
+    def __attrs_post_init__(self):
+        if self._name != '':
+            return
+        else:
+            self._name = 'my_pdelement_' + Utils.generate_random_string()
+
+    @property
+    @abstractmethod
+    def basefreq(self):
+        pass
+
+    @basefreq.setter
+    @abstractmethod
+    def basefreq(self, value):
+        pass
 
     @property
     @abstractmethod
@@ -133,11 +150,3 @@ class PDElement(ABC):
     @abstractmethod
     def repair(self, value: float):
         pass
-
-    def check_instance(self, value: [str, float, int], property_name: str, type_: List[str]):
-        if type(value).__name__ not in type_:
-            raise PDElementError(self._name,
-                                 f"Type Error, check the type of the variable {property_name}. Expected: {type_}, but "
-                                 f"found {type(value)}")
-        else:
-            return

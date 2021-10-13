@@ -3,8 +3,9 @@
  Created by Ênio Viana at 22/09/2021 at 23:11:24
  Project: py_dss_tools [set, 2021]
 """
-from .Fault import *
-from .GICSource import *
-from .ISource import *
-from .OtherElement import *
-from .VSource import *
+from .OtherElement import OtherElement
+
+from .Fault import Fault
+from .GICSource import GICSource
+from .ISource import ISource
+from .VSource import VSource

@@ -3,150 +3,75 @@
  Created by Ênio Viana at 01/09/2021 at 19:51:44
  Project: py_dss_tools [set, 2021]
 """
+import attr
 import pandas as pd
 
-from py_dss_tools.model.control import CapControl, ESPVLControl, ExpControl, Fuse, GenDispatcher, InvControl, RegCloser, \
-    RegControl, Relay, StorageController, SwtControl, UPFCControl
-from py_dss_tools.model.general import CNData, GrowthShape, LineCode, LineGeometry, LineSpacing, LoadShape, PriceShape, \
-    Spectrum, TCCCurve, TSData, TShape, WireData, XFMRCode, XYCurve
-from py_dss_tools.model.meters import EnergyMeter, FMonitor, Monitor, Sensor
-from py_dss_tools.model.other import VSource, Fault, GICSource, ISource
-from py_dss_tools.model.pcelement import Generator, Generic5, GICLine, IndMach012, Load, PVSystem, Storage, UPFC, VCCS, \
-    VSConverter
-from py_dss_tools.model.pdelement import AutoTrans, Capacitor, GICTransformer, Line, Reactor, Transformer
+from py_dss_tools.model.other import VSource
+from py_dss_tools.utils import Utils
 
 
+@attr.s
 class Circuit(VSource):
-    __id = 0
-    __created = False
-    name_ = "Circuit"
+    _name = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _basekv = attr.ib(validator=attr.validators.instance_of((int, float)), default=115)
+    _pu = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.001)
+    _phases = attr.ib(validator=attr.validators.instance_of(int), default=3)
+    _bus1 = attr.ib(validator=attr.validators.instance_of(str), default='')
+    _angle = attr.ib(validator=attr.validators.instance_of((int, float)), default=0)
+    # TODO Rever default values
+    _mvasc3 = attr.ib(validator=attr.validators.instance_of((int, float)), default=21000)
+    _mvasc1 = attr.ib(validator=attr.validators.instance_of((int, float)), default=24000)
 
-    # TODO: [URGENTE] refatorar classe Circuit completamente
-    def __init__(self, dss, name: str, basekv: [int, float], bus1: str, pu: [int, float], phases: int,
-                 angle: [int, float], mvasc3: [int, float], mvasc1: [int, float]):
-        super().__init__()
-        if Circuit.__id > 0:
-            print("Only one Circuit's instance is allowed!")
-            exit()
+    # TODO: checar existência de mais de um Circuit no momento da criação
+
+    def __attrs_post_init__(self):
+        if self._name != '':
+            self._name = Utils.remove_blank_spaces(self._name)
         else:
-            Circuit.__id += 1
-            Circuit.__created = True
-            self.__dss = dss
+            self._name = 'my_circuit_' + Utils.generate_random_string()
 
-            self.__name = name
-            self.__basekv = basekv
-            self.__pu = pu
-            self.__phases = phases
-            self.__bus1 = bus1
-            self.__angle = angle
-            self.__mvasc3 = mvasc3
-            self.__mvasc1 = mvasc1
+    def to_dataframe(self):
+        return pd.DataFrame.from_records([self.__dict__])
 
-            # region PD Elements
-            self.__df__auto_trans = pd.DataFrame(columns=AutoTrans.columns_)
-            self.__df__capacitors = pd.DataFrame(columns=Capacitor.columns)
-            self.__df__gic_transformers = pd.DataFrame(columns=GICTransformer.columns)
-            self.__df__lines = pd.DataFrame(columns=Line.columns_)
-            self.__df__reactors = pd.DataFrame(columns=Reactor.columns)
-            self.__df__transformers = pd.DataFrame(columns=Transformer.columns)
-            # endregion
-            # region PC Elements
-            self.__df__generators = pd.DataFrame(columns=Generator.columns)
-            self.__df__generic5 = pd.DataFrame(columns=Generic5.columns)
-            self.__df__giclines = pd.DataFrame(columns=GICLine.columns)
-            self.__df__indmach012 = pd.DataFrame(columns=IndMach012.columns)
-            self.__df__loads = pd.DataFrame(columns=Load.columns)
-            self.__df__pvsystems = pd.DataFrame(columns=PVSystem.columns)
-            self.__df__storages = pd.DataFrame(columns=Storage.columns)
-            self.__df__upfcs = pd.DataFrame(columns=UPFC.columns)
-            self.__df__vccs = pd.DataFrame(columns=VCCS.columns)
-            self.__df__vsconverters = pd.DataFrame(columns=VSConverter.columns)
-            # endregion
-            # region Controls
-            self.__df__cap_controls = pd.DataFrame(columns=CapControl.columns)
-            self.__df__espv_controls = pd.DataFrame(columns=ESPVLControl.columns)
-            self.__df__exp_controls = pd.DataFrame(columns=ExpControl.columns)
-            self.__df__fuses = pd.DataFrame(columns=Fuse.columns)
-            self.__df__gen_dispatchers = pd.DataFrame(columns=GenDispatcher.columns)
-            self.__df__inv_controls = pd.DataFrame(columns=InvControl.columns)
-            self.__df__reg_closers = pd.DataFrame(columns=RegCloser.columns)
-            self.__df__reg_controls = pd.DataFrame(columns=RegControl.columns)
-            self.__df__relays = pd.DataFrame(columns=Relay.columns)
-            self.__df__storage_controllers = pd.DataFrame(columns=StorageController.columns)
-            self.__df__swt_controls = pd.DataFrame(columns=SwtControl.columns)
-            self.__df__upfc_controls = pd.DataFrame(columns=UPFCControl.columns)
-            # endregion
-            # region General
-            self.__df__cn_data = pd.DataFrame(columns=CNData.columns)
-            self.__df__growth_shapes = pd.DataFrame(columns=GrowthShape.columns)
-            self.__df__line_codes = pd.DataFrame(columns=LineCode.columns)
-            self.__df__line_geometries = pd.DataFrame(columns=LineGeometry.columns)
-            self.__df__line_spacings = pd.DataFrame(columns=LineSpacing.columns)
-            self.__df__load_shapes = pd.DataFrame(columns=LoadShape.columns)
-            self.__df__price_shapes = pd.DataFrame(columns=PriceShape.columns)
-            self.__df__spectrums = pd.DataFrame(columns=Spectrum.columns)
-            self.__df__tcc_curves = pd.DataFrame(columns=TCCCurve.columns)
-            self.__df__ts_data = pd.DataFrame(columns=TSData.columns)
-            self.__df__tshapes = pd.DataFrame(columns=TShape.columns)
-            self.__df__wire_data = pd.DataFrame(columns=WireData.columns)
-            self.__df__xfmr_codes = pd.DataFrame(columns=XFMRCode.columns)
-            self.__df__xy_curves = pd.DataFrame(columns=XYCurve.columns)
-            # endregion
-            # region Meters
-            self.__df__energymeters = pd.DataFrame(columns=EnergyMeter.columns)
-            self.__df__f_monitors = pd.DataFrame(columns=FMonitor.columns)
-            self.__df__monitors = pd.DataFrame(columns=Monitor.columns)
-            self.__df__sensors = pd.DataFrame(columns=Sensor.columns)
-            # endregion
-            # region Other
-            self.__df__faults = pd.DataFrame(columns=Fault.columns)
-            self.__df__gic_sources = pd.DataFrame(columns=GICSource.columns)
-            self.__df__i_sources = pd.DataFrame(columns=ISource.columns)
-            self.__df__v_sources = pd.DataFrame(columns=VSource.columns)
-            # endregion
-            # Utils
-            # self.buses = Bus(dss).get_buses()
+    def to_dict(self) -> dict:
+        return self.__dict__
+
+    def to_list(self) -> list:
+        return list(self.__dict__)
 
     @property
-    def dss(self):
-        return self.__dss
-
-    @property
-    def created(self):
-        return Circuit.__created
-
-    @property
-    def name(self):
-        return self.__name
+    def name(self) -> str:
+        return self._name
 
     @name.setter
-    def name(self, value):
-        self.__name = value
+    def name(self, value: str) -> None:
+        Utils.check_instance(value, 'name', ['str'], )
+        self._name = Utils.remove_blank_spaces(value)
 
     @property
     def basekv(self):
-        return self.__basekv
+        return self._basekv
 
     @basekv.setter
     def basekv(self, value):
-        self.__basekv = value
+        self._basekv = value
 
     @property
     def phases(self):
-        return self.__phases
+        return self._phases
 
     @phases.setter
     def phases(self, value):
-        self.__phases = value
+        self._phases = value
 
-    @property
-    def df_lines(self):
-        return self.__df__lines
+    # @property
+    # def df_lines(self):
+    #     return self._df_lines
 
-    @df_lines.setter
-    def df_lines(self, value):
-        a_series = pd.Series(value, index=self.__df__lines.columns)
-        self.__df__lines = self.__df__lines.append(a_series, ignore_index=True)
+    # @df_lines.setter
+    # def df_lines(self, value):
+    #     a_series = pd.Series(value, index=self._df_lines.columns)
+    #     self._df_lines = self._df_lines.append(a_series, ignore_index=True)
 
     # def create_circuit(self, dss_file):
     #     self.dss.text("compile [{}]".format(dss_file))
@@ -258,15 +183,15 @@ class Circuit(VSource):
     mvasc1=200000
     """
 
-    # def __str__(self):
+    # def _str_(self):
     #     output = ""
     #     for _, var in vars(self).items():
     #         output += str(var)
     #     return output
 
-    def __str__(self):
-        return "".join(
-            f"{attrib_name} = {attrib_value}\n"
-            for attrib_name, attrib_value in self.__dict__.items()
-            if '_Circuit__df' not in attrib_name and 'dss' not in attrib_name
-        )
+    # def _str_(self):
+    #     return "".join(
+    #         f"{attrib_name} = {attrib_value}\n"
+    #         for attrib_name, attrib_value in self._dict_.items()
+    #         if '_Circuit_df' not in attrib_name and 'dss' not in attrib_name
+    #     )

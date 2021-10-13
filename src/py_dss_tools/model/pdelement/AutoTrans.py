@@ -10,20 +10,23 @@ from py_dss_tools.model.pdelement import PDElement
 
 @dataclass
 class AutoTrans(PDElement):
-    title = "AutoTrans"
-    plural_title = "AutoTrans"
-    columns_ = ['porcentagem_imag', 'porcentagem_loadloss', 'porcentagem_noloadloss', 'porcentagem_r', 'porcentagem_rs',
+    """
+
+    """
+    title_ = "AutoTrans"
+    plural_title_ = "AutoTrans"
+    columns_ = ['percentage_imag', 'percentage_loadloss', 'percentage_noloadloss', 'percentage_r', 'percentage_rs',
                 'bank', 'basefreq', 'bus', 'buses', 'conn', 'conns', 'core', 'emergamps', 'emerghkva', 'enabled',
                 'faultrate', 'flrise', 'hsrise', 'kv', 'kva', 'kvas', 'kvs', 'leadlag', 'like', 'm', 'maxtap', 'mintap',
                 'n', 'normamps', 'normhkva', 'numtaps', 'pctperm', 'phases', 'ppm_antifloat', 'rdcohms', 'repair',
                 'sub', 'subname', 'tap', 'taps', 'thermal', 'wdg', 'wdgcurrents', 'windings', 'xfmrcode', 'xht', 'xhx',
                 'xrconst', 'xscarray', 'xxt']
 
-    _porcentagem_imag: float = 0
-    _porcentagem_loadloss: float = 0.4
-    _porcentagem_noloadloss: float = 0
-    _porcentagem_r: float = 0.2
-    _porcentagem_rs: str = ''
+    _percentage_imag: float = 0
+    _percentage_loadloss: float = 0.4
+    _percentage_noloadloss: float = 0
+    _percentage_r: float = 0.2
+    _percentage_rs: str = ''
     _bank: str = ''
     _bus: str = ''
     _buses: str = ''
@@ -45,7 +48,7 @@ class AutoTrans(PDElement):
     _normhkva: float = 1100
     _numtaps: int = 32
     _ppm_antifloat: int = 1
-    _rdcohms: float = None
+    _rdcohms: float = ''
     _sub: str = 'n'
     _subname: str = ''
     _tap: float = 1
@@ -102,43 +105,43 @@ class AutoTrans(PDElement):
 
     @property
     def imag(self):
-        return self._porcentagem_imag
+        return self._percentage_imag
 
     @imag.setter
     def imag(self, value):
-        self._porcentagem_imag = value
+        self._percentage_imag = value
 
     @property
     def loadloss(self):
-        return self._porcentagem_loadloss
+        return self._percentage_loadloss
 
     @loadloss.setter
     def loadloss(self, value):
-        self._porcentagem_loadloss = value
+        self._percentage_loadloss = value
 
     @property
     def noloadloss(self):
-        return self._porcentagem_noloadloss
+        return self._percentage_noloadloss
 
     @noloadloss.setter
     def noloadloss(self, value):
-        self._porcentagem_noloadloss = value
+        self._percentage_noloadloss = value
 
     @property
     def r(self):
-        return self._porcentagem_r
+        return self._percentage_r
 
     @r.setter
     def r(self, value):
-        self._porcentagem_r = value
+        self._percentage_r = value
 
     @property
     def rs(self):
-        return self._porcentagem_rs
+        return self._percentage_rs
 
     @rs.setter
     def rs(self, value):
-        self._porcentagem_rs = value
+        self._percentage_rs = value
 
     @property
     def bank(self):

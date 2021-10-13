@@ -3,10 +3,10 @@
  Created by Ênio Viana at 22/09/2021 at 23:11:36
  Project: py_dss_tools [set, 2021]
 """
-from .OtherElement import Other
+from .OtherElement import OtherElement
 
 
-class GICSource(Other):
+class GICSource(OtherElement):
     name = "GICSource"
     name_plural = "GICSources"
     columns = ['angle', 'basefreq', 'ee', 'en', 'enabled', 'frequency', 'lat1', 'lat2', 'like', 'lon1', 'lon2',
