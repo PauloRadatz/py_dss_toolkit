@@ -120,14 +120,14 @@ class Line(PDElement):
     title_ = "Line"
     plural_title_ = "Lines"
     columns_ = ['_b0', '_b1', '_basefreq', '_bus1', '_bus2', '_c0', '_c1', '_cmatrix', '_cncables', '_earthmodel',
-                '_emergamps', 'enabled', '_faultrate', '_geometry', '_length', '_like', '_linecode', '_linetype',
-                '_name', '_normamps', 'pctperm', '_phases', '_r0', '_r1', '_ratings', '_repair', '_rg', '_rho',
-                '_rmatrix', '_seasons', '_spacing', 'switch', '_tscables', '_units', '_wires', '_x0', '_x1', '_xg',
+                '_emergamps', '_enabled', '_faultrate', '_geometry', '_length', '_like', '_linecode', '_linetype',
+                '_name', '_normamps', '_pctperm', '_phases', '_r0', '_r1', '_ratings', '_repair', '_rg', '_rho',
+                '_rmatrix', '_seasons', '_spacing', '_switch', '_tscables', '_units', '_wires', '_x0', '_x1', '_xg',
                 '_xmatrix']
-    columns_no_ = ['b0', 'b1', 'basefreq', 'bus1', 'bus2', 'c0', 'c1', 'cmatrix', 'cncables', 'earthmodel', 'emergamps',
-                   'enabled', 'faultrate', 'geometry', 'length', 'like', 'linecode', 'linetype', 'name', 'normamps',
-                   'pctperm', 'phases', 'r0', 'r1', 'ratings', 'repair', 'rg', 'rho', 'rmatrix', 'seasons', 'spacing',
-                   'switch', 'tscables', 'units', 'wires', 'x0', 'x1', 'xg', 'xmatrix']
+    # columns_no_ = ['b0', 'b1', 'basefreq', 'bus1', 'bus2', 'c0', 'c1', 'cmatrix', 'cncables', 'earthmodel',
+    # 'emergamps', 'enabled', 'faultrate', 'geometry', 'length', 'like', 'linecode', 'linetype', 'name', 'normamps',
+    # 'pctperm', 'phases', 'r0', 'r1', 'ratings', 'repair', 'rg', 'rho', 'rmatrix', 'seasons', 'spacing', 'switch',
+    # 'tscables', 'units', 'wires', 'x0', 'x1', 'xg', 'xmatrix']
 
     _b0 = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.0)
     _b1 = attr.ib(validator=attr.validators.instance_of((int, float)), default=1.0)
@@ -166,8 +166,15 @@ class Line(PDElement):
         else:
             self._name = 'my_line_' + Utils.generate_random_string()
 
-        self._bus1 = Utils.remove_blank_spaces(self._bus1.lower())
-        self._bus2 = Utils.remove_blank_spaces(self._bus2.lower())
+        if self._bus1 == '':
+            self._bus1 = "my_bus1_" + Utils.generate_random_string()
+        else:
+            self._bus1 = Utils.remove_blank_spaces(self._bus1.lower())
+
+        if self._bus2 == '':
+            self._bus2 = "my_bus2_" + Utils.generate_random_string()
+        else:
+            self._bus2 = Utils.remove_blank_spaces(self._bus2.lower())
 
     def to_dataframe(self):
         return pd.DataFrame.from_records([self.__dict__])
@@ -179,37 +186,39 @@ class Line(PDElement):
         return list(self.__dict__)
 
     @property
-    def basefreq(self) -> float:
+    def basefreq(self) -> [int, float]:
         return self._basefreq
 
     @basefreq.setter
-    def basefreq(self, value: float):
+    def basefreq(self, value: [int, float]):
         Utils.check_instance(value, 'basefreq', ['int', 'float'])
         self._basefreq = value
 
     @property
-    def emergamps(self):
+    def emergamps(self) -> [int, float]:
         return self._emergamps
 
     @emergamps.setter
-    def emergamps(self, value):
+    def emergamps(self, value: [int, float]):
         Utils.check_instance(value, 'emergamps', ['int', 'float'], )
         self._emergamps = value
 
     @property
-    def enabled(self):
+    def enabled(self) -> str:
         return self._enabled
 
     @enabled.setter
-    def enabled(self, value):
+    def enabled(self, value: str):
+        Utils.check_instance(value, 'enabled', ['str'], )
         self._enabled = value
 
     @property
-    def faultrate(self):
+    def faultrate(self) -> [int, float]:
         return self._faultrate
 
     @faultrate.setter
-    def faultrate(self, value):
+    def faultrate(self, value: [int, float]):
+        Utils.check_instance(value, 'faultrate', ['int', 'float'], )
         self._faultrate = value
 
     @property
@@ -217,157 +226,160 @@ class Line(PDElement):
         return self._like
 
     @like.setter
-    def like(self, value):
+    def like(self, value: str):
+        Utils.check_instance(value, 'like', ['str'], )
         self._like = value
 
     @property
-    def normamps(self):
+    def normamps(self) -> [int, float]:
         return self._normamps
 
     @normamps.setter
-    def normamps(self, value):
+    def normamps(self, value: [int, float]):
+        Utils.check_instance(value, 'normamps', ['int', 'float'], )
         self._normamps = value
 
     @property
-    def pctperm(self):
+    def pctperm(self) -> [int, float]:
         return self._pctperm
 
     @pctperm.setter
-    def pctperm(self, value):
+    def pctperm(self, value: [int, float]):
+        Utils.check_instance(value, 'pctperm', ['int', 'float'], )
         self._pctperm = value
 
     @property
-    def phases(self):
+    def phases(self) -> int:
         return self._phases
 
     @phases.setter
-    def phases(self, value):
-        print('setando phases ' + str(value))
+    def phases(self, value: int):
+        Utils.check_instance(value, 'phases', ['int'], )
         self._phases = value
 
     @property
-    def repair(self):
+    def repair(self) -> [int, float]:
         return self._repair
 
     @repair.setter
-    def repair(self, value):
+    def repair(self, value: [int, float]):
         Utils.check_instance(value, 'repair', ['int', 'float'], )
         self._repair = value
 
     @property
-    def b0(self):
+    def b0(self) -> [int, float]:
         return self._b0
 
     @b0.setter
-    def b0(self, value):
+    def b0(self, value: [int, float]):
         Utils.check_instance(value, 'b0', ['int', 'float'], )
         self._b0 = value
 
     @property
-    def b1(self):
+    def b1(self) -> [int, float]:
         return self._b1
 
     @b1.setter
-    def b1(self, value):
+    def b1(self, value: [int, float]):
         Utils.check_instance(value, 'b1', ['int', 'float'], )
         self._b1 = value
 
     @property
-    def bus1(self):
+    def bus1(self) -> str:
         return self._bus1
 
     @bus1.setter
-    def bus1(self, value):
+    def bus1(self, value: str):
         Utils.check_instance(value, 'bus1', ['str'], )
         self._bus1 = Utils.remove_blank_spaces(value.lower())
 
     @property
-    def bus2(self):
+    def bus2(self) -> str:
         return self._bus2
 
     @bus2.setter
-    def bus2(self, value):
+    def bus2(self, value: str):
         Utils.check_instance(value, 'bus2', ['str'], )
-        self._bus2 = value
+        self._bus2 = Utils.remove_blank_spaces(value.lower())
 
     @property
-    def c0(self):
+    def c0(self) -> [int, float]:
         return self._c0
 
     @c0.setter
-    def c0(self, value):
+    def c0(self, value: [int, float]):
         Utils.check_instance(value, 'c0', ['int', 'float'], )
         self._c0 = value
 
     @property
-    def c1(self):
+    def c1(self) -> [int, float]:
         return self._c1
 
     @c1.setter
-    def c1(self, value):
+    def c1(self, value: [int, float]):
         Utils.check_instance(value, 'c1', ['int', 'float'], )
         self._c1 = value
 
     @property
-    def cmatrix(self):
+    def cmatrix(self) -> str:
         return self._cmatrix
 
     @cmatrix.setter
-    def cmatrix(self, value):
+    def cmatrix(self, value: str):
         Utils.check_instance(value, 'cmatrix', ['str'], )
         self._cmatrix = value
 
     @property
-    def cncables(self):
+    def cncables(self) -> str:
         return self._cncables
 
     @cncables.setter
-    def cncables(self, value):
+    def cncables(self, value: str):
         Utils.check_instance(value, 'cncables', ['str'], )
         self._cncables = value
 
     @property
-    def earthmodel(self):
+    def earthmodel(self) -> str:
         return self._earthmodel
 
     @earthmodel.setter
-    def earthmodel(self, value):
+    def earthmodel(self, value: str):
         Utils.check_instance(value, 'earthmodel', ['str'], )
         self._earthmodel = value
 
     @property
-    def geometry(self):
+    def geometry(self) -> str:
         return self._geometry
 
     @geometry.setter
-    def geometry(self, value):
+    def geometry(self, value: str):
         Utils.check_instance(value, 'geometry', ['str'], )
         self._geometry = value
 
     @property
-    def length(self):
+    def length(self) -> [int, float]:
         return self._length
 
     @length.setter
-    def length(self, value):
+    def length(self, value: [int, float]):
         Utils.check_instance(value, 'length', ['int', 'float'], )
         self._length = value
 
     @property
-    def linecode(self):
+    def linecode(self) -> str:
         return self._linecode
 
     @linecode.setter
-    def linecode(self, value):
+    def linecode(self, value: str):
         Utils.check_instance(value, 'linecode', ['str'], )
         self._linecode = value
 
     @property
-    def linetype(self):
+    def linetype(self) -> str:
         return self._linetype
 
     @linetype.setter
-    def linetype(self, value):
+    def linetype(self, value: str):
         Utils.check_instance(value, 'linetype', ['str'], )
         self._linetype = value
 
@@ -377,149 +389,149 @@ class Line(PDElement):
 
     @name.setter
     def name(self, value: str) -> None:
-        # Utils.check_instance(value, 'name', ['str'], )
+        Utils.check_instance(value, 'name', ['str'], )
         self._name = Utils.remove_blank_spaces(value)
 
     @property
-    def r0(self):
+    def r0(self) -> [int, float]:
         return self._r0
 
     @r0.setter
-    def r0(self, value):
+    def r0(self, value: [int, float]):
         Utils.check_instance(value, 'r0', ['int', 'float'], )
         self._r0 = value
 
     @property
-    def r1(self):
+    def r1(self) -> [int, float]:
         return self._r1
 
     @r1.setter
-    def r1(self, value):
+    def r1(self, value: [int, float]):
         Utils.check_instance(value, 'r1', ['int', 'float'], )
         self._r1 = value
 
     @property
-    def ratings(self):
+    def ratings(self) -> str:
         return self._ratings
 
     @ratings.setter
-    def ratings(self, value):
+    def ratings(self, value: str):
         Utils.check_instance(value, 'ratings', ['str'], )
         self._ratings = value
 
     @property
-    def rg(self):
+    def rg(self) -> [int, float]:
         return self._rg
 
     @rg.setter
-    def rg(self, value):
+    def rg(self, value: [int, float]):
         Utils.check_instance(value, 'rg', ['int', 'float'], )
         self._rg = value
 
     @property
-    def rho(self):
+    def rho(self) -> [int, float]:
         return self._rho
 
     @rho.setter
-    def rho(self, value):
+    def rho(self, value: [int, float]):
         Utils.check_instance(value, 'rho', ['int', 'float'], )
         self._rho = value
 
     @property
-    def rmatrix(self):
+    def rmatrix(self) -> str:
         return self._rmatrix
 
     @rmatrix.setter
-    def rmatrix(self, value):
+    def rmatrix(self, value: str):
         Utils.check_instance(value, 'rmatrix', ['str'], )
         self._rmatrix = value
 
     @property
-    def seasons(self):
+    def seasons(self) -> str:
         return self._seasons
 
     @seasons.setter
-    def seasons(self, value):
+    def seasons(self, value: str):
         Utils.check_instance(value, 'seasons', ['str'], )
         self._seasons = value
 
     @property
-    def spacing(self):
+    def spacing(self) -> str:
         return self._spacing
 
     @spacing.setter
-    def spacing(self, value):
+    def spacing(self, value: str):
         Utils.check_instance(value, 'spacing', ['str'], )
         self._spacing = value
 
     @property
-    def switch(self):
+    def switch(self) -> str:
         return self._switch
 
     @switch.setter
-    def switch(self, value):
+    def switch(self, value: str):
         Utils.check_instance(value, 'switch', ['str'], )
         self._switch = value
 
     @property
-    def tscables(self):
+    def tscables(self) -> str:
         return self._tscables
 
     @tscables.setter
-    def tscables(self, value):
+    def tscables(self, value: str):
         Utils.check_instance(value, 'tscables', ['str'], )
         self._tscables = value
 
     @property
-    def units(self):
+    def units(self) -> str:
         return self._units
 
     @units.setter
-    def units(self, value):
+    def units(self, value: str):
         Utils.check_instance(value, 'units', ['str'], )
         self._units = value
 
     @property
-    def wires(self):
+    def wires(self) -> str:
         return self._wires
 
     @wires.setter
-    def wires(self, value):
+    def wires(self, value: str):
         Utils.check_instance(value, 'wires', ['str'], )
         self._wires = value
 
     @property
-    def x0(self):
+    def x0(self) -> [int, float]:
         return self._x0
 
     @x0.setter
-    def x0(self, value):
+    def x0(self, value: [int, float]):
         Utils.check_instance(value, 'x0', ['int', 'float'], )
         self._x0 = value
 
     @property
-    def x1(self):
+    def x1(self) -> [int, float]:
         return self._x1
 
     @x1.setter
-    def x1(self, value):
+    def x1(self, value: [int, float]):
         Utils.check_instance(value, 'x1', ['int', 'float'], )
         self._x1 = value
 
     @property
-    def xg(self):
+    def xg(self) -> [int, float]:
         return self._xg
 
     @xg.setter
-    def xg(self, value):
+    def xg(self, value: [int, float]):
         Utils.check_instance(value, 'xg', ['int', 'float'], )
         self._xg = value
 
     @property
-    def xmatrix(self):
+    def xmatrix(self) -> str:
         return self._xmatrix
 
     @xmatrix.setter
-    def xmatrix(self, value):
+    def xmatrix(self, value: str):
         Utils.check_instance(value, 'xmatrix', ['str'], )
         self._xmatrix = value
