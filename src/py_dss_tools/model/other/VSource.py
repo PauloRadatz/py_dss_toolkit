@@ -136,8 +136,8 @@ class VSource(OtherElement):
     # 'x1r1', 'yearly', 'z0', 'z1', 'z2']
 
     _angle = attr.ib(validator=attr.validators.instance_of((int, float)), default=0)
-    _basekv = attr.ib(validator=attr.validators.instance_of((int, float)), default=0)
-    _basemva = attr.ib(validator=attr.validators.instance_of((int, float)), default=0)
+    _basekv = attr.ib(validator=attr.validators.instance_of((int, float)), default=115)
+    _basemva = attr.ib(validator=attr.validators.instance_of((int, float)), default=100)
     _bus1 = attr.ib(validator=attr.validators.instance_of(str), default='')
     _bus2 = attr.ib(validator=attr.validators.instance_of(str), default='Bus1.0.0.0')
     _daily = attr.ib(validator=attr.validators.instance_of(str), default='')

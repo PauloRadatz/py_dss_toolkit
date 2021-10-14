@@ -9,7 +9,7 @@ from py_dss_interface import DSS
 
 from py_dss_tools.controller.LineController import LineController
 from py_dss_tools.controller.ReactorController import ReactorController
-from py_dss_tools.model.pdelement import Line
+from py_dss_tools.model.pdelement import Line, Transformer
 from py_dss_tools.model.pdelement import Reactor
 from .Circuit import Circuit
 from ..utils import Utils
@@ -20,14 +20,16 @@ class Scenario:
     _circuit = attr.ib(validator=attr.validators.instance_of(Circuit), init=False)
     _dss = attr.ib(validator=attr.validators.instance_of(DSS.DSSDLL), repr=False, init=False)
     _frequency_base = attr.ib(validator=attr.validators.instance_of((int, float)), default=60)
-    _lines = attr.ib(validator=attr.validators.instance_of(pd.DataFrame), init=False)
     _name = attr.ib(validator=attr.validators.instance_of(str), default='scenario_' + Utils.generate_random_string())
+    _lines = attr.ib(validator=attr.validators.instance_of(pd.DataFrame), init=False)
+    _transformers = attr.ib(validator=attr.validators.instance_of(pd.DataFrame), init=False)
 
     def __attrs_post_init__(self):
         self._dss = DSS.DSSDLL()
         self._circuit = Circuit()
         self._name = Utils.remove_blank_spaces(self._name)
         self._lines = pd.DataFrame(columns=Line.columns_)
+        self._transformers = pd.DataFrame(columns=Transformer.columns_)
 
     def to_dict(self) -> dict:
         return self.__dict__
@@ -51,6 +53,14 @@ class Scenario:
     @lines.setter
     def lines(self, value: Line):
         self._lines = self._lines.append(value.to_dict(), ignore_index=True)
+
+    @property
+    def transformers(self):
+        return self._transformers
+
+    @transformers.setter
+    def transformers(self, value: Transformer):
+        self._transformers = self._transformers.append(value.to_dict(), ignore_index=True)
 
     # # region PD Elements
     # self.__df__auto_trans = pd.DataFrame(columns=AutoTrans.columns_)
