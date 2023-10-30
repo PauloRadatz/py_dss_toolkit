@@ -5,6 +5,8 @@
 """
 from re import search
 
+from py_dss_interface import DSS
+
 from py_dss_tools.model.pdelement import Line
 from py_dss_tools.model.pdelement import Transformer
 from py_dss_tools.secondary import Scenario, Circuit
@@ -20,13 +22,14 @@ def check_circuit_exist(circuit) -> bool:
     return isinstance(circuit, Circuit)
 
 
-def create_scenario(name: str, frequency_base: [int, float] = 60, **kwargs) -> [object, Scenario]:
+def create_scenario(name: str, dss: DSS, dss_file: str, **kwargs) -> Scenario:
     """Create a scenario to starts work with OpenDSS."""
     try:
-        sc = Scenario(name=name, frequency_base=frequency_base)
+        sc = Scenario(_name=name, _dss=dss, _dss_file=dss_file)
         sc = treat_object(obj=sc, kwargs=kwargs)
         return sc
     except Exception as e:
+        raise
         print(f"Error when tried to create a Scenario! {e}")
 
 
@@ -259,4 +262,4 @@ def run_scenario(sc: Scenario):
 
 
 def solve_scenario(sc):
-    sc.dss.text("solve")
+    sc.__dss.text("solve")
