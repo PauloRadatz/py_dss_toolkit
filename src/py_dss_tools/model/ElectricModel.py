@@ -5,7 +5,6 @@
 # @Software: PyCharm
 
 from py_dss_interface import DSS
-import attr
 import pandas as pd
 from dataclasses import dataclass, field
 

@@ -9,12 +9,15 @@ from dataclasses import dataclass
 from typing import Optional
 from py_dss_interface import DSS
 
-@dataclass
+
 class DSSUtils:
-    _dss: Optional[DSS]
+
+    def __init__(self, dss: DSS):
+        self._dss = dss
 
     def update_dss(self, dss: DSS):
         self._dss = dss
+
     def compile_dss(self, dss_file):
         self._dss.text("ClearAll")
         self._dss.text("Compile " + "[" + dss_file + "]")
@@ -27,5 +30,6 @@ class DSSUtils:
 
     def dss_command(self, command: str):
         self._dss.text(command)
+
 
 dss_utils = DSSUtils(None)
