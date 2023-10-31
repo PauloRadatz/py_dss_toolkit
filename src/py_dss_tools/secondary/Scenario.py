@@ -18,18 +18,29 @@ from py_dss_tools.model.ElectricModel import ElectricModel
 from dataclasses import dataclass, field
 from typing import Union, Optional
 
+from py_dss_tools.algorithms.LoadAllocation import load_allocation
+from py_dss_tools.dss_utils import DSSUtils
+
 @dataclass(kw_only=True)
 class Scenario:
-    _dss: DSS = field(init=True, repr=False)
+    # _dss: DSS = field(init=True, repr=False)
     _name: str = field(default='scenario_' + Utils.generate_random_string(), init=True, repr=True)
     _dss_file: str = field(init=True, repr=True)
-    _frequency_base: Union[int, float] = field(default=60, init=False)
+    _frequency_base: Union[int, float] = field(default=60, init=True)
+    _dll: str = field(default=None, init=True)
     _model: Optional[ElectricModel] = field(init=False, repr=False)
 
     def __post_init__(self):
+        # Objects
+        if self._dll:
+            self._dss = DSS(self._dll)
+        else:
+            self._dss = DSS("C:\OpenDSS_rep\Version8\Source")
         self._dss.text(f"compile [{self._dss_file}]")
         self._name = Utils.remove_blank_spaces(self._name)
         self._model = None
+
+        self.dss_utils = DSSUtils(self._dss)
 
     def to_dict(self) -> dict:
         return self.__dict__
@@ -67,5 +78,3 @@ class Scenario:
     def update_model_dataframes(self):
         self._model = ElectricModel(_dss=self._dss)
 
-    def dss_command(self, command: str):
-        self._dss.text(command)

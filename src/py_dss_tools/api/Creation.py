@@ -11,6 +11,8 @@ from py_dss_tools.model.pdelement import Line
 from py_dss_tools.model.pdelement import Transformer
 from py_dss_tools.secondary import Scenario, Circuit
 
+from typing import Optional
+
 
 # TODO
 def check_scenario_exist(sc) -> bool:
@@ -22,11 +24,11 @@ def check_circuit_exist(circuit) -> bool:
     return isinstance(circuit, Circuit)
 
 
-def create_scenario(name: str, dss: DSS, dss_file: str, **kwargs) -> Scenario:
+def create_scenario(name: str, dss_file: str, frequency_base: [int, float] = 60, dll: Optional[str] = None, **kwargs) -> Scenario:
     """Create a scenario to starts work with OpenDSS."""
     try:
-        sc = Scenario(_name=name, _dss=dss, _dss_file=dss_file)
-        sc = treat_object(obj=sc, kwargs=kwargs)
+        sc = Scenario(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        # sc = treat_object(obj=sc, kwargs=kwargs)  # TODO Understand it later
         return sc
     except Exception as e:
         raise
