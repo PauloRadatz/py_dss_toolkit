@@ -15,7 +15,7 @@ dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt
 study = py_dss_tools.create_scenario(name="Test", dss_file=str(dss_file))
 study.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
 
-lines_df = study.lines_df
+# lines_df = study.lines_df
 
 study.solve_snapshot()
 
