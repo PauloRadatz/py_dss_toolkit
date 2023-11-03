@@ -5,11 +5,7 @@
 """
 from re import search
 
-from py_dss_interface import DSS
-
-from py_dss_tools.model.pdelement import Line
-from py_dss_tools.model.pdelement import Transformer
-from py_dss_tools.secondary import Scenario, Circuit
+from py_dss_tools.secondary import Scenario
 
 from typing import Optional
 
@@ -17,11 +13,6 @@ from typing import Optional
 # TODO
 def check_scenario_exist(sc) -> bool:
     return isinstance(sc, Scenario)
-
-
-# TODO
-def check_circuit_exist(circuit) -> bool:
-    return isinstance(circuit, Circuit)
 
 
 def create_scenario(name: str, dss_file: str, frequency_base: [int, float] = 60, dll: Optional[str] = None, **kwargs) -> Scenario:
@@ -34,20 +25,6 @@ def create_scenario(name: str, dss_file: str, frequency_base: [int, float] = 60,
         raise
         print(f"Error when tried to create a Scenario! {e}")
 
-
-def create_circuit(sc: Scenario, name: str, basekv: [int, float] = 115, bus1: str = 'sourcebus',
-                   pu: [int, float] = 1.0001, phases: int = 3, angle: [int, float] = 0,
-                   **kwargs) -> bool:
-    if check_scenario_exist(sc):
-        try:
-            circuit = Circuit(name=name, basekv=basekv, bus1=bus1, pu=pu, phases=phases, angle=angle)
-            sc.circuit = treat_object(obj=circuit, kwargs=kwargs)
-            return True
-        except Exception as e:
-            print(f"Error when tried to create a Circuit {e.message}")
-    else:
-        print("You must create a Scenario first!")
-        return False
 
 
 # def update_circuit_df(sc: Scenario):
@@ -103,103 +80,8 @@ def treat_object(obj: object, kwargs: dict) -> object:
         raise Exception(f"An error occur when tried to set attributes dynamic in object {obj}!")
 
 
-def add_line(sc: Scenario, line: Line) -> bool:
-    if not isinstance(line, Line):
-        return False
-    try:
-        sc.lines = line
-        return True
-    except Exception as e:
-        print(f"Error when tried to attribute line to a Cictuit! {e.message}")
 
 
-def add_transformer(sc: Scenario, trafo: Transformer) -> bool:
-    if not isinstance(trafo, Transformer):
-        return False
-    try:
-        sc.transformers = trafo
-        return True
-    except Exception as e:
-        print(f"Error when tried to attribute transformer to a Cictuit! {e.message}")
-
-
-def create_line(sc: Scenario, name: str, bus1: str, bus2: str, **kwargs) -> bool:
-    try:
-        line = Line(name=name, bus1=bus1, bus2=bus2)
-        sc.lines = treat_object(obj=line, kwargs=kwargs)
-        return True
-    except Exception as e:
-        print(e)
-        return False
-
-
-def create_transformer(sc: Scenario, name: str, **kwargs) -> bool:
-    try:
-        trafo = Transformer(name=name)
-        sc.transformers = treat_object(obj=trafo, kwargs=kwargs)
-        return True
-    except Exception as e:
-        print(e)
-        return False
-
-
-def __translate_lines(sc: Scenario):
-    list_name_attr = generate_list_keys_without_(Line())
-    result = ''
-    for line in sc.lines.iterrows():
-        name = ''
-        for idx, v in enumerate(line[1].values):
-            if v in ['', '[]']:
-                continue
-            if isinstance(v, str) and list_name_attr[idx] != 'name':
-                v = f"'{v}'"
-            if list_name_attr[idx] == 'name':
-                name = v
-                continue
-            attribute_name = list_name_attr[idx]
-            attribute_value = v
-            result += f"{attribute_name}={attribute_value} "
-
-        result = f"new line.{name} {result}"
-        sc.dss.text(result)
-
-
-def __translate_transformers(sc: Scenario):
-    list_name_attr = generate_list_keys_without_(Transformer())
-    result = ''
-    for trafo in sc.transformers.iterrows():
-        trafo_name = ''
-        for idx, v in enumerate(trafo[1].values):
-            attribute_name = list_name_attr[idx]
-            attribute_value = v
-
-            if search('ppmantifloat', attribute_name):
-                attribute_name = 'ppm_antifloat'
-
-            if attribute_value in ['', '[]']:
-                continue
-
-            if attribute_name == 'name':
-                trafo_name = attribute_value
-                continue
-
-            if isinstance(attribute_value, str) and attribute_name != 'name':
-                attribute_value = f"'{attribute_value}'"
-
-            result += f"{attribute_name}={attribute_value} "
-
-        result = f"new transformer.{trafo_name} {result}"
-        print(result)
-        try:
-            sc.dss.text(result)
-        except Exception as e:
-            print(f"Error when tried to add a trafo! {e}")
-
-
-def __translate_pdelements(sc: Scenario):
-    # autotrans capacitor gictransformer reactor
-    __translate_lines(sc)
-    __translate_transformers(sc)
 
 
 def __translate_controls(sc: Scenario):

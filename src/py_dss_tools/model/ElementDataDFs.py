@@ -1,44 +1,28 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : ElectricModel.py
+# @File    : ElementDataDFs.py
 # @Software: PyCharm
 
 from py_dss_interface import DSS
 import pandas as pd
-from dataclasses import dataclass, field
 
-@dataclass(kw_only=True)
-class ElectricModel:
-    _dss: DSS = field(init=True, repr=False)
-    _lines: pd.DataFrame = field(init=False, repr=False)
-    _transformers: pd.DataFrame = field(init=False, repr=False)
-    _meters: pd.DataFrame = field(init=False, repr=False)
-    # _sensors: pd.DataFrame = field(init=False, repr=False)
 
-    def __post_init__(self):
-        self._lines = self.__create_dataframe(self._dss.lines, "line")
-        self._transformers = self.__create_dataframe(self._dss.transformers, "transformer")
-
-        self._meters = self.__create_dataframe(self._dss.meters, "meter")
-        # self._sensors = self.__create_dataframe(self._dss.sensors, "sensor")
-
+class ModelDataDFs:
+    def __init__(self, dss: DSS):
+        self._dss = dss
 
     @property
-    def lines(self):
-        return self._lines
+    def lines_df(self):
+        return self.__create_dataframe(self._dss.lines, "line")
 
     @property
-    def transformers(self):
-        return self._transformers
+    def transformers_df(self):
+        return self.__create_dataframe(self._dss.transformers, "transformer")
 
     @property
-    def meters(self):
-        return self._meters
-
-    # @property
-    # def sensors(self):
-    #     return self._sensors
+    def meters_df(self):
+        return self.__create_dataframe(self._dss.meters, "meter")
 
     def __create_dataframe(self, element, element_type):
 
@@ -65,9 +49,11 @@ class ElectricModel:
             for _ in range(element.count):
                 if self._dss.cktelement.is_enabled:
                     property_list.append(
-                        self._dss.dssproperties.value_read(str(self._dss.cktelement.property_names.index(element_property) + 1)))
+                        self._dss.dssproperties.value_read(
+                            str(self._dss.cktelement.property_names.index(element_property) + 1)))
                 element.next()
 
             dict_to_df[element_property.lower()] = property_list
 
         return pd.DataFrame().from_dict(dict_to_df)
+
