@@ -35,7 +35,6 @@ class PowerFlowResults:
             self._dss.circuit.set_active_bus(bus)
             num_nodes = self._dss.bus.num_nodes
             nodes = self._dss.bus.nodes
-            self._dss.bus.voltages  # TODO Ask Davis
             vmags = self._dss.bus.vmag_angle_pu[: 2 * num_nodes: 2]
             vangs = self._dss.bus.vmag_angle_pu[1: 2 * num_nodes: 2]
 
