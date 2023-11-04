@@ -21,6 +21,11 @@ generator_df = study.model.generators_df
 
 summary_df = study.model.summary_df
 
-line_650632 = study.model.element(element_class="line", element_name="650632")
+line_650632 = study.model.element_data(element_class="line", element_name="650632")
+
+study.model.edit_element(element_class="line", element_name="650632", properties={"length": 10})
+
+line_650632_new = study.model.element_data(element_class="line", element_name="650632")
+
 
 print("here")
