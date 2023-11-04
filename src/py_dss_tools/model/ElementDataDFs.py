@@ -8,26 +8,30 @@ from py_dss_interface import DSS
 import pandas as pd
 
 
-class ModelDataDFs:
+class ElementDataDFs:
     def __init__(self, dss: DSS):
         self._dss = dss
 
     @property
     def lines_df(self):
-        return self.__create_dataframe(self._dss.lines, "line")
+        return self.__create_dataframe(self._dss.lines)
 
     @property
     def transformers_df(self):
-        return self.__create_dataframe(self._dss.transformers, "transformer")
+        return self.__create_dataframe(self._dss.transformers)
 
     @property
     def meters_df(self):
-        return self.__create_dataframe(self._dss.meters, "meter")
+        return self.__create_dataframe(self._dss.meters)
 
-    def __create_dataframe(self, element, element_type):
+    @property
+    def generators_df(self):
+        return self.__create_dataframe(self._dss.generators)
+
+    def __create_dataframe(self, element):
 
         if element.count == 0:
-            self._dss.text(f"New {element_type}.not_valid_element enabled=no")
+            return None
 
         element.first()
         element_properties = self._dss.cktelement.property_names
@@ -47,10 +51,9 @@ class ModelDataDFs:
 
             element.first()
             for _ in range(element.count):
-                if self._dss.cktelement.is_enabled:
-                    property_list.append(
-                        self._dss.dssproperties.value_read(
-                            str(self._dss.cktelement.property_names.index(element_property) + 1)))
+                property_list.append(
+                    self._dss.dssproperties.value_read(
+                        str(self._dss.cktelement.property_names.index(element_property) + 1)))
                 element.next()
 
             dict_to_df[element_property.lower()] = property_list

@@ -43,7 +43,7 @@ class Scenario(DSSUtils):
         DSSUtils.__init__(self, self._dss)
         # ModelData.__init__(self, self._dss)
 
-        self._modeldata = ModelData(self._dss)
+        self._model = ModelData(self._dss)
 
 
     def to_dict(self) -> dict:
@@ -66,8 +66,8 @@ class Scenario(DSSUtils):
         return self._dss
 
     @property
-    def modeldata(self):
-        return self._modeldata
+    def model(self):
+        return self._model
 
     @property
     def results(self):
