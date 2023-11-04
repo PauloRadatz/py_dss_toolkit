@@ -4,10 +4,10 @@
 # @File    : PowerFlow.py
 # @Software: PyCharm
 
-from py_dss_tools.secondary import Scenario
+from py_dss_tools.secondary.StudyBase import StudyBase
 
 
-class PowerFlow(Scenario):
+class PowerFlow(StudyBase):
 
     def __init__(self, name, dss_file, frequency_base, dll):
         super().__init__(name, dss_file, frequency_base, dll)

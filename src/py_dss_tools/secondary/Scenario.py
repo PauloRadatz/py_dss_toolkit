@@ -18,10 +18,11 @@ from typing import Union, Optional
 from py_dss_tools.algorithms.LoadAllocation.load_allocation import LoadAllocation
 from py_dss_tools.dss_utils import DSSUtils
 from py_dss_tools.visualization.VoltageProfile import VoltageProfile
+from py_dss_tools.secondary.StudyBase import StudyBase
 
 
-@dataclass(kw_only=True)
-class Scenario(DSSUtils):
+# @dataclass(kw_only=True)
+class Scenario(StudyBase):
     # _name: str = field(default='scenario_' + Utils.generate_random_string(), init=True, repr=True)
     # _dss_file: str = field(init=True, repr=True)
     # _frequency_base: Union[int, float] = field(default=60, init=True)
@@ -30,47 +31,14 @@ class Scenario(DSSUtils):
     # _modeldata: ModelData = field(init=False, repr=False)
 
     def __init__(self, name, dss_file, frequency_base=60, dll=None):
-        self._name = name
-        self._dll = dll
-        self._dss_file = dss_file
-        # Objects
-        if self._dll:
-            self._dss = DSS(self._dll)
-        else:
-            self._dss = DSS("C:\OpenDSS_rep\Version8\Source")
-        self._dss.text(f"compile [{self._dss_file}]")
-        self._name = Utils.remove_blank_spaces(self._name)
+        super().__init__(name, dss_file, frequency_base=60, dll=None)
         self._results = PowerFlowResults(_dss=self._dss)
-
-        # self.dss_utils = DSSUtils(self._dss)
-        DSSUtils.__init__(self, self._dss)
-        # ModelData.__init__(self, self._dss)
-
-        self._model = ModelData(self._dss)
-
 
     def to_dict(self) -> dict:
         return self.__dict__
 
     def to_list(self) -> list:
         return list(self.__dict__)
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @name.setter
-    def name(self, value: str) -> None:
-        Utils.check_instance(value, 'name', ['str'], )
-        self._name = Utils.remove_blank_spaces(value)
-
-    @property
-    def dss(self):
-        return self._dss
-
-    @property
-    def model(self):
-        return self._model
 
     @property
     def results(self):

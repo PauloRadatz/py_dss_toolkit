@@ -8,27 +8,47 @@ from re import search
 from py_dss_tools.secondary import Scenario
 from py_dss_tools.algorithms.PowerFlow import PowerFlow
 
-from typing import Optional
+from typing import Optional, Union
 
 
 # TODO
-def check_scenario_exist(sc) -> bool:
-    return isinstance(sc, Scenario)
+# def check_scenario_exist(sc) -> bool:
+#     return isinstance(sc, Scenario)
 
 
-def create_scenario(name: str, dss_file: str, study_type: str ="Unknown", frequency_base: [int, float] = 60, dll: Optional[str] = None, **kwargs) -> Scenario:
+def create_scenario(
+    name: str,
+    dss_file: str,
+    study_type: str = "Unknown",
+    frequency_base: [int, float] = 60,
+    dll: Optional[str] = None, **kwargs):
     """Create a scenario to starts work with OpenDSS."""
-    try:
-        if study_type == "Unknown":
-            sc = Scenario(name, dss_file, frequency_base, dll)
-            # sc = treat_object(obj=sc, kwargs=kwargs)  # TODO Understand it later
-        elif study_type == "powerflow":
-            sc = PowerFlow(name, dss_file, frequency_base, dll)
-        return sc
-    except Exception as e:
-        raise
-        print(f"Error when tried to create a Scenario! {e}")
 
+    if study_type == "Unknown":
+        return create_study(dll, dss_file, frequency_base, name)
+        # sc = treat_object(obj=sc, kwargs=kwargs)  # TODO Understand it later
+    elif study_type == "powerflow":
+        return create_powerflow_study(dll, dss_file, frequency_base, name)
+
+
+def create_powerflow_study(
+    name: str,
+    dss_file: str,
+    frequency_base: [int, float] = 60,
+    dll: Optional[str] = None, **kwargs) -> PowerFlow:
+
+    sc = PowerFlow(name, dss_file, frequency_base, dll)
+    return sc
+
+
+def create_study(
+    name: str,
+    dss_file: str,
+    frequency_base: [int, float] = 60,
+    dll: Optional[str] = None, **kwargs) -> Scenario:
+
+    sc = Scenario(name, dss_file, frequency_base, dll)
+    return sc
 
 
 # def update_circuit_df(sc: Scenario):
@@ -82,10 +102,6 @@ def treat_object(obj: object, kwargs: dict) -> object:
         return obj
     else:
         raise Exception(f"An error occur when tried to set attributes dynamic in object {obj}!")
-
-
-
-
 
 
 def __translate_controls(sc: Scenario):
