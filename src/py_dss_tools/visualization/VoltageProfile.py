@@ -4,12 +4,12 @@
 # @File    : VoltageProfile.py
 # @Software: PyCharm
 
-from py_dss_tools.secondary import Scenario
+from py_dss_tools.secondary import StudyGeneric
 import matplotlib.pyplot as plt
 
 class VoltageProfile:
 
-    def __init__(self, study: Scenario):
+    def __init__(self, study: StudyGeneric):
         self._study = study
         self._dss = self._study.dss
 

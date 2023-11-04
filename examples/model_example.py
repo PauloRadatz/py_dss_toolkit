@@ -12,7 +12,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt.dss")
 
-study = py_dss_tools.create_scenario(name="Test", dss_file=str(dss_file))
+study = py_dss_tools.CreateStudy.generic(name="Test", dss_file=str(dss_file))
 study.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
 
 # Read an element DataFrame

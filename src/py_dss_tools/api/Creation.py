@@ -5,7 +5,7 @@
 """
 from re import search
 
-from py_dss_tools.secondary import Scenario
+from py_dss_tools.secondary import StudyGeneric
 from py_dss_tools.algorithms.PowerFlow import PowerFlow
 
 from typing import Optional, Union
@@ -15,40 +15,26 @@ from typing import Optional, Union
 # def check_scenario_exist(sc) -> bool:
 #     return isinstance(sc, Scenario)
 
+class CreateStudy:
 
-def create_scenario(
-    name: str,
-    dss_file: str,
-    study_type: str = "Unknown",
-    frequency_base: [int, float] = 60,
-    dll: Optional[str] = None, **kwargs):
-    """Create a scenario to starts work with OpenDSS."""
+    @staticmethod
+    def generic(
+        name: str,
+        dss_file: str,
+        frequency_base: [int, float] = 60,
+        dll: Optional[str] = None) -> StudyGeneric:
+        sc = StudyGeneric(name, dss_file, frequency_base, dll)
+        return sc
 
-    if study_type == "Unknown":
-        return create_study(dll, dss_file, frequency_base, name)
-        # sc = treat_object(obj=sc, kwargs=kwargs)  # TODO Understand it later
-    elif study_type == "powerflow":
-        return create_powerflow_study(dll, dss_file, frequency_base, name)
+    @staticmethod
+    def power_flow(
+        name: str,
+        dss_file: str,
+        frequency_base: [int, float] = 60,
+        dll: Optional[str] = None) -> PowerFlow:
 
-
-def create_powerflow_study(
-    name: str,
-    dss_file: str,
-    frequency_base: [int, float] = 60,
-    dll: Optional[str] = None, **kwargs) -> PowerFlow:
-
-    sc = PowerFlow(name, dss_file, frequency_base, dll)
-    return sc
-
-
-def create_study(
-    name: str,
-    dss_file: str,
-    frequency_base: [int, float] = 60,
-    dll: Optional[str] = None, **kwargs) -> Scenario:
-
-    sc = Scenario(name, dss_file, frequency_base, dll)
-    return sc
+        sc = PowerFlow(name, dss_file, frequency_base, dll)
+        return sc
 
 
 # def update_circuit_df(sc: Scenario):
@@ -104,23 +90,23 @@ def treat_object(obj: object, kwargs: dict) -> object:
         raise Exception(f"An error occur when tried to set attributes dynamic in object {obj}!")
 
 
-def __translate_controls(sc: Scenario):
+def __translate_controls(sc: StudyGeneric):
     pass
 
 
-def __translate_generals(sc: Scenario):
+def __translate_generals(sc: StudyGeneric):
     pass
 
 
-def __translate_meters(sc: Scenario):
+def __translate_meters(sc: StudyGeneric):
     pass
 
 
-def __translate_others(sc: Scenario):
+def __translate_others(sc: StudyGeneric):
     pass
 
 
-def __translate_pcelements(sc: Scenario):
+def __translate_pcelements(sc: StudyGeneric):
     pass
 
 
@@ -139,7 +125,7 @@ def __create_text_(obj: object) -> [str, str]:
     return name, result
 
 
-def __translate_circuit(sc: Scenario) -> bool:
+def __translate_circuit(sc: StudyGeneric) -> bool:
     try:
         name, text = __create_text_(sc.circuit)
         result = f"new circuit.{name} {text}"
@@ -150,7 +136,7 @@ def __translate_circuit(sc: Scenario) -> bool:
         return False
 
 
-def run_scenario(sc: Scenario):
+def run_scenario(sc: StudyGeneric):
     try:
         __translate_circuit(sc)
         # __translate_controls(sc)

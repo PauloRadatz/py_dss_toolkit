@@ -3,10 +3,10 @@
  Created by Ênio Viana at 09/10/2021 at 01:10:03
  Project: py-dss-tools [out, 2021]
 """
-from py_dss_tools.secondary.Scenario import Scenario
+from py_dss_tools.secondary.StudyGeneric import StudyGeneric
 
 
-def conv_circuit(sc: Scenario):
+def conv_circuit(sc: StudyGeneric):
     dss = sc.dss
     circuit = sc.circuit
 
@@ -28,7 +28,7 @@ def conv_circuit(sc: Scenario):
     dss.text(f"new circuit.{sc.circuit.name} {result}")
 
 
-def conv_line(sc: Scenario, row):
+def conv_line(sc: StudyGeneric, row):
     total = zip(sc.circuit.df_lines.columns_, row)
     result = ''
     name = 'unknow_line'

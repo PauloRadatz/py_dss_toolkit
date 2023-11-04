@@ -2,9 +2,7 @@ __version__ = '0.1.0'
 
 from .algorithms import *
 from .api import *
-# from .api.Creation import (check_scenario_exist,
-#                            create_scenario, run_scenario, solve_scenario, )
-from .api.Creation import (create_scenario, run_scenario, solve_scenario, create_study, create_powerflow_study)
+from .api.Creation import (run_scenario, solve_scenario, CreateStudy)
 from .common import *
 from .controller import *
 from .converter import *

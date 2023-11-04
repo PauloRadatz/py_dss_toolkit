@@ -4,4 +4,4 @@
  Project: py_dss_tools [set, 2021]
 """
 
-from .Scenario import Scenario
+from .StudyGeneric import StudyGeneric

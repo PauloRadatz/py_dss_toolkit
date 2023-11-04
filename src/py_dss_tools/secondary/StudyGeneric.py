@@ -20,9 +20,7 @@ from py_dss_tools.dss_utils import DSSUtils
 from py_dss_tools.visualization.VoltageProfile import VoltageProfile
 from py_dss_tools.secondary.StudyBase import StudyBase
 
-
-# @dataclass(kw_only=True)
-class Scenario(StudyBase):
+class StudyGeneric(StudyBase):
     # _name: str = field(default='scenario_' + Utils.generate_random_string(), init=True, repr=True)
     # _dss_file: str = field(init=True, repr=True)
     # _frequency_base: Union[int, float] = field(default=60, init=True)
