@@ -6,6 +6,7 @@
 from re import search
 
 from py_dss_tools.secondary import Scenario
+from py_dss_tools.algorithms.PowerFlow import PowerFlow
 
 from typing import Optional
 
@@ -15,11 +16,14 @@ def check_scenario_exist(sc) -> bool:
     return isinstance(sc, Scenario)
 
 
-def create_scenario(name: str, dss_file: str, frequency_base: [int, float] = 60, dll: Optional[str] = None, **kwargs) -> Scenario:
+def create_scenario(name: str, dss_file: str, study_type: str ="Unknown", frequency_base: [int, float] = 60, dll: Optional[str] = None, **kwargs) -> Scenario:
     """Create a scenario to starts work with OpenDSS."""
     try:
-        sc = Scenario(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
-        # sc = treat_object(obj=sc, kwargs=kwargs)  # TODO Understand it later
+        if study_type == "Unknown":
+            sc = Scenario(name, dss_file, frequency_base, dll)
+            # sc = treat_object(obj=sc, kwargs=kwargs)  # TODO Understand it later
+        elif study_type == "powerflow":
+            sc = PowerFlow(name, dss_file, frequency_base, dll)
         return sc
     except Exception as e:
         raise

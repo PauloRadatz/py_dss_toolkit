@@ -22,14 +22,17 @@ from py_dss_tools.visualization.VoltageProfile import VoltageProfile
 
 @dataclass(kw_only=True)
 class Scenario(DSSUtils):
-    _name: str = field(default='scenario_' + Utils.generate_random_string(), init=True, repr=True)
-    _dss_file: str = field(init=True, repr=True)
-    _frequency_base: Union[int, float] = field(default=60, init=True)
-    _dll: str = field(default=None, init=True)
-    _results: PowerFlowResults = field(init=False, repr=False)
-    _modeldata: ModelData = field(init=False, repr=False)
+    # _name: str = field(default='scenario_' + Utils.generate_random_string(), init=True, repr=True)
+    # _dss_file: str = field(init=True, repr=True)
+    # _frequency_base: Union[int, float] = field(default=60, init=True)
+    # _dll: str = field(default=None, init=True)
+    # _results: PowerFlowResults = field(init=False, repr=False)
+    # _modeldata: ModelData = field(init=False, repr=False)
 
-    def __post_init__(self):
+    def __init__(self, name, dss_file, frequency_base=60, dll=None):
+        self._name = name
+        self._dll = dll
+        self._dss_file = dss_file
         # Objects
         if self._dll:
             self._dss = DSS(self._dll)
