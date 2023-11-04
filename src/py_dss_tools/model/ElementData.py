@@ -57,3 +57,10 @@ class ElementData:
 
         self._dss.text(dss_string)
 
+    def add_element(self, element_class, element_name, properties):
+        dss_string = f"new {element_class}.{element_name} "
+        for p, v in properties.items():
+            dss_string = dss_string + f" {p}={v}"
+        self._dss.text(dss_string)
+
+

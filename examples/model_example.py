@@ -27,5 +27,8 @@ study.model.edit_element(element_class="line", element_name="650632", properties
 
 line_650632_new = study.model.element_data(element_class="line", element_name="650632")
 
+study.model.add_element(element_class="line", element_name="650632_1", properties={"bus1": "source_bus", "bus2":"a"})
+
+line_650632_1 = study.model.element_data(element_class="line", element_name="650632_1")
 
 print("here")
