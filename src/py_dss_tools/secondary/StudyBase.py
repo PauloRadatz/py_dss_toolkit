@@ -12,13 +12,18 @@ from ..utils import Utils
 
 from py_dss_tools.model.ModelData import ModelData
 from py_dss_tools.dss_utils import DSSUtils
+from dataclasses import dataclass, field
+from typing import Union, Optional
 
+
+@dataclass(kw_only=True)
 class StudyBase(DSSUtils):
-    def __init__(self, name, dss_file, frequency_base=60, dll=None):
-        self._name = name
-        self._dll = dll
-        self._dss_file = dss_file
-        # Objects
+    _name: str = field(default='scenario_' + Utils.generate_random_string(), init=True, repr=True)
+    _dss_file: str = field(init=True, repr=True)
+    _frequency_base: Union[int, float] = field(default=60, init=True)
+    _dll: str = field(default=None, init=True)
+
+    def __post_init__(self):
         if self._dll:
             self._dss = DSS(self._dll)
         else:
@@ -28,8 +33,6 @@ class StudyBase(DSSUtils):
 
         # self.dss_utils = DSSUtils(self._dss)
         DSSUtils.__init__(self, self._dss)
-        # ModelData.__init__(self, self._dss)
-
         self._model = ModelData(self._dss)
 
     @property
@@ -48,4 +51,3 @@ class StudyBase(DSSUtils):
     @property
     def model(self):
         return self._model
-

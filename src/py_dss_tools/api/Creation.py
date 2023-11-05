@@ -23,7 +23,7 @@ class CreateStudy:
         dss_file: str,
         frequency_base: [int, float] = 60,
         dll: Optional[str] = None) -> StudyGeneric:
-        sc = StudyGeneric(name, dss_file, frequency_base, dll)
+        sc = StudyGeneric(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
         return sc
 
     @staticmethod
@@ -33,7 +33,7 @@ class CreateStudy:
         frequency_base: [int, float] = 60,
         dll: Optional[str] = None) -> PowerFlow:
 
-        sc = PowerFlow(name, dss_file, frequency_base, dll)
+        sc = PowerFlow(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
         return sc
 
 

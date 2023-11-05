@@ -9,5 +9,5 @@ from py_dss_tools.secondary.StudyBase import StudyBase
 
 class PowerFlow(StudyBase):
 
-    def __init__(self, name, dss_file, frequency_base, dll):
-        super().__init__(name, dss_file, frequency_base, dll)
+    def __post_init__(self):
+        super().__post_init__()
