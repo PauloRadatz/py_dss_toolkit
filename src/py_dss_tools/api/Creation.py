@@ -5,10 +5,10 @@
 """
 from re import search
 
-from py_dss_tools.secondary import StudyGeneric
-from py_dss_tools.algorithms.PowerFlow import PowerFlow
+from py_dss_tools.studies.StudyGeneric import StudyGeneric
+from py_dss_tools.studies.PowerFlow import PowerFlow
 
-from typing import Optional, Union
+from typing import Optional
 
 
 # TODO

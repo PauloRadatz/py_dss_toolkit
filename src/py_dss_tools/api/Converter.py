@@ -3,7 +3,7 @@
  Created by Ênio Viana at 09/10/2021 at 01:10:03
  Project: py-dss-tools [out, 2021]
 """
-from py_dss_tools.secondary.StudyGeneric import StudyGeneric
+from py_dss_tools.studies.StudyGeneric import StudyGeneric
 
 
 def conv_circuit(sc: StudyGeneric):

@@ -3,21 +3,13 @@
  Created by Ênio Viana at 02/09/2021 at 00:42:09
  Project: py_dss_tools [set, 2021]
 """
-import attr
-import pandas as pd
-from py_dss_interface import DSS
 
-from ..utils import Utils
-
-from py_dss_tools.model.ModelData import ModelData
 from py_dss_tools.results.PowerFlowResults import PowerFlowResults
-from dataclasses import dataclass, field
-from typing import Union, Optional
+from dataclasses import dataclass
 
 from py_dss_tools.algorithms.LoadAllocation.load_allocation import LoadAllocation
-from py_dss_tools.dss_utils import DSSUtils
 from py_dss_tools.visualization.VoltageProfile import VoltageProfile
-from py_dss_tools.secondary.StudyBase import StudyBase
+from py_dss_tools.studies.StudyBase import StudyBase
 
 
 @dataclass(kw_only=True)

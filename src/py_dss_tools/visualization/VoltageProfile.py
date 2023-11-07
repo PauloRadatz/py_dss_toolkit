@@ -4,7 +4,7 @@
 # @File    : VoltageProfile.py
 # @Software: PyCharm
 
-from py_dss_tools.secondary import StudyGeneric
+from py_dss_tools.studies import StudyGeneric
 import matplotlib.pyplot as plt
 
 class VoltageProfile:

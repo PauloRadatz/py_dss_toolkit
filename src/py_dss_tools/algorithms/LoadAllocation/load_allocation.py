@@ -6,7 +6,7 @@
 
 from py_dss_interface import DSS
 import pandas as pd
-from py_dss_tools.secondary import StudyGeneric
+from py_dss_tools.studies import StudyGeneric
 from typing import Union
 
 

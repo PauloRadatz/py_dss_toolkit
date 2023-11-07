@@ -8,7 +8,7 @@ import attr
 import pandas as pd
 from py_dss_interface import DSS
 
-from ..utils import Utils
+from py_dss_tools.utils import Utils
 
 from py_dss_tools.model.ModelData import ModelData
 from py_dss_tools.dss_utils import DSSUtils

@@ -4,7 +4,7 @@
 # @File    : PowerFlow.py
 # @Software: PyCharm
 
-from py_dss_tools.secondary.StudyBase import StudyBase
+from py_dss_tools.studies.StudyBase import StudyBase
 
 
 class PowerFlow(StudyBase):
