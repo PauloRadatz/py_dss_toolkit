@@ -18,4 +18,6 @@ study.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
 
 study.solve_snapshot()
 
-print(study.model.lines_df)
+print(study.results.voltage_ln_nodes[0])
+
+study.view.plot_profile()

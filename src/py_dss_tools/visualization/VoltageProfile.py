@@ -4,17 +4,19 @@
 # @File    : VoltageProfile.py
 # @Software: PyCharm
 
-from py_dss_tools.studies import StudyGeneric
+from py_dss_tools.results.StaticResults import StaticResults
 import matplotlib.pyplot as plt
+from py_dss_interface import DSS
+
 
 class VoltageProfile:
 
-    def __init__(self, study: StudyGeneric):
-        self._study = study
-        self._dss = self._study.dss
+    def __init__(self, dss: DSS, results: StaticResults):
+        self._results = results
+        self._dss = dss
 
     def plot_profile(self):
-        df = self._study.results.voltages[0]
+        df = self._results.voltage_ln_nodes[0]
         buses = [bus.lower().split(".")[0] for bus in self._dss.circuit.buses_names]
         distances = self._dss.circuit.buses_distances
 
@@ -46,4 +48,3 @@ class VoltageProfile:
         plt.show()
 
         self._dss.text("plot profile phases=all")
-

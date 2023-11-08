@@ -15,14 +15,9 @@ dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt
 study = py_dss_tools.CreateStudy.generic(name="Test", dss_file=str(dss_file))
 study.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
 
-# lines_df = study.lines_df
-
 study.solve_snapshot()
 
-study.allocate_load()
-study.solve_snapshot()
-
-voltages = study.results.voltages[0]
+voltages = study.results.voltage_ln_nodes[0]
 
 
-study.plot_profile()
+study.view.plot_profile()

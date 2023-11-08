@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : PowerFlowResults.py
+# @File    : VoltageLNNodes.py
 # @Software: PyCharm
 
 from py_dss_interface import DSS
@@ -9,18 +9,15 @@ import pandas as pd
 from dataclasses import dataclass, field
 from typing import Tuple
 
-@dataclass(kw_only=True)
-class PowerFlowResults:
-    _dss: DSS = field(init=True, repr=False)
-    _voltages: Tuple[pd.DataFrame, pd.DataFrame] = field(init=False, repr=False)
-    _currents: Tuple[pd.DataFrame, pd.DataFrame] = field(init=False, repr=False)
-    _powers: Tuple[pd.DataFrame, pd.DataFrame] = field(init=False, repr=False)
-    _distance: pd.DataFrame = field(init=False, repr=False)
+
+class Voltages:
+    def __init__(self, dss: DSS):
+        self._dss = dss
 
     @property
-    def voltages(self):
-        self._voltages = self.__create_dataframe()
-        return self._voltages
+    def voltage_ln_nodes(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        self._voltage_ln_nodes = self.__create_dataframe()
+        return self._voltage_ln_nodes
 
     def __create_dataframe(self):
 
@@ -57,6 +54,3 @@ class PowerFlowResults:
                 vangs_df.loc[bus, column_name] = bus_vangs[bus][0]
 
         return vmags_df, vangs_df
-
-
-

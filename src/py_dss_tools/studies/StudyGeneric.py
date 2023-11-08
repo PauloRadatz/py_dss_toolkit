@@ -4,19 +4,21 @@
  Project: py_dss_tools [set, 2021]
 """
 
-from py_dss_tools.results.PowerFlowResults import PowerFlowResults
+from py_dss_tools.results.Results import Results
 from dataclasses import dataclass
 
 from py_dss_tools.algorithms.LoadAllocation.load_allocation import LoadAllocation
 from py_dss_tools.visualization.VoltageProfile import VoltageProfile
 from py_dss_tools.studies.StudyBase import StudyBase
+from py_dss_tools.visualization.ViewResults import ViewResults
 
 
-@dataclass(kw_only=True)
+# @dataclass(kw_only=True)
 class StudyGeneric(StudyBase):
     def __post_init__(self):
         super().__post_init__()
-        self._results = PowerFlowResults(_dss=self._dss)
+        self._results = Results(self._dss)
+        self._view = ViewResults(self._dss, self._results)
 
     def to_dict(self) -> dict:
         return self.__dict__
@@ -28,10 +30,14 @@ class StudyGeneric(StudyBase):
     def results(self):
         return self._results
 
-    def allocate_load(self):
-        load_allocation = LoadAllocation(self)
-        load_allocation.run_load_allocation_kw(5000)
-        print(load_allocation.get_status())
+    @property
+    def view(self):
+        return self._view
 
-    def plot_profile(self):
-        VoltageProfile(self).plot_profile()
+    # def allocate_load(self):
+    #     load_allocation = LoadAllocation(self)
+    #     load_allocation.run_load_allocation_kw(5000)
+    #     print(load_allocation.get_status())
+    #
+    # def plot_profile(self):
+    #     VoltageProfile(self).plot_profile()

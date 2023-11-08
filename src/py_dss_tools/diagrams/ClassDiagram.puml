@@ -1,25 +1,105 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Scenario {
-    -id: int
-    -circuit: Circuit
-    -log_scene: string
-    -dss
-    -logger
-    -dss_file
+DSSUtils <|-- StudyBase
+StudyBase <|-- StudyGeneric
+StudyBase <|-- StudyPowerFlow
+StudyBase <|-- StudyShortCircuit
 
-    +void create_scenario()
+StudyBase "1" *-- "1" ModelBase : contains
+ElementDataDFs <|-- ModelBase
+BusesDataDF <|-- ModelBase
+SummaryModelData <|-- ModelBase
+ElementData <|-- ModelBase
+
+Voltages <|-- StaticResults
+Currents <|-- StaticResults
+Powers <|-- StaticResults
+
+EnergyMeter <|-- TemporalResults
+
+StaticResults <|-- Results
+TemporalResults <|-- Results
+ShortCircuitResults <|-- Results
+
+StudyGeneric "1" *-- "1" Results : contains
+StudyPowerFlow "1" *-- "1" StaticResults : contains
+StudyShortCircuit "1" *-- "1" ShortCircuitResults : contains
+
+VoltageProfile <|-- ViewStaticResults
+ViewStaticResults "1" o-- "1" StaticResults : contains
+StudyPowerFlow "1" *-- "1" ViewStaticResults : contains
+
+ViewStaticResults <|-- ViewResults
+ViewResults "1" o-- "1" Results : contains
+StudyGeneric "1" *-- "1" ViewResults : contains
+
+class DSSUtils {
+    -dss: DSS
+
+    +compile_dss(dss_file: string)
 }
 
-class Circuit {
-    -id: int
-    -dss
+class StudyBase {
+    +name: string
+    +dss: DSS
+    +model: ModelBase
 }
 
+class StudyGeneric {
+    +results: R
+}
 
-Employee <|-- Professor
+class StudyPowerFlow {
+    +results: R
+}
 
-Scenario -- Circuit
+class ModelBase {
+    -dss: DSS
+}
+
+class ElementDataDFs {
+    -dss: DSS
+    +lines_df: pd.DataFrame
+    +transformers_df: pd.DataFrame
+    +meters_df: pd.DataFrame
+    +generators_df: pd.DataFrame
+
+    -create_dataframe(element: DSS.Element)
+}
+
+class BusesDataDF {
+    -dss: DSS
+    +buses_df: pd.DataFrame
+
+    -create_dataframe()
+}
+
+class SummaryModelData {
+    -dss: DSS
+    +summary_df: pd.DataFrame
+
+    -create_dataframe()
+}
+
+class ElementData {
+    -dss: DSS
+    +element_data(element_class: string, element_name: string): pd.DataFrame
+    +edit_element(element_class: string, element_name: string, properties: dict)
+    +add_element(element_class: string, element_name: string, properties: dict)
+    -is_element_in_model(element_class: string, element_name: string)
+}
+
+class StaticResults {
+    -dss: DSS
+    +losses
+    +total_power
+    +voltage_violations
+}
+
+class Voltages {
+    -dss: DSS
+    +voltage_ln_nodes: Tuple[pd.DataFrame, pd.DataFrame]
+}
 
 @enduml

@@ -13,19 +13,19 @@ class ElementDataDFs:
         self._dss = dss
 
     @property
-    def lines_df(self):
+    def lines_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.lines)
 
     @property
-    def transformers_df(self):
+    def transformers_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.transformers)
 
     @property
-    def meters_df(self):
+    def meters_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.meters)
 
     @property
-    def generators_df(self):
+    def generators_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.generators)
 
     def __create_dataframe(self, element):

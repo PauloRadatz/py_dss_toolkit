@@ -6,7 +6,7 @@
 from re import search
 
 from py_dss_tools.studies.StudyGeneric import StudyGeneric
-from py_dss_tools.studies.PowerFlow import PowerFlow
+from py_dss_tools.studies.StudyPowerFlow import StudyPowerFlow
 
 from typing import Optional
 
@@ -31,9 +31,9 @@ class CreateStudy:
         name: str,
         dss_file: str,
         frequency_base: [int, float] = 60,
-        dll: Optional[str] = None) -> PowerFlow:
+        dll: Optional[str] = None) -> StudyPowerFlow:
 
-        sc = PowerFlow(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        sc = StudyPowerFlow(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
         return sc
 
 
