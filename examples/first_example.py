@@ -16,6 +16,7 @@ study = py_dss_tools.CreateStudy.generic(name="Test", dss_file=str(dss_file))
 study.utils.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
 
 study.utils.solve_snapshot()
+study.dss.text("sample")
 
 voltages = study.results.voltage_ln_nodes[0]
 currents = study.results.currents_elements[0]

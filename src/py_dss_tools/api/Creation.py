@@ -7,6 +7,7 @@ from re import search
 
 from py_dss_tools.studies.StudyGeneric import StudyGeneric
 from py_dss_tools.studies.StudyPowerFlow import StudyPowerFlow
+from py_dss_tools.studies.StudyTemporal import StudyTemporal
 
 from typing import Optional
 
@@ -34,6 +35,15 @@ class CreateStudy:
         dll: Optional[str] = None) -> StudyPowerFlow:
 
         sc = StudyPowerFlow(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        return sc
+
+    @staticmethod
+    def temporal(
+        name: str,
+        dss_file: str,
+        frequency_base: [int, float] = 60,
+        dll: Optional[str] = None) -> StudyTemporal:
+        sc = StudyTemporal(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
         return sc
 
 
