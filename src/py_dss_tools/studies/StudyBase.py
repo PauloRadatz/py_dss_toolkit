@@ -10,14 +10,13 @@ from py_dss_interface import DSS
 
 from py_dss_tools.utils import Utils
 
-from py_dss_tools.model.ModelData import ModelData
-from py_dss_tools.dss_utils import DSSUtils
+from py_dss_tools.model.ModelBase import ModelBase
 from dataclasses import dataclass, field
 from typing import Union, Optional
 
 
 @dataclass(kw_only=True)
-class StudyBase(DSSUtils):
+class StudyBase:
     _name: str = field(default='scenario_' + Utils.generate_random_string(), init=True, repr=True)
     _dss_file: str = field(init=True, repr=True)
     _frequency_base: Union[int, float] = field(default=60, init=True)
@@ -31,9 +30,7 @@ class StudyBase(DSSUtils):
         self._dss.text(f"compile [{self._dss_file}]")
         self._name = Utils.remove_blank_spaces(self._name)
 
-        # self.dss_utils = DSSUtils(self._dss)
-        DSSUtils.__init__(self, self._dss)
-        self._model = ModelData(self._dss)
+        self._model = ModelBase(self._dss)
 
     @property
     def name(self) -> str:

@@ -41,10 +41,16 @@ class VoltageProfile:
         plt.ylabel('Voltage (pu)')
         plt.title('Voltage Profile')
         plt.xticks(rotation=45)
-        plt.legend([f'Node {node}' for node in range(1, 4)])
+
+        legend_labels = [f'Node {node}' for node in range(1, 4)]
+        legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=node_colors[node], markersize=10)
+                          for node in range(1, 4)]
+        plt.legend(legend_handles, legend_labels)
+
+
         plt.grid(True)
         plt.tight_layout()
 
         plt.show()
 
-        self._dss.text("plot profile phases=all")
+        # self._dss.text("plot profile phases=all")

@@ -6,11 +6,13 @@
 
 
 from py_dss_tools.results.StaticResults import StaticResults
+from py_dss_tools.results.TemporalResults import TemporalResults
 from py_dss_interface import DSS
 
 
-class Results(StaticResults):
+class Results(StaticResults, TemporalResults):
 
     def __init__(self, dss: DSS):
         self._dss = dss
         StaticResults.__init__(self, self._dss)
+        TemporalResults.__init__(self, self._dss)

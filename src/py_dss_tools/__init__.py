@@ -6,6 +6,6 @@ from .api.Creation import (run_scenario, solve_scenario, CreateStudy)
 from .common import *
 from .model import *
 from .results import *
-from .visualization import *
+from .view import *
 
 

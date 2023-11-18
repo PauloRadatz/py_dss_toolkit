@@ -4,7 +4,7 @@
 # @File    : ViewResults.py
 # @Software: PyCharm
 
-from py_dss_tools.visualization.VoltageProfile import VoltageProfile
+from py_dss_tools.view.VoltageProfile import VoltageProfile
 from py_dss_tools.results.StaticResults import StaticResults
 from py_dss_interface import DSS
 

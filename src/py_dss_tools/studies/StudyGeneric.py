@@ -8,23 +8,29 @@ from py_dss_tools.results.Results import Results
 from dataclasses import dataclass
 
 from py_dss_tools.algorithms.LoadAllocation.load_allocation import LoadAllocation
-from py_dss_tools.visualization.VoltageProfile import VoltageProfile
+from py_dss_tools.view.VoltageProfile import VoltageProfile
 from py_dss_tools.studies.StudyBase import StudyBase
-from py_dss_tools.visualization.ViewResults import ViewResults
+from py_dss_tools.view.ViewResults import ViewResults
+from py_dss_tools.dss_utils import DSSUtils
 
 
-# @dataclass(kw_only=True)
+@dataclass(kw_only=True)
 class StudyGeneric(StudyBase):
     def __post_init__(self):
         super().__post_init__()
         self._results = Results(self._dss)
         self._view = ViewResults(self._dss, self._results)
+        self._utils = DSSUtils(self._dss)
 
     def to_dict(self) -> dict:
         return self.__dict__
 
     def to_list(self) -> list:
         return list(self.__dict__)
+
+    @property
+    def utils(self):
+        return self._utils
 
     @property
     def results(self):

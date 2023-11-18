@@ -1,7 +1,6 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-DSSUtils <|-- StudyBase
 StudyBase <|-- StudyGeneric
 StudyBase <|-- StudyPowerFlow
 StudyBase <|-- StudyShortCircuit
@@ -22,8 +21,10 @@ StaticResults <|-- Results
 TemporalResults <|-- Results
 ShortCircuitResults <|-- Results
 
+StudyGeneric "1" *-- "1" DSSUtils : contains
 StudyGeneric "1" *-- "1" Results : contains
 StudyPowerFlow "1" *-- "1" StaticResults : contains
+StudyPowerFlow "1" *-- "1" StudyPowerFlowSettings : contains
 StudyShortCircuit "1" *-- "1" ShortCircuitResults : contains
 
 VoltageProfile <|-- ViewStaticResults
@@ -34,10 +35,14 @@ ViewStaticResults <|-- ViewResults
 ViewResults "1" o-- "1" Results : contains
 StudyGeneric "1" *-- "1" ViewResults : contains
 
+StudySettings <|-- StudyPowerFlowSettings
+
 class DSSUtils {
     -dss: DSS
 
     +compile_dss(dss_file: string)
+    +solve_snapshot(control_mode: string, max_control_iter: int)
+    +dss_command(command: string)
 }
 
 class StudyBase {
@@ -47,11 +52,15 @@ class StudyBase {
 }
 
 class StudyGeneric {
-    +results: R
+    +utils: DSSUtils
+    +view: ViewResults
+    +results: Results
 }
 
 class StudyPowerFlow {
-    +results: R
+    +view: ViewStaticResults
+    +results: StaticResults
+    +settings: StudyPowerFlowSettings
 }
 
 class ModelBase {
@@ -64,6 +73,8 @@ class ElementDataDFs {
     +transformers_df: pd.DataFrame
     +meters_df: pd.DataFrame
     +generators_df: pd.DataFrame
+    +vsources_df: pd.DataFrame
+    +regcontrols_df: pd.DataFrame
 
     -create_dataframe(element: DSS.Element)
 }
@@ -100,6 +111,30 @@ class StaticResults {
 class Voltages {
     -dss: DSS
     +voltage_ln_nodes: Tuple[pd.DataFrame, pd.DataFrame]
+
+    -create_dataframe()
+}
+
+class Currents {
+    -dss: DSS
+    +currents_elements: Tuple[pd.DataFrame, pd.DataFrame]
+
+    -create_dataframe()
+}
+
+class Powers {
+    -dss: DSS
+    +powers_elements: Tuple[pd.DataFrame, pd.DataFrame]
+
+    -create_dataframe()
+}
+
+
+class VoltageProfile {
+    -dss: DSS
+    -results: StaticResults
+
+    +plot_profile()
 }
 
 @enduml

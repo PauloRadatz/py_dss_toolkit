@@ -16,8 +16,7 @@ class Voltages:
 
     @property
     def voltage_ln_nodes(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        self._voltage_ln_nodes = self.__create_dataframe()
-        return self._voltage_ln_nodes
+        return self.__create_dataframe()
 
     def __create_dataframe(self):
 

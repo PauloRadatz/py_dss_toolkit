@@ -14,10 +14,15 @@ dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt
 
 study = py_dss_tools.CreateStudy.power_flow(name="Test", dss_file=str(dss_file))
 
-study.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
+study.dss.text("New EnergyMeter.M element=Transformer.Sub terminal=1")
 
-study.solve_snapshot()
+# study.solve_snapshot()
+study.dss.text("set mode= faultstudy")
+study.run()
 
 print(study.results.voltage_ln_nodes[0])
 
+p = study.settings.get_settings()
+
+# study.solve_snapshot()
 study.view.plot_profile()

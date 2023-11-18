@@ -38,10 +38,12 @@ class ElementData:
         return df.T
 
     def __is_element_in_model(self, element_class: str, element_name: str):
+        element_class = element_class.lower()
+        element_name = element_name.lower()
         elements_list = [e.lower() for e in self._dss.circuit.elements_names]
         element_full_name = f"{element_class}.{element_name}"
         if element_full_name not in elements_list:
-            raise ValueError(f"Model does not have {element_class}.{element_name}")
+            raise ValueError(f"Model does not have the {element_class}.{element_name}")
 
     def edit_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
         self.__is_element_in_model(element_class, element_name)

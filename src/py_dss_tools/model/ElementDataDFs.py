@@ -28,6 +28,14 @@ class ElementDataDFs:
     def generators_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.generators)
 
+    @property
+    def vsources_df(self) -> pd.DataFrame:
+        return self.__create_dataframe(self._dss.vsources)
+
+    @property
+    def regcontrols_df(self) -> pd.DataFrame:
+        return self.__create_dataframe(self._dss.regcontrols)
+
     def __create_dataframe(self, element):
 
         if element.count == 0:

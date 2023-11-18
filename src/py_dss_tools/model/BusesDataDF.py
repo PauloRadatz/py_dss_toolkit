@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# @Time    : 11/3/2023 1:17 PM
 # @Author  : Paulo Radatz
-# @Email   : pradatz@epri.com
+# @Email   : paulo.radatz@gmail.com
 # @File    : BusesDataDF.py
 # @Software: PyCharm
 
