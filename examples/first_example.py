@@ -22,5 +22,4 @@ voltages = study.results.voltage_ln_nodes[0]
 currents = study.results.currents_elements[0]
 powers = study.results.powers_elements[0]
 
-
-study.view.plot_profile()
+study.view.voltage_profile()

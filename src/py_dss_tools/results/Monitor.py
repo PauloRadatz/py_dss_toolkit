@@ -19,12 +19,11 @@ class Monitor:
         if name not in [m.lower() for m in self._dss.monitors.names]:
             return None
 
+        return self.__create_dataframe(name)
+
+    def __create_dataframe(self, name: str):
+
         self._dss.monitors.name = name
-        m_mode = self._dss.monitors.mode
-        return {(name, m_mode): self.__create_dataframe()}
-
-    def __create_dataframe(self):
-
         num_channels = self._dss.monitors.num_channels
         headers = self._dss.monitors.header
         dbl_hour = self._dss.monitors.dbl_hour

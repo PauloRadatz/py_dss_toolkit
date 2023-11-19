@@ -18,7 +18,7 @@ class Voltages:
     def voltage_ln_nodes(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         return self.__create_dataframe()
 
-    def __create_dataframe(self):
+    def __create_dataframe(self, v_unit="kV"):
 
         node_order = [node.lower() for node in self._dss.circuit.y_node_order]
         bus_nodes = dict()
