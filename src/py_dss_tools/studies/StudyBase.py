@@ -26,7 +26,7 @@ class StudyBase:
         if self._dll:
             self._dss = DSS(self._dll)
         else:
-            self._dss = DSS("C:\OpenDSS_rep\Version8\Source")
+            self._dss = DSS()
         self._dss.text(f"compile [{self._dss_file}]")
         self._name = Utils.remove_blank_spaces(self._name)
 
