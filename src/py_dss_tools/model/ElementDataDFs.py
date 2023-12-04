@@ -36,6 +36,10 @@ class ElementDataDFs:
     def regcontrols_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.regcontrols)
 
+    @property
+    def loads_df(self) -> pd.DataFrame:
+        return self.__create_dataframe(self._dss.loads)
+
     def __create_dataframe(self, element):
 
         if element.count == 0:
