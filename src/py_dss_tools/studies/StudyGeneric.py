@@ -7,8 +7,6 @@
 from py_dss_tools.results.Results import Results
 from dataclasses import dataclass
 
-from py_dss_tools.algorithms.LoadAllocation.load_allocation import LoadAllocation
-from py_dss_tools.view.VoltageProfile import VoltageProfile
 from py_dss_tools.studies.StudyBase import StudyBase
 from py_dss_tools.view.ViewResults import ViewResults
 from py_dss_tools.dss_utils import DSSUtils

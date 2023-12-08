@@ -31,7 +31,11 @@ class Monitor:
 
         dict_to_df = dict()
         dict_to_df["Hour"] = dbl_hour
-        dict_to_df["sec"] = dbl_freq
+
+        if len(dbl_freq) == 1:
+            dict_to_df["sec"] = 0.0
+        else:
+            dict_to_df["sec"] = dbl_freq
         for index, header in enumerate(headers):
             dict_to_df[header] = self._dss.monitors.channel(index + 1)
 

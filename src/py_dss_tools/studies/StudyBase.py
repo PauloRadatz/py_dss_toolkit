@@ -30,6 +30,7 @@ class StudyBase:
         self._dss.text(f"compile [{self._dss_file}]")
         self._name = Utils.remove_blank_spaces(self._name)
 
+        # TODO check if there is voltagebase
         self._model = ModelBase(self._dss)
 
     @property

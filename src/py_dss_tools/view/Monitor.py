@@ -117,6 +117,9 @@ class Monitor:
                   **kwargs
                   ):
 
+        if name.lower() not in self._dss.monitors.names:
+            raise ValueError(f"{name} is not a monitor")
+
         self._plot_style.apply_style()
 
         fig, ax = plt.subplots()

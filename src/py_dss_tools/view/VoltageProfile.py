@@ -37,6 +37,9 @@ class VoltageProfile:
                         **kwargs
                         ):
 
+        if self._dss.meters.count == 0:
+            raise ValueError(f'At least one enerymeter should exist to plot the voltage profile.')
+
         self._plot_style.apply_style()
         fig, ax = plt.subplots()
         for key, value in kwargs.items():

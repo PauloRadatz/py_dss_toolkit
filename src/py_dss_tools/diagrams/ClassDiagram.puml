@@ -4,6 +4,7 @@
 StudyBase <|-- StudyGeneric
 StudyBase <|-- StudyPowerFlow
 StudyBase <|-- StudyShortCircuit
+StudyBase <|-- StudyTemporal
 
 StudyBase "1" *-- "1" ModelBase : contains
 ElementDataDFs <|-- ModelBase
@@ -16,6 +17,8 @@ Currents <|-- StaticResults
 Powers <|-- StaticResults
 
 EnergyMeter <|-- TemporalResults
+Monitor <|-- TemporalResults
+Monitor <|-- ViewTemporalResults
 
 StaticResults <|-- Results
 TemporalResults <|-- Results
@@ -27,11 +30,16 @@ StudyPowerFlow "1" *-- "1" StaticResults : contains
 StudyPowerFlow "1" *-- "1" StudyPowerFlowSettings : contains
 StudyShortCircuit "1" *-- "1" ShortCircuitResults : contains
 
+StudyTemporal "1" *-- "1" TemporalResults : contains
+StudyTemporal "1" *-- "1" ViewTemporalResults : contains
+
 VoltageProfile <|-- ViewStaticResults
 ViewStaticResults "1" o-- "1" StaticResults : contains
+ViewTemporalResults "1" o-- "1" TemporalResults : contains
 StudyPowerFlow "1" *-- "1" ViewStaticResults : contains
 
 ViewStaticResults <|-- ViewResults
+ViewTemporalResults <|-- ViewResults
 ViewResults "1" o-- "1" Results : contains
 StudyGeneric "1" *-- "1" ViewResults : contains
 
@@ -61,6 +69,12 @@ class StudyPowerFlow {
     +view: ViewStaticResults
     +results: StaticResults
     +settings: StudyPowerFlowSettings
+}
+
+class StudyTemporal {
+    +view: ViewTemporalResults
+    +results: TemporalResults
+    +settings: StudyTemporalSettings
 }
 
 class ModelBase {
