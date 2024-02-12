@@ -66,7 +66,8 @@ class Monitor:
             raise ValueError(f'terminal=3 not implemented')
 
         if m_mode != 0:
-            raise ValueError(f'Invalid monitor mode. It should be 0 not {m_mode}')
+            error_message = f'Invalid monitor mode. It should be 0 not {m_mode}'
+            raise ValueError(error_message)
         if vi_polar in ["false", "no"]:
             raise ValueError(f'Invalid monitor vipolar. It should be True or Yes not {vi_polar}')
 
