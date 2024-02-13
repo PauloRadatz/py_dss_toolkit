@@ -4,7 +4,7 @@
 # @File    : StudyBase.py
 # @Software: PyCharm
 
-import attr
+# import attr
 import pandas as pd
 from py_dss_interface import DSS
 

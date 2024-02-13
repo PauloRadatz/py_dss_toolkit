@@ -7,6 +7,9 @@
 import os
 import pathlib
 import py_dss_tools
+from py_dss_tools.dss_utils import dss_utils
+
+dss_utils.dss_command()
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
