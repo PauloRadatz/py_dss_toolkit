@@ -28,7 +28,7 @@ class StudyPowerFlowSettings(StudySettings):
     def mode(self, value):
         if value.lower() not in ["snap", "snapshot", "daily"]:
             raise ValueError(f'Invalid value for mode. Should be {["snap", "snapshot", "daily"]}.')
-        self.dss.text(f"set mode={value.lower()}")
+        self._dss.text(f"set mode={value.lower()}")
         self._mode = value.lower()
 
     @property
@@ -39,7 +39,7 @@ class StudyPowerFlowSettings(StudySettings):
     def number(self, value):
         if value != 1:
             raise ValueError("Invalid value for number. Should be 1.")
-        self.dss.text(f"set number={value}")
+        self._dss.text(f"set number={value}")
         self._number = value
 
     @property

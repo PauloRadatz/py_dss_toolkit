@@ -50,5 +50,36 @@ class DSSUtils:
         else:
             self._dss.text(f"save circuit")
 
+    def add_line_in_vsource(self, add_meter=True):
+        code = "unrealbus"
+        self._dss.vsources.name = "source"
+        feeder_head_bus = self._dss.cktelement.bus_names[0].split('.')[0].lower()
+        self._dss.circuit.set_active_bus(feeder_head_bus)
+        x = self._dss.bus.x
+        y = self._dss.bus.y
+
+        if feeder_head_bus.split("_")[-1] != code:
+            self._dss.text(f'Edit Vsource.source bus1={feeder_head_bus}_{code}')
+            self._dss.text(f'New Line.feeder_head bus1={feeder_head_bus}_{code} bus2={feeder_head_bus} Switch=True')
+
+            self._dss.text("MakebusList")
+
+            self._dss.circuit.set_active_bus(f'{feeder_head_bus}_{code}')
+            self._dss.bus.x = x
+            self._dss.bus.y = y
+
+            existing_meter = False
+            self._dss.meters.first()
+            for meter in self._dss.meters.names:
+                if meter != "NONE":
+                    self._dss.circuit.set_active_element(f"energymeter.{meter}")
+                    if self._dss.cktelement.is_enabled:
+                        existing_meter = True
+                        break
+            if not existing_meter and add_meter:
+                self.add_meter("meter_feeder_head", "Line.feeder_head", terminal=1)
+
+            self.calc_voltage_base()
+
 
 dss_utils = DSSUtils(None)

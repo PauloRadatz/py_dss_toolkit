@@ -16,9 +16,9 @@ class StudySettings:
     _number: int = field(default=1)
     _time: Union[List[float], Tuple[float]] = field(default=(0, 0))
 
-    @property
-    def dss(self):
-        return self._dss
+    # @property
+    # def dss(self):
+    #     return self._dss
     @property
     def algorithm(self):
         return self._algorithm

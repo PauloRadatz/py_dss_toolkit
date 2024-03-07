@@ -10,7 +10,6 @@ from py_dss_interface import DSS
 from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
 from typing import List, Optional, Union, Tuple
 
-
 class VoltageProfile:
 
     def __init__(self, dss: DSS, results: StaticResults):
@@ -85,7 +84,7 @@ class VoltageProfile:
         fig.set_dpi(dpi)
 
         if save_file_path:
-            plt.savefig(save_file_path)
+            fig.savefig(save_file_path, format="png", dpi=300, bbox_inches='tight')
 
         if show:
             plt.show()

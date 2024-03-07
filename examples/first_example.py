@@ -9,21 +9,21 @@ import pathlib
 import py_dss_tools
 from py_dss_tools.dss_utils import dss_utils
 
-dss_utils.dss_command()
+# dss_utils.dss_command()
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt.dss")
 
 study = py_dss_tools.CreateStudy.generic(name="Test", dss_file=str(dss_file))
-study.utils.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
-study.utils.dss_command("New monitor.MP element=Transformer.Sub terminal=1 mode=1 ppolar=no")
+# study.utils.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
+# study.utils.dss_command("New monitor.MP element=Transformer.Sub terminal=1 mode=1 ppolar=no")
 
-study.utils.dss_command("batchedit load..* daily=default")
+# study.utils.dss_command("batchedit load..* daily=default")
 study.dss.text("set mode=daily")
 study.dss.text("solve")
 # study.dss.text("sample")
-
+study.model.segments_df
 # study.view.p_vs_time("MP")
 voltages = study.results.voltage_ln_nodes[0]
 currents = study.results.currents_elements[0]
