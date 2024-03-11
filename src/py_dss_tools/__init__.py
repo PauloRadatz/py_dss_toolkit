@@ -7,4 +7,4 @@ from .common import *
 from .model import *
 from .results import *
 from .view import *
-from .dss_utils import dss_utils
+from .dss_utils.dss_utils import dss_utils

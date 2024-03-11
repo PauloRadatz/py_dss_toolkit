@@ -20,6 +20,4 @@ class Voltages:
         return self.__create_dataframe()
 
     def __create_dataframe(self):
-        vmags_df, vangs_df = DSSUtils(self._dss).get_circuit_vmag_vang_dfs()
-
-        return vmags_df, vangs_df
+        return DSSUtils(self._dss).results.circuit_vmag_vang_dfs()
