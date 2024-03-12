@@ -8,7 +8,7 @@ from py_dss_interface import DSS
 import pandas as pd
 from dataclasses import dataclass, field
 from typing import Tuple
-from py_dss_tools.dss_utils import DSSUtils
+from py_dss_tools.dss_tools import DSSTools
 
 
 class Circuit:
@@ -20,5 +20,5 @@ class Circuit:
         return self.__create_dataframe()
 
     def __create_dataframe(self):
-        return DSSUtils(self._dss).results.circuit_summary_df()
+        return DSSTools(self._dss).results.circuit_summary_df()
 

@@ -5,4 +5,4 @@
 # @File    : __init__.py.py
 # @Software: PyCharm
 
-from .dss_utils import DSSUtils
+from .dss_tools import DSSTools

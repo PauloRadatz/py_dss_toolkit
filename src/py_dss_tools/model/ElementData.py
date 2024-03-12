@@ -7,6 +7,7 @@
 from py_dss_interface import DSS
 import pandas as pd
 from typing import Dict
+from py_dss_tools.dss_tools import DSSTools
 
 
 class ElementData:
@@ -14,56 +15,12 @@ class ElementData:
         self._dss = dss
 
     def element_data(self, element_class: str, element_name: str) -> pd.DataFrame:
-        self.__is_element_in_model(element_class, element_name)
-
-        self._dss.text(f"select {element_class}.{element_name}")
-
-        element_properties = self._dss.cktelement.property_names
-
-        dict_to_df = dict()
-        dict_to_df["name"] = element_name
-
-        for element_property in element_properties:
-            property_list = list()
-
-            property_list.append(
-                self._dss.dssproperties.value_read(
-                    str(self._dss.cktelement.property_names.index(element_property) + 1)))
-
-            dict_to_df[element_property.lower()] = property_list
-
-        df = pd.DataFrame().from_dict(dict_to_df)
-        df.set_index("name", inplace=True)
-
-        return df.T
-
-    def __is_element_in_model(self, element_class: str, element_name: str):
-        element_class = element_class.lower()
-        element_name = element_name.lower()
-        elements_list = [e.lower() for e in self._dss.circuit.elements_names]
-        element_full_name = f"{element_class}.{element_name}"
-        if element_full_name not in elements_list:
-            raise ValueError(f"Model does not have the {element_class}.{element_name}")
+        return DSSTools(self._dss).model.element_data(element_class, element_name)
 
     def edit_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
-        self.__is_element_in_model(element_class, element_name)
-
-        self._dss.text(f"select {element_class}.{element_name}")
-        element_properties = self._dss.cktelement.property_names
-
-        dss_string = f"edit {element_class}.{element_name} "
-
-        for p, v in properties.items():
-            if p.lower() not in element_properties:
-                raise ValueError(f"{element_class}.{element_name} does not have property {p}")
-            dss_string = dss_string + f" {p}={v}"
-
-        self._dss.text(dss_string)
+        DSSTools(self._dss).model.edit_element(element_class, element_name, properties)
 
     def add_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
-        dss_string = f"new {element_class}.{element_name} "
-        for p, v in properties.items():
-            dss_string = dss_string + f" {p}={v}"
-        self._dss.text(dss_string)
+        DSSTools(self._dss).model.add_element(element_class, element_name, properties)
 
 

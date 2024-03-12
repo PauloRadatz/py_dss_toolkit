@@ -2,14 +2,14 @@
 # @Time    : 3/11/2024 3:10 PM
 # @Author  : Paulo Radatz
 # @Email   : pradatz@epri.com
-# @File    : ResultsUtils.py
+# @File    : ResultsTools.py
 # @Software: PyCharm
 
 from py_dss_interface import DSS
 import pandas as pd
 
 
-class ResultsUtils:
+class ResultsTools:
 
     def __init__(self, dss: DSS):
         self._dss = dss

@@ -7,16 +7,16 @@
 import os
 import pathlib
 import py_dss_tools
-from py_dss_tools.dss_utils import dss_utils
+from py_dss_tools.dss_tools import dss_tools
 
-# dss_utils.dss_command()
+# dss_tools.dss_command()
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt.dss")
 
 study = py_dss_tools.CreateStudy.generic(name="Test", dss_file=str(dss_file))
-# study.utils.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
+study.utils.dss_command("New EnergyMeter.M element=Transformer.Sub terminal=1")
 # study.utils.dss_command("New monitor.MP element=Transformer.Sub terminal=1 mode=1 ppolar=no")
 
 # study.utils.dss_command("batchedit load..* daily=default")

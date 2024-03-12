@@ -6,6 +6,7 @@
 
 from py_dss_interface import DSS
 import pandas as pd
+from py_dss_tools.dss_tools import DSSTools
 
 
 class ElementDataDFs:
@@ -41,34 +42,6 @@ class ElementDataDFs:
         return self.__create_dataframe(self._dss.loads)
 
     def __create_dataframe(self, element):
+        return DSSTools(self._dss).model.element_data_df(element)
 
-        if element.count == 0:
-            return None
-
-        element.first()
-        element_properties = self._dss.cktelement.property_names
-
-        dict_to_df = dict()
-
-        name_list = list()
-        element.first()
-        for _ in range(element.count):
-            if self._dss.cktelement.is_enabled:
-                name_list.append(element.name.lower())
-                element.next()
-        dict_to_df["name"] = name_list
-
-        for element_property in element_properties:
-            property_list = list()
-
-            element.first()
-            for _ in range(element.count):
-                property_list.append(
-                    self._dss.dssproperties.value_read(
-                        str(self._dss.cktelement.property_names.index(element_property) + 1)))
-                element.next()
-
-            dict_to_df[element_property.lower()] = property_list
-
-        return pd.DataFrame().from_dict(dict_to_df)
 
