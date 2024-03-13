@@ -11,6 +11,7 @@ from py_dss_interface import DSS
 import pandas as pd
 from py_dss_tools.dss_tools.ResultsTools import ResultsTools
 from py_dss_tools.dss_tools.ModelTools import ModelTools
+from py_dss_tools.dss_tools.DSSViewTools import DSSViewTools
 
 
 class DSSTools:
@@ -19,13 +20,16 @@ class DSSTools:
         self._dss = dss
 
         if dss:
-            self._results = ResultsTools(self._dss)
-            self._model = ModelTools(self._dss)
+            self.load_objects()
+
+    def load_objects(self):
+        self._results = ResultsTools(self._dss)
+        self._model = ModelTools(self._dss)
+        self._dss_view = DSSViewTools(self._dss)
 
     def update_dss(self, dss: DSS):
         self._dss = dss
-        self._results = ResultsTools(self._dss)
-        self._model = ModelTools(self._dss)
+        self.load_objects()
 
     @property
     def results(self):
@@ -34,6 +38,10 @@ class DSSTools:
     @property
     def model(self):
         return self._model
+
+    @property
+    def dss_view(self):
+        return self._dss_view
 
     def compile_dss(self, dss_file: str):
         self._dss.text("ClearAll")
