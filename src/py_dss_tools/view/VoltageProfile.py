@@ -10,6 +10,7 @@ from py_dss_interface import DSS
 from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
 from typing import List, Optional, Union, Tuple
 
+
 class VoltageProfile:
 
     def __init__(self, dss: DSS, results: StaticResults):
@@ -49,10 +50,19 @@ class VoltageProfile:
         distances = self._dss.circuit.buses_distances
 
         sections = list()
-        self._dss.lines.first()
-        for _ in range(self._dss.lines.count):
-            sections.append((self._dss.lines.bus1.lower().split(".")[0], self._dss.lines.bus2.lower().split(".")[0]))
-            self._dss.lines.next()
+        # self._dss.lines.first()
+        # for _ in range(self._dss.lines.count):
+        #     sections.append((self._dss.lines.bus1.lower().split(".")[0], self._dss.lines.bus2.lower().split(".")[0]))
+        #     self._dss.lines.next()
+        #
+        elements_list = self._dss.circuit.elements_names
+        for element in elements_list:
+            if element.split(".")[0].lower() in ["line", "reactor"]:
+                self._dss.circuit.set_active_element(element)
+                if self._dss.cktelement.is_enabled:
+                    sections.append(
+                        (self._dss.cktelement.bus_names[0].lower().split(".")[0],
+                         self._dss.cktelement.bus_names[1].lower().split(".")[0]))
 
         node_colors = {1: 'black', 2: 'red', 3: 'blue'}
         plt.figure(figsize=(10, 6))
@@ -63,13 +73,13 @@ class VoltageProfile:
                 distance1 = distances[buses.index(bus1)]
                 distance2 = distances[buses.index(bus2)]
                 ax.plot([distance1, distance2], [df.loc[bus1, f'node{node}'], df.loc[bus2, f'node{node}']], marker='o',
-                         color=node_colors[node])
-
+                        color=node_colors[node])
 
         if legend:
             legend_labels = [f'Node {node}' for node in range(1, 4)]
-            legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=node_colors[node], markersize=10)
-                              for node in range(1, 4)]
+            legend_handles = [
+                plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=node_colors[node], markersize=10)
+                for node in range(1, 4)]
             fig.legend(legend_handles, legend_labels)
 
         fig.suptitle(title)

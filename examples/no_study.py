@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# @Time    : 3/11/2024 2:16 PM
 # @Author  : Paulo Radatz
-# @Email   : pradatz@epri.com
+# @Email   : paulo.radatz@gmail.com
 # @File    : no_study.py
 # @Software: PyCharm
 
@@ -17,6 +16,6 @@ dss = py_dss_interface.DSS()
 dss_tools.update_dss(dss)
 
 dss.text(f"compile [{dss_file}]")
-v = dss_tools.results.circuit_vmag_vang_dfs()
+dss_tools.model.summary_df()
 
 print("here")

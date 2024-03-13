@@ -18,5 +18,5 @@ class SummaryModelData:
         return self.__create_dataframe()
 
     def __create_dataframe(self):
-        return DSSTools(self._dss).model.summary_data()
+        return DSSTools(self._dss).model.summary_df()
 
