@@ -276,3 +276,6 @@ class ModelTools:
                 self.add_meter("meter_feeder_head", "Line.feeder_head", terminal=1)
 
             self._dss.text("calcvoltagebase")
+
+    def disable_elements_type(self, element_type: str):
+        self._dss.text(f"batchedit {element_type}..* enabled=false")

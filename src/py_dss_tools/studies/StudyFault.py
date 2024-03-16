@@ -7,9 +7,10 @@
 from py_dss_tools.studies.StudyBase import StudyBase
 from py_dss_tools.results.FaultResults import FaultResults
 from py_dss_tools.view.ViewFaultStudy import ViewFaultResults
+from py_dss_tools.studies.StudyFaultSettings import StudyFaultSettings
 from dataclasses import dataclass
+from py_dss_tools.dss_tools.dss_tools import dss_tools
 
-# from py_dss_tools.studies.StudyTemporalSettings import StudyTemporalSettings
 
 @dataclass(kw_only=True)
 class StudyFault(StudyBase):
@@ -18,7 +19,8 @@ class StudyFault(StudyBase):
         super().__post_init__()
         self._results = FaultResults(self._dss)
         self._view = ViewFaultResults(self._dss, self._results)
-    #     self._settings = StudyTemporalSettings(_dss=self.dss)
+        self._settings = StudyFaultSettings(_dss=self.dss)
+
     @property
     def results(self):
         return self._results
@@ -26,14 +28,27 @@ class StudyFault(StudyBase):
     @property
     def view(self):
         return self._view
-    #
-    # @property
-    # def settings(self):
-    #     return self._settings
-    #
-    # def run(self):
-    #     self.__check_settings()
-    #     self.dss.text("solve")
-    #
-    # def __check_settings(self):
-    #     self.settings.mode = self.dss.text("get mode")
+
+    @property
+    def settings(self):
+        return self._settings
+
+    def run(self, disable_der=True, disable_load=True, disable_capacitor=True, control_mode="off"):
+        if disable_der:
+            dss_tools.model.disable_elements_type("generator")
+            dss_tools.model.disable_elements_type("pvsystem")
+            dss_tools.model.disable_elements_type("storage")
+
+        if disable_load:
+            dss_tools.model.disable_elements_type("load")
+            
+        if disable_capacitor:
+            dss_tools.model.disable_elements_type("capacitor")
+
+        self._dss.text(f"set controlmode={control_mode}")
+
+        self.__check_settings()
+        self.dss.text("solve")
+
+    def __check_settings(self):
+        self.settings.mode = self.dss.text("get mode")

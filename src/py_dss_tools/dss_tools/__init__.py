@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# @Time    : 3/11/2024 3:09 PM
 # @Author  : Paulo Radatz
-# @Email   : pradatz@epri.com
+# @Email   : paulo.radatz@gmail.com
 # @File    : __init__.py.py
 # @Software: PyCharm
 

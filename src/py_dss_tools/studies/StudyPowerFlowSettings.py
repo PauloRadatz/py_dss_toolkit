@@ -9,16 +9,18 @@ from dataclasses import dataclass, field, asdict
 from py_dss_interface import DSS
 from py_dss_tools.studies.StudySettings import StudySettings
 import pandas as pd
+from py_dss_tools.studies.settings_utils import *
 
 
 @dataclass(kw_only=True)
 class StudyPowerFlowSettings(StudySettings):
+    modes = ["snapshot", "snap", "daily"]
 
     def __post_init__(self):
         self._algorithm = "normal"
-        self._mode = "snapshot"
         self._number = 1
         self._time = (0, 0)
+        self._mode = check_mode(self._dss, self.modes)
 
     @property
     def mode(self):
@@ -26,10 +28,7 @@ class StudyPowerFlowSettings(StudySettings):
 
     @mode.setter
     def mode(self, value):
-        if value.lower() not in ["snap", "snapshot", "daily"]:
-            raise ValueError(f'Invalid value for mode. Should be {["snap", "snapshot", "daily"]}.')
-        self._dss.text(f"set mode={value.lower()}")
-        self._mode = value.lower()
+        self._mode = set_mode(self._dss, self.modes, value)
 
     @property
     def number(self):
@@ -52,11 +51,4 @@ class StudyPowerFlowSettings(StudySettings):
         self._time = value
 
     def get_settings(self):
-
-        data = dict()
-        for at, v in self.__dict__.items():
-            if at != "_dss":
-                data[at.replace("_", "")] = v
-        df = pd.DataFrame([data]).T
-        df.columns = ["Settings"]
-        return df
+        return get_settings(self.__dict__)
