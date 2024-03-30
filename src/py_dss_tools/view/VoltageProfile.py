@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from py_dss_interface import DSS
 from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
 from typing import List, Optional, Union, Tuple
+from py_dss_tools.dss_tools.plot_utils import voltage_profile
 
 
 class VoltageProfile:
@@ -37,64 +38,17 @@ class VoltageProfile:
                         **kwargs
                         ):
 
-        if self._dss.meters.count == 0:
-            raise ValueError(f'At least one enerymeter should exist to plot the voltage profile.')
-
-        self._plot_style.apply_style()
-        fig, ax = plt.subplots()
-        for key, value in kwargs.items():
-            setattr(fig, key, value)
-
-        df = self._results.voltage_ln_nodes[0]
-        buses = [bus.lower().split(".")[0] for bus in self._dss.circuit.buses_names]
-        distances = self._dss.circuit.buses_distances
-
-        sections = list()
-        # self._dss.lines.first()
-        # for _ in range(self._dss.lines.count):
-        #     sections.append((self._dss.lines.bus1.lower().split(".")[0], self._dss.lines.bus2.lower().split(".")[0]))
-        #     self._dss.lines.next()
-        #
-        elements_list = self._dss.circuit.elements_names
-        for element in elements_list:
-            if element.split(".")[0].lower() in ["line", "reactor"]:
-                self._dss.circuit.set_active_element(element)
-                if self._dss.cktelement.is_enabled:
-                    sections.append(
-                        (self._dss.cktelement.bus_names[0].lower().split(".")[0],
-                         self._dss.cktelement.bus_names[1].lower().split(".")[0]))
-
-        node_colors = {1: 'black', 2: 'red', 3: 'blue'}
-        plt.figure(figsize=(10, 6))
-
-        for node in range(1, 4):
-            for section in sections:
-                bus1, bus2 = section
-                distance1 = distances[buses.index(bus1)]
-                distance2 = distances[buses.index(bus2)]
-                ax.plot([distance1, distance2], [df.loc[bus1, f'node{node}'], df.loc[bus2, f'node{node}']], marker='o',
-                        color=node_colors[node])
-
-        if legend:
-            legend_labels = [f'Node {node}' for node in range(1, 4)]
-            legend_handles = [
-                plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=node_colors[node], markersize=10)
-                for node in range(1, 4)]
-            fig.legend(legend_handles, legend_labels)
-
-        fig.suptitle(title)
-        ax.set_xlabel(xlabel)
-        ax.set_ylabel(ylabel)
-        ax.set_xlim(xlim)
-        ax.set_ylim(ylim)
-
-        if tight_layout:
-            fig.tight_layout()
-
-        fig.set_dpi(dpi)
-
-        if save_file_path:
-            fig.savefig(save_file_path, format="png", dpi=300, bbox_inches='tight')
-
-        if show:
-            plt.show()
+        voltage_profile(self._dss,
+                        self._results.voltage_ln_nodes[0],
+                        self._plot_style,
+                        title,
+                        xlabel,
+                        ylabel,
+                        xlim,
+                        ylim,
+                        tight_layout,
+                        legend,
+                        dpi,
+                        save_file_path,
+                        show,
+                        **kwargs)

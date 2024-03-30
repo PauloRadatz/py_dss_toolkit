@@ -13,7 +13,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt.dss")
 
 study = py_dss_tools.CreateStudy.power_flow(name="Test", dss_file=str(dss_file))
-
+study.dss.text("New EnergyMeter.M element=Transformer.Sub terminal=1")
 study.run()
 
 v_view = study.view.voltage_profile()
