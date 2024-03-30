@@ -29,7 +29,20 @@ def voltage_profile(dss: DSS,
                     **kwargs
                     ):
     if dss.meters.count == 0:
-        raise ValueError(f'At least one enerymeter should exist to plot the voltage profile.')
+        raise ValueError(f'One enerymeter should exist to plot the voltage profile.')
+    elif dss.meters.count > 1:
+        count_enabled = 0
+        dss.meters.first()
+        for _ in range(dss.meters.count):
+            dss.circuit.set_active_element(f"energymeter.{dss.meters.name}")
+            if dss.cktelement.is_enabled:
+                count_enabled += 1
+            dss.meters.next()
+
+        if count_enabled == 0:
+            raise ValueError(f'At least one enerymeter should be enabled to plot the voltage profile.')
+        elif count_enabled > 1:
+            raise ValueError(f'Only one enerymeter should be enabled to plot the voltage profile.')
 
     plot_style.apply_style()
     fig, ax = plt.subplots()
