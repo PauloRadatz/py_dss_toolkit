@@ -274,5 +274,6 @@ class ResultsTools:
         dict_to_df["x0 (Ohm)"] = x0_list
 
         df = pd.DataFrame.from_dict(dict_to_df)
+        df = df.set_index(["Bus Name"])
 
         return df

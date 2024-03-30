@@ -34,6 +34,7 @@ class StudyFault(StudyBase):
         return self._settings
 
     def run(self, disable_der=True, disable_load=True, disable_capacitor=True, control_mode="off"):
+        dss_tools.update_dss(self._dss)
         if disable_der:
             dss_tools.model.disable_elements_type("generator")
             dss_tools.model.disable_elements_type("pvsystem")
@@ -41,7 +42,7 @@ class StudyFault(StudyBase):
 
         if disable_load:
             dss_tools.model.disable_elements_type("load")
-            
+
         if disable_capacitor:
             dss_tools.model.disable_elements_type("capacitor")
 
