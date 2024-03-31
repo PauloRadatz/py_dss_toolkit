@@ -19,5 +19,7 @@ dss_tools.update_dss(dss)
 dss.text(f"compile [{dss_file}]")
 dss.text("set loadmult=0.2")
 dss.text("solve")
-dss_tools.dss_view.voltage_profile()
-dss_tools.view.voltage_profile()
+# dss_tools.dss_view.voltage_profile()
+
+bus_marker = [dss_tools.view.voltage_profile_get_bus_mark("bus_26", annotate=True, annotation_delta_x=-2)]
+dss_tools.view.voltage_profile(ylim=[0.95, 1.05], buses_marker=bus_marker)

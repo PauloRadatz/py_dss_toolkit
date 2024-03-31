@@ -16,7 +16,9 @@ study = py_dss_tools.CreateStudy.power_flow(name="Test", dss_file=str(dss_file))
 study.dss.text("New EnergyMeter.M element=Transformer.Sub terminal=1")
 study.run()
 
-v_view = study.view.voltage_profile()
+bus_marker = [study.view.voltage_profile_get_bus_mark("671", annotate=True, annotation_delta_x=-2)]
+
+v_view = study.view.voltage_profile(buses_marker=bus_marker)
 
 
 

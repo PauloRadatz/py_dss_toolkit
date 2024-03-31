@@ -8,9 +8,10 @@
 import pandas as pd
 from typing import Dict
 import matplotlib.pyplot as plt
-from typing import List, Optional, Union, Tuple
+from typing import Optional, Union, Tuple, List
 from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
 from py_dss_interface import DSS
+from py_dss_tools.dss_tools.VoltageProfileBusMarker import VoltageProfileBusMarker
 
 
 def voltage_profile(dss: DSS,
@@ -21,6 +22,7 @@ def voltage_profile(dss: DSS,
                     ylabel: Optional[str],
                     xlim: Optional[Tuple[Union[int, float], Union[int, float]]],
                     ylim: Optional[Tuple[Union[int, float], Union[int, float]]],
+                    buses_marker: Optional[List[VoltageProfileBusMarker]],
                     tight_layout: Optional[bool],
                     legend: Optional[bool],
                     dpi: Optional[int],
@@ -67,6 +69,7 @@ def voltage_profile(dss: DSS,
     node_colors = {1: 'black', 2: 'red', 3: 'blue'}
     plt.figure(figsize=(10, 6))
 
+    bus_annotated = list()
     for node in range(1, 4):
         for section in sections:
             bus1, bus2 = section
@@ -74,6 +77,24 @@ def voltage_profile(dss: DSS,
             distance2 = distances[buses.index(bus2)]
             ax.plot([distance1, distance2], [df.loc[bus1, f'node{node}'], df.loc[bus2, f'node{node}']], marker='o',
                     color=node_colors[node])
+
+            if buses_marker:
+                bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
+                if bus_marker:
+                    ax.plot(distance1, df.loc[bus1, f'node{node}'],
+                            marker=bus_marker.marker,
+                            markersize=bus_marker.size,
+                            color=bus_marker.color)
+
+                    if bus1 not in bus_annotated:
+                        if bus_marker.annotate:
+                            ax.annotate(bus_marker.annotation_label,
+                                        xy=(distance1, df.loc[bus1, f'node{node}']),
+                                        xytext=(distance1 + bus_marker.annotation_delta_x,
+                                                df.loc[bus1, f'node{node}'] + bus_marker.annotation_delta_y),
+                                        arrowprops=dict(facecolor='black', shrink=0.05),
+                                        )
+                        bus_annotated.append(bus1)
 
     if legend:
         legend_labels = [f'Node {node}' for node in range(1, 4)]
