@@ -18,7 +18,7 @@ class StudyGeneric(StudyBase):
         super().__post_init__()
         self._results = Results(self._dss)
         self._view = ViewResults(self._dss, self._results)
-        self._utils = DSSTools(self._dss)
+        # self._utils = DSSTools(self._dss)
 
     def to_dict(self) -> dict:
         return self.__dict__
@@ -26,9 +26,9 @@ class StudyGeneric(StudyBase):
     def to_list(self) -> list:
         return list(self.__dict__)
 
-    @property
-    def utils(self):
-        return self._utils
+    # @property
+    # def utils(self):
+    #     return self._utils
 
     @property
     def results(self):

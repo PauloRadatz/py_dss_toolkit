@@ -63,6 +63,10 @@ class DSSTools:
     def configuration(self):
         return self._configuration
 
+    @property
+    def utilities(self):
+        return self._utilities
+
     def text(self, command: str):
         self._dss.text(command)
 
