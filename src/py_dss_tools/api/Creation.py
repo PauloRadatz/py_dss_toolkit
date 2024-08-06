@@ -9,6 +9,7 @@ from py_dss_tools.studies.StudyGeneric import StudyGeneric
 from py_dss_tools.studies.StudyPowerFlow import StudyPowerFlow
 from py_dss_tools.studies.StudyTemporal import StudyTemporal
 from py_dss_tools.studies.StudyFault import StudyFault
+from py_dss_tools.studies.StudyAnalyses import StudyAnalysis
 
 from typing import Optional
 
@@ -18,6 +19,7 @@ from typing import Optional
 #     return isinstance(sc, Scenario)
 
 class CreateStudy:
+    CreateStudy = None
 
     @staticmethod
     def generic(
@@ -34,7 +36,6 @@ class CreateStudy:
         dss_file: str,
         frequency_base: [int, float] = 60,
         dll: Optional[str] = None) -> StudyPowerFlow:
-
         sc = StudyPowerFlow(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
         return sc
 
@@ -54,6 +55,15 @@ class CreateStudy:
         frequency_base: [int, float] = 60,
         dll: Optional[str] = None) -> StudyFault:
         sc = StudyFault(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        return sc
+
+    @staticmethod
+    def model_verification(
+        name: str,
+        dss_file: str,
+        frequency_base: [int, float] = 60,
+        dll: Optional[str] = None) -> StudyAnalysis:
+        sc = StudyAnalysis(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
         return sc
 
 

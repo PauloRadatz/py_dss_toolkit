@@ -11,10 +11,12 @@ import py_dss_tools
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
-dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt.dss")
+dss_file = pathlib.Path(script_path).joinpath("feeders", "123Bus", "IEEE123Master.dss")
 
-study = py_dss_tools.CreateStudy.analysis_feeder_opendss_study(name="Test", dss_file=str(dss_file))
-study.dss.text("New EnergyMeter.M element=Transformer.Sub terminal=1")
-study.results.summary
+study = py_dss_tools.CreateStudy.model_verification(name="Test", dss_file=str(dss_file))
+# study.dss.text("New EnergyMeter.M element=Transformer.Sub terminal=1")
+df = study.results.summary
+df1 = study.results.isolated
+df2 = study.results.load_transformer
 
 print("here")
