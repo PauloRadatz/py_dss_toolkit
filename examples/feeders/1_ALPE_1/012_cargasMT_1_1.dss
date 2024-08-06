@@ -1,0 +1,14 @@
+New Load.MT_435439_M1 bus1=749131.1.2.3.4 phases=3 conn=Delta model=2 kv=23.1 kw=5.9699705 pf=0.92 daily=MT3_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_435439_M2 bus1=749131.1.2.3.4 phases=3 conn=Delta model=3 kv=23.1 kw=5.9699705 pf=0.92 daily=MT3_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_815439_M1 bus1=121851.1.2.3.4 phases=3 conn=Delta model=2 kv=23.1 kw=5.4922805 pf=0.92 daily=MT5_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_815439_M2 bus1=121851.1.2.3.4 phases=3 conn=Delta model=3 kv=23.1 kw=5.4922805 pf=0.92 daily=MT5_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_815711_M1 bus1=121831.1.2.3.4 phases=3 conn=Delta model=2 kv=23.1 kw=2.438547 pf=0.92 daily=MT3_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_815711_M2 bus1=121831.1.2.3.4 phases=3 conn=Delta model=3 kv=23.1 kw=2.438547 pf=0.92 daily=MT3_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_836780_M1 bus1=780941.1.2.3.4 phases=3 conn=Delta model=2 kv=23.1 kw=8.49715 pf=0.92 daily=MT3_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_836780_M2 bus1=780941.1.2.3.4 phases=3 conn=Delta model=3 kv=23.1 kw=8.49715 pf=0.92 daily=MT3_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_836820_M1 bus1=771041.1.2.3.4 phases=3 conn=Delta model=2 kv=23.1 kw=29.6559955 pf=0.92 daily=MT2_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_836820_M2 bus1=771041.1.2.3.4 phases=3 conn=Delta model=3 kv=23.1 kw=29.6559955 pf=0.92 daily=MT2_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_837269_M1 bus1=783621.1.2.3.4 phases=3 conn=Delta model=2 kv=23.1 kw=16.24654 pf=0.92 daily=MT5_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_837269_M2 bus1=783621.1.2.3.4 phases=3 conn=Delta model=3 kv=23.1 kw=16.24654 pf=0.92 daily=MT5_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_837806_M1 bus1=799591.1.2.3.4 phases=3 conn=Delta model=2 kv=23.1 kw=11.8499325 pf=0.92 daily=MT2_DU status=variable vmaxpu=1.5 vminpu=0.93
+New Load.MT_837806_M2 bus1=799591.1.2.3.4 phases=3 conn=Delta model=3 kv=23.1 kw=11.8499325 pf=0.92 daily=MT2_DU status=variable vmaxpu=1.5 vminpu=0.93
