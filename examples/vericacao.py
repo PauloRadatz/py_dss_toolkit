@@ -15,8 +15,11 @@ dss_file = pathlib.Path(script_path).joinpath("feeders", "123Bus", "IEEE123Maste
 
 study = py_dss_tools.CreateStudy.model_verification(name="Test", dss_file=str(dss_file))
 # study.dss.text("New EnergyMeter.M element=Transformer.Sub terminal=1")
-df = study.results.summary
-df1 = study.results.isolated
-df2 = study.results.load_transformer
+df = study.results.isolated
+df1 = study.results.summary
+df2 = study.results.loads_transformer_voltage_mismatch
+df3 = study.results.same_bus
+df4 = study.results.transformer_data
+# df4 = study.results.phases_connections
 
 print("here")

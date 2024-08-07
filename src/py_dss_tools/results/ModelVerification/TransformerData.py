@@ -10,15 +10,15 @@ import matplotlib.pyplot as plt
 from dataclasses import dataclass, field
 from typing import Tuple
 
-class Transformer_data:
+class TransformerData:
 
     def __init__(self, dss: DSS):
         self._dss = dss
         self._transformer_data = pd.DataFrame()
     @property
     def transformer_data(self) -> pd.DataFrame:
-        return self.check_tr_3_wdg()
-    def check_tr_3_wdg(self):
+        return self.__check_tr_3_wdg() #Todo - it should return a dataframe with the element names
+    def __check_tr_3_wdg(self):
         self._dss.transformers.first()
         for _ in range(self._dss.transformers.count):
             num_wdg = self._dss.transformers.num_windings

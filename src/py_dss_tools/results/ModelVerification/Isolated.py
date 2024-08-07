@@ -16,8 +16,8 @@ class Isolated:
         self._isolated = pd.DataFrame()
     @property
     def isolated(self) -> pd.DataFrame:
-        return self.check_isolated()
-    def check_isolated(self):
+        return self.__check_isolated() # Todo - it should return a dataframe with the element names
+    def __check_isolated(self):
         branches_isolated = self._dss.topology.all_isolated_branches
         loads_isolated = self._dss.topology.all_isolated_loads
 

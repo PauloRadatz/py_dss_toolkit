@@ -10,16 +10,18 @@ import numpy as np
 from dataclasses import dataclass, field
 from typing import Tuple
 
-class Load_Transformer:
+
+class LoadsTransformerVoltage:
 
     def __init__(self, dss: DSS):
         self._dss = dss
         self._load_transformer = pd.DataFrame()
-    @property
-    def load_transformer(self) -> pd.DataFrame:
-        return self.check_load_transformer()
 
-    def check_load_transformer(self):
+    @property
+    def loads_transformer_voltage_mismatch(self) -> pd.DataFrame:
+        return self.__check_load_transformer()  # Todo - it should return a dataframe with the element names
+
+    def __check_load_transformer(self):
         energymeter_voltage = dict()
         self._dss.transformers.first()
         for _ in range(self._dss.transformers.count):
@@ -28,7 +30,7 @@ class Load_Transformer:
             # 3 - Bank? Vll 3ph
 
             self._dss.text(f"new energymeter.{self._dss.transformers.name} "
-                    f"element=transformer.{self._dss.transformers.name} terminal=1")
+                           f"element=transformer.{self._dss.transformers.name} terminal=1")
 
             self._dss.circuit.set_active_element(f"transformer.{self._dss.transformers.name}")
 
@@ -75,7 +77,7 @@ class Load_Transformer:
                         nodes = self._dss.cktelement.bus_names[0].split(".")[1:]
 
                         if ("1" in nodes and "2" in nodes) or ("1" in nodes and "3" in nodes) or (
-                                "3" in nodes and "2" in nodes):
+                            "3" in nodes and "2" in nodes):
                             if round(self._dss.loads.kv, 2) != vll:
                                 print(
                                     f"\nLoad: {self._dss.loads.name} with kV {self._dss.loads.kv} but should be {energymeter_voltage[self._dss.meters.name][0]}")
@@ -85,11 +87,3 @@ class Load_Transformer:
                                     f"\nLoad: {self._dss.loads.name} with kV {self._dss.loads.kv} but should be {energymeter_voltage[self._dss.meters.name][1]}")
 
         self._dss.meters.next()
-        # # Verifica se a carga 'BT_2519178_M1' existe antes de definir o valor de 'kv'
-        # self._dss.loads.name = "BT_2519178_M1"
-        # if self._dss.loads.name == "BT_2519178_M1":
-        #     self._dss.loads.kv = 13.8
-        #     return f"Load BT_2519178_M1 definida com kV: {self._dss.loads.kv}"
-        # else:
-        #     print(
-        #         f"Load.{self._dss.loads.name} with kV {self._dss.loads.kv} but should be 0.22")

@@ -10,15 +10,17 @@ from dataclasses import dataclass, field
 from typing import Tuple
 
 
-class Same_Bus:
+class SameBus:
 
     def __init__(self, dss: DSS):
         self._dss = dss
         self._same_bus = pd.DataFrame()
+
     @property
     def same_bus(self) -> pd.DataFrame:
-        return self.check_same_bus()
-    def check_same_bus(self):
+        return self.__check_same_bus()  # Todo - it should return a dataframe with the element names
+
+    def __check_same_bus(self):
         elements = self._dss.circuit.elements_names
 
         for elem in elements:
@@ -33,5 +35,5 @@ class Same_Bus:
                     if self._dss.cktelement.bus_names[0] == self._dss.cktelement.bus_names[1]:
                         print(f"Element: {elem_name} with the same bus1 {bus1} and bus2 {bus2}")
 
-        self._dss.text("solve")
-        elements
+        # self._dss.text("solve")
+        # elements

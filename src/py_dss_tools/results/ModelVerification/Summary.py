@@ -16,12 +16,12 @@ class Summary:
         self._summary = pd.DataFrame()
     @property
     def summary(self):
-        return self.create_dataframe()
+        return self.__create_dataframe()
 
-    def round_x(self, y, x: int = 2):
+    def __round_x(self, y, x: int = 2):
         return round(y, x)
 
-    def create_dataframe(self):
+    def __create_dataframe(self):
         summary_dict = dict()
         self._dss.text("set mode=snapshot")
         self._dss.text("solve")
@@ -29,17 +29,17 @@ class Summary:
         summary_dict["Status"] = "Solved" if self._dss.solution.converged else "Not Solved"
         v_array = np.array(self._dss.circuit.buses_vmag_pu)
         v_array = v_array[v_array > 0.1]
-        v_max = self.round_x(v_array.max())
-        v_min = self.round_x(v_array.min())
+        v_max = self.__round_x(v_array.max())
+        v_min = self.__round_x(v_array.min())
         summary_dict["Max pu. Voltage"] = v_max
         summary_dict["Min pu. Voltage"] = v_min
         summary_dict["Good Voltage?"] = "Yes" if (v_min > 0.7 and v_max < 1.2) else "No"
-        total_p = self.round_x(-self._dss.circuit.total_power[0])
-        total_q = self.round_x(-self._dss.circuit.total_power[1])
-        total_p_losses = self.round_x(self._dss.circuit.losses[0] / 1000.0)
-        summary_dict["Total P kW"] = self.round_x(total_p)
-        summary_dict["Total Q kVAr"] = self.round_x(total_q)
-        summary_dict["P Losses %"] = self.round_x(100.0 * total_p_losses / total_p)
+        total_p = self.__round_x(-self._dss.circuit.total_power[0])
+        total_q = self.__round_x(-self._dss.circuit.total_power[1])
+        total_p_losses = self.__round_x(self._dss.circuit.losses[0] / 1000.0)
+        summary_dict["Total P kW"] = self.__round_x(total_p)
+        summary_dict["Total Q kVAr"] = self.__round_x(total_q)
+        summary_dict["P Losses %"] = self.__round_x(100.0 * total_p_losses / total_p)
         x = self._dss.topology.all_isolated_branches
         if "NONE" in x:
             x.remove("NONE")
@@ -52,9 +52,9 @@ class Summary:
         self._dss.circuit.set_active_element("vsource.source")
         p = -1 * np.array(self._dss.cktelement.powers[0:6:2])
 
-        summary_dict["PA Circuit %"] = self.round_x(p[0] / total_p) * 100.0
-        summary_dict["PB Circuit %"] = self.round_x(p[1] / total_p) * 100.0
-        summary_dict["PC Circuit %"] = self.round_x(p[2] / total_p) * 100.0
+        summary_dict["PA Circuit %"] = self.__round_x(p[0] / total_p) * 100.0
+        summary_dict["PB Circuit %"] = self.__round_x(p[1] / total_p) * 100.0
+        summary_dict["PC Circuit %"] = self.__round_x(p[2] / total_p) * 100.0
 
         km_mv_lines = 0
         km_lv_lines = 0
@@ -73,8 +73,8 @@ class Summary:
 
             self._dss.lines.next()
 
-        summary_dict["Lines MV (km)"] = self.round_x(km_mv_lines)
-        summary_dict["Lines LV (km)"] = self.round_x(km_lv_lines)
+        summary_dict["Lines MV (km)"] = self.__round_x(km_mv_lines)
+        summary_dict["Lines LV (km)"] = self.__round_x(km_lv_lines)
 
         summary_dict["Num. Tran"] = self._dss.transformers.count
 
