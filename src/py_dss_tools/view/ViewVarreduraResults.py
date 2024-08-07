@@ -5,7 +5,6 @@
 # @Software: PyCharm
 
 from py_dss_interface import DSS
-from py_dss_tools.results import TemporalResults
 
 
 class ViewVarreduraResults(Monitor):

@@ -4,7 +4,7 @@
 # @File    : VoltageProfile.py
 # @Software: PyCharm
 
-from py_dss_tools.results.StaticResults import StaticResults
+from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
 from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple, Dict

@@ -5,7 +5,7 @@
 # @Software: PyCharm
 
 from py_dss_interface import DSS
-from py_dss_tools.results import TemporalResults
+from py_dss_tools.results.Temporal import TemporalResults
 from py_dss_tools.view.Monitor import Monitor
 
 

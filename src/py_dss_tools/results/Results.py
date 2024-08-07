@@ -5,8 +5,8 @@
 # @Software: PyCharm
 
 
-from py_dss_tools.results.StaticResults import StaticResults
-from py_dss_tools.results.TemporalResults import TemporalResults
+from py_dss_tools.results.Static.StaticResults import StaticResults
+from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
 from py_dss_interface import DSS
 
 

@@ -4,11 +4,10 @@
 # @File    : Monitor.py
 # @Software: PyCharm
 
-from py_dss_tools.results.TemporalResults import TemporalResults
-import matplotlib.pyplot as plt
+from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
 from py_dss_interface import DSS
 from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
-from typing import List, Optional, Union, Tuple
+from typing import Optional, Union, Tuple
 from py_dss_tools.dss_tools.plot_utils import vmag_vs_time, p_vs_time
 
 

@@ -5,11 +5,9 @@
 # @Software: PyCharm
 
 
-from py_dss_tools.results.FaultResults import FaultResults
+from py_dss_tools.results.ShortCircuit.FaultResults import FaultResults
 from py_dss_tools.view.ShortCircuitImpedances import ShortCircuitImpedances
 from py_dss_interface import DSS
-import pandas as pd
-import matplotlib.pyplot as plt
 
 
 class ViewFaultResults(ShortCircuitImpedances):

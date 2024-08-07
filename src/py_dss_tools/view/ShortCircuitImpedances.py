@@ -4,11 +4,11 @@
 # @File    : VoltageProfile.py
 # @Software: PyCharm
 
-from py_dss_tools.results.FaultResults import FaultResults
+from py_dss_tools.results.ShortCircuit.FaultResults import FaultResults
 import matplotlib.pyplot as plt
 from py_dss_interface import DSS
 from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
-from typing import List, Optional, Union, Tuple
+from typing import Optional, Union, Tuple
 
 
 class ShortCircuitImpedances:

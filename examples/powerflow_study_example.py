@@ -20,6 +20,7 @@ bus_marker = [study.view.voltage_profile_get_bus_mark("671", annotate=True, anno
 
 v_view = study.view.voltage_profile(buses_marker=bus_marker)
 
+df = study.results.voltage_ln_nodes
 
 
 print('here')

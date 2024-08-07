@@ -5,7 +5,7 @@
 # @Software: PyCharm
 
 from py_dss_tools.studies.StudyBase import StudyBase
-from py_dss_tools.results.StaticResults import StaticResults
+from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_tools.view.ViewStaticResults import ViewStaticResults
 from dataclasses import dataclass
 

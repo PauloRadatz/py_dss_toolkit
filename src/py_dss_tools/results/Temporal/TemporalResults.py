@@ -5,8 +5,8 @@
 # @Software: PyCharm
 
 from py_dss_interface import DSS
-from py_dss_tools.results.Energymeters import Energymeters
-from py_dss_tools.results.Monitor import Monitor
+from py_dss_tools.results.Temporal.Energymeters import Energymeters
+from py_dss_tools.results.Temporal.Monitor import Monitor
 
 
 class TemporalResults(Energymeters, Monitor):

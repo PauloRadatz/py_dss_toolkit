@@ -5,7 +5,7 @@
 # @Software: PyCharm
 
 from py_dss_tools.studies.StudyBase import StudyBase
-from py_dss_tools.results.TemporalResults import TemporalResults
+from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
 from py_dss_tools.view.ViewTemporalResults import ViewTemporalResults
 from dataclasses import dataclass
 

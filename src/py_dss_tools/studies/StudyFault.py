@@ -5,7 +5,7 @@
 # @Software: PyCharm
 
 from py_dss_tools.studies.StudyBase import StudyBase
-from py_dss_tools.results.FaultResults import FaultResults
+from py_dss_tools.results.ShortCircuit.FaultResults import FaultResults
 from py_dss_tools.view.ViewFaultStudy import ViewFaultResults
 from py_dss_tools.studies.StudyFaultSettings import StudyFaultSettings
 from dataclasses import dataclass
