@@ -9,10 +9,9 @@ from dataclasses import dataclass
 from typing import Optional, Union
 from py_dss_interface import DSS
 import pandas as pd
-from py_dss_tools.dss_tools.ResultsTools import ResultsTools
-from py_dss_tools.dss_tools.ModelTools import ModelTools
+# from py_dss_tools.dss_tools.ResultsTools import ResultsTools
+# from py_dss_tools.dss_tools.ModelTools import ModelTools
 from py_dss_tools.dss_tools.DSSViewTools import DSSViewTools
-from py_dss_tools.dss_tools.ViewTools import ViewTools
 from py_dss_tools.dss_tools.SimulationTools import SimulationTools
 from py_dss_tools.dss_tools.ConfigurationTools import ConfigurationTools
 from py_dss_tools.dss_tools.UtilitiesTools import UtilitiesTools
@@ -27,10 +26,16 @@ class DSSTools:
             self.__load_objects()
 
     def __load_objects(self):
-        self._results = ResultsTools(self._dss)
-        self._model = ModelTools(self._dss)
+        # self._results = ResultsTools(self._dss)
+        from py_dss_tools.results.Results import Results
+        from py_dss_tools.model.ModelBase import ModelBase
+        from py_dss_tools.view.ViewResults import ViewResults
+        self._results = Results(self._dss)
+        # self._model = ModelTools(self._dss)
+        self._model = ModelBase(self._dss)
         self._dss_view = DSSViewTools(self._dss)
-        self._view = ViewTools(self._dss)
+        # self._view = ViewTools(self._dss)
+        self._view = ViewResults(self._dss, self._results)
         self._simulation = SimulationTools(self._dss)
         self._configuration = ConfigurationTools(self._dss)
         self._utilities = UtilitiesTools(self._dss)

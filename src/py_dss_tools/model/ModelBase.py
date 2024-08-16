@@ -12,9 +12,10 @@ from py_dss_tools.model.ElementDataDFs import ElementDataDFs
 from py_dss_tools.model.SummaryModelData import SummaryModelData
 from py_dss_tools.model.ElementData import ElementData
 from py_dss_tools.model.SegmentsDF import SegmentsDF
+from py_dss_tools.model.ModelUtils import ModelUtils
 
 
-class ModelBase(ElementDataDFs, BusesDataDF, SummaryModelData, ElementData, SegmentsDF):
+class ModelBase(ElementDataDFs, BusesDataDF, SummaryModelData, ElementData, SegmentsDF, ModelUtils):
 
     def __init__(self, dss: DSS):
         self._dss = dss
@@ -23,3 +24,4 @@ class ModelBase(ElementDataDFs, BusesDataDF, SummaryModelData, ElementData, Segm
         SummaryModelData.__init__(self, self._dss)
         ElementData.__init__(self, self._dss)
         SegmentsDF.__init__(self, self._dss)
+        ModelUtils.__init__(self, self._dss)

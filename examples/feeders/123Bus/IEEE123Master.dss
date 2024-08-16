@@ -1,7 +1,7 @@
 ! Annotated Master file for the IEEE 123-bus test case.
 !
 ! This file is meant to be invoked from the Compile command in the "Run_IEEE123Bus.DSS"  file.
-! 
+!
 ! Note: DSS commands, property names, etc., are NOT case sensitive. Capitalize as you please.
 ! You should always do a "Clear" before making a new circuit:
 
@@ -10,7 +10,7 @@ Clear
 ! INSTANTIATE A NEW CIRCUIT AND DEFINE A STIFF 4160V SOURCE
 ! The new circuit is called "ieee123"
 ! This creates a Vsource object connected to "sourcebus". This is now the active circuit element, so
-! you can simply continue to edit its property value. 
+! you can simply continue to edit its property value.
 ! The basekV is redefined to 4.16 kV. The bus name is changed to "150" to match one of the buses in the test feeder.
 ! The source is set for 1.0 per unit and the Short circuit impedance is set to a small value (0.0001 ohms)
 ! The ~ is just shorthad for "more" for the New or Edit commands
@@ -177,7 +177,7 @@ New Line.Sw4    phases=3  Bus1=60     Bus2=160    r1=1e-3 r0=1e-3 x1=0.000 x0=0.
 New Line.Sw5    phases=3  Bus1=97     Bus2=197    r1=1e-3 r0=1e-3 x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001
 New Line.Sw6    phases=3  Bus1=61     Bus2=61s    r1=1e-3 r0=1e-3 x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001
 
-! NORMALLY OPEN SWITCHES; DEFINED AS SHORT LINE TO OPEN BUS SO WE CAN SEE OPEN POINT VOLTAGES. 
+! NORMALLY OPEN SWITCHES; DEFINED AS SHORT LINE TO OPEN BUS SO WE CAN SEE OPEN POINT VOLTAGES.
 ! COULD ALSO BE DEFINED AS DISABLED OR THE TERMINCAL COULD BE OPENED AFTER BEING DEFINED
 
 New Line.Sw7    phases=3  Bus1=151    Bus2=300_OPEN   r1=1e-3 r0=1e-3  x1=0.000 x0=0.000 c1=0.000 c0=0.000 Length=0.001

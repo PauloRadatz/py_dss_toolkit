@@ -10,7 +10,7 @@ from py_dss_tools.view.ViewFaultStudy import ViewFaultResults
 from py_dss_tools.studies.StudyFaultSettings import StudyFaultSettings
 from dataclasses import dataclass
 from py_dss_tools.dss_tools.dss_tools import dss_tools
-
+from py_dss_tools.model.ModelUtils import ModelUtils
 
 @dataclass(kw_only=True)
 class StudyFault(StudyBase):
@@ -36,15 +36,15 @@ class StudyFault(StudyBase):
     def run(self, disable_der=True, disable_load=True, disable_capacitor=True, control_mode="off"):
         dss_tools.update_dss(self._dss)
         if disable_der:
-            dss_tools.model.disable_elements_type("generator")
-            dss_tools.model.disable_elements_type("pvsystem")
-            dss_tools.model.disable_elements_type("storage")
+            ModelUtils(self._dss).disable_elements_type("generator")
+            ModelUtils(self._dss).disable_elements_type("pvsystem")
+            ModelUtils(self._dss).disable_elements_type("storage")
 
         if disable_load:
-            dss_tools.model.disable_elements_type("load")
+            ModelUtils(self._dss).disable_elements_type("load")
 
         if disable_capacitor:
-            dss_tools.model.disable_elements_type("capacitor")
+            ModelUtils(self._dss).disable_elements_type("capacitor")
 
         self._dss.text(f"set controlmode={control_mode}")
 

@@ -4,12 +4,12 @@
 # @File    : VoltageProfile.py
 # @Software: PyCharm
 
+import matplotlib.pyplot as plt
 from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
 from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple, Dict
-from py_dss_tools.dss_tools.plot_utils import voltage_profile
-from py_dss_tools.dss_tools.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.view.VoltageProfileBusMarker import VoltageProfileBusMarker
 
 
 class VoltageProfile:
@@ -56,18 +56,92 @@ class VoltageProfile:
                         show: Optional[bool] = True,
                         **kwargs
                         ):
-        voltage_profile(self._dss,
-                        self._results.voltage_ln_nodes[0],
-                        self._plot_style,
-                        title,
-                        xlabel,
-                        ylabel,
-                        xlim,
-                        ylim,
-                        buses_marker,
-                        tight_layout,
-                        legend,
-                        dpi,
-                        save_file_path,
-                        show,
-                        **kwargs)
+        if self._dss.meters.count == 0:
+            raise ValueError(f'One enerymeter should exist to plot the voltage profile.')
+        elif self._dss.meters.count > 1:
+            count_enabled = 0
+            self._dss.meters.first()
+            for _ in range(self._dss.meters.count):
+                self._dss.circuit.set_active_element(f"energymeter.{self._dss.meters.name}")
+                if self._dss.cktelement.is_enabled:
+                    count_enabled += 1
+                self._dss.meters.next()
+
+            if count_enabled == 0:
+                raise ValueError(f'At least one enerymeter should be enabled to plot the voltage profile.')
+            elif count_enabled > 1:
+                raise ValueError(f'Only one enerymeter should be enabled to plot the voltage profile.')
+
+        self._plot_style.apply_style()
+        fig, ax = plt.subplots()
+        for key, value in kwargs.items():
+            setattr(fig, key, value)
+
+        df = self._results.voltage_ln_nodes[0]
+        buses = [bus.lower().split(".")[0] for bus in self._dss.circuit.buses_names]
+        distances = self._dss.circuit.buses_distances
+
+        sections = list()
+
+        elements_list = self._dss.circuit.elements_names
+        for element in elements_list:
+            if element.split(".")[0].lower() in ["line", "reactor"]:
+                self._dss.circuit.set_active_element(element)
+                if self._dss.cktelement.is_enabled:
+                    sections.append(
+                        (self._dss.cktelement.bus_names[0].lower().split(".")[0],
+                         self._dss.cktelement.bus_names[1].lower().split(".")[0]))
+
+        node_colors = {1: 'black', 2: 'red', 3: 'blue'}
+        plt.figure(figsize=(10, 6))
+
+        bus_annotated = list()
+        for node in range(1, 4):
+            for section in sections:
+                bus1, bus2 = section
+                distance1 = distances[buses.index(bus1)]
+                distance2 = distances[buses.index(bus2)]
+                ax.plot([distance1, distance2], [df.loc[bus1, f'node{node}'], df.loc[bus2, f'node{node}']], marker='o',
+                        color=node_colors[node])
+
+                if buses_marker:
+                    bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
+                    if bus_marker:
+                        ax.plot(distance1, df.loc[bus1, f'node{node}'],
+                                marker=bus_marker.marker,
+                                markersize=bus_marker.size,
+                                color=bus_marker.color)
+
+                        if bus1 not in bus_annotated:
+                            if bus_marker.annotate:
+                                ax.annotate(bus_marker.annotation_label,
+                                            xy=(distance1, df.loc[bus1, f'node{node}']),
+                                            xytext=(distance1 + bus_marker.annotation_delta_x,
+                                                    df.loc[bus1, f'node{node}'] + bus_marker.annotation_delta_y),
+                                            arrowprops=dict(facecolor='black', shrink=0.05),
+                                            )
+                            bus_annotated.append(bus1)
+
+        if legend:
+            legend_labels = [f'Node {node}' for node in range(1, 4)]
+            legend_handles = [
+                plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=node_colors[node], markersize=10)
+                for node in range(1, 4)]
+            fig.legend(legend_handles, legend_labels)
+
+        fig.suptitle(title)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_xlim(xlim)
+        ax.set_ylim(ylim)
+
+        if tight_layout:
+            fig.tight_layout()
+
+        fig.set_dpi(dpi)
+
+        if save_file_path:
+            fig.savefig(save_file_path, format="png", dpi=300, bbox_inches='tight')
+
+        if show:
+            plt.show()
