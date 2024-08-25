@@ -19,6 +19,7 @@ class ModelUtils:
         element_full_name = f"{element_class}.{element_name}"
         if element_full_name not in elements_list:
             raise ValueError(f"Model does not have the {element_class}.{element_name}")
+        return True
 
     def disable_elements_type(self, element_type: str):
         self._dss.text(f"batchedit {element_type}..* enabled=false")

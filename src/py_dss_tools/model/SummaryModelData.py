@@ -48,9 +48,9 @@ class SummaryModelData:
                 if self._dss.cktelement.is_enabled:
                     line_length += self._dss.lines.length
 
-        max_line_norm_amps, min_line_norm_amps = self.get_max_min_norm_amps(elements_list, "line")
-        max_transformer_norm_amps, min_transformer_norm_amps = self.get_max_min_norm_amps(elements_list, "transformer")
-        max_reactor_norm_amps, min_reactor_norm_amps = self.get_max_min_norm_amps(elements_list, "reactor")
+        max_line_norm_amps, min_line_norm_amps = self.__get_max_min_norm_amps(elements_list, "line")
+        max_transformer_norm_amps, min_transformer_norm_amps = self.__get_max_min_norm_amps(elements_list, "transformer")
+        max_reactor_norm_amps, min_reactor_norm_amps = self.__get_max_min_norm_amps(elements_list, "reactor")
 
         r_dict["line length"] = line_length
         if min_line_norm_amps != 9999:
@@ -83,7 +83,7 @@ class SummaryModelData:
         df = pd.DataFrame.from_dict(r_dict, orient='index', columns=['count'])
         return df
 
-    def get_max_min_norm_amps(self, elements_list, element_type):
+    def __get_max_min_norm_amps(self, elements_list, element_type):
         max_norm_amps = -9999
         min_norm_amps = 9999
         for element in elements_list:

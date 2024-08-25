@@ -95,9 +95,9 @@ class ElementData:
                         existing_meter = True
                         break
             if not existing_meter and add_meter:
-                self.add_meter("meter_feeder_head", "Line.feeder_head", terminal=1)
+                self.__add_meter("meter_feeder_head", "Line.feeder_head", terminal=1)
 
             self._dss.text("calcvoltagebase")
 
-    def add_meter(self, meter_name: str, element: str, terminal: int = 1):
+    def __add_meter(self, meter_name: str, element: str, terminal: int = 1):
         self._dss.text(f"new energymeter.{meter_name} element={element} terminal={terminal}")

@@ -11,6 +11,8 @@ ElementDataDFs <|-- ModelBase
 BusesDataDF <|-- ModelBase
 SummaryModelData <|-- ModelBase
 ElementData <|-- ModelBase
+SegmentsDF <|-- ModelBase
+ModelUtils <|-- ModelBase
 
 Voltages <|-- StaticResults
 Currents <|-- StaticResults
@@ -45,6 +47,8 @@ StudyGeneric "1" *-- "1" ViewResults : contains
 
 StudySettings <|-- StudyPowerFlowSettings
 
+CustomPlotStyle "1" o-- "1" VoltageProfile : contains
+
 class DSSUtils {
     -dss: DSS
 
@@ -69,6 +73,7 @@ class StudyPowerFlow {
     +view: ViewStaticResults
     +results: StaticResults
     +settings: StudyPowerFlowSettings
+    +run()
 }
 
 class StudyTemporal {
@@ -89,6 +94,7 @@ class ElementDataDFs {
     +generators_df: pd.DataFrame
     +vsources_df: pd.DataFrame
     +regcontrols_df: pd.DataFrame
+    +loads_df: pd.DataFrame
 
     -create_dataframe(element: DSS.Element)
 }
@@ -105,6 +111,7 @@ class SummaryModelData {
     +summary_df: pd.DataFrame
 
     -create_dataframe()
+    -get_max_min_norm_amps()
 }
 
 class ElementData {
@@ -112,7 +119,22 @@ class ElementData {
     +element_data(element_class: string, element_name: string): pd.DataFrame
     +edit_element(element_class: string, element_name: string, properties: dict)
     +add_element(element_class: string, element_name: string, properties: dict)
+    +add_line_in_vsource(add_meter: Bool)
+    -add_meter(meter_name: str, element: str, terminal: int)
     -is_element_in_model(element_class: string, element_name: string)
+}
+
+class SegmentsDF {
+    -dss: DSS
+    +segments_df: pd.DataFrame
+
+    -create_dataframe()
+}
+
+class ModelUtils {
+    -dss: DSS
+    +is_element_in_model(element_class: str, element_name: str): Bool
+    +disable_elements_type(element_type: str)
 }
 
 class StaticResults {
@@ -147,8 +169,9 @@ class Powers {
 class VoltageProfile {
     -dss: DSS
     -results: StaticResults
-
-    +plot_profile()
+    + voltage_profile_plot_style: CustomPlotStyle
+    + voltage_profile_get_bus_mark()
+    + voltage_profile()
 }
 
 @enduml

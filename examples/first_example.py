@@ -15,6 +15,6 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt.dss")
 
-study = py_dss_tools.CreateStudy.power_flow("Study", dss_file=str(dss_file))
+s = py_dss_tools.CreateStudy.power_flow("Study", dss_file=str(dss_file))
 
-study.results.
+s.model.lines_df

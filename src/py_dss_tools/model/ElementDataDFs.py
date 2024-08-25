@@ -50,22 +50,22 @@ class ElementDataDFs:
         dict_to_df = dict()
 
         name_list = list()
-        element.first()
-        for _ in range(element.count):
+
+        for element_name in element.names:
+            element.name = element_name
             if self._dss.cktelement.is_enabled:
                 name_list.append(element.name.lower())
-                element.next()
         dict_to_df["name"] = name_list
 
         for element_property in element_properties:
             property_list = list()
 
-            element.first()
-            for _ in range(element.count):
-                property_list.append(
-                    self._dss.dssproperties.value_read(
-                        str(self._dss.cktelement.property_names.index(element_property) + 1)))
-                element.next()
+            for element_name in element.names:
+                element.name = element_name
+                if self._dss.cktelement.is_enabled:
+                    property_list.append(
+                        self._dss.dssproperties.value_read(
+                            str(self._dss.cktelement.property_names.index(element_property) + 1)))
 
             dict_to_df[element_property.lower()] = property_list
 
