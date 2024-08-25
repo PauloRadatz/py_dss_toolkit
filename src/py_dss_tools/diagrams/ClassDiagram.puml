@@ -1,7 +1,6 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-StudyBase <|-- StudyGeneric
 StudyBase <|-- StudyPowerFlow
 StudyBase <|-- StudyShortCircuit
 StudyBase <|-- StudyTemporal
@@ -26,8 +25,6 @@ StaticResults <|-- Results
 TemporalResults <|-- Results
 ShortCircuitResults <|-- Results
 
-StudyGeneric "1" *-- "1" DSSUtils : contains
-StudyGeneric "1" *-- "1" Results : contains
 StudyPowerFlow "1" *-- "1" StaticResults : contains
 StudyPowerFlow "1" *-- "1" StudyPowerFlowSettings : contains
 StudyShortCircuit "1" *-- "1" ShortCircuitResults : contains
@@ -43,11 +40,11 @@ StudyPowerFlow "1" *-- "1" ViewStaticResults : contains
 ViewStaticResults <|-- ViewResults
 ViewTemporalResults <|-- ViewResults
 ViewResults "1" o-- "1" Results : contains
-StudyGeneric "1" *-- "1" ViewResults : contains
 
 StudySettings <|-- StudyPowerFlowSettings
 
-CustomPlotStyle "1" o-- "1" VoltageProfile : contains
+CustomPlotStyle "1" *-- "1" VoltageProfile : contains
+StaticResults "1" o-- "1" VoltageProfile : contains
 
 class DSSUtils {
     -dss: DSS
@@ -63,11 +60,6 @@ class StudyBase {
     +model: ModelBase
 }
 
-class StudyGeneric {
-    +utils: DSSUtils
-    +view: ViewResults
-    +results: Results
-}
 
 class StudyPowerFlow {
     +view: ViewStaticResults

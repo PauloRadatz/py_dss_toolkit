@@ -5,7 +5,6 @@
 """
 from re import search
 
-from py_dss_tools.studies.StudyGeneric import StudyGeneric
 from py_dss_tools.studies.StudyPowerFlow import StudyPowerFlow
 from py_dss_tools.studies.StudyTemporal import StudyTemporal
 from py_dss_tools.studies.StudyFault import StudyFault
@@ -19,17 +18,6 @@ from typing import Optional
 #     return isinstance(sc, Scenario)
 
 class CreateStudy:
-    CreateStudy = None
-
-    @staticmethod
-    def generic(
-        name: str,
-        dss_file: str,
-        frequency_base: [int, float] = 60,
-        dll: Optional[str] = None) -> StudyGeneric:
-        sc = StudyGeneric(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
-        return sc
-
     @staticmethod
     def power_flow(
         name: str,
@@ -118,26 +106,6 @@ def treat_object(obj: object, kwargs: dict) -> object:
         return obj
     else:
         raise Exception(f"An error occur when tried to set attributes dynamic in object {obj}!")
-
-
-def __translate_controls(sc: StudyGeneric):
-    pass
-
-
-def __translate_generals(sc: StudyGeneric):
-    pass
-
-
-def __translate_meters(sc: StudyGeneric):
-    pass
-
-
-def __translate_others(sc: StudyGeneric):
-    pass
-
-
-def __translate_pcelements(sc: StudyGeneric):
-    pass
 
 
 def __create_text_(obj: object) -> [str, str]:
