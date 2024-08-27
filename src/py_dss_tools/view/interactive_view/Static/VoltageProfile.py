@@ -9,7 +9,7 @@ from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
 from typing import Optional, Union, Tuple, List
 from py_dss_tools.view.view_base.VoltageProfileBase import VoltageProfileBase
-from py_dss_tools.view.interactive_view.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.view.interactive_view.Static.VoltageProfileBusMarker import VoltageProfileBusMarker
 from py_dss_tools.view.interactive_view.CustomPlotStyle import CustomPlotStyle
 
 

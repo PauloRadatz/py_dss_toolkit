@@ -6,7 +6,7 @@
 
 
 from py_dss_tools.results.ShortCircuit.FaultResults import FaultResults
-from py_dss_tools.view.static_view.ShortCircuitImpedances import ShortCircuitImpedances
+from py_dss_tools.view.static_view.ShortCircuit.ShortCircuitImpedances import ShortCircuitImpedances
 from py_dss_interface import DSS
 
 

@@ -4,7 +4,7 @@
 # @File    : ViewResults.py
 # @Software: PyCharm
 
-from py_dss_tools.view.dss_view.ViewStaticResults import ViewStaticResults
+from py_dss_tools.view.dss_view.Static.ViewStaticResults import ViewStaticResults
 from py_dss_interface import DSS
 
 

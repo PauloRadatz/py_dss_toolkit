@@ -4,16 +4,18 @@
 # @File    : ViewResults.py
 # @Software: PyCharm
 
-from py_dss_tools.view.static_view.ViewStaticResults import ViewStaticResults
-from py_dss_tools.view.static_view.ViewTemporalResults import ViewTemporalResults
-from py_dss_tools.view.static_view.ViewFaultStudy import ViewFaultResults
+from py_dss_tools.view.static_view.Static.ViewStaticResults import ViewStaticResults
+from py_dss_tools.view.static_view.Temporal.ViewTemporalResults import ViewTemporalResults
+from py_dss_tools.view.static_view.ShortCircuit.ViewFaultStudy import ViewFaultResults
 from py_dss_tools.results.Results import Results
+from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
+from typing import Union
 
 
 class ViewResults(ViewStaticResults, ViewTemporalResults, ViewFaultResults):
 
-    def __init__(self, dss: DSS, results: Results):
+    def __init__(self, dss: DSS, results: Union[Results, StaticResults]):
         ViewStaticResults.__init__(self, dss, results)
         ViewTemporalResults.__init__(self, dss, results)
         ViewFaultResults.__init__(self, dss, results)
