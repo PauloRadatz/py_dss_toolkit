@@ -122,32 +122,5 @@ def __create_text_(obj: object) -> [str, str]:
             name = getattr(obj, k)
     return name, result
 
-
-def __translate_circuit(sc: StudyGeneric) -> bool:
-    try:
-        name, text = __create_text_(sc.circuit)
-        result = f"new circuit.{name} {text}"
-        sc.dss.text(result)
-        return True
-    except Exception as e:
-        print(f"Error when tried translate circuit to DSS! {e.message}")
-        return False
-
-
-def run_scenario(sc: StudyGeneric):
-    try:
-        __translate_circuit(sc)
-        # __translate_controls(sc)
-        # __translate_generals(sc)
-        # __translate_meters(sc)
-        # __translate_others(sc)
-        # __translate_pcelements(sc)
-        __translate_pdelements(sc)
-        # return True
-    except Exception as e:
-        print(f"Error when tried to compile Scenario! {e}")
-        return False
-
-
 def solve_scenario(sc):
     sc.__dss.text("solve")
