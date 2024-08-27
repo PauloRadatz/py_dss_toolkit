@@ -7,9 +7,9 @@
 import matplotlib.pyplot as plt
 from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
-from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
+from py_dss_tools.static_view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple, Dict
-from py_dss_tools.view.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.static_view.VoltageProfileBusMarker import VoltageProfileBusMarker
 
 
 class VoltageProfile:

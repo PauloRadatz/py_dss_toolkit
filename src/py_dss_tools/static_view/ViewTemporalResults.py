@@ -6,7 +6,7 @@
 
 from py_dss_interface import DSS
 from py_dss_tools.results.Temporal import TemporalResults
-from py_dss_tools.view.Monitor import Monitor
+from py_dss_tools.static_view.Monitor import Monitor
 
 
 class ViewTemporalResults(Monitor):

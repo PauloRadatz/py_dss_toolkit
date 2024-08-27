@@ -29,13 +29,13 @@ class DSSTools:
         # self._results = ResultsTools(self._dss)
         from py_dss_tools.results.Results import Results
         from py_dss_tools.model.ModelBase import ModelBase
-        from py_dss_tools.view.ViewResults import ViewResults
+        from py_dss_tools.static_view.ViewResults import ViewResults as StaticView
+        from py_dss_tools.interactive_view.ViewResults import ViewResults as InteractiveView
         self._results = Results(self._dss)
-        # self._model = ModelTools(self._dss)
         self._model = ModelBase(self._dss)
         self._dss_view = DSSViewTools(self._dss)
-        # self._view = ViewTools(self._dss)
-        self._view = ViewResults(self._dss, self._results)
+        self._static_view = StaticView(self._dss, self._results)
+        self._interactive_view = InteractiveView(self._dss, self._results)
         self._simulation = SimulationTools(self._dss)
         self._configuration = ConfigurationTools(self._dss)
         self._utilities = UtilitiesTools(self._dss)
@@ -57,8 +57,12 @@ class DSSTools:
         return self._dss_view
 
     @property
-    def view(self):
-        return self._view
+    def static_view(self):
+        return self._static_view
+
+    @property
+    def interactive_view(self):
+        return self._interactive_view
 
     @property
     def simulation(self):

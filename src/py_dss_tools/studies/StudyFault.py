@@ -6,7 +6,7 @@
 
 from py_dss_tools.studies.StudyBase import StudyBase
 from py_dss_tools.results.ShortCircuit.FaultResults import FaultResults
-from py_dss_tools.view.ViewFaultStudy import ViewFaultResults
+from py_dss_tools.static_view.ViewFaultStudy import ViewFaultResults
 from py_dss_tools.studies.StudyFaultSettings import StudyFaultSettings
 from dataclasses import dataclass
 from py_dss_tools.dss_tools.dss_tools import dss_tools

@@ -7,7 +7,7 @@
 from py_dss_tools.results.ShortCircuit.FaultResults import FaultResults
 import matplotlib.pyplot as plt
 from py_dss_interface import DSS
-from py_dss_tools.view.CustomPlotStyle import CustomPlotStyle
+from py_dss_tools.static_view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple
 
 

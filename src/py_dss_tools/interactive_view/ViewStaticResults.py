@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : ViewResults.py
+# @File    : ViewStaticResults.py
 # @Software: PyCharm
 
-from py_dss_tools.view.VoltageProfile import VoltageProfile
+from py_dss_tools.interactive_view.VoltageProfile import VoltageProfile
 from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
 

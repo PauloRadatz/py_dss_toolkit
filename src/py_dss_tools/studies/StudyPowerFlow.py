@@ -6,7 +6,7 @@
 
 from py_dss_tools.studies.StudyBase import StudyBase
 from py_dss_tools.results.Static.StaticResults import StaticResults
-from py_dss_tools.view.ViewStaticResults import ViewStaticResults
+from py_dss_tools.static_view.ViewStaticResults import ViewStaticResults
 from dataclasses import dataclass
 
 from py_dss_tools.studies.StudyPowerFlowSettings import StudyPowerFlowSettings
@@ -17,7 +17,7 @@ class StudyPowerFlow(StudyBase):
     def __post_init__(self):
         super().__post_init__()
         self._results = StaticResults(self._dss)
-        self._view = ViewStaticResults(self._dss, self._results)
+        self._static_view = ViewStaticResults(self._dss, self._results)
         self._settings = StudyPowerFlowSettings(_dss=self.dss)
 
     @property
@@ -25,8 +25,8 @@ class StudyPowerFlow(StudyBase):
         return self._results
 
     @property
-    def view(self):
-        return self._view
+    def static_view(self):
+        return self._static_view
 
     @property
     def settings(self):

@@ -178,7 +178,7 @@ title Package Organization
 **  reports
 **  results
 ** utils
-** view
+** static_view
 
 
 @endmindmap
@@ -204,7 +204,7 @@ title Package Organization
 **  reports
 **  results
 ** utils
-** view
+** static_view
 
 
 @endmindmap
