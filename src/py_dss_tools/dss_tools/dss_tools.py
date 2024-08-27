@@ -63,10 +63,6 @@ class DSSTools:
         return self._interactive_view
 
     @property
-    def dss_view(self):
-        return self._dss_view
-
-    @property
     def simulation(self):
         return self._simulation
 
