@@ -8,13 +8,14 @@ import plotly.graph_objects as go
 from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
 from typing import Optional, Union, Tuple, Dict
+from py_dss_tools.view_base.VoltageProfileBase import VoltageProfileBase
 
-
-class VoltageProfile:
+class VoltageProfile(VoltageProfileBase):
 
     def __init__(self, dss: DSS, results: StaticResults):
         self._results = results
         self._dss = dss
+        VoltageProfileBase.__init__(self, self._dss, self._results)
 
     def voltage_profile_get_bus_mark(self, name: str, symbol: str = "circle",
                                             size: float = 10,
@@ -41,74 +42,69 @@ class VoltageProfile:
                                buses_marker: Optional[Dict[str, dict]] = None,
                                show: Optional[bool] = True,
                                save_file_path: Optional[str] = None):
-        if self._dss.meters.count == 0:
-            raise ValueError('One energy meter should exist to plot the voltage profile.')
-        elif self._dss.meters.count > 1:
-            count_enabled = 0
-            self._dss.meters.first()
-            for _ in range(self._dss.meters.count):
-                self._dss.circuit.set_active_element(f"energymeter.{self._dss.meters.name}")
-                if self._dss.cktelement.is_enabled:
-                    count_enabled += 1
-                self._dss.meters.next()
+        self.check_energymeter()
 
-            if count_enabled == 0:
-                raise ValueError('At least one energy meter should be enabled to plot the voltage profile.')
-            elif count_enabled > 1:
-                raise ValueError('Only one energy meter should be enabled to plot the voltage profile.')
+        buses, df, distances, sections = self.prepare_results()
+        node_colors = {1: 'black', 2: 'red', 3: 'blue'}
 
-        # Prepare data for the plot
-        df = self._results.voltage_ln_nodes[0]
-        buses = [bus.lower().split(".")[0] for bus in self._dss.circuit.buses_names]
-        distances = self._dss.circuit.buses_distances
-
-        sections = []
-        elements_list = self._dss.circuit.elements_names
-        for element in elements_list:
-            if element.split(".")[0].lower() in ["line", "reactor"]:
-                self._dss.circuit.set_active_element(element)
-                if self._dss.cktelement.is_enabled:
-                    sections.append(
-                        (self._dss.cktelement.bus_names[0].lower().split(".")[0],
-                         self._dss.cktelement.bus_names[1].lower().split(".")[0]))
-
-        # Create Plotly figure
         fig = go.Figure()
 
         # Add voltage profile lines
-        node_colors = {1: 'black', 2: 'red', 3: 'blue'}
-
         for node in range(1, 4):
             for section in sections:
                 bus1, bus2 = section
                 distance1 = distances[buses.index(bus1)]
                 distance2 = distances[buses.index(bus2)]
-                fig.add_trace(go.Scatter(x=[distance1, distance2],
-                                         y=[df.loc[bus1, f'node{node}'], df.loc[bus2, f'node{node}']],
-                                         mode='lines+markers',
-                                         name=f'Node {node}',
-                                         marker=dict(color=node_colors[node]),
-                                         line=dict(color=node_colors[node])))
+
+                # Add scatter trace for the voltage profile section
+                fig.add_trace(go.Scatter(
+                    x=[distance1, distance2],
+                    y=[df.loc[bus1, f'node{node}'], df.loc[bus2, f'node{node}']],
+                    mode='lines+markers',
+                    marker=dict(color=node_colors[node]),
+                    line=dict(color=node_colors[node]),
+                    legendgroup=f'Node {node}',  # Grouping by node
+                    showlegend=(section == sections[0]),  # Only show one legend item for each node
+                    name=f'Node {node}',
+                    customdata=[[bus1], [bus2]],  # Adding bus name as custom data
+                    hovertemplate=(
+                        "Bus: %{customdata[0]}<br>"  # Display bus name
+                        "Distance: %{x}<br>"
+                        "Voltage: %{y:.3f} pu<extra></extra>"  # Voltage displayed with 3 decimal places
+                    )
+                ))
 
                 # Add bus markers if specified
                 if buses_marker:
                     bus_marker = buses_marker.get(bus1)
                     if bus_marker:
-                        fig.add_trace(go.Scatter(x=[distance1],
-                                                 y=[df.loc[bus1, f'node{node}']],
-                                                 mode='markers',
-                                                 marker=dict(symbol=bus_marker['symbol'],
-                                                             size=bus_marker['size'],
-                                                             color=bus_marker['color']),
-                                                 name=bus_marker['annotation_label'] if bus_marker['annotate'] else bus1))
+                        fig.add_trace(go.Scatter(
+                            x=[distance1],
+                            y=[df.loc[bus1, f'node{node}']],
+                            mode='markers',
+                            marker=dict(symbol=bus_marker['symbol'],
+                                        size=bus_marker['size'],
+                                        color=bus_marker['color']),
+                            legendgroup=f'Node {node}',  # Group markers with their respective node
+                            showlegend=False,  # No additional legend items for markers
+                            name=bus_marker['annotation_label'] if bus_marker['annotate'] else bus1,
+                            customdata=[[bus1]],  # Adding bus name to the marker
+                            hovertemplate=(
+                                "Bus: %{customdata[0]}<br>"
+                                "Distance: %{x}<br>"
+                                "Voltage: %{y:.3f} pu<extra></extra>"
+                            )
+                        ))
 
         # Customize layout
-        fig.update_layout(title=title,
-                          xaxis_title=xlabel,
-                          yaxis_title=ylabel,
-                          xaxis=dict(range=xlim),
-                          yaxis=dict(range=ylim),
-                          showlegend=True)
+        fig.update_layout(
+            title=title,
+            xaxis_title=xlabel,
+            yaxis_title=ylabel,
+            xaxis=dict(range=xlim),
+            yaxis=dict(range=ylim),
+            showlegend=True
+        )
 
         # Show or save the plot
         if save_file_path:

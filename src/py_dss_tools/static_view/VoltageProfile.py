@@ -10,13 +10,14 @@ from py_dss_interface import DSS
 from py_dss_tools.static_view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple, Dict
 from py_dss_tools.static_view.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.view_base.VoltageProfileBase import VoltageProfileBase
 
-
-class VoltageProfile:
+class VoltageProfile(VoltageProfileBase):
 
     def __init__(self, dss: DSS, results: StaticResults):
         self._results = results
         self._dss = dss
+        VoltageProfileBase.__init__(self, self._dss, self._results)
 
         self._plot_style = CustomPlotStyle()
 
@@ -56,43 +57,16 @@ class VoltageProfile:
                         show: Optional[bool] = True,
                         **kwargs
                         ):
-        if self._dss.meters.count == 0:
-            raise ValueError(f'One enerymeter should exist to plot the voltage profile.')
-        elif self._dss.meters.count > 1:
-            count_enabled = 0
-            self._dss.meters.first()
-            for _ in range(self._dss.meters.count):
-                self._dss.circuit.set_active_element(f"energymeter.{self._dss.meters.name}")
-                if self._dss.cktelement.is_enabled:
-                    count_enabled += 1
-                self._dss.meters.next()
-
-            if count_enabled == 0:
-                raise ValueError(f'At least one enerymeter should be enabled to plot the voltage profile.')
-            elif count_enabled > 1:
-                raise ValueError(f'Only one enerymeter should be enabled to plot the voltage profile.')
+        self.check_energymeter()
 
         self._plot_style.apply_style()
         fig, ax = plt.subplots()
         for key, value in kwargs.items():
             setattr(fig, key, value)
 
-        df = self._results.voltage_ln_nodes[0]
-        buses = [bus.lower().split(".")[0] for bus in self._dss.circuit.buses_names]
-        distances = self._dss.circuit.buses_distances
-
-        sections = list()
-
-        elements_list = self._dss.circuit.elements_names
-        for element in elements_list:
-            if element.split(".")[0].lower() in ["line", "reactor"]:
-                self._dss.circuit.set_active_element(element)
-                if self._dss.cktelement.is_enabled:
-                    sections.append(
-                        (self._dss.cktelement.bus_names[0].lower().split(".")[0],
-                         self._dss.cktelement.bus_names[1].lower().split(".")[0]))
-
+        buses, df, distances, sections = self.prepare_results()
         node_colors = {1: 'black', 2: 'red', 3: 'blue'}
+
         plt.figure(figsize=(10, 6))
 
         bus_annotated = list()
