@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : MonitorBase.py
+# @File    : Monitor.py
 # @Software: PyCharm
 
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
 from py_dss_interface import DSS
-from py_dss_tools.view.static_view.CustomPlotStyle import CustomPlotStyle
+from py_dss_tools.view.interactive_view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple
 from py_dss_tools.view.view_base.MonitorBase import MonitorBase
 
@@ -19,7 +19,7 @@ class Monitor(MonitorBase):
         self._dss = dss
         MonitorBase.__init__(self, self._dss, self._results)
 
-        self._plot_style = CustomPlotStyle()
+        self._plot_style = CustomPlotStyle()  # Use custom Plotly styles
 
     @property
     def monitor_plot_style(self):
@@ -33,9 +33,7 @@ class Monitor(MonitorBase):
                      ylabel: Optional[str] = "Voltage (pu)",
                      xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                      ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                     tight_layout: Optional[bool] = True,
                      legend: Optional[bool] = True,
-                     dpi: Optional[int] = 200,
                      save_file_path: Optional[str] = None,
                      show: Optional[bool] = True,
                      **kwargs
@@ -45,12 +43,9 @@ class Monitor(MonitorBase):
         elem_nodes, v_base = self._organize_v_results(name)
 
         self._dss.monitors.name = name
-        self._plot_style.apply_style()
         df = self._results.monitor(name)
 
-        fig, ax = plt.subplots()
-        for key, value in kwargs.items():
-            setattr(fig, key, value)
+        fig = go.Figure()
 
         node_colors = {1: 'black', 2: 'red', 3: 'blue'}
 
@@ -59,27 +54,36 @@ class Monitor(MonitorBase):
                 df[f" V{index + 1}"] = df[f" V{index + 1}"] / 1000.0
             elif unit == "pu":
                 df[f" V{index + 1}"] = df[f" V{index + 1}"] / v_base
-            ax.plot(df["Hour"], df[f" V{index + 1}"], color=node_colors[node], label=f"V{node}")
+            customdata = [[unit] for _ in range(len(df["Hour"]))]
+            fig.add_trace(go.Scatter(x=df["Hour"], y=df[f" V{index + 1}"],
+                                     mode='lines',
+                                     line=dict(color=node_colors[node]),
+                                     name=f"V{node}",
+                                     customdata=customdata,
+                                     hovertemplate=(
+                                         "Hour: %{x}<br>"
+                                         "Voltage: %{y:.4f} %{customdata[0]}<extra></extra>"  # Voltage displayed with 3 decimal places
+                                     ))
+                          )
 
-        fig.suptitle(title)
-        ax.set_xlabel(xlabel)
-        ax.set_ylabel(ylabel)
-        ax.set_xlim(xlim)
-        ax.set_ylim(ylim)
+        # Apply custom Plotly styles
+        self._plot_style.apply_style(fig)
 
-        if tight_layout:
-            fig.tight_layout()
+        # Set plot title and labels
+        fig.update_layout(
+            title=title,
+            xaxis_title=xlabel,
+            yaxis_title=ylabel,
+            xaxis=dict(range=xlim),
+            yaxis=dict(range=ylim),
+            showlegend=legend
+        )
 
-        if legend:
-            ax.legend()
-
-        fig.set_dpi(dpi)
-
+        # Save or show the plot
         if save_file_path:
-            plt.savefig(save_file_path)
-
+            fig.write_html(save_file_path)
         if show:
-            plt.show()
+            fig.show()
 
     def p_vs_time(self,
                   name: str,
@@ -88,47 +92,46 @@ class Monitor(MonitorBase):
                   ylabel: Optional[str] = "Active Power (kW)",
                   xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                   ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                  tight_layout: Optional[bool] = True,
                   legend: Optional[bool] = True,
-                  dpi: Optional[int] = 200,
                   save_file_path: Optional[str] = None,
                   show: Optional[bool] = True,
-                  **kwargs
                   ):
         self._check_p_monitor(name)
 
         elem_nodes = self._organize_p_results(name)
 
         self._dss.monitors.name = name
-        self._plot_style.apply_style()
         df = self._results.monitor(name)
 
-        fig, ax = plt.subplots()
-        for key, value in kwargs.items():
-            setattr(fig, key, value)
+        fig = go.Figure()
+
         node_colors = {1: 'black', 2: 'red', 3: 'blue'}
 
         for index, node in enumerate(elem_nodes):
-            ax.plot(df["Hour"], df[f" P{index + 1} (kW)"], color=node_colors[node], label=f"P{node}")
+            fig.add_trace(go.Scatter(x=df["Hour"], y=df[f" P{index + 1} (kW)"],
+                                     mode='lines',
+                                     line=dict(color=node_colors[node]),
+                                     name=f"P{node}",
+                                     hovertemplate=(
+                                         "Hour: %{x}<br>"
+                                         "Active Power: %{y:.1f} kW<extra></extra>"
+                                     )))
 
-        fig.suptitle(title)
-        ax.set_xlabel(xlabel)
-        ax.set_ylabel(ylabel)
-        ax.set_xlim(xlim)
-        ax.set_ylim(ylim)
+        # Apply custom Plotly styles
+        self._plot_style.apply_style(fig)
 
-        if tight_layout:
-            fig.tight_layout()
+        # Set plot title and labels
+        fig.update_layout(
+            title=title,
+            xaxis_title=xlabel,
+            yaxis_title=ylabel,
+            xaxis=dict(range=xlim),
+            yaxis=dict(range=ylim),
+            showlegend=legend
+        )
 
-        if legend:
-            ax.legend()
-
-        fig.set_dpi(dpi)
-
+        # Save or show the plot
         if save_file_path:
-            plt.savefig(save_file_path)
-
+            fig.write_html(save_file_path)
         if show:
-            plt.show()
-
-
+            fig.show()
