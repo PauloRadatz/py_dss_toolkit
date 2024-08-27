@@ -7,8 +7,11 @@
 import plotly.graph_objects as go
 from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
-from typing import Optional, Union, Tuple, Dict
-from py_dss_tools.view_base.VoltageProfileBase import VoltageProfileBase
+from typing import Optional, Union, Tuple, List
+from py_dss_tools.view.view_base.VoltageProfileBase import VoltageProfileBase
+from py_dss_tools.view.interactive_view.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.view.interactive_view.CustomPlotStyle import CustomPlotStyle
+
 
 class VoltageProfile(VoltageProfileBase):
 
@@ -16,38 +19,42 @@ class VoltageProfile(VoltageProfileBase):
         self._results = results
         self._dss = dss
         VoltageProfileBase.__init__(self, self._dss, self._results)
+        self._plot_style = CustomPlotStyle()
 
-    def voltage_profile_get_bus_mark(self, name: str, symbol: str = "circle",
-                                            size: float = 10,
-                                            color: str = "black",
-                                            annotate: bool = False,
-                                            annotation_label: Optional[str] = None):
+    @property
+    def voltage_profile_plot_style(self):
+        return self._plot_style
+
+    def voltage_profile_get_bus_mark(self, name: str, symbol: str = "x",
+                                     size: float = 10,
+                                     color: str = "black",
+                                     annotate: bool = False,
+                                     annotation_label: Optional[str] = None):
         if not annotation_label:
             annotation_label = name
-        return {
-            "name": name,
-            "symbol": symbol,
-            "size": size,
-            "color": color,
-            "annotate": annotate,
-            "annotation_label": annotation_label
-        }
+        return VoltageProfileBusMarker(name=name,
+                                       symbol=symbol,
+                                       size=size,
+                                       color=color,
+                                       annotate=annotate,
+                                       annotation_label=annotation_label)
 
     def voltage_profile(self,
-                               title: Optional[str] = "Voltage Profile",
-                               xlabel: Optional[str] = "Distance",
-                               ylabel: Optional[str] = "Voltage (pu)",
-                               xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                               ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                               buses_marker: Optional[Dict[str, dict]] = None,
-                               show: Optional[bool] = True,
-                               save_file_path: Optional[str] = None):
-        self.check_energymeter()
+                        title: Optional[str] = "Voltage Profile",
+                        xlabel: Optional[str] = "Distance",
+                        ylabel: Optional[str] = "Voltage (pu)",
+                        xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+                        ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+                        buses_marker: Optional[List[VoltageProfileBusMarker]] = None,
+                        show: Optional[bool] = True,
+                        save_file_path: Optional[str] = None):
+        self._check_energymeter()
 
-        buses, df, distances, sections = self.prepare_results()
+        buses, df, distances, sections = self._prepare_results()
         node_colors = {1: 'black', 2: 'red', 3: 'blue'}
 
         fig = go.Figure()
+        self._plot_style.apply_style(fig)
 
         # Add voltage profile lines
         for node in range(1, 4):
@@ -76,18 +83,18 @@ class VoltageProfile(VoltageProfileBase):
 
                 # Add bus markers if specified
                 if buses_marker:
-                    bus_marker = buses_marker.get(bus1)
+                    bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
                     if bus_marker:
                         fig.add_trace(go.Scatter(
                             x=[distance1],
                             y=[df.loc[bus1, f'node{node}']],
                             mode='markers',
-                            marker=dict(symbol=bus_marker['symbol'],
-                                        size=bus_marker['size'],
-                                        color=bus_marker['color']),
+                            marker=dict(symbol=bus_marker.symbol,
+                                        size=bus_marker.size,
+                                        color=bus_marker.color),
                             legendgroup=f'Node {node}',  # Group markers with their respective node
                             showlegend=False,  # No additional legend items for markers
-                            name=bus_marker['annotation_label'] if bus_marker['annotate'] else bus1,
+                            name=bus_marker.annotation_label if bus_marker.annotate else bus1,
                             customdata=[[bus1]],  # Adding bus name to the marker
                             hovertemplate=(
                                 "Bus: %{customdata[0]}<br>"
@@ -103,7 +110,6 @@ class VoltageProfile(VoltageProfileBase):
             yaxis_title=ylabel,
             xaxis=dict(range=xlim),
             yaxis=dict(range=ylim),
-            showlegend=True
         )
 
         # Show or save the plot

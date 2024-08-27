@@ -7,10 +7,10 @@
 import matplotlib.pyplot as plt
 from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
-from py_dss_tools.static_view.CustomPlotStyle import CustomPlotStyle
-from typing import Optional, Union, Tuple, Dict
-from py_dss_tools.static_view.VoltageProfileBusMarker import VoltageProfileBusMarker
-from py_dss_tools.view_base.VoltageProfileBase import VoltageProfileBase
+from py_dss_tools.view.static_view.CustomPlotStyle import CustomPlotStyle
+from typing import Optional, Union, Tuple, List
+from py_dss_tools.view.static_view.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.view.view_base.VoltageProfileBase import VoltageProfileBase
 
 class VoltageProfile(VoltageProfileBase):
 
@@ -25,7 +25,7 @@ class VoltageProfile(VoltageProfileBase):
     def voltage_profile_plot_style(self):
         return self._plot_style
 
-    def voltage_profile_get_bus_mark(self, name: str, marker: str = "x",
+    def voltage_profile_get_bus_mark(self, name: str, symbol: str = "x",
                      size: float = 10,
                      color: str = "black",
                      annotate: bool = False,
@@ -35,7 +35,7 @@ class VoltageProfile(VoltageProfileBase):
         if not annotation_label:
             annotation_label = name
         return VoltageProfileBusMarker(name=name,
-                                       marker=marker,
+                                       symbol=symbol,
                                        size=size,
                                        color=color,
                                        annotate=annotate,
@@ -49,7 +49,7 @@ class VoltageProfile(VoltageProfileBase):
                         ylabel: Optional[str] = "Voltage (pu)",
                         xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                         ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                        buses_marker: Optional[Dict[str, VoltageProfileBusMarker]] = None,
+                        buses_marker: Optional[List[VoltageProfileBusMarker]] = None,
                         tight_layout: Optional[bool] = True,
                         legend: Optional[bool] = True,
                         dpi: Optional[int] = 200,
@@ -57,14 +57,14 @@ class VoltageProfile(VoltageProfileBase):
                         show: Optional[bool] = True,
                         **kwargs
                         ):
-        self.check_energymeter()
+        self._check_energymeter()
 
         self._plot_style.apply_style()
         fig, ax = plt.subplots()
         for key, value in kwargs.items():
             setattr(fig, key, value)
 
-        buses, df, distances, sections = self.prepare_results()
+        buses, df, distances, sections = self._prepare_results()
         node_colors = {1: 'black', 2: 'red', 3: 'blue'}
 
         plt.figure(figsize=(10, 6))
@@ -82,7 +82,7 @@ class VoltageProfile(VoltageProfileBase):
                     bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
                     if bus_marker:
                         ax.plot(distance1, df.loc[bus1, f'node{node}'],
-                                marker=bus_marker.marker,
+                                marker=bus_marker.symbol,
                                 markersize=bus_marker.size,
                                 color=bus_marker.color)
 

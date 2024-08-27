@@ -6,14 +6,15 @@
 
 from py_dss_interface import DSS
 from py_dss_tools.results.Static.StaticResults import StaticResults
+from typing import Optional
 
 class VoltageProfileBase:
 
-    def __init__(self, dss: DSS, results: StaticResults):
+    def __init__(self, dss: DSS, results: Optional[StaticResults]):
         self._dss = dss
         self._results = results
 
-    def check_energymeter(self):
+    def _check_energymeter(self):
         if self._dss.meters.count == 0:
             raise ValueError(f'One enerymeter should exist to plot the voltage profile.')
         elif self._dss.meters.count > 1:
@@ -30,7 +31,7 @@ class VoltageProfileBase:
             elif count_enabled > 1:
                 raise ValueError(f'Only one enerymeter should be enabled to plot the voltage profile.')
 
-    def prepare_results(self):
+    def _prepare_results(self):
         df = self._results.voltage_ln_nodes[0]
         buses = [bus.lower().split(".")[0] for bus in self._dss.circuit.buses_names]
         distances = self._dss.circuit.buses_distances

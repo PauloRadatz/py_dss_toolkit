@@ -6,7 +6,7 @@
 
 from py_dss_tools.studies.StudyBase import StudyBase
 from py_dss_tools.results.Static.StaticResults import StaticResults
-from py_dss_tools.static_view.ViewStaticResults import ViewStaticResults
+from py_dss_tools.view.static_view import ViewStaticResults
 from dataclasses import dataclass
 
 from py_dss_tools.studies.StudyPowerFlowSettings import StudyPowerFlowSettings

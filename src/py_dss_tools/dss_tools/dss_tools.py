@@ -5,13 +5,10 @@
 # @Software: PyCharm
 
 
-from dataclasses import dataclass
-from typing import Optional, Union
+from typing import Optional
 from py_dss_interface import DSS
-import pandas as pd
 # from py_dss_tools.dss_tools.ResultsTools import ResultsTools
 # from py_dss_tools.dss_tools.ModelTools import ModelTools
-from py_dss_tools.dss_tools.DSSViewTools import DSSViewTools
 from py_dss_tools.dss_tools.SimulationTools import SimulationTools
 from py_dss_tools.dss_tools.ConfigurationTools import ConfigurationTools
 from py_dss_tools.dss_tools.UtilitiesTools import UtilitiesTools
@@ -29,13 +26,14 @@ class DSSTools:
         # self._results = ResultsTools(self._dss)
         from py_dss_tools.results.Results import Results
         from py_dss_tools.model.ModelBase import ModelBase
-        from py_dss_tools.static_view.ViewResults import ViewResults as StaticView
-        from py_dss_tools.interactive_view.ViewResults import ViewResults as InteractiveView
+        from py_dss_tools.view.static_view.ViewResults import ViewResults as StaticView
+        from py_dss_tools.view.interactive_view.ViewResults import ViewResults as InteractiveView
+        from py_dss_tools.view.dss_view.ViewResults import ViewResults as DSSView
         self._results = Results(self._dss)
         self._model = ModelBase(self._dss)
-        self._dss_view = DSSViewTools(self._dss)
         self._static_view = StaticView(self._dss, self._results)
         self._interactive_view = InteractiveView(self._dss, self._results)
+        self._dss_view = DSSView(self._dss)
         self._simulation = SimulationTools(self._dss)
         self._configuration = ConfigurationTools(self._dss)
         self._utilities = UtilitiesTools(self._dss)
@@ -63,6 +61,10 @@ class DSSTools:
     @property
     def interactive_view(self):
         return self._interactive_view
+
+    @property
+    def dss_view(self):
+        return self._dss_view
 
     @property
     def simulation(self):

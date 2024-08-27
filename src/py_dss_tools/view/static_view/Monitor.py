@@ -4,13 +4,10 @@
 # @File    : Monitor.py
 # @Software: PyCharm
 
-import pandas as pd
-from typing import Dict
 import matplotlib.pyplot as plt
-from typing import Optional, Union, Tuple, List
 from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
 from py_dss_interface import DSS
-from py_dss_tools.static_view.CustomPlotStyle import CustomPlotStyle
+from py_dss_tools.view.static_view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple
 
 
