@@ -85,6 +85,25 @@ class VoltageProfile(VoltageProfileBase):
                 if buses_marker:
                     bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
                     if bus_marker:
+
+                        # Append annotation label if it exists
+                        if bus_marker.annotate and bus_marker.annotation_label:
+                            hovertemplate = (f"<br>Marker Label: {bus_marker.annotation_label}<br>"
+                                "Bus: %{customdata[0]}<br>"
+                                "Distance: %{x}<br>"
+                                "Voltage: %{y:.3f} pu"
+                            )
+                        else:
+                            hovertemplate = (
+                                "Bus: %{customdata[0]}<br>"
+                                "Distance: %{x}<br>"
+                                "Voltage: %{y:.3f} pu"
+                            )
+
+
+                        hovertemplate += "<extra></extra>"
+
+                        # Add the scatter plot trace for the bus marker
                         fig.add_trace(go.Scatter(
                             x=[distance1],
                             y=[df.loc[bus1, f'node{node}']],
@@ -94,14 +113,10 @@ class VoltageProfile(VoltageProfileBase):
                                         color=bus_marker.color),
                             legendgroup=f'Node {node}',  # Group markers with their respective node
                             showlegend=False,  # No additional legend items for markers
-                            name=bus_marker.annotation_label if bus_marker.annotate else bus1,
                             customdata=[[bus1]],  # Adding bus name to the marker
-                            hovertemplate=(
-                                "Bus: %{customdata[0]}<br>"
-                                "Distance: %{x}<br>"
-                                "Voltage: %{y:.3f} pu<extra></extra>"
-                            )
+                            hovertemplate=hovertemplate  # Apply the combined hovertemplate
                         ))
+
 
         # Customize layout
         fig.update_layout(
