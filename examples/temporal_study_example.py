@@ -23,8 +23,8 @@ study.settings.mode = "daily"
 study.run()
 
 study.results.monitor("m1")
-study.view.vmag_vs_time("m1")
-study.view.p_vs_time("m1_p")
+study.dss_view.vmag_vs_time("m1")
+study.dss_view.p_vs_time("m1_p")
 
 print(study.results.energymeters)
 

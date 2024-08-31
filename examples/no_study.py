@@ -28,5 +28,15 @@ dss.text("New monitor.p line.l115 1 mode=1 ppolar=no")
 dss.text("set mode=daily")
 dss.text("solve")
 
+dss_tools.interactive_view.plot_feeder_topology()
+
+# dss_tools.static_view.vmag_vs_time("v")
+# dss_tools.static_view.p_vs_time("p")
+#
+# dss_tools.interactive_view.vmag_vs_time("v")
+# dss_tools.interactive_view.p_vs_time("p")
+
+# dss_tools.dss_view.vmag_vs_time("v")
+# dss_tools.dss_view.p_vs_time("p")
 
 print("here")
