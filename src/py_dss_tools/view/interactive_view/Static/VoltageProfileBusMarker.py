@@ -14,5 +14,5 @@ class VoltageProfileBusMarker:
     size: float = field(init=True, repr=True, default=10)
     color: str = field(init=True, repr=True, default="black")
     annotate: bool = field(init=True, repr=True, default=False)
-    annotation_label: str = field(init=True, repr=True, default=name)
+    marker_name: str = field(init=True, repr=True, default=name)
     show_legend: bool = field(init=True, repr=True, default=False)

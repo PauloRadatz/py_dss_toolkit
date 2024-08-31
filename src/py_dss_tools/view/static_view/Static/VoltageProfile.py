@@ -29,21 +29,15 @@ class VoltageProfile(VoltageProfileBase):
     def voltage_profile_get_bus_mark(self, name: str, symbol: str = "x",
                                      size: float = 10,
                                      color: str = "black",
-                                     annotate: bool = False,
-                                     annotation_label: Optional[str] = None,
-                                     annotation_delta_x: float = -0.02,
-                                     annotation_delta_y: float = -0.02,
+                                     marker_name: Optional[str] = None,
                                      show_legend: bool = False):
-        if not annotation_label:
-            annotation_label = name
+        if not marker_name:
+            marker_name = name
         return VoltageProfileBusMarker(name=name,
                                        symbol=symbol,
                                        size=size,
                                        color=color,
-                                       annotate=annotate,
-                                       annotation_label=annotation_label,
-                                       annotation_delta_x=annotation_delta_x,
-                                       annotation_delta_y=annotation_delta_y,
+                                       marker_name=marker_name,
                                        show_legend=show_legend)
 
     def voltage_profile(self,
@@ -96,18 +90,8 @@ class VoltageProfile(VoltageProfileBase):
                                 markersize=bus_marker.size,
                                 color=bus_marker.color)
 
-                        if bus1 not in bus_annotated:
-                            if bus_marker.annotate:
-                                ax.annotate(bus_marker.annotation_label,
-                                            xy=(distance1, df.loc[bus1, f'node{node}']),
-                                            xytext=(distance1 + bus_marker.annotation_delta_x,
-                                                    df.loc[bus1, f'node{node}'] + bus_marker.annotation_delta_y),
-                                            arrowprops=dict(facecolor='black', shrink=0.05),
-                                            )
-                            bus_annotated.append(bus1)
-
                         # Add the bus marker to the legend if show_legend is True and not already added
-                        if bus_marker.show_legend and bus_marker.annotation_label not in legend_added:
+                        if bus_marker.show_legend and bus_marker.marker_name not in legend_added:
                             handle = plt.Line2D([0], [0],
                                                 marker=bus_marker.symbol,
                                                 color=bus_marker.color,
@@ -116,8 +100,8 @@ class VoltageProfile(VoltageProfileBase):
                                                 markerfacecolor=bus_marker.color,
                                                 markeredgecolor=bus_marker.color)
                             legend_handles.append(handle)
-                            legend_labels.append(bus_marker.annotation_label)
-                            legend_added[bus_marker.annotation_label] = True  # Mark this marker as added
+                            legend_labels.append(bus_marker.marker_name)
+                            legend_added[bus_marker.marker_name] = True  # Mark this marker as added
 
         # Create the legend
         if legend:

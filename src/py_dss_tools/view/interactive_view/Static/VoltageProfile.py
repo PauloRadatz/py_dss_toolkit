@@ -29,16 +29,16 @@ class VoltageProfile(VoltageProfileBase):
                                      size: float = 10,
                                      color: str = "black",
                                      annotate: bool = False,
-                                     annotation_label: Optional[str] = None,
+                                     marker_name: Optional[str] = None,
                                      show_legend: bool = False):
-        if not annotation_label:
-            annotation_label = name
+        if not marker_name:
+            marker_name = name
         return VoltageProfileBusMarker(name=name,
                                        symbol=symbol,
                                        size=size,
                                        color=color,
                                        annotate=annotate,
-                                       annotation_label=annotation_label,
+                                       marker_name=marker_name,
                                        show_legend=show_legend)
 
     def voltage_profile(self,
@@ -96,7 +96,7 @@ class VoltageProfile(VoltageProfileBase):
                 if buses_marker:
                     bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
                     if bus_marker:
-                        hovertemplate = (f"<br>{bus_marker.annotation_label}<br>"
+                        hovertemplate = (f"<br>{bus_marker.marker_name}<br>"
                                          "Bus: %{customdata[0]}<br>"
                                          "Distance: %{x}<br>"
                                          "Voltage: %{y:.3f} pu"
@@ -117,7 +117,7 @@ class VoltageProfile(VoltageProfileBase):
                                         color=bus_marker.color),
                             legendgroup=f'Bus {bus1}',  # Group markers by bus
                             showlegend=show_legend,  # Show in legend only if not added before
-                            name=f'{bus_marker.annotation_label}',  # Legend name
+                            name=f'{bus_marker.marker_name}',  # Legend name
                             customdata=[[bus1]],  # Adding bus name to the marker
                             hovertemplate=hovertemplate  # Apply the combined hovertemplate
                         ))
