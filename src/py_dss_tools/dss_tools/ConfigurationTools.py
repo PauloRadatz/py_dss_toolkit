@@ -19,6 +19,3 @@ class ConfigurationTools:
 
     def calc_voltage_base(self):
         self._dss.text("calcvoltagebase")
-
-    def batchedit(self, element_type: str, property: str, value: str):
-        self._dss.text(f"batchedit {element_type}..* {property}={value}")

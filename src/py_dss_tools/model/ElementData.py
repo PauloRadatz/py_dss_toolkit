@@ -68,7 +68,7 @@ class ElementData:
         if element_full_name not in elements_list:
             raise ValueError(f"Model does not have the {element_class}.{element_name}")
 
-    def add_line_in_vsource(self, add_meter=True):
+    def add_line_in_vsource(self, add_meter=False, add_monitors=False):
         code = "unrealbus"
         self._dss.vsources.name = "source"
         feeder_head_bus = self._dss.cktelement.bus_names[0].split('.')[0].lower()
@@ -98,6 +98,28 @@ class ElementData:
                 self.__add_meter("meter_feeder_head", "Line.feeder_head", terminal=1)
 
             self._dss.text("calcvoltagebase")
+
+            if add_monitors:
+                self.__add_monitor("monitor_feeder_head_pq", "Line.feeder_head", terminal=1, mode=1)
+                self.__add_monitor("monitor_feeder_head_vi", "Line.feeder_head", terminal=1, mode=0)
+
+    def get_first_element(self):
+        self._dss.vsources.name = "source"
+        feeder_head_bus = self._dss.cktelement.bus_names[0].split('.')[0].lower()
+        self._dss.circuit.set_active_bus(feeder_head_bus)
+
+        pd_elements = self._dss.bus.all_pde_active_bus
+        if len(pd_elements) == 1:
+            return pd_elements[0].lower()
+        else:
+            print("More than one pd element connected to the sourcebus?")
+
+        print("here")
+
+    def __add_monitor(self, monitor_name: str, element: str, terminal: int, mode: int, vipolar: bool = True,
+                      ppolar: bool = False):
+        self._dss.text(f"new monitor.{monitor_name} element={element} terminal={terminal}, mode={mode} "
+                       f"vipolar={'yes' if vipolar else 'no'} ppolar={'yes' if ppolar else 'no'}")
 
     def __add_meter(self, meter_name: str, element: str, terminal: int = 1):
         self._dss.text(f"new energymeter.{meter_name} element={element} terminal={terminal}")

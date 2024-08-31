@@ -23,3 +23,6 @@ class ModelUtils:
 
     def disable_elements_type(self, element_type: str):
         self._dss.text(f"batchedit {element_type}..* enabled=false")
+
+    def batchedit(self, element_type: str, property: str, value: str):
+        self._dss.text(f"batchedit {element_type}..* {property}={value}")
