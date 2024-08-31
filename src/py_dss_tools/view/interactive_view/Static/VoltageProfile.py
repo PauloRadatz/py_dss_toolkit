@@ -29,7 +29,8 @@ class VoltageProfile(VoltageProfileBase):
                                      size: float = 10,
                                      color: str = "black",
                                      annotate: bool = False,
-                                     annotation_label: Optional[str] = None):
+                                     annotation_label: Optional[str] = None,
+                                     show_legend: bool = False):
         if not annotation_label:
             annotation_label = name
         return VoltageProfileBusMarker(name=name,
@@ -37,7 +38,8 @@ class VoltageProfile(VoltageProfileBase):
                                        size=size,
                                        color=color,
                                        annotate=annotate,
-                                       annotation_label=annotation_label)
+                                       annotation_label=annotation_label,
+                                       show_legend=show_legend)
 
     def voltage_profile(self,
                         title: Optional[str] = "Voltage Profile",
@@ -56,7 +58,10 @@ class VoltageProfile(VoltageProfileBase):
         fig = go.Figure()
         self._plot_style.apply_style(fig)
 
-        # Add voltage profile lines
+        # Dictionary to track whether the bus has already been added to the legend
+        legend_added = {}
+
+        # Step 1: Add voltage profile lines for Node 1, Node 2, and Node 3
         for node in range(1, 4):
             for section in sections:
                 bus1, bus2 = section
@@ -81,27 +86,26 @@ class VoltageProfile(VoltageProfileBase):
                     )
                 ))
 
+        # Step 2: Add bus markers
+        for node in range(1, 4):
+            for section in sections:
+                bus1, bus2 = section
+                distance1 = distances[buses.index(bus1)]
+
                 # Add bus markers if specified
                 if buses_marker:
                     bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
                     if bus_marker:
-
-                        # Append annotation label if it exists
-                        if bus_marker.annotate and bus_marker.annotation_label:
-                            hovertemplate = (f"<br>Marker Label: {bus_marker.annotation_label}<br>"
-                                "Bus: %{customdata[0]}<br>"
-                                "Distance: %{x}<br>"
-                                "Voltage: %{y:.3f} pu"
-                            )
-                        else:
-                            hovertemplate = (
-                                "Bus: %{customdata[0]}<br>"
-                                "Distance: %{x}<br>"
-                                "Voltage: %{y:.3f} pu"
-                            )
-
+                        hovertemplate = (f"<br>{bus_marker.annotation_label}<br>"
+                                         "Bus: %{customdata[0]}<br>"
+                                         "Distance: %{x}<br>"
+                                         "Voltage: %{y:.3f} pu"
+                                         )
 
                         hovertemplate += "<extra></extra>"
+
+                        # Determine if the bus has already been added to the legend
+                        show_legend = not legend_added.get(bus1, False)
 
                         # Add the scatter plot trace for the bus marker
                         fig.add_trace(go.Scatter(
@@ -111,11 +115,15 @@ class VoltageProfile(VoltageProfileBase):
                             marker=dict(symbol=bus_marker.symbol,
                                         size=bus_marker.size,
                                         color=bus_marker.color),
-                            legendgroup=f'Node {node}',  # Group markers with their respective node
-                            showlegend=False,  # No additional legend items for markers
+                            legendgroup=f'Bus {bus1}',  # Group markers by bus
+                            showlegend=show_legend,  # Show in legend only if not added before
+                            name=f'{bus_marker.annotation_label}',  # Legend name
                             customdata=[[bus1]],  # Adding bus name to the marker
                             hovertemplate=hovertemplate  # Apply the combined hovertemplate
                         ))
+
+                        # Mark this bus as added to the legend
+                        legend_added[bus1] = True
 
 
         # Customize layout

@@ -26,15 +26,16 @@ dss_tools.model.add_line_in_vsource(add_meter=True)
 dss_tools.simulation.solve_snapshot()
 
 # We can plot the voltage profile and use all default parameters
-dss_tools.static_view.voltage_profile()
+# dss_tools.static_view.voltage_profile()
 
 # You can change parameters by using the method arguments.
-dss_tools.static_view.voltage_profile(title=f"Voltage profile for feeder {dss.circuit.name}")
+# dss_tools.static_view.voltage_profile(title=f"Voltage profile for feeder {dss.circuit.name}")
 
 # You also can mark buses in the profile by provide a list of voltage_profile_get_bus_mark objetcs to the buses_markers of voltage_profile method.
-buses_marker = [dss_tools.static_view.voltage_profile_get_bus_mark("149", annotate=True, annotation_label="Bus")]
+buses_marker = [dss_tools.static_view.voltage_profile_get_bus_mark("160r", annotate=True, annotation_label="Bus", show_legend=True)]
+dss_tools.static_view.voltage_profile_plot_style.legend_loc = "best"
 dss_tools.static_view.voltage_profile(buses_marker=buses_marker)
 
 # You also can use the dss_tools.static_view.voltage_profile_plot_style object to change Matplotlib atributes
-dss_tools.static_view.voltage_profile_plot_style.axes_grid = False
-dss_tools.static_view.voltage_profile()
+# dss_tools.static_view.voltage_profile_plot_style.axes_grid = False
+# dss_tools.static_view.voltage_profile()

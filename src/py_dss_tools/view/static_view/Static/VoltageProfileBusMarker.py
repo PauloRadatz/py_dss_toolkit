@@ -17,3 +17,4 @@ class VoltageProfileBusMarker:
     annotation_label: str = field(init=True, repr=True, default=name)
     annotation_delta_x: float = field(init=True, repr=True, default=-0.02)
     annotation_delta_y: float = field(init=True, repr=True, default=-0.02)
+    show_legend: bool = field(init=True, repr=True, default=False)
