@@ -23,7 +23,7 @@ class Circuit:
     def circuit_plot_style(self):
         return self._plot_style
 
-    def plot_feeder_topology(self, parameter="voltage"):
+    def plot_feeder_topology(self, parameter="active power"):
         # 1. Extract the topology data
         buses = list()
         bus_coords = list()
@@ -50,6 +50,8 @@ class Circuit:
         bus_coords = np.array(bus_coords)
 
         # 2. User-defined results for color coding
+
+
         results = self._results.powers_elements[0].iloc[:, :3].sum(axis=1)
         result_values = list()
         for element in elements_list:
@@ -89,37 +91,36 @@ class Circuit:
                 text=element,
                 hoverinfo='text',
                 customdata=customdata,
-                hovertemplate=hovertemplate,
-                marker=dict(color=value, colorscale=colorscale, coloraxis='coloraxis')
+                hovertemplate=hovertemplate
             ))
 
-            # Add a dummy trace to represent the colorbar
-            fig.add_trace(go.Scatter(
-                x=[None], y=[None],
-                mode='markers',
-                marker=dict(
-                    colorscale=colorscale,
-                    color=colorbar_trace_values,  # Use the range of values
-                    cmin=np.min(result_values),
-                    cmax=np.max(result_values),
-                    colorbar=dict(
-                        title=parameter,
-                        thickness=20,
-                        len=0.75,
-                        ticks="outside"
-                    ),
-                    showscale=True
+        # Add a dummy trace to represent the colorbar
+        fig.add_trace(go.Scatter(
+            x=[None], y=[None],
+            mode='markers',
+            marker=dict(
+                colorscale=colorscale,
+                color=colorbar_trace_values,  # Use the range of values
+                cmin=np.min(result_values),
+                cmax=np.max(result_values),
+                colorbar=dict(
+                    title=parameter,
+                    thickness=20,
+                    len=0.75,
+                    ticks="outside"
                 ),
-                hoverinfo='none'
-            ))
+                showscale=True
+            ),
+            hoverinfo='none'
+        ))
 
-            # Set layout
-            fig.update_layout(
-                title=f'Feeder Topology with {parameter} Color Mapping',
-                xaxis_title='X Coordinate',
-                yaxis_title='Y Coordinate',
-                showlegend=False
-            )
+        # Set layout
+        fig.update_layout(
+            title=f'Feeder Topology with {parameter} Color Mapping',
+            xaxis_title='X Coordinate',
+            yaxis_title='Y Coordinate',
+            showlegend=False
+        )
 
         # Show the plot
         fig.show()
