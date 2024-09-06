@@ -74,6 +74,9 @@ class Circuit:
             x0, y0 = bus_coords[buses.index(bus1)]
             x1, y1 = bus_coords[buses.index(bus2)]
 
+            # Calculate the midpoint
+            midpoint_x, midpoint_y = (x0 + x1) / 2, (y0 + y1) / 2
+
             # Map the normalized value to a color from the colorscale
             color = sample_colorscale(colorscale, value)[0]
 
@@ -90,6 +93,15 @@ class Circuit:
                 showlegend=False,
                 name='',
                 text=element,
+                hoverinfo='skip'
+            ))
+
+            # Add a marker at the midpoint with hover info
+            fig.add_trace(go.Scatter(
+                x=[midpoint_x], y=[midpoint_y],
+                mode='markers',
+                marker=dict(size=0.1, color=color, opacity=0),
+                showlegend=False,
                 hoverinfo='text',
                 customdata=customdata,
                 hovertemplate=hovertemplate
