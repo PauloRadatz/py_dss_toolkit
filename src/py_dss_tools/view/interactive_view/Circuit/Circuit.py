@@ -77,10 +77,11 @@ class Circuit:
             # Map the normalized value to a color from the colorscale
             color = sample_colorscale(colorscale, value)[0]
 
-            customdata = [[element, parameter, results.loc[element]]]
+            customdata = [[element, parameter, results.loc[element]], [element, parameter, results.loc[element]]]
+
             hovertemplate = "<b>Element: </b>%{customdata[0]}<br>" + \
-                              "<b>Parameter: </b>%{customdata[1]}<br>" + \
-                              "<b>Result: </b>%{customdata[2]:.2f}MW<br>"
+                            "<b>Parameter: </b>%{customdata[1]}<br>" + \
+                            "<b>Result: </b>%{customdata[2]:.2f}MW<br>"
 
             fig.add_trace(go.Scatter(
                 x=[x0, x1], y=[y0, y1],
