@@ -64,6 +64,7 @@ class Circuit:
         fig = go.Figure()
 
         colorscale = 'Viridis'
+        colorbar_trace_values = np.linspace(np.min(result_values), np.max(result_values), 100)
 
         # Plot the connections (lines)
         for connection, value in zip(connections, norm_values):
@@ -89,27 +90,36 @@ class Circuit:
                 hoverinfo='text',
                 customdata=customdata,
                 hovertemplate=hovertemplate,
+                marker=dict(color=value, colorscale=colorscale, coloraxis='coloraxis')
             ))
 
-        # 5. Add a colorbar
-        fig.update_layout(coloraxis_colorbar=dict(
-            title=parameter,
-            thicknessmode="pixels", thickness=20,
-            lenmode="pixels", len=200,
-            yanchor="top", y=1,
-            ticks="outside",
-            ticksuffix="",
-            dtick=5
-        ))
+            # Add a dummy trace to represent the colorbar
+            fig.add_trace(go.Scatter(
+                x=[None], y=[None],
+                mode='markers',
+                marker=dict(
+                    colorscale=colorscale,
+                    color=colorbar_trace_values,  # Use the range of values
+                    cmin=np.min(result_values),
+                    cmax=np.max(result_values),
+                    colorbar=dict(
+                        title=parameter,
+                        thickness=20,
+                        len=0.75,
+                        ticks="outside"
+                    ),
+                    showscale=True
+                ),
+                hoverinfo='none'
+            ))
 
-        # Set plot title and axis labels
-        fig.update_layout(
-            title=f'Feeder Topology with {parameter} Color Mapping',
-            xaxis_title='X Coordinate',
-            yaxis_title='Y Coordinate',
-            showlegend=False,
-            coloraxis=dict(colorscale='Viridis')
-        )
+            # Set layout
+            fig.update_layout(
+                title=f'Feeder Topology with {parameter} Color Mapping',
+                xaxis_title='X Coordinate',
+                yaxis_title='Y Coordinate',
+                showlegend=False
+            )
 
         # Show the plot
         fig.show()
