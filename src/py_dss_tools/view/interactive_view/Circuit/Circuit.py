@@ -25,30 +25,35 @@ class Circuit:
 
     def plot_feeder_topology(self, parameter="voltage"):
         # 1. Extract the topology data
-        buses = [bus.lower() for bus in self._dss.circuit.buses_names]
-
+        buses = list()
         bus_coords = list()
-        for bus in buses:
-            self._dss.circuit.set_active_bus(bus)
-            x, y = self._dss.bus.x, self._dss.bus.y
-            bus_coords.append((x, y))
-
-        bus_coords = np.array(bus_coords)
-
         elements_list = [element.lower() for element in self._dss.circuit.elements_names]
         connections = []
         for element in elements_list:
-            if element.split(".")[0].lower() in ["line", "transformer"]:
+            if element.split(".")[0].lower() in ["line"]:
                 self._dss.circuit.set_active_element(element)
                 bus1, bus2 = self._dss.cktelement.bus_names[0].split(".")[0].lower(), \
                 self._dss.cktelement.bus_names[1].split(".")[0].lower()
                 connections.append([element, (bus1.lower(), bus2.lower())])
 
+                if bus1 not in buses:
+                    self._dss.circuit.set_active_bus(bus1)
+                    x, y = self._dss.bus.x, self._dss.bus.y
+                    bus_coords.append((x, y))
+                    buses.append(bus1)
+
+                if bus2 not in buses:
+                    self._dss.circuit.set_active_bus(bus2)
+                    x, y = self._dss.bus.x, self._dss.bus.y
+                    bus_coords.append((x, y))
+                    buses.append(bus2)
+        bus_coords = np.array(bus_coords)
+
         # 2. User-defined results for color coding
         results = self._results.powers_elements[0].iloc[:, :3].sum(axis=1)
         result_values = list()
         for element in elements_list:
-            if element.split(".")[0].lower() in ["line", "transformer"]:
+            if element.split(".")[0].lower() in ["line"]:
                 result_values.append(results.loc[element])
         result_values = np.array(result_values)
 
@@ -69,24 +74,22 @@ class Circuit:
             # Map the normalized value to a color from the colorscale
             color = sample_colorscale(colorscale, value)[0]
 
+            customdata = [[element, parameter, results.loc[element]]]
+            hovertemplate = "<b>Element: </b>%{customdata[0]}<br>" + \
+                              "<b>Parameter: </b>%{customdata[1]}<br>" + \
+                              "<b>Result: </b>%{customdata[2]:.2f}MW<br>"
+
             fig.add_trace(go.Scatter(
                 x=[x0, x1], y=[y0, y1],
-                mode='lines',
+                mode='lines+markers',
                 line=dict(color=color, width=3),
+                showlegend=False,
+                name='',
+                text=element,
                 hoverinfo='text',
-                text=f'{element}: {parameter} = {results.loc[element]:.3f}',
-                showlegend=False
+                customdata=customdata,
+                hovertemplate=hovertemplate,
             ))
-
-        # Plot the nodes (buses)
-        fig.add_trace(go.Scatter(
-            x=bus_coords[:, 0], y=bus_coords[:, 1],
-            mode='markers',
-            marker=dict(size=10, color='black'),
-            text=[f'Bus: {bus}' for bus in buses],
-            hoverinfo='text',
-            showlegend=False
-        ))
 
         # 5. Add a colorbar
         fig.update_layout(coloraxis_colorbar=dict(

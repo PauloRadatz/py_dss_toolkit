@@ -22,11 +22,6 @@ dss.text(f"buscoords {bus_coords}")
 dss_tools.model.add_line_in_vsource(add_meter=True)
 dss.text("solve")
 
-dss.text("New monitor.v line.l115 1 mode=0")
-dss.text("New monitor.p line.l115 1 mode=1 ppolar=no")
-
-dss.text("set mode=daily")
-dss.text("solve")
 
 dss_tools.interactive_view.plot_feeder_topology()
 
