@@ -13,6 +13,7 @@ import numpy as np
 from typing import Optional, Union, Tuple, List
 from py_dss_tools.view.interactive_view.Circuit.ActivePowerSettings import ActivePowerSettings
 from py_dss_tools.view.interactive_view.Circuit.VoltageSettings import VoltageSettings
+from py_dss_tools.view.interactive_view.Circuit.UserDefinedSettings import UserDefinedSettingsSettings
 
 
 class Circuit:
@@ -23,6 +24,7 @@ class Circuit:
         self._plot_style = CustomPlotStyle()
         self._active_power_settings = ActivePowerSettings()
         self._voltage_settings = VoltageSettings()
+        self._user_defined_settings = UserDefinedSettingsSettings()
 
     @property
     def circuit_plot_style(self):
@@ -36,14 +38,24 @@ class Circuit:
     def voltage_settings(self):
         return self._voltage_settings
 
+    @property
+    def user_defined_settings(self):
+        return self._user_defined_settings
+
     def circuit_plot(self,
                      parameter="active power",
                      title: Optional[str] = "Circuit Plot",
                      xlabel: Optional[str] = 'X Coordinate',
                      ylabel: Optional[str] = 'Y Coordinate',
+                     mark_buses: bool = True,
                      show_colorbar: bool = True,
-                     show: Optional[bool] = True,
+                     show: bool = True,
                      save_file_path: Optional[str] = None):
+
+        if mark_buses:
+            mode = 'lines+markers'
+        else:
+            mode = 'lines'
 
         if parameter == "active power":
             settings = self._active_power_settings
@@ -59,6 +71,17 @@ class Circuit:
                              "<b>Bus1: </b>%{customdata[1]}<br>" +
                              "<b>Bus2: </b>%{customdata[2]}<br>" +
                              "<b>Voltage (pu): </b>%{customdata[3]:.4f} pu<br>")
+        elif parameter == "user defined":
+            settings = self._user_defined_settings
+            if settings.results is None:
+                raise Exception("No results found")
+            else:
+                results = settings.results
+                hovertemplate = ("</b>%{customdata[0]}<br>" +
+                                 "<b>Bus1: </b>%{customdata[1]}<br>" +
+                                 "<b>Bus2: </b>%{customdata[2]}<br>" +
+                                 "<b>Voltage (pu): </b>%{customdata[3]:.4f} pu<br>")
+
 
         buses = list()
         bus_coords = list()
@@ -120,7 +143,7 @@ class Circuit:
 
             fig.add_trace(go.Scatter(
                 x=[x0, x1], y=[y0, y1],
-                mode='lines+markers',
+                mode=mode,
                 line=dict(color=color, width=3),
                 showlegend=False,
                 name='',
