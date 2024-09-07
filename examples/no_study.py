@@ -22,8 +22,10 @@ dss.text(f"buscoords {bus_coords}")
 dss_tools.model.add_line_in_vsource(add_meter=True)
 dss.text("solve")
 
+dss_tools.results.voltages_elements
 
-dss_tools.interactive_view.plot_feeder_topology()
+
+dss_tools.interactive_view.circuit_plot(parameter="voltage")
 
 # dss_tools.static_view.vmag_vs_time("v")
 # dss_tools.static_view.p_vs_time("p")

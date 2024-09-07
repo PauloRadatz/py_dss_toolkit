@@ -10,6 +10,9 @@ from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_interface import DSS
 from py_dss_tools.view.interactive_view.CustomPlotStyle import CustomPlotStyle
 import numpy as np
+from typing import Optional, Union, Tuple, List
+from py_dss_tools.view.interactive_view.Circuit.ActivePowerSettings import ActivePowerSettings
+from py_dss_tools.view.interactive_view.Circuit.VoltageSettings import VoltageSettings
 
 
 class Circuit:
@@ -18,22 +21,55 @@ class Circuit:
         self._dss = dss
         self._results = results
         self._plot_style = CustomPlotStyle()
+        self._active_power_settings = ActivePowerSettings()
+        self._voltage_settings = VoltageSettings()
 
     @property
     def circuit_plot_style(self):
         return self._plot_style
 
-    def plot_feeder_topology(self, parameter="active power"):
-        # 1. Extract the topology data
+    @property
+    def active_power_settings(self):
+        return self._active_power_settings
+
+    @property
+    def voltage_settings(self):
+        return self._voltage_settings
+
+    def circuit_plot(self,
+                     parameter="active power",
+                     title: Optional[str] = "Circuit Plot",
+                     xlabel: Optional[str] = 'X Coordinate',
+                     ylabel: Optional[str] = 'Y Coordinate',
+                     show_colorbar: bool = True,
+                     show: Optional[bool] = True,
+                     save_file_path: Optional[str] = None):
+
+        if parameter == "active power":
+            settings = self._active_power_settings
+            results = self._results.powers_elements[0].iloc[:, :3].sum(axis=1)
+            hovertemplate = ("</b>%{customdata[0]}<br>" +
+                             "<b>Bus1: </b>%{customdata[1]}<br>" +
+                             "<b>Bus2: </b>%{customdata[2]}<br>" +
+                             "<b>Total P: </b>%{customdata[3]:.2f} kW<br>")
+        elif parameter == "voltage":
+            settings = self._voltage_settings
+            results = self._results.voltages_elements[0].iloc[:, :3].mean(axis=1)
+            hovertemplate = ("</b>%{customdata[0]}<br>" +
+                             "<b>Bus1: </b>%{customdata[1]}<br>" +
+                             "<b>Bus2: </b>%{customdata[2]}<br>" +
+                             "<b>Voltage (pu): </b>%{customdata[3]:.4f} pu<br>")
+
         buses = list()
         bus_coords = list()
         elements_list = [element.lower() for element in self._dss.circuit.elements_names]
         connections = []
+
         for element in elements_list:
             if element.split(".")[0].lower() in ["line"]:
                 self._dss.circuit.set_active_element(element)
                 bus1, bus2 = self._dss.cktelement.bus_names[0].split(".")[0].lower(), \
-                self._dss.cktelement.bus_names[1].split(".")[0].lower()
+                    self._dss.cktelement.bus_names[1].split(".")[0].lower()
                 connections.append([element, (bus1.lower(), bus2.lower())])
 
                 if bus1 not in buses:
@@ -49,42 +85,38 @@ class Circuit:
                     buses.append(bus2)
         bus_coords = np.array(bus_coords)
 
-        # 2. User-defined results for color coding
-
-
-        results = self._results.powers_elements[0].iloc[:, :3].sum(axis=1)
         result_values = list()
         for element in elements_list:
             if element.split(".")[0].lower() in ["line"]:
                 result_values.append(results.loc[element])
         result_values = np.array(result_values)
 
-        # 3. Normalize results for color mapping
-        norm_values = (result_values - np.min(result_values)) / (np.max(result_values) - np.min(result_values))
-
-        # 4. Create plotly traces for the topology
         fig = go.Figure()
 
-        colorscale = 'Viridis'
-        colorbar_trace_values = np.linspace(np.min(result_values), np.max(result_values), 100)
+        if not settings.colorbar_cmin:
+            cmin = np.min(result_values)
+        else:
+            cmin = settings.colorbar_cmin
 
-        # Plot the connections (lines)
+        if not settings.colorbar_cmax:
+            cmax = np.max(result_values)
+        else:
+            cmax = settings.colorbar_cmax
+
+        colorbar_trace_values = np.linspace(cmin, cmax, 100)
+
+        norm_values = (result_values - cmin) / (cmax - cmin)
+
         for connection, value in zip(connections, norm_values):
             element, (bus1, bus2) = connection
             x0, y0 = bus_coords[buses.index(bus1)]
             x1, y1 = bus_coords[buses.index(bus2)]
 
-            # Calculate the midpoint
             midpoint_x, midpoint_y = (x0 + x1) / 2, (y0 + y1) / 2
 
-            # Map the normalized value to a color from the colorscale
-            color = sample_colorscale(colorscale, value)[0]
+            color = sample_colorscale(settings.colorscale, value)[0]
 
-            customdata = [[element, parameter, results.loc[element]], [element, parameter, results.loc[element]]]
-
-            hovertemplate = "<b>Element: </b>%{customdata[0]}<br>" + \
-                            "<b>Parameter: </b>%{customdata[1]}<br>" + \
-                            "<b>Result: </b>%{customdata[2]:.2f}MW<br>"
+            customdata = [[element, bus1, bus2, results.loc[element]], [element, bus1, bus2, results.loc[element]]]
 
             fig.add_trace(go.Scatter(
                 x=[x0, x1], y=[y0, y1],
@@ -96,7 +128,6 @@ class Circuit:
                 hoverinfo='skip'
             ))
 
-            # Add a marker at the midpoint with hover info
             fig.add_trace(go.Scatter(
                 x=[midpoint_x], y=[midpoint_y],
                 mode='markers',
@@ -107,33 +138,51 @@ class Circuit:
                 hovertemplate=hovertemplate
             ))
 
-        # Add a dummy trace to represent the colorbar
-        fig.add_trace(go.Scatter(
-            x=[None], y=[None],
-            mode='markers',
-            marker=dict(
-                colorscale=colorscale,
-                color=colorbar_trace_values,  # Use the range of values
-                cmin=np.min(result_values),
-                cmax=np.max(result_values),
-                colorbar=dict(
-                    title=parameter,
-                    thickness=20,
-                    len=0.75,
-                    ticks="outside"
-                ),
-                showscale=True
-            ),
-            hoverinfo='none'
-        ))
+        if show_colorbar:
 
-        # Set layout
+            if settings.colorbar_tickvals is not None:
+                custom_tickvals = np.linspace(np.min(result_values), np.max(result_values), settings.colorbar_tickvals)
+                if settings.colorbar_ticktext_decimal_points:
+                    custom_ticktext = [f"{v:.{settings.colorbar_ticktext_decimal_points}f}" for v in custom_tickvals]
+                else:
+                    custom_ticktext = [f"{v:.{0}f}" for v in custom_tickvals]
+            else:
+                custom_tickvals = None
+                custom_ticktext = None
+
+            if settings.colorbar_tickvals_list:
+                custom_tickvals = settings.colorbar_tickvals_list
+                custom_ticktext = settings.colorbar_tickvals_list
+
+            fig.add_trace(go.Scatter(
+                x=[None], y=[None],
+                mode='markers',
+                marker=dict(
+                    colorscale=settings.colorscale,
+                    color=colorbar_trace_values,
+                    cmin=cmin,
+                    cmax=cmax,
+                    colorbar=dict(
+                        title=settings.colorbar_title,
+                        thickness=20,
+                        len=0.75,
+                        ticks="outside",
+                        tickvals=custom_tickvals,
+                        ticktext=custom_ticktext
+                    ),
+                    showscale=True
+                ),
+                hoverinfo='none'
+            ))
+
         fig.update_layout(
-            title=f'Feeder Topology with {parameter} Color Mapping',
-            xaxis_title='X Coordinate',
-            yaxis_title='Y Coordinate',
+            title=title,
+            xaxis_title=xlabel,
+            yaxis_title=ylabel,
             showlegend=False
         )
 
-        # Show the plot
-        fig.show()
+        if save_file_path:
+            fig.write_html(save_file_path)
+        if show:
+            fig.show()
