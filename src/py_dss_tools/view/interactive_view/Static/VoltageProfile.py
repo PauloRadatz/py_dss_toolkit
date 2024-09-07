@@ -25,12 +25,12 @@ class VoltageProfile(VoltageProfileBase):
     def voltage_profile_plot_style(self):
         return self._plot_style
 
-    def voltage_profile_get_bus_mark(self, name: str, symbol: str = "x",
-                                     size: float = 10,
-                                     color: str = "black",
-                                     annotate: bool = False,
-                                     marker_name: Optional[str] = None,
-                                     show_legend: bool = False):
+    def voltage_profile_get_bus_marker(self, name: str, symbol: str = "x",
+                                       size: float = 10,
+                                       color: str = "black",
+                                       annotate: bool = False,
+                                       marker_name: Optional[str] = None,
+                                       show_legend: bool = False):
         if not marker_name:
             marker_name = name
         return VoltageProfileBusMarker(name=name,
@@ -125,7 +125,6 @@ class VoltageProfile(VoltageProfileBase):
 
                         # Mark this bus as added to the legend
                         legend_added[bus1] = True
-
 
         # Customize layout
         fig.update_layout(

@@ -7,6 +7,7 @@
 import os
 import pathlib
 import py_dss_interface
+
 from py_dss_tools import dss_tools
 
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -27,7 +28,9 @@ dss_tools.results.voltages_elements
 
 dss_tools.interactive_view.user_defined_settings.results = dss_tools.results.powers_elements[0].iloc[:, :3].sum(axis=1)
 
-fig = dss_tools.interactive_view.circuit_plot(parameter="phases", get_fig_obj=True)
+
+# dss_tools.interactive_view.circuit_plot(parameter="phases", bus_markers=[dss_tools.interactive_view.circuit_get_bus_marker("79")])
+dss_tools.interactive_view.circuit_plot(bus_markers=[dss_tools.interactive_view.circuit_get_bus_marker("79")])
 
 # dss_tools.static_view.vmag_vs_time("v")
 # dss_tools.static_view.p_vs_time("p")

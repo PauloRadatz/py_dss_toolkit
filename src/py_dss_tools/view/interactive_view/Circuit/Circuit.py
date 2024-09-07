@@ -15,6 +15,7 @@ from py_dss_tools.view.interactive_view.Circuit.ActivePowerSettings import Activ
 from py_dss_tools.view.interactive_view.Circuit.VoltageSettings import VoltageSettings
 from py_dss_tools.view.interactive_view.Circuit.UserDefinedSettings import UserDefinedSettingsSettings
 from py_dss_tools.view.interactive_view.Circuit.PhasesSettings import PhasesSettings
+from py_dss_tools.view.interactive_view.Circuit.CircuitBusMarker import CircuitBusMarker
 
 
 class Circuit:
@@ -27,6 +28,18 @@ class Circuit:
         self._voltage_settings = VoltageSettings()
         self._user_defined_settings = UserDefinedSettingsSettings()
         self._phases_settings = PhasesSettings()
+
+    def circuit_get_bus_marker(self, name: str, symbol: str = "square",
+                               size: float = 10,
+                               color: str = "black",
+                               marker_name: Optional[str] = None):
+        if not marker_name:
+            marker_name = name
+        return CircuitBusMarker(name=name,
+                                symbol=symbol,
+                                size=size,
+                                color=color,
+                                marker_name=marker_name)
 
     @property
     def circuit_plot_style(self):
@@ -54,6 +67,7 @@ class Circuit:
                      xlabel: Optional[str] = 'X Coordinate',
                      ylabel: Optional[str] = 'Y Coordinate',
                      mark_buses: bool = True,
+                     bus_markers: Optional[List[CircuitBusMarker]] = None,
                      show_colorbar: bool = True,
                      show: bool = True,
                      save_file_path: Optional[str] = None,
@@ -174,6 +188,7 @@ class Circuit:
                     mode='markers',
                     marker=dict(size=0.1, color=color, opacity=0),
                     showlegend=False,
+                    name="",
                     hoverinfo='text',
                     customdata=customdata,
                     hovertemplate=hovertemplate
@@ -255,6 +270,7 @@ class Circuit:
                     mode='markers',
                     marker=dict(size=0.1, color=color, opacity=0),
                     showlegend=False,
+                    name="",
                     hoverinfo='text',
                     customdata=customdata,
                     hovertemplate=hovertemplate,
@@ -269,6 +285,26 @@ class Circuit:
                         traceorder="normal"
                     )
                 )
+        if bus_markers:
+            for marker in bus_markers:
+                if marker.name in buses:
+                    index = buses.index(marker.name)
+                    bus_x, bus_y = bus_coords[index]
+                    fig.add_trace(go.Scatter(
+                        x=[bus_x],
+                        y=[bus_y],
+                        mode='markers',
+                        marker=dict(
+                            symbol=marker.symbol,
+                            size=marker.size,
+                            color=marker.color
+                        ),
+                        showlegend=False,
+                        name="",
+                        hoverinfo='text',
+                        customdata=[[marker.name]],
+                        hovertemplate=("<b>Bus: </b>%{customdata[0]}<br>"),
+                    ))
 
         fig.update_layout(
             title=title,
