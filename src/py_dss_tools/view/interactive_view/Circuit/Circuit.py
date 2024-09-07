@@ -56,7 +56,8 @@ class Circuit:
                      mark_buses: bool = True,
                      show_colorbar: bool = True,
                      show: bool = True,
-                     save_file_path: Optional[str] = None):
+                     save_file_path: Optional[str] = None,
+                     get_fig_obj: bool = False) -> Optional[go.Figure]:
 
         if mark_buses:
             mode = 'lines+markers'
@@ -92,12 +93,11 @@ class Circuit:
         elif parameter == "phases":
             numerical_plot = False
             settings = self._phases_settings
-            results = self._results.powers_elements[0].iloc[:, :3].count(axis=1) # TODO use model later
+            results = self._results.powers_elements[0].iloc[:, :3].count(axis=1)  # TODO use model later
             hovertemplate = ("</b>%{customdata[0]}<br>" +
                              "<b>Bus1: </b>%{customdata[1]}<br>" +
                              "<b>Bus2: </b>%{customdata[2]}<br>" +
                              "<b>Phases: </b>%{customdata[3]}<br>")
-
 
         buses = list()
         bus_coords = list()
@@ -182,9 +182,11 @@ class Circuit:
             if show_colorbar:
 
                 if settings.colorbar_tickvals is not None:
-                    custom_tickvals = np.linspace(np.min(result_values), np.max(result_values), settings.colorbar_tickvals)
+                    custom_tickvals = np.linspace(np.min(result_values), np.max(result_values),
+                                                  settings.colorbar_tickvals)
                     if settings.colorbar_ticktext_decimal_points:
-                        custom_ticktext = [f"{v:.{settings.colorbar_ticktext_decimal_points}f}" for v in custom_tickvals]
+                        custom_ticktext = [f"{v:.{settings.colorbar_ticktext_decimal_points}f}" for v in
+                                           custom_tickvals]
                     else:
                         custom_ticktext = [f"{v:.{0}f}" for v in custom_tickvals]
                 else:
@@ -244,7 +246,7 @@ class Circuit:
                     showlegend=show_legend,
                     name=category,
                     hoverinfo='skip',
-                    legendgroup="group",  # Make part of a legend group
+                    legendgroup="group",
                     legendgrouptitle_text=settings.legendgrouptitle_text
                 ))
 
@@ -278,3 +280,5 @@ class Circuit:
             fig.write_html(save_file_path)
         if show:
             fig.show()
+        if get_fig_obj:
+            return fig

@@ -49,7 +49,8 @@ class VoltageProfile(VoltageProfileBase):
                         ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                         buses_marker: Optional[List[VoltageProfileBusMarker]] = None,
                         show: Optional[bool] = True,
-                        save_file_path: Optional[str] = None):
+                        save_file_path: Optional[str] = None,
+                        get_fig_obj: bool = False) -> Optional[go.Figure]:
         self._check_energymeter()
 
         buses, df, distances, sections = self._prepare_results()
@@ -140,3 +141,5 @@ class VoltageProfile(VoltageProfileBase):
             fig.write_html(save_file_path)
         if show:
             fig.show()
+        if get_fig_obj:
+            return fig
