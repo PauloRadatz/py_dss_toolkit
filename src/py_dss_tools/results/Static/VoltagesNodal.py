@@ -9,7 +9,7 @@ import pandas as pd
 from dataclasses import dataclass, field
 from typing import Tuple
 
-class Voltages:
+class VoltagesNodal:
     def __init__(self, dss: DSS):
         self._dss = dss
 
