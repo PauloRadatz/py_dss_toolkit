@@ -68,6 +68,14 @@ class Circuit:
                      title: Optional[str] = "Circuit Plot",
                      xlabel: Optional[str] = 'X Coordinate',
                      ylabel: Optional[str] = 'Y Coordinate',
+                     width_3ph: int = 3,
+                     width_2ph: int = 3,
+                     width_1ph: int = 3,
+                     dash_3ph: Optional[str] = None,
+                     dash_2ph: Optional[str] = None,
+                     dash_1ph: Optional[str] = None,
+                     dash_oh: Optional[str] = None,
+                     dash_ug: Optional[str] = None,
                      mark_buses: bool = True,
                      bus_markers: Optional[List[CircuitBusMarker]] = None,
                      show_colorbar: bool = True,
@@ -81,6 +89,11 @@ class Circuit:
             mode = 'lines'
 
         numerical_plot = True
+
+        line_df = self._model.lines_df
+        line_df['name'] = 'line.' + line_df['name']
+        num_phases = line_df.set_index("name")["phases"]
+        line_type = line_df.set_index("name")["linetype"]
 
         if parameter == "active power":
             settings = self._active_power_settings
@@ -109,9 +122,7 @@ class Circuit:
         elif parameter == "phases":
             numerical_plot = False
             settings = self._phases_settings
-            results = self._model.lines_df
-            results['name'] = 'line.' + results['name']
-            results = results.set_index("name")["phases"]
+            results = num_phases
             hovertemplate = ("</b>%{customdata[0]}<br>" +
                              "<b>Bus1: </b>%{customdata[1]}<br>" +
                              "<b>Bus2: </b>%{customdata[2]}<br>" +
@@ -165,7 +176,6 @@ class Circuit:
 
             norm_values = (result_values - cmin) / (cmax - cmin)
 
-        if numerical_plot:
             for connection, value in zip(connections, norm_values):
                 element, (bus1, bus2) = connection
                 x0, y0 = bus_coords[buses.index(bus1)]
@@ -180,7 +190,10 @@ class Circuit:
                 fig.add_trace(go.Scatter(
                     x=[x0, x1], y=[y0, y1],
                     mode=mode,
-                    line=dict(color=color, width=3),
+                    line=dict(
+                        color=color,
+                        width=self._get_phase_width(element, num_phases, width_1ph, width_2ph, width_3ph),
+                        dash=self._get_dash(element, num_phases, dash_1ph, dash_2ph, dash_3ph, line_type, dash_oh, dash_ug)),
                     showlegend=False,
                     name='',
                     text=element,
@@ -261,7 +274,10 @@ class Circuit:
                 fig.add_trace(go.Scatter(
                     x=[x0, x1], y=[y0, y1],
                     mode=mode,
-                    line=dict(color=color, width=3),
+                    line=dict(
+                        color=color,
+                        width=self._get_phase_width(element, num_phases, width_1ph, width_2ph, width_3ph),
+                        dash=self._get_dash(element, num_phases, dash_1ph, dash_2ph, dash_3ph, line_type, dash_oh, dash_ug)),
                     showlegend=show_legend,
                     name=category,
                     hoverinfo='skip',
@@ -322,3 +338,29 @@ class Circuit:
             fig.show()
         if get_fig_obj:
             return fig
+
+    def _get_phase_width(self, element, num_phases, width_1ph, width_2ph, width_3ph):
+        num_phase = int(num_phases[element])
+        if num_phase >= 3:
+            result = width_3ph
+        elif num_phase == 2:
+            result = width_2ph
+        elif num_phase == 1:
+            result = width_1ph
+        return result
+
+    def _get_dash(self, element, num_phases, dash_1ph, dash_2ph, dash_3ph, line_type, dash_oh, dash_ug):
+        num_phase = int(num_phases[element])
+        lt = line_type[element]
+        default = 'solid'
+        if num_phase >= 3 and dash_3ph is not None:
+            return dash_3ph
+        elif num_phase == 2 and dash_2ph is not None:
+            return dash_2ph
+        elif num_phase == 1 and dash_1ph is not None:
+            return dash_1ph
+        elif lt == 'oh' and dash_oh is not None:
+            return dash_oh
+        elif lt == 'ug' and dash_ug is not None:
+            return dash_ug
+        return default
