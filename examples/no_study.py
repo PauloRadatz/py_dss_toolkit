@@ -26,19 +26,20 @@ dss.text("solve")
 dss_tools.results.voltages_elements
 
 
-dss_tools.interactive_view.user_defined_settings.results = dss_tools.results.powers_elements[0].iloc[:, :3].sum(axis=1)
-
+dss_tools.interactive_view.user_numerical_defined_settings.results = dss_tools.results.powers_elements[0].iloc[:, :3].sum(axis=1)
+dss_tools.interactive_view.circuit_plot(parameter="user numerical defined")
 
 # dss_tools.interactive_view.circuit_plot(parameter="phases", bus_markers=[dss_tools.interactive_view.circuit_get_bus_marker("79")])
-dss_tools.interactive_view.circuit_plot(parameter="voltage", dash_3ph="dot", bus_markers=[dss_tools.interactive_view.circuit_get_bus_marker("79")])
+# dss_tools.interactive_view.circuit_plot(parameter="voltage", dash_3ph="dot", bus_markers=[dss_tools.interactive_view.circuit_get_bus_marker("79")])
 
-# dss_tools.static_view.vmag_vs_time("v")
-# dss_tools.static_view.p_vs_time("p")
+# line_df = dss_tools.model.lines_df
+# line_df['name'] = 'line.' + line_df['name']
+# num_phases = line_df.set_index("name")["phases"]
 #
-# dss_tools.interactive_view.vmag_vs_time("v")
-# dss_tools.interactive_view.p_vs_time("p")
+# dss_tools.interactive_view.user_categorical_defined_settings.results = num_phases
+# dss_tools.interactive_view.user_categorical_defined_settings.color_map = {'3': ["3-phases", "blue"],
+#         '2': ["2-phases", "red"],
+#         '1': ["1-phase", "green"]}
+# dss_tools.interactive_view.circuit_plot(parameter="user categorical defined")
 
-# dss_tools.dss_view.vmag_vs_time("v")
-# dss_tools.dss_view.p_vs_time("p")
-# dss.text("plot circuit")
 print("here")

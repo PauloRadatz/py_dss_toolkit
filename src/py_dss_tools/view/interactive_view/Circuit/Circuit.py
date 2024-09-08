@@ -15,6 +15,7 @@ from typing import Optional, Union, Tuple, List
 from py_dss_tools.view.interactive_view.Circuit.ActivePowerSettings import ActivePowerSettings
 from py_dss_tools.view.interactive_view.Circuit.VoltageSettings import VoltageSettings
 from py_dss_tools.view.interactive_view.Circuit.UserDefinedNumericalSettings import UserDefinedNumericalSettings
+from py_dss_tools.view.interactive_view.Circuit.UserDefinedCategoricalSettings import UserDefinedCategoricalSettings
 from py_dss_tools.view.interactive_view.Circuit.PhasesSettings import PhasesSettings
 from py_dss_tools.view.interactive_view.Circuit.CircuitBusMarker import CircuitBusMarker
 
@@ -28,7 +29,8 @@ class Circuit:
         self._plot_style = CustomPlotStyle()
         self._active_power_settings = ActivePowerSettings()
         self._voltage_settings = VoltageSettings()
-        self._user_defined_settings = UserDefinedNumericalSettings()
+        self._user_numerical_defined_settings = UserDefinedNumericalSettings()
+        self._user_categorical_defined_settings = UserDefinedCategoricalSettings()
         self._phases_settings = PhasesSettings()
 
     def circuit_get_bus_marker(self, name: str, symbol: str = "square",
@@ -56,12 +58,16 @@ class Circuit:
         return self._voltage_settings
 
     @property
-    def user_defined_settings(self):
-        return self._user_defined_settings
+    def user_numerical_defined_settings(self):
+        return self._user_numerical_defined_settings
 
     @property
     def phases_settings(self):
         return self._phases_settings
+
+    @property
+    def user_categorical_defined_settings(self):
+        return self._user_categorical_defined_settings
 
     def circuit_plot(self,
                      parameter="active power",
@@ -114,19 +120,30 @@ class Circuit:
                              f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>" +
                              "%{customdata[3]:.4f} pu<br>")
         elif parameter == "user numerical defined":
-            settings = self._user_defined_settings
+            settings = self._user_numerical_defined_settings
             parameter = settings.parameter
             unit = settings.unit
+            num_decimal_points = settings.num_decimal_points
             if settings.results is None:
                 raise Exception("No results found")
             else:
                 results = settings.results
-                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + "%{customdata[3]:.4f}" + f"{unit}<br>"
+                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + " %{customdata[3]:" + f".{num_decimal_points}" + "f}" + f" {unit}<br>"
         elif parameter == "phases":
             numerical_plot = False
             settings = self._phases_settings
             results = num_phases
             hovertemplate = hovertemplate + "<b>Phases: </b>%{customdata[3]}<br>"
+        elif parameter == "user categorical defined":
+            numerical_plot = False
+            settings = self._user_categorical_defined_settings
+            parameter = settings.parameter
+
+            if settings.results is None:
+                raise Exception("No results found")
+            else:
+                results = settings.results
+                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + " %{customdata[3]}"
 
 
         buses = list()
