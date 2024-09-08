@@ -30,7 +30,7 @@ dss_tools.interactive_view.user_defined_settings.results = dss_tools.results.pow
 
 
 # dss_tools.interactive_view.circuit_plot(parameter="phases", bus_markers=[dss_tools.interactive_view.circuit_get_bus_marker("79")])
-dss_tools.interactive_view.circuit_plot(dash_3ph="dot", bus_markers=[dss_tools.interactive_view.circuit_get_bus_marker("79")])
+dss_tools.interactive_view.circuit_plot(parameter="voltage", dash_3ph="dot", bus_markers=[dss_tools.interactive_view.circuit_get_bus_marker("79")])
 
 # dss_tools.static_view.vmag_vs_time("v")
 # dss_tools.static_view.p_vs_time("p")

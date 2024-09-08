@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : UserDefinedSettings.py
+# @File    : UserDefinedNumericalSettings.py
 # @Software: PyCharm
 
 from dataclasses import dataclass, field
@@ -10,6 +10,8 @@ from py_dss_tools.view.interactive_view.Circuit.BaseSettingsNumerical import Bas
 import pandas as pd
 
 @dataclass(kw_only=True)
-class UserDefinedSettingsSettings(BaseSettingsNumerical):
+class UserDefinedNumericalSettings(BaseSettingsNumerical):
+    parameter: str = field(init=True, repr=True, default="User Numerical Defined")
+    unit: str = field(init=True, repr=True, default="Unit")
     colorbar_title: Optional[str] = field(init=True, repr=True, default=None)
     results: Optional[pd.DataFrame] = field(init=True, repr=True, default=None)

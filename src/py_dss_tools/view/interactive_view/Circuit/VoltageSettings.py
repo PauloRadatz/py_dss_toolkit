@@ -11,3 +11,5 @@ from py_dss_tools.view.interactive_view.Circuit.BaseSettingsNumerical import Bas
 @dataclass(kw_only=True)
 class VoltageSettings(BaseSettingsNumerical):
     colorbar_title: str = field(init=True, repr=True, default="Voltage (pu)")
+    bus: str = field(init=True, repr=True, default="bus2")
+    nodes_voltage_value: str = field(init=True, repr=True, default="mean")

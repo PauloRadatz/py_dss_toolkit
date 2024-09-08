@@ -14,7 +14,7 @@ import numpy as np
 from typing import Optional, Union, Tuple, List
 from py_dss_tools.view.interactive_view.Circuit.ActivePowerSettings import ActivePowerSettings
 from py_dss_tools.view.interactive_view.Circuit.VoltageSettings import VoltageSettings
-from py_dss_tools.view.interactive_view.Circuit.UserDefinedSettings import UserDefinedSettingsSettings
+from py_dss_tools.view.interactive_view.Circuit.UserDefinedNumericalSettings import UserDefinedNumericalSettings
 from py_dss_tools.view.interactive_view.Circuit.PhasesSettings import PhasesSettings
 from py_dss_tools.view.interactive_view.Circuit.CircuitBusMarker import CircuitBusMarker
 
@@ -28,7 +28,7 @@ class Circuit:
         self._plot_style = CustomPlotStyle()
         self._active_power_settings = ActivePowerSettings()
         self._voltage_settings = VoltageSettings()
-        self._user_defined_settings = UserDefinedSettingsSettings()
+        self._user_defined_settings = UserDefinedNumericalSettings()
         self._phases_settings = PhasesSettings()
 
     def circuit_get_bus_marker(self, name: str, symbol: str = "square",
@@ -95,38 +95,39 @@ class Circuit:
         num_phases = line_df.set_index("name")["phases"]
         line_type = line_df.set_index("name")["linetype"]
 
+        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
+                         "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>")
         if parameter == "active power":
             settings = self._active_power_settings
             results = self._results.powers_elements[0].iloc[:, :3].sum(axis=1)
-            hovertemplate = ("</b>%{customdata[0]}<br>" +
-                             "<b>Bus1: </b>%{customdata[1]}<br>" +
-                             "<b>Bus2: </b>%{customdata[2]}<br>" +
-                             "<b>Total P: </b>%{customdata[3]:.2f} kW<br>")
+            hovertemplate = hovertemplate + "<b>Total P: </b>%{customdata[3]:.2f} kW<br>"
         elif parameter == "voltage":
             settings = self._voltage_settings
-            results = self._results.voltages_elements[0].iloc[:, :3].mean(axis=1)
-            hovertemplate = ("</b>%{customdata[0]}<br>" +
-                             "<b>Bus1: </b>%{customdata[1]}<br>" +
-                             "<b>Bus2: </b>%{customdata[2]}<br>" +
-                             "<b>Voltage (pu): </b>%{customdata[3]:.4f} pu<br>")
-        elif parameter == "user defined":
+            bus = settings.bus
+            if settings.nodes_voltage_value == "mean":
+                results = self._results.voltages_elements[0].iloc[:, :3].mean(axis=1)
+            elif settings.nodes_voltage_value == "min":
+                results = self._results.voltages_elements[0].iloc[:, :3].min(axis=1)
+            elif settings.nodes_voltage_value == "max":
+                results = self._results.voltages_elements[0].iloc[:, :3].max(axis=1)
+            hovertemplate = (hovertemplate +
+                             f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>" +
+                             "%{customdata[3]:.4f} pu<br>")
+        elif parameter == "user numerical defined":
             settings = self._user_defined_settings
+            parameter = settings.parameter
+            unit = settings.unit
             if settings.results is None:
                 raise Exception("No results found")
             else:
                 results = settings.results
-                hovertemplate = ("</b>%{customdata[0]}<br>" +
-                                 "<b>Bus1: </b>%{customdata[1]}<br>" +
-                                 "<b>Bus2: </b>%{customdata[2]}<br>" +
-                                 "<b>Voltage (pu): </b>%{customdata[3]:.4f} pu<br>")
+                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + "%{customdata[3]:.4f}" + f"{unit}<br>"
         elif parameter == "phases":
             numerical_plot = False
             settings = self._phases_settings
             results = num_phases
-            hovertemplate = ("</b>%{customdata[0]}<br>" +
-                             "<b>Bus1: </b>%{customdata[1]}<br>" +
-                             "<b>Bus2: </b>%{customdata[2]}<br>" +
-                             "<b>Phases: </b>%{customdata[3]}<br>")
+            hovertemplate = hovertemplate + "<b>Phases: </b>%{customdata[3]}<br>"
+
 
         buses = list()
         bus_coords = list()
