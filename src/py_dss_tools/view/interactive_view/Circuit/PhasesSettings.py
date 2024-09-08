@@ -12,8 +12,8 @@ import pandas as pd
 @dataclass(kw_only=True)
 class PhasesSettings:
     color_map: dict = field(init=True, repr=True, default_factory=lambda: {
-        3: ["3-phases", "blue"],
-        2: ["2-phases", "red"],
-        1: ["1-phase", "green"]
+        '3': ["3-phases", "blue"],
+        '2': ["2-phases", "red"],
+        '1': ["1-phase", "green"]
     })
     legendgrouptitle_text: str = field(init=True, repr=True, default_factory=lambda: "Line Phases")

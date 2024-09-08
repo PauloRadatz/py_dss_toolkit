@@ -20,7 +20,7 @@ class StudyPowerFlow(StudyBase):
         super().__post_init__()
         self._results = StaticResults(self._dss)
         self._static_view = StaticView(self._dss, self._results)
-        self._interactive_view = InteractiveView(self._dss, self._results)
+        self._interactive_view = InteractiveView(self._dss, self._results, StudyBase.model)
         self._dss_view = DSSView(self._dss)
         self._settings = StudyPowerFlowSettings(_dss=self.dss)
 

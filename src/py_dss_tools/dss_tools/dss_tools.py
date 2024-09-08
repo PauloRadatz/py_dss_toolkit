@@ -32,7 +32,7 @@ class DSSTools:
         self._results = Results(self._dss)
         self._model = ModelBase(self._dss)
         self._static_view = StaticView(self._dss, self._results)
-        self._interactive_view = InteractiveView(self._dss, self._results)
+        self._interactive_view = InteractiveView(self._dss, self._results, self._model)
         self._dss_view = DSSView(self._dss)
         self._simulation = SimulationTools(self._dss)
         self._configuration = ConfigurationTools(self._dss)

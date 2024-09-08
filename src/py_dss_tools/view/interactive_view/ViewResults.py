@@ -10,13 +10,14 @@ from py_dss_tools.view.interactive_view.Circuit.ViewCircuitResults import ViewCi
 from py_dss_tools.results.Results import Results
 from py_dss_tools.results.Static.StaticResults import StaticResults
 from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
+from py_dss_tools.model.ModelBase import ModelBase
 from py_dss_interface import DSS
 from typing import Union
 
 
 class ViewResults(ViewStaticResults, ViewTemporalResults, ViewCircuitResults):
 
-    def __init__(self, dss: DSS, results: Union[Results, StaticResults, TemporalResults]):
+    def __init__(self, dss: DSS, results: Union[Results, StaticResults, TemporalResults], model: [ModelBase]):
         ViewStaticResults.__init__(self, dss, results)
         ViewTemporalResults.__init__(self, dss, results)
-        ViewCircuitResults.__init__(self, dss, results)
+        ViewCircuitResults.__init__(self, dss, results, model)

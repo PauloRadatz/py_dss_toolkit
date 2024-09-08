@@ -6,7 +6,8 @@
 
 import plotly.graph_objects as go
 from plotly.colors import sample_colorscale
-from py_dss_tools.results.Static.StaticResults import StaticResults
+from py_dss_tools.results.Results import Results
+from py_dss_tools.model.ModelBase import ModelBase
 from py_dss_interface import DSS
 from py_dss_tools.view.interactive_view.CustomPlotStyle import CustomPlotStyle
 import numpy as np
@@ -20,9 +21,10 @@ from py_dss_tools.view.interactive_view.Circuit.CircuitBusMarker import CircuitB
 
 class Circuit:
 
-    def __init__(self, dss: DSS, results: StaticResults):
+    def __init__(self, dss: DSS, results: Results, model: ModelBase):
         self._dss = dss
         self._results = results
+        self._model = model
         self._plot_style = CustomPlotStyle()
         self._active_power_settings = ActivePowerSettings()
         self._voltage_settings = VoltageSettings()
@@ -107,7 +109,9 @@ class Circuit:
         elif parameter == "phases":
             numerical_plot = False
             settings = self._phases_settings
-            results = self._results.powers_elements[0].iloc[:, :3].count(axis=1)  # TODO use model later
+            results = self._model.lines_df
+            results['name'] = 'line.' + results['name']
+            results = results.set_index("name")["phases"]
             hovertemplate = ("</b>%{customdata[0]}<br>" +
                              "<b>Bus1: </b>%{customdata[1]}<br>" +
                              "<b>Bus2: </b>%{customdata[2]}<br>" +
