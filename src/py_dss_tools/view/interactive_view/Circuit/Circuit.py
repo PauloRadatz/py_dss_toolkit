@@ -154,30 +154,34 @@ class Circuit:
         for element in elements_list:
             if element.split(".")[0].lower() in ["line"]:
                 self._dss.circuit.set_active_element(element)
-                bus1, bus2 = self._dss.cktelement.bus_names[0].split(".")[0].lower(), \
-                    self._dss.cktelement.bus_names[1].split(".")[0].lower()
-                connections.append([element, (bus1.lower(), bus2.lower())])
+                if self._dss.cktelement.is_enabled:
+                    bus1, bus2 = self._dss.cktelement.bus_names[0].split(".")[0].lower(), \
+                        self._dss.cktelement.bus_names[1].split(".")[0].lower()
+                    connections.append([element, (bus1.lower(), bus2.lower())])
 
-                if bus1 not in buses:
-                    self._dss.circuit.set_active_bus(bus1)
-                    x, y = self._dss.bus.x, self._dss.bus.y
-                    bus_coords.append((x, y))
-                    buses.append(bus1)
+                    if bus1 not in buses:
+                        self._dss.circuit.set_active_bus(bus1)
+                        x, y = self._dss.bus.x, self._dss.bus.y
+                        bus_coords.append((x, y))
+                        buses.append(bus1)
 
-                if bus2 not in buses:
-                    self._dss.circuit.set_active_bus(bus2)
-                    x, y = self._dss.bus.x, self._dss.bus.y
-                    bus_coords.append((x, y))
-                    buses.append(bus2)
+                    if bus2 not in buses:
+                        self._dss.circuit.set_active_bus(bus2)
+                        x, y = self._dss.bus.x, self._dss.bus.y
+                        bus_coords.append((x, y))
+                        buses.append(bus2)
         bus_coords = np.array(bus_coords)
 
         result_values = list()
         for element in elements_list:
             if element.split(".")[0].lower() in ["line"]:
-                result_values.append(results.loc[element])
+                self._dss.circuit.set_active_element(element)
+                if self._dss.cktelement.is_enabled:
+                    result_values.append(results.loc[element])
         result_values = np.array(result_values)
 
         fig = go.Figure()
+        self._plot_style.apply_style(fig)
 
         if numerical_plot:
             if not settings.colorbar_cmin:
@@ -198,6 +202,11 @@ class Circuit:
                 element, (bus1, bus2) = connection
                 x0, y0 = bus_coords[buses.index(bus1)]
                 x1, y1 = bus_coords[buses.index(bus2)]
+
+                if x0 == 0 and y0 == 0:
+                    continue
+                if x1 == 0 and y1 == 0:
+                    continue
 
                 midpoint_x, midpoint_y = (x0 + x1) / 2, (y0 + y1) / 2
 
@@ -276,6 +285,11 @@ class Circuit:
                 element, (bus1, bus2) = connection
                 x0, y0 = bus_coords[buses.index(bus1)]
                 x1, y1 = bus_coords[buses.index(bus2)]
+
+                if x0 == 0 and y0 == 0:
+                    continue
+                if x1 == 0 and y1 == 0:
+                    continue
 
                 midpoint_x, midpoint_y = (x0 + x1) / 2, (y0 + y1) / 2
 
