@@ -337,6 +337,7 @@ class Circuit:
                         traceorder="normal"
                     )
                 )
+
         if bus_markers:
             for marker in bus_markers:
                 if marker.name in buses:
