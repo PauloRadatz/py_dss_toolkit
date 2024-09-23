@@ -19,12 +19,10 @@ class VoltageProfileBase:
             raise ValueError(f'One enerymeter should exist to plot the voltage profile.')
         elif self._dss.meters.count > 1:
             count_enabled = 0
-            self._dss.meters.first()
-            for _ in range(self._dss.meters.count):
-                self._dss.circuit.set_active_element(f"energymeter.{self._dss.meters.name}")
+            for m in self._dss.meters.names:
+                self._dss.circuit.set_active_element(f"energymeter.{m}")
                 if self._dss.cktelement.is_enabled:
                     count_enabled += 1
-                self._dss.meters.next()
 
             if count_enabled == 0:
                 raise ValueError(f'At least one enerymeter should be enabled to plot the voltage profile.')
