@@ -77,7 +77,7 @@ class Circuit:
                      width_3ph: int = 3,
                      width_2ph: int = 3,
                      width_1ph: int = 3,
-                     dash_3ph: Optional[str] = None,
+                     dash_3ph: Optional[str] = None,  #https://chart-studio.plotly.com/~neda/1950/solid-dashdot-dash-dot.embed
                      dash_2ph: Optional[str] = None,
                      dash_1ph: Optional[str] = None,
                      dash_oh: Optional[str] = None,
