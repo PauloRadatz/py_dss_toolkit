@@ -86,8 +86,7 @@ class Circuit:
                      bus_markers: Optional[List[CircuitBusMarker]] = None,
                      show_colorbar: bool = True,
                      show: bool = True,
-                     save_file_path: Optional[str] = None,
-                     get_fig_obj: bool = False) -> Optional[go.Figure]:
+                     save_file_path: Optional[str] = None) -> Optional[go.Figure]:
 
         if mark_buses:
             mode = 'lines+markers'
@@ -369,8 +368,8 @@ class Circuit:
             fig.write_html(save_file_path)
         if show:
             fig.show()
-        if get_fig_obj:
-            return fig
+
+        return fig
 
     def _get_phase_width(self, element, num_phases, width_1ph, width_2ph, width_3ph):
         num_phase = int(num_phases[element])
