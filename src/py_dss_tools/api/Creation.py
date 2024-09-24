@@ -4,13 +4,14 @@
  Project: py-dss-tools [out, 2021]
 """
 from re import search
+import pathlib
 
-from py_dss_tools.studies.StudyPowerFlow import StudyPowerFlow
+from py_dss_tools.studies.StudyStatic import StudyStatic
 from py_dss_tools.studies.StudyTemporal import StudyTemporal
 from py_dss_tools.studies.StudyFault import StudyFault
 from py_dss_tools.studies.StudyModelVerification import StudyModelVerification
 
-from typing import Optional
+from typing import Optional, Union
 
 
 # TODO
@@ -19,18 +20,18 @@ from typing import Optional
 
 class CreateStudy:
     @staticmethod
-    def power_flow(
+    def static(
         name: str,
-        dss_file: str,
+        dss_file: Union[str, pathlib.Path],
         frequency_base: [int, float] = 60,
-        dll: Optional[str] = None) -> StudyPowerFlow:
-        sc = StudyPowerFlow(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        dll: Optional[str] = None) -> StudyStatic:
+        sc = StudyStatic(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
         return sc
 
     @staticmethod
     def temporal(
         name: str,
-        dss_file: str,
+        dss_file: Union[str, pathlib.Path],
         frequency_base: [int, float] = 60,
         dll: Optional[str] = None) -> StudyTemporal:
         sc = StudyTemporal(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
@@ -39,7 +40,7 @@ class CreateStudy:
     @staticmethod
     def fault_study(
         name: str,
-        dss_file: str,
+        dss_file: Union[str, pathlib.Path],
         frequency_base: [int, float] = 60,
         dll: Optional[str] = None) -> StudyFault:
         sc = StudyFault(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
@@ -48,7 +49,7 @@ class CreateStudy:
     @staticmethod
     def model_verification(
         name: str,
-        dss_file: str,
+        dss_file: Union[str, pathlib.Path],
         frequency_base: [int, float] = 60,
         dll: Optional[str] = None) -> StudyModelVerification:
         sc = StudyModelVerification(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)

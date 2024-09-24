@@ -6,21 +6,21 @@
 
 from py_dss_tools.studies.StudyBase import StudyBase
 from py_dss_tools.results.Static.StaticResults import StaticResults
-from py_dss_tools.view.static_view.ViewResults import ViewResults as StaticView
-from py_dss_tools.view.interactive_view.ViewResults import ViewResults as InteractiveView
-from py_dss_tools.view.dss_view.ViewResults import ViewResults as DSSView
+from py_dss_tools.view.static_view.Static.ViewStaticResults import ViewStaticResults as StaticView
+from py_dss_tools.view.interactive_view.Static.ViewStaticResults import ViewStaticResults as InteractiveView
+from py_dss_tools.view.dss_view.Static.ViewStaticResults import ViewStaticResults as DSSView
 from dataclasses import dataclass
 
 from py_dss_tools.studies.StudyPowerFlowSettings import StudyPowerFlowSettings
 
 @dataclass(kw_only=True)
-class StudyPowerFlow(StudyBase):
+class StudyStatic(StudyBase):
 
     def __post_init__(self):
         super().__post_init__()
         self._results = StaticResults(self._dss)
         self._static_view = StaticView(self._dss, self._results)
-        self._interactive_view = InteractiveView(self._dss, self._results, StudyBase.model)
+        self._interactive_view = InteractiveView(self._dss, self._results, self.model)
         self._dss_view = DSSView(self._dss)
         self._settings = StudyPowerFlowSettings(_dss=self.dss)
 

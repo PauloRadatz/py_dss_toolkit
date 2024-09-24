@@ -6,9 +6,9 @@
 
 from py_dss_tools.studies.StudyBase import StudyBase
 from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
-from py_dss_tools.view.static_view.ViewResults import ViewResults as StaticView
-from py_dss_tools.view.interactive_view.ViewResults import ViewResults as InteractiveView
-from py_dss_tools.view.dss_view.ViewResults import ViewResults as DSSView
+from py_dss_tools.view.static_view.Temporal.ViewTemporalResults import ViewTemporalResults as StaticView
+from py_dss_tools.view.interactive_view.Temporal.ViewTemporalResults import ViewTemporalResults as InteractiveView
+from py_dss_tools.view.dss_view.Temporal.ViewTemporalResults import ViewTemporalResults as DSSView
 from dataclasses import dataclass
 
 from py_dss_tools.studies.StudyTemporalSettings import StudyTemporalSettings

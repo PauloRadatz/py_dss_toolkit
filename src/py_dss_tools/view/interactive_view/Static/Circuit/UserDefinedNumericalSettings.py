@@ -5,8 +5,8 @@
 # @Software: PyCharm
 
 from dataclasses import dataclass, field
-from typing import Optional, Union, Tuple, List
-from py_dss_tools.view.interactive_view.Circuit.BaseSettingsNumerical import BaseSettingsNumerical
+from typing import Optional
+from py_dss_tools.view.interactive_view.Static.Circuit.BaseSettingsNumerical import BaseSettingsNumerical
 import pandas as pd
 
 @dataclass(kw_only=True)
