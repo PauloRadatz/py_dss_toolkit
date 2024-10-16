@@ -70,7 +70,6 @@ prompt_toolkit==3.0.47
 psutil==6.0.0
 pure_eval==0.2.3
 py-dss-interface==2.0.2
--e git+https://github.com/PauloRadatz/py-dss-tools@86f6fcf8401588834ebdab7d03db202de65120a6#egg=py_dss_tools
 pycparser==2.22
 Pygments==2.18.0
 pyparsing==3.1.1
@@ -106,3 +105,4 @@ wcwidth==0.2.13
 webcolors==24.8.0
 webencodings==0.5.1
 websocket-client==1.8.0
+-e .

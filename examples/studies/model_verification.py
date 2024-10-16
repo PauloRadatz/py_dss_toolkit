@@ -30,3 +30,9 @@ study.dss.text("edit Line.L112 bus2=open")
 result_2 = study.results.isolated
 print("\nproblem added")
 print(result_2)
+
+# Exploring another case
+study.dss.text("edit Line.L112 bus2=112.1")
+
+print("\nsame bus")
+result = study.results.same_bus

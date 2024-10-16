@@ -70,10 +70,12 @@ if __name__ == '__main__':
     dss.text("new energymeter.m element=line.l115")
 
     result_1 = Isolated(dss).isolated  # To get results.
+    print("No problem added")
+    print(result_1)
 
     # Add problem
     dss.text("edit Line.L112 bus2=open")
 
     result_2 = Isolated(dss).isolated
-
-    print("here")
+    print("\nproblem added")
+    print(result_2)
