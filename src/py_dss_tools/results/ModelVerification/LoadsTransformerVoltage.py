@@ -49,8 +49,8 @@ class LoadsTransformerVoltage:
     def __check_load_transformer(self):
 
         # remove meters if present in dss files
-        for name in dss.meters.names:
-            dss.text(f"disable energymeter.{name}")
+        for name in self._dss.meters.names:
+            self._dss.text(f"disable energymeter.{name}")
 
         energymeter_voltage = dict()
         self._dss.transformers.first()
