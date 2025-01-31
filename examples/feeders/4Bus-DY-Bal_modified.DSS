@@ -22,7 +22,7 @@ new linegeometry.4wire nconds=4 nphases=3 reduce=yes
 ~ cond=4 wire=neutral   units=ft x=0    h=24 
 
 ! **** 12.47 KV LINE
-new line.line1 bus1=sourcesbus bus2=n2 geometry=4wire length=200 units=ft 
+new line.line1 bus1=sourcebus bus2=n2 geometry=4wire length=200 units=ft 
 
 ! **** 3-PHASE STEP-DOWN TRANSFORMER 12.47/4.16 KV Delta-Ygrd
 new transformer.t1 xhl=6
