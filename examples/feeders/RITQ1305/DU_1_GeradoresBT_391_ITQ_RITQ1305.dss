@@ -1,0 +1,7 @@
+! DU_1_GeradoresBT_391_ITQ_RITQ1305
+New XYCurve.MyPvsT npts=4 xarray=[0  25  75  100]  yarray=[1.2 1.0 0.8  0.6] 
+New XYCurve.MyEff npts=4 xarray=[0.1  0.2  0.4  1.0]  yarray=[0.86  0.9  0.93  0.97] 
+New Tshape.MyTemp npts=24 interval=1 temp=[25, 25, 25, 25, 25, 25, 25, 25, 35, 40, 45, 50, 60, 60, 55, 40, 35, 30, 25, 25, 25, 25, 25, 25] 
+
+New PVsystem.BT_f4ab179719bcc2270cade6d135bb80a874fbc5194960980e31b759a13bf7cdd6_M1 phases=2 bus1=BT3673594940205485IT05.1.2.4 conn=Delta kv=0.22 pf=0.95 pmpp=1.320 kva=1.389 irradiance=1.0 temperature=25 %cutin=0.1 %cutout=0.1 effcurve=Myeff P-TCurve=MyPvsT Daily=PVIrrad_diaria TDaily=MyTemp
+!New PVsystem.BT_4d75dbcca4f53c59775f777530dcc9da57134739eaf0a7063ead93b2db120d95_M1 phases=2 bus1=BT3674560540253552IT05.2.3.4 conn=Delta kv=0.22 pf=0.95 pmpp=0.000 kva=0.000 irradiance=1.0 temperature=25 %cutin=0.1 %cutout=0.1 effcurve=Myeff P-TCurve=MyPvsT Daily=PVIrrad_diaria TDaily=MyTemp

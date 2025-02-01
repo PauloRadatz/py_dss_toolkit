@@ -1,0 +1,26 @@
+! DU_1_Master_391_ITQ_RITQ1305
+clear
+
+redirect DU_1_CurvaCarga_391_ITQ_RITQ1305.dss
+redirect DU_1_Circuito_391_ITQ_RITQ1305.dss
+redirect DU_1_CodCondutores_391_ITQ_RITQ1305.dss
+redirect DU_1_ChavesMT_391_ITQ_RITQ1305.dss
+redirect DU_1_ReatoresMT_391_ITQ_RITQ1305.dss
+redirect DU_1_TrafosMT_391_ITQ_RITQ1305.dss
+redirect DU_1_TrechoMT_391_ITQ_RITQ1305.dss
+redirect DU_1_CargasMT_391_ITQ_RITQ1305.dss
+!redirect DU_1_Monitors_391_ITQ_RITQ1305.dss
+redirect DU_1_Capacitors_391_ITQ_RITQ1305.dss
+redirect DU_1_CargasBT_391_ITQ_RITQ1305.dss
+!redirect DU_1_GeradoresMT_391_ITQ_RITQ1305.dss
+!redirect DU_1_GeradoresBT_391_ITQ_RITQ1305.dss
+
+set voltagebases=(13.8,7.96,0.22,0.127)
+calcv
+set mode=daily
+set tolerance=0.0001
+set maxcontroliter=100
+set maxiterations=100
+set stepsize=1h ! duracao de cada step
+set number=24 ! cada solve executa 24 steps
+solve

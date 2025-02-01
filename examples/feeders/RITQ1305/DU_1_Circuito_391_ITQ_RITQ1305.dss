@@ -1,0 +1,2 @@
+! DU_1_Circuito_391_ITQ_RITQ1305
+new "circuit.RITQ1305" pu=1.0141283 basekv=13.8 bus1="MT8563474ID" r1=0 x1=0.0001

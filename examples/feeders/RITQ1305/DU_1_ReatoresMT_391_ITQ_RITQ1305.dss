@@ -1,0 +1,7 @@
+! DU_1_ReatoresMT_391_ITQ_RITQ1305
+New "Transformer.REG_165RT000000209A" phases=1 windings=2 buses=["MT36757240340048IT05.3.0" "MT3163470ID.3.0"] conns=[Wye Wye] kvs=[7.9674 7.9674] kvas=[1750.0 1750.0] xhl=0.51 %loadloss=0.135429 %noloadloss=0.032571
+New "Regcontrol.CREG_165RT000000209A" transformer="REG_165RT000000209A" winding=2 vreg=100 band=2 ptratio=79.67
+New "Transformer.REG_165RT000000209B" phases=1 windings=2 buses=["MT36757240340048IT05.1.0" "MT3163470ID.1.0"] conns=[Wye Wye] kvs=[7.9674 7.9674] kvas=[1750.0 1750.0] xhl=0.51 %loadloss=0.135429 %noloadloss=0.032571
+New "Regcontrol.CREG_165RT000000209B" transformer="REG_165RT000000209B" winding=2 vreg=100 band=2 ptratio=79.67
+New "Transformer.REG_165RT000000209C" phases=1 windings=2 buses=["MT36757240340048IT05.2.0" "MT3163470ID.2.0"] conns=[Wye Wye] kvs=[7.9674 7.9674] kvas=[1750.0 1750.0] xhl=0.51 %loadloss=0.135429 %noloadloss=0.032571
+New "Regcontrol.CREG_165RT000000209C" transformer="REG_165RT000000209C" winding=2 vreg=100 band=2 ptratio=79.67

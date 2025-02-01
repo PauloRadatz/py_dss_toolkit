@@ -1,0 +1,3 @@
+! DU_1_Capacitors_391_ITQ_RITQ1305
+New "Capacitor.CAP_165BC005364609" bus1="MT3674868240264866IT05.1.2.3" kvar=600.0 kv=13800.0 phases=3 conn=Delta
+New "CapControl.C1ctrl_165BC005364609" element="Line.SMT_30890245_F" Capacitor=CAP_165BC005364609 Type=voltage ptratio=60 ON=218.5 OFF=230.0

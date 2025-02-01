@@ -1,0 +1,3 @@
+! DU_1_Monitors_391_ITQ_RITQ1305
+New "Energymeter.Medidor_SEGMMT_SMT_2675052_B" element="Line.SMT_2675052_B" terminal=1
+New "monitor.SEGMMT_SMT_2675052_B" element="Line.SMT_2675052_B" terminal=1 mode=1 ppolar=no
