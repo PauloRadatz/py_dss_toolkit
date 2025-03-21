@@ -6,7 +6,7 @@
 from re import search
 import pathlib
 
-from py_dss_tools.studies.StudyStatic import StudyStatic
+from py_dss_tools.studies.StudySnapShotPowerFlow import StudySnapShotPowerFlow
 from py_dss_tools.studies.StudyTemporal import StudyTemporal
 from py_dss_tools.studies.StudyFault import StudyFault
 from py_dss_tools.studies.StudyModelVerification import StudyModelVerification
@@ -23,36 +23,36 @@ class CreateStudy:
     def static(
         name: str,
         dss_file: Union[str, pathlib.Path],
-        frequency_base: [int, float] = 60,
-        dll: Optional[str] = None) -> StudyStatic:
-        sc = StudyStatic(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        base_frequency: [int, float] = 60,
+        dss_dll: Optional[str] = None) -> StudySnapShotPowerFlow:
+        sc = StudySnapShotPowerFlow(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
         return sc
 
     @staticmethod
     def temporal(
         name: str,
         dss_file: Union[str, pathlib.Path],
-        frequency_base: [int, float] = 60,
-        dll: Optional[str] = None) -> StudyTemporal:
-        sc = StudyTemporal(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        base_frequency: [int, float] = 60,
+        dss_dll: Optional[str] = None) -> StudyTemporal:
+        sc = StudyTemporal(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
         return sc
 
     @staticmethod
     def fault_study(
         name: str,
         dss_file: Union[str, pathlib.Path],
-        frequency_base: [int, float] = 60,
-        dll: Optional[str] = None) -> StudyFault:
-        sc = StudyFault(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        base_frequency: [int, float] = 60,
+        dss_dll: Optional[str] = None) -> StudyFault:
+        sc = StudyFault(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
         return sc
 
     @staticmethod
     def model_verification(
         name: str,
         dss_file: Union[str, pathlib.Path],
-        frequency_base: [int, float] = 60,
-        dll: Optional[str] = None) -> StudyModelVerification:
-        sc = StudyModelVerification(_name=name, _dss_file=dss_file, _frequency_base=frequency_base, _dll=dll)
+        base_frequency: [int, float] = 60,
+        dss_dll: Optional[str] = None) -> StudyModelVerification:
+        sc = StudyModelVerification(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
         return sc
 
 

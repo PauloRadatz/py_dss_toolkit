@@ -6,7 +6,7 @@
 
 from dataclasses import dataclass, field
 from typing import Optional
-from py_dss_tools.view.interactive_view.Static.Circuit.BaseSettingsNumerical import BaseSettingsNumerical
+from py_dss_tools.view.interactive_view.SnapShot.Circuit.BaseSettingsNumerical import BaseSettingsNumerical
 import pandas as pd
 
 @dataclass(kw_only=True)

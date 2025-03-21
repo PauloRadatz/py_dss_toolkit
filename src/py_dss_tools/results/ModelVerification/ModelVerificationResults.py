@@ -3,6 +3,7 @@
 # @Email   : iury.ribeirozanelato@gmail.com
 # @File    : AnalysisFeederResults.py
 # @Software: PyCharm
+
 import os
 
 from py_dss_interface import DSS
@@ -12,11 +13,19 @@ from py_dss_tools.results.ModelVerification.Isolated import Isolated
 from py_dss_tools.results.ModelVerification.LoadsTransformerVoltage import LoadsTransformerVoltage
 from py_dss_tools.results.ModelVerification.PhasesConnections import PhasesConnections
 from py_dss_tools.results.ModelVerification.TransformerData import TransformerData
-from py_dss_tools.results.ModelVerification.BusInversion import BusInversion
+from py_dss_tools.results.ModelVerification.PDBusOder import PDBusOder
 from py_dss_tools.results.ModelVerification.CapacitorControlVoltage import CapacitorControlVoltage
+from py_dss_tools.results.ModelVerification.RegulatorkVA import RegulatorkVA
 
 from py_dss_tools.results.ModelVerification.RegulatorControlVoltage import RegulatorControlVoltage
-class ModelVerificationResults(Summary, Isolated, SameBus, LoadsTransformerVoltage, PhasesConnections, TransformerData):
+class ModelVerificationResults(Summary,
+                               Isolated,
+                               SameBus,
+                               LoadsTransformerVoltage,
+                               PhasesConnections,
+                               TransformerData,
+                               PDBusOder,
+                               RegulatorkVA):
     def __init__(self, dss: DSS):
         self._dss = dss
         Summary.__init__(self, self._dss)
@@ -25,6 +34,8 @@ class ModelVerificationResults(Summary, Isolated, SameBus, LoadsTransformerVolta
         LoadsTransformerVoltage.__init__(self, self._dss)
         PhasesConnections.__init__(self, self._dss)
         TransformerData.__init__(self, self._dss)
+        PDBusOder.__init__(self, self._dss)
+        RegulatorkVA.__init__(self, self._dss)
 
 class  AllModelVerificationResults:
     def __init__(self, dss: DSS):
@@ -32,7 +43,7 @@ class  AllModelVerificationResults:
         self.sameBus = SameBus(dss).same_bus
         self.isolated = Isolated(dss).isolated
         self.loads_transformer_voltage_mismatch = LoadsTransformerVoltage(dss).loads_transformer_voltage_mismatch
-        self.busInversion = BusInversion(dss).busInversion  # To get results.
+        self.busInversion = PDBusOder(dss).pd_bus_order  # To get results.
         self.capacitorControlVoltage = CapacitorControlVoltage(dss).capacitorControlVoltage  # To get results.
         self.regulatorControlVoltage = RegulatorControlVoltage(dss).regulatorControlVoltage  # To get results.
 

@@ -58,7 +58,7 @@ class Scenario-->
         <rect fill="none" height="4.2" style="stroke:#C82930;stroke-width:0.6999999999999998;" width="4.2" x="1182.727"
               y="1862.5906"/>
         <text fill="#000000" font-family="sans-serif" font-size="7.7" lengthAdjust="spacing" textLength="67.9"
-              x="1191.127" y="1867.7839">frequency_base: int
+              x="1191.127" y="1867.7839">base_frequency: int
         </text>
         <rect fill="none" height="4.2" style="stroke:#C82930;stroke-width:0.6999999999999998;" width="4.2" x="1182.727"
               y="1872.2758"/>
@@ -6699,7 +6699,7 @@ class Scenario {
     -created: boolean
     -name: String
     -circuit: Circuit
-    -frequency_base: int
+    -base_frequency: int
     -dss: DSS
     -logger
     -dss_file
@@ -7978,7 +7978,7 @@ class Scenario {
     -created: boolean
     -name: String
     -circuit: Circuit
-    -frequency_base: int
+    -base_frequency: int
     -dss: DSS
     -logger
     -dss_file

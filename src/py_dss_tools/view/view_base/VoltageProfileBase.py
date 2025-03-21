@@ -5,12 +5,12 @@
 # @Software: PyCharm
 
 from py_dss_interface import DSS
-from py_dss_tools.results.Static.StaticResults import StaticResults
+from py_dss_tools.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from typing import Optional
 
 class VoltageProfileBase:
 
-    def __init__(self, dss: DSS, results: Optional[StaticResults]):
+    def __init__(self, dss: DSS, results: Optional[SnapShotPowerFlowResults]):
         self._dss = dss
         self._results = results
 

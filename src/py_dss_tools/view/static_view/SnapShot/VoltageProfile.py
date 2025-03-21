@@ -5,17 +5,17 @@
 # @Software: PyCharm
 
 import matplotlib.pyplot as plt
-from py_dss_tools.results.Static.StaticResults import StaticResults
+from py_dss_tools.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_interface import DSS
 from py_dss_tools.view.static_view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple, List
-from py_dss_tools.view.static_view.Static.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.view.static_view.SnapShot.VoltageProfileBusMarker import VoltageProfileBusMarker
 from py_dss_tools.view.view_base.VoltageProfileBase import VoltageProfileBase
 
 
 class VoltageProfile(VoltageProfileBase):
 
-    def __init__(self, dss: DSS, results: StaticResults):
+    def __init__(self, dss: DSS, results: SnapShotPowerFlowResults):
         self._results = results
         self._dss = dss
         VoltageProfileBase.__init__(self, self._dss, self._results)

@@ -39,7 +39,7 @@ class Summary:
         total_p_losses = self.__round_x(self._dss.circuit.losses[0] / 1000.0)
         summary_dict["Total P kW"] = self.__round_x(total_p)
         summary_dict["Total Q kVAr"] = self.__round_x(total_q)
-        summary_dict["P Losses %"] = self.__round_x(100.0 * total_p_losses / total_p)
+        summary_dict["P Losses %"] = self.__round_x(100.0 * total_p_losses / total_p) if total_p > 0 else "NAN"
         x = self._dss.topology.all_isolated_branches
         if "NONE" in x:
             x.remove("NONE")
@@ -49,12 +49,13 @@ class Summary:
             summary_dict["Num. Isolated Branches"] = 0
         # summary_dict["Loop?"] = "Yes" if dss.topology_looped_branch() > 0 else "No"
 
+        summary_dict["Num. Total Branches"] = self._dss.pdelements.count
         self._dss.circuit.set_active_element("vsource.source")
         p = -1 * np.array(self._dss.cktelement.powers[0:6:2])
 
-        summary_dict["PA Circuit %"] = self.__round_x(p[0] / total_p) * 100.0
-        summary_dict["PB Circuit %"] = self.__round_x(p[1] / total_p) * 100.0
-        summary_dict["PC Circuit %"] = self.__round_x(p[2] / total_p) * 100.0
+        summary_dict["PA Circuit %"] = self.__round_x(p[0] / total_p) * 100.0 if total_p > 0 else "NAN"
+        summary_dict["PB Circuit %"] = self.__round_x(p[1] / total_p) * 100.0 if total_p > 0 else "NAN"
+        summary_dict["PC Circuit %"] = self.__round_x(p[2] / total_p) * 100.0 if total_p > 0 else "NAN"
 
         km_mv_lines = 0
         km_lv_lines = 0
@@ -105,5 +106,5 @@ class Summary:
 
             self._dss.transformers.next()
 
-        summary_dict["Loading max % transformers"] = np.max(tr_c)
+        summary_dict["Loading max % transformers"] = np.max(tr_c) if len(tr_c) > 0 else "NAN"
         return pd.DataFrame(summary_dict, index=[0])

@@ -6,23 +6,23 @@
 
 import plotly.graph_objects as go
 from plotly.colors import sample_colorscale
-from py_dss_tools.results.Static.StaticResults import StaticResults
+from py_dss_tools.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_tools.model.ModelBase import ModelBase
 from py_dss_interface import DSS
 from py_dss_tools.view.interactive_view.CustomPlotStyle import CustomPlotStyle
 import numpy as np
 from typing import Optional, List
-from py_dss_tools.view.interactive_view.Static.Circuit.ActivePowerSettings import ActivePowerSettings
-from py_dss_tools.view.interactive_view.Static.Circuit.VoltageSettings import VoltageSettings
-from py_dss_tools.view.interactive_view.Static.Circuit.UserDefinedNumericalSettings import UserDefinedNumericalSettings
-from py_dss_tools.view.interactive_view.Static.Circuit.UserDefinedCategoricalSettings import UserDefinedCategoricalSettings
-from py_dss_tools.view.interactive_view.Static.Circuit.PhasesSettings import PhasesSettings
-from py_dss_tools.view.interactive_view.Static.Circuit.CircuitBusMarker import CircuitBusMarker
+from py_dss_tools.view.interactive_view.SnapShot.Circuit.ActivePowerSettings import ActivePowerSettings
+from py_dss_tools.view.interactive_view.SnapShot.Circuit.VoltageSettings import VoltageSettings
+from py_dss_tools.view.interactive_view.SnapShot.Circuit.UserDefinedNumericalSettings import UserDefinedNumericalSettings
+from py_dss_tools.view.interactive_view.SnapShot.Circuit.UserDefinedCategoricalSettings import UserDefinedCategoricalSettings
+from py_dss_tools.view.interactive_view.SnapShot.Circuit.PhasesSettings import PhasesSettings
+from py_dss_tools.view.interactive_view.SnapShot.Circuit.CircuitBusMarker import CircuitBusMarker
 
 
 class Circuit:
 
-    def __init__(self, dss: DSS, results: StaticResults, model: ModelBase):
+    def __init__(self, dss: DSS, results: SnapShotPowerFlowResults, model: ModelBase):
         self._dss = dss
         self._results = results
         self._model = model

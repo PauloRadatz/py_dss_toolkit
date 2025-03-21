@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-StudyBase <|-- StudyPowerFlow
+StudyBase <|-- StudySnapShotPowerFlow
 StudyBase <|-- StudyShortCircuit
 StudyBase <|-- StudyTemporal
 
@@ -13,38 +13,40 @@ ElementData <|-- ModelBase
 SegmentsDF <|-- ModelBase
 ModelUtils <|-- ModelBase
 
-Voltages <|-- StaticResults
-Currents <|-- StaticResults
-Powers <|-- StaticResults
+VoltagesNodal <|-- SnapShotPowerFlowResults
+VoltagesElement <|-- SnapShotPowerFlowResults
+Currents <|-- SnapShotPowerFlowResults
+Powers <|-- SnapShotPowerFlowResults
+CircuitSnapShotPowerFlowResults <|-- SnapShotPowerFlowResults
 
 EnergyMeter <|-- TemporalResults
 Monitor <|-- TemporalResults
 Monitor <|-- ViewTemporalResults
 
-StaticResults <|-- Results
+SnapshotPowerFlowResults <|-- Results
 TemporalResults <|-- Results
 ShortCircuitResults <|-- Results
 
-StudyPowerFlow "1" *-- "1" StaticResults : contains
-StudyPowerFlow "1" *-- "1" StudyPowerFlowSettings : contains
+StudySnapShotPowerFlow "1" *-- "1" SnapShotPowerFlowResults : contains
+StudySnapShotPowerFlow "1" *-- "1" StudySnapShotPowerFlowSettings : contains
 StudyShortCircuit "1" *-- "1" ShortCircuitResults : contains
 
 StudyTemporal "1" *-- "1" TemporalResults : contains
 StudyTemporal "1" *-- "1" ViewTemporalResults : contains
 
-VoltageProfile <|-- ViewStaticResults
-ViewStaticResults "1" o-- "1" StaticResults : contains
+VoltageProfile <|-- ViewSnapshotPowerFlowResults
+ViewSnapshotPowerFlowResults "1" o-- "1" SnapshotPowerFlowResults : contains
 ViewTemporalResults "1" o-- "1" TemporalResults : contains
-StudyPowerFlow "1" *-- "1" ViewStaticResults : contains
+StudySnapShotPowerFlow "1" *-- "1" ViewSnapshotPowerFlowResults : contains
 
-ViewStaticResults <|-- ViewResults
+ViewSnapshotPowerFlowResults <|-- ViewResults
 ViewTemporalResults <|-- ViewResults
 ViewResults "1" o-- "1" Results : contains
 
-StudySettings <|-- StudyPowerFlowSettings
+StudySettings <|-- StudySnapShotPowerFlowSettings
 
 CustomPlotStyle "1" *-- "1" VoltageProfile : contains
-StaticResults "1" o-- "1" VoltageProfile : contains
+SnapshotPowerFlowResults "1" o-- "1" VoltageProfile : contains
 
 class DSSUtils {
     -dss: DSS
@@ -61,12 +63,27 @@ class StudyBase {
 }
 
 
-class StudyPowerFlow {
-    +view: ViewStaticResults
-    +results: StaticResults
-    +settings: StudyPowerFlowSettings
+class StudySnapShotPowerFlow {
+    +results: SnapShotPowerFlowResults
+    +settings: StudySnapShotPowerFlowSettings
+    +dss_view: DSSViewSnapshotPowerFlowResults
+    +static_view: StaticViewSnapshotPowerFlowResults
+    +interactive_view: InteractiveViewSnapshotPowerFlowResults
     +run()
+    -validate_settings()
 }
+
+class StudySnapShotPowerFlowSettings {
+    +mode: string
+    +get_settings()
+    -set_dss_number(value: int)
+}
+
+class StudySettings {
+    +algorithm: string
+    +time: Union[List[float], Tuple[float]]
+}
+
 
 class StudyTemporal {
     +view: ViewTemporalResults
@@ -129,16 +146,20 @@ class ModelUtils {
     +disable_elements_type(element_type: str)
 }
 
-class StaticResults {
+class SnapShotPowerFlowResults {
     -dss: DSS
-    +losses
-    +total_power
-    +voltage_violations
 }
 
-class Voltages {
+class VoltagesNodal {
     -dss: DSS
     +voltage_ln_nodes: Tuple[pd.DataFrame, pd.DataFrame]
+
+    -create_dataframe()
+}
+
+class VoltagesElement {
+    -dss: DSS
+    +voltage_elements: Tuple[pd.DataFrame, pd.DataFrame]
 
     -create_dataframe()
 }
@@ -157,10 +178,17 @@ class Powers {
     -create_dataframe()
 }
 
+class CircuitSnapShotPowerFlowResults {
+    -dss: DSS
+    +circuit_summary: Tuple[pd.DataFrame, pd.DataFrame]
+
+    -create_dataframe()
+}
+
 
 class VoltageProfile {
     -dss: DSS
-    -results: StaticResults
+    -results: SnapshotPowerFlowResults
     + voltage_profile_plot_style: CustomPlotStyle
     + voltage_profile_get_bus_mark()
     + voltage_profile()

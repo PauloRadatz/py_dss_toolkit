@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : model_verification.py
-# @Software: PyCharm
 
 import os
 import pathlib
@@ -12,7 +10,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 dss_file = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "IEEE123Master.dss")
 bus_coords = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "buscoords.dat")
 
-# Creat Static study object
+# Creat SnapShot study object
 study = CreateStudy.model_verification("My Study", dss_file=dss_file)
 
 # Load bus coordinates for visualization

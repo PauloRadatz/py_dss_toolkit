@@ -5,17 +5,17 @@
 # @Software: PyCharm
 
 import plotly.graph_objects as go
-from py_dss_tools.results.Static.StaticResults import StaticResults
+from py_dss_tools.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_interface import DSS
 from typing import Optional, Union, Tuple, List
 from py_dss_tools.view.view_base.VoltageProfileBase import VoltageProfileBase
-from py_dss_tools.view.interactive_view.Static.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.view.interactive_view.SnapShot.VoltageProfileBusMarker import VoltageProfileBusMarker
 from py_dss_tools.view.interactive_view.CustomPlotStyle import CustomPlotStyle
 
 
 class VoltageProfile(VoltageProfileBase):
 
-    def __init__(self, dss: DSS, results: StaticResults):
+    def __init__(self, dss: DSS, results: SnapShotPowerFlowResults):
         self._results = results
         self._dss = dss
         VoltageProfileBase.__init__(self, self._dss, self._results)

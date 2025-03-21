@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author  : Ferdinando Crispino
 # @Email   : ferdinando.crispino@usp.br
-# @File    : BusInversion.py
-# @Software: PyCharm
 
 import pandas as pd
 from py_dss_interface import DSS
@@ -12,18 +10,17 @@ from py_dss_tools.dss_tools.dss_tools import dss_tools
 Check the bus inversion following the network topology
 for each end element, check the bus1 of element with the bus2 of parent element
 """
-class BusInversion:
+class PDBusOder:
 
     def __init__(self, dss: DSS):
         self._dss = dss
-        self._busInversion = pd.DataFrame()
         dss_tools.update_dss(self._dss)
 
     @property
-    def busInversion(self) -> pd.DataFrame:
-        return self.__check_busInversion()  # Todo - it should return a dataframe with the element names
+    def pd_bus_order(self) -> pd.DataFrame:
+        return self.__check_bus_order()  # Todo - it should return a dataframe with the element names
 
-    def __check_busInversion(self):
+    def __check_bus_order(self):
 
         data = []  # list of problem found
 
@@ -77,13 +74,13 @@ if __name__ == '__main__':
     dss.text(f"buscoords buscoords.dat")
     dss.text("new energymeter.m element=line.l115")
 
-    result_1 = BusInversion(dss).busInversion  # To get results.
+    result_1 = PDBusOder(dss).pd_bus_order  # To get results.
     print("No problem added")
     print(result_1)
 
     # Set inversion to bus2 and bus1 (Bus1=108.1      Bus2=109.1 )
     dss.text("edit Line.l107 bus1=109.1 bus2=108.1")
-    result_1 = BusInversion(dss).busInversion  # To get results.
+    result_1 = PDBusOder(dss).pd_bus_order  # To get results.
     print(result_1)
 
 
@@ -94,7 +91,7 @@ if __name__ == '__main__':
 
     dss.dssinterface.clear_all()
     dss.text(f"compile [{dss_file}]")
-    result_1 = BusInversion(dss).busInversion  # To get results.
+    result_1 = PDBusOder(dss).pd_bus_order  # To get results.
     print(result_1)
 
     # set transformer problem with 3 Windings (bus1 == bus2 )

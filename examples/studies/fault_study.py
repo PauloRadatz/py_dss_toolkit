@@ -13,7 +13,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 dss_file = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "IEEE123Master.dss")
 bus_coords = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "buscoords.dat")
 
-# Creat Static study object
+# Creat SnapShot study object
 study = CreateStudy.fault_study("My Study", dss_file=dss_file)
 
 # Run faultstudy simulation

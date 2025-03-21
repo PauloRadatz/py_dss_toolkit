@@ -1,51 +1,84 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : StudyBase.py
-# @Software: PyCharm
 
-# import attr
-import pandas as pd
-from py_dss_interface import DSS
-
-from py_dss_tools.utils import Utils
-
-from py_dss_tools.model.ModelBase import ModelBase
 from dataclasses import dataclass, field
 from typing import Union, Optional
+from py_dss_interface import DSS
+from py_dss_tools.utils import Utils
+from py_dss_tools.model.ModelBase import ModelBase
 
 
 @dataclass(kw_only=True)
 class StudyBase:
-    _name: str = field(default='scenario_' + Utils.generate_random_string(), init=True, repr=True)
+    """
+    Represents a study configuration with OpenDSS interface integration.
+    """
+    _name: str = field(default=f"scenario_{Utils.generate_random_string()}", init=True, repr=True)
     _dss_file: str = field(init=True, repr=True)
-    _frequency_base: Union[int, float] = field(default=60, init=True)
-    _dll: str = field(default=None, init=True)
+    _base_frequency: Union[int, float] = field(default=60, init=True)
+    _dss_dll: str = field(default=None, init=True)
 
     def __post_init__(self):
-        if self._dll:
-            self._dss = DSS(self._dll)
-        else:
-            self._dss = DSS()
-        self._dss.text(f"compile [{self._dss_file}]")
+        """
+        Post-initialization of the StudyBase class. Compiles the DSS file and initializes required elements.
+        """
+        self._dss = self._initialize_dss(self._dss_dll, self._dss_file)
         self._name = Utils.remove_blank_spaces(self._name)
-
-        # TODO check if there is voltagebase
         self._model = ModelBase(self._dss)
+
+    @staticmethod
+    def _initialize_dss(dll: Optional[str], dss_file: str) -> DSS:
+        """
+        Initializes and returns a DSS instance.
+
+        Args:
+            dll (Optional[str]): Path to the DSS DLL, if provided.
+            dss_file (str): File path to the DSS input file.
+
+        Returns:
+            DSS: Initialized Direct DSS object.
+        """
+        dss_instance = DSS(dll) if dll else DSS()
+        dss_instance.text(f"compile [{dss_file}]")
+        return dss_instance
 
     @property
     def name(self) -> str:
+        """
+        Getter for the study name.
+
+        Returns:
+            str: The name of the study.
+        """
         return self._name
 
     @name.setter
     def name(self, value: str) -> None:
-        Utils.check_instance(value, 'name', ['str'], )
-        self._name = Utils.remove_blank_spaces(value)
+        """
+        Setter for the study name.
+
+        Args:
+            value (str): The desired new name for the study.
+        """
+        self._name = value
 
     @property
-    def dss(self):
+    def dss(self) -> DSS:
+        """
+        Getter for the DSS instance.
+
+        Returns:
+            DSS: The DSS instance.
+        """
         return self._dss
 
     @property
-    def model(self):
+    def model(self) -> ModelBase:
+        """
+        Getter for the model base.
+
+        Returns:
+            ModelBase: The model associated with the DSS instance.
+        """
         return self._model

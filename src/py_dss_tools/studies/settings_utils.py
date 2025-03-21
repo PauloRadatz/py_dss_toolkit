@@ -4,10 +4,32 @@
 # @File    : settings_utils.py
 # @Software: PyCharm
 
-from typing import List, Dict
+from typing import List, Dict, Optional
 from py_dss_interface import DSS
 import pandas as pd
+from typing import List, Tuple, Union
 
+def validate_algorithm(dss: DSS, algorithm: str):
+    algorithm_list = ["Normal".lower(), "Newton".lower(), "NCIM".lower()]
+    if algorithm.lower() not in algorithm_list:
+        raise ValueError(f'Invalid value for algorithm. Should be one of the following options: {algorithm_list}.')
+
+def validate_time(dss: DSS, time: Union[List[float], Tuple[float]]):
+    if not (isinstance(time, (tuple, list)) and len(time) == 2 and all(
+        isinstance(v, (float, int)) for v in time)):
+        raise ValueError("Invalid time format. Expected a tuple or list with two numerical values.")
+
+def validate_number(dss: DSS, number: int, p_value: Optional[int] = None):
+    if p_value:
+        if number != p_value:
+            raise ValueError(f"Invalid number value. It should be {p_value}.")
+    else:
+        if number < 1:
+            raise ValueError("Invalid number value. It should be greater than 0.")
+
+def validate_mode(dss: DSS, mode: str, modes: List[str]):
+    if mode.lower() not in modes:
+        raise ValueError(f'Invalid value for mode. Should be one of the following options: {modes}.')
 
 def check_mode(dss: DSS, modes: List[str]):
     mode = modes[0]

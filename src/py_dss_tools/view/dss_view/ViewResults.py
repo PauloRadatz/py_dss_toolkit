@@ -4,13 +4,13 @@
 # @File    : ViewResults.py
 # @Software: PyCharm
 
-from py_dss_tools.view.dss_view.Static.ViewStaticResults import ViewStaticResults
+from py_dss_tools.view.dss_view.SnapShot.DSSViewSnapShotPowerFlowResults import DSSViewSnapShotPowerFlowResults
 from py_dss_tools.view.dss_view.Temporal.ViewTemporalResults import ViewTemporalResults
 from py_dss_interface import DSS
 
 
-class ViewResults(ViewStaticResults, ViewTemporalResults):
+class ViewResults(DSSViewSnapShotPowerFlowResults, ViewTemporalResults):
 
     def __init__(self, dss: DSS):
-        ViewStaticResults.__init__(self, dss)
+        DSSViewSnapShotPowerFlowResults.__init__(self, dss)
         ViewTemporalResults.__init__(self, dss)
