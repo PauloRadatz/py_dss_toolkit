@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 
 
 @dataclass(kw_only=True)
-class VoltageProfileBusMarker:
+class StaticVoltageProfileBusMarker:
     name: str = field(init=True, repr=True)
     symbol: str = field(init=True, repr=True, default="x")
     size: float = field(init=True, repr=True, default=10)

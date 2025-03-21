@@ -29,19 +29,39 @@ ShortCircuitResults <|-- Results
 
 StudySnapShotPowerFlow "1" *-- "1" SnapShotPowerFlowResults : contains
 StudySnapShotPowerFlow "1" *-- "1" StudySnapShotPowerFlowSettings : contains
+StudySnapShotPowerFlow "1" *-- "1" DSSViewSnapShotPowerFlowResults : contains
+StudySnapShotPowerFlow "1" *-- "1" StaticViewSnapShotPowerFlowResults : contains
+StudySnapShotPowerFlow "1" *-- "1" InteractiveViewSnapShotPowerFlowResults : contains
+
+DSSViewSnapShotPowerFlowResults <|-- DSSVoltageProfile
+StaticViewSnapShotPowerFlowResults <|-- StaticVoltageProfile
+InteractiveViewSnapShotPowerFlowResults <|-- InteractiveVoltageProfile
+
+DSSVoltageProfile <|-- VoltageProfileBase
+InteractiveVoltageProfile <|-- VoltageProfileBase
+StaticVoltageProfile <|-- VoltageProfileBase
+
+InteractiveCustomPlotStyle "1" *-- "1" InteractiveVoltageProfile : contains
+StaticCustomPlotStyle "1" *-- "1" StaticVoltageProfile : contains
+
+
 StudyShortCircuit "1" *-- "1" ShortCircuitResults : contains
+
+SnapShotPowerFlowResults "1" o-- "1" VoltageProfileBase : contains
+SnapShotPowerFlowResults "1" o-- "1" StaticVoltageProfile : contains
+SnapShotPowerFlowResults "1" o-- "1" InteractiveVoltageProfile : contains
 
 StudyTemporal "1" *-- "1" TemporalResults : contains
 StudyTemporal "1" *-- "1" ViewTemporalResults : contains
 
-VoltageProfile <|-- ViewSnapshotPowerFlowResults
-ViewSnapshotPowerFlowResults "1" o-- "1" SnapshotPowerFlowResults : contains
-ViewTemporalResults "1" o-- "1" TemporalResults : contains
-StudySnapShotPowerFlow "1" *-- "1" ViewSnapshotPowerFlowResults : contains
-
-ViewSnapshotPowerFlowResults <|-- ViewResults
-ViewTemporalResults <|-- ViewResults
-ViewResults "1" o-- "1" Results : contains
+'VoltageProfile <|-- ViewSnapShotPowerFlowResults
+'ViewSnapShotPowerFlowResults "1" o-- "1" SnapshotPowerFlowResults : contains
+'ViewTemporalResults "1" o-- "1" TemporalResults : contains
+'
+'
+'ViewSnapshotPowerFlowResults <|-- ViewResults
+'ViewTemporalResults <|-- ViewResults
+'ViewResults "1" o-- "1" Results : contains
 
 StudySettings <|-- StudySnapShotPowerFlowSettings
 
@@ -192,6 +212,32 @@ class VoltageProfile {
     + voltage_profile_plot_style: CustomPlotStyle
     + voltage_profile_get_bus_mark()
     + voltage_profile()
+}
+
+
+class DSSVoltageProfile {
+    +voltage_profile()
+
+}
+
+class StaticVoltageProfile {
+    +voltage_profile_plot_style()
+    +voltage_profile_get_bus_marker(name, symbol, size, color, marker_name, show_legend)
+    +voltage_profile(title, xlabel, ylabel, xlim, ylim, buses_marker, tight_layout, legend, dpi, save_file_path, show)
+}
+
+
+class InteractiveVoltageProfile {
+    +voltage_profile_plot_style()
+    +voltage_profile_get_bus_marker(name, symbol, size, color, annotate, marker_name, show_legend)
+    +voltage_profile(title, xlabel, ylabel, xlim, ylim, buses_marker, show, save_file_path)
+}
+
+class VoltageProfileBase {
+    -dss: DSS
+    -check_energymeter()
+    -prepare_results()
+
 }
 
 @enduml

@@ -89,7 +89,7 @@ class ElementData:
             existing_meter = False
             self._dss.meters.first()
             for meter in self._dss.meters.names:
-                if meter != "NONE":
+                if meter.lower() != "NONE".lower():
                     self._dss.circuit.set_active_element(f"energymeter.{meter}")
                     if self._dss.cktelement.is_enabled:
                         existing_meter = True

@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 
 
 @dataclass
-class CustomPlotStyle:
+class InteractiveCustomPlotStyle:
     template: str = 'plotly_white'
     title_font_size: int = 24
     axis_label_font_size: int = 18

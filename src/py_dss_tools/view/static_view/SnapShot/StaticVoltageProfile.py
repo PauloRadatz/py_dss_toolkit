@@ -7,20 +7,20 @@
 import matplotlib.pyplot as plt
 from py_dss_tools.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_interface import DSS
-from py_dss_tools.view.static_view.CustomPlotStyle import CustomPlotStyle
+from py_dss_tools.view.static_view.StaticCustomPlotStyle import StaticCustomPlotStyle
 from typing import Optional, Union, Tuple, List
-from py_dss_tools.view.static_view.SnapShot.VoltageProfileBusMarker import VoltageProfileBusMarker
+from py_dss_tools.view.static_view.SnapShot.StaticVoltageProfileBusMarker import StaticVoltageProfileBusMarker
 from py_dss_tools.view.view_base.VoltageProfileBase import VoltageProfileBase
 
 
-class VoltageProfile(VoltageProfileBase):
+class StaticVoltageProfile(VoltageProfileBase):
 
     def __init__(self, dss: DSS, results: SnapShotPowerFlowResults):
         self._results = results
         self._dss = dss
         VoltageProfileBase.__init__(self, self._dss, self._results)
 
-        self._plot_style = CustomPlotStyle()
+        self._plot_style = StaticCustomPlotStyle()
 
     @property
     def voltage_profile_plot_style(self):
@@ -33,12 +33,12 @@ class VoltageProfile(VoltageProfileBase):
                                      show_legend: bool = False):
         if not marker_name:
             marker_name = name
-        return VoltageProfileBusMarker(name=name,
-                                       symbol=symbol,
-                                       size=size,
-                                       color=color,
-                                       marker_name=marker_name,
-                                       show_legend=show_legend)
+        return StaticVoltageProfileBusMarker(name=name,
+                                             symbol=symbol,
+                                             size=size,
+                                             color=color,
+                                             marker_name=marker_name,
+                                             show_legend=show_legend)
 
     def voltage_profile(self,
                         title: Optional[str] = "Voltage Profile",
@@ -46,7 +46,7 @@ class VoltageProfile(VoltageProfileBase):
                         ylabel: Optional[str] = "Voltage (pu)",
                         xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                         ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                        buses_marker: Optional[List[VoltageProfileBusMarker]] = None,
+                        buses_marker: Optional[List[StaticVoltageProfileBusMarker]] = None,
                         tight_layout: Optional[bool] = True,
                         legend: Optional[bool] = True,
                         dpi: Optional[int] = 200,

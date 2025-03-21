@@ -7,7 +7,7 @@
 from py_dss_interface import DSS
 from py_dss_tools.view.view_base.VoltageProfileBase import VoltageProfileBase
 
-class VoltageProfile(VoltageProfileBase):
+class DSSVoltageProfile(VoltageProfileBase):
 
     def __init__(self, dss: DSS):
         self._dss = dss

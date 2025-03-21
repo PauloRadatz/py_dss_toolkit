@@ -7,7 +7,7 @@
 import matplotlib.pyplot as plt
 from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
 from py_dss_interface import DSS
-from py_dss_tools.view.static_view.CustomPlotStyle import CustomPlotStyle
+from py_dss_tools.view.static_view.StaticCustomPlotStyle import StaticCustomPlotStyle
 from typing import Optional, Union, Tuple
 from py_dss_tools.view.view_base.MonitorBase import MonitorBase
 
@@ -19,7 +19,7 @@ class Monitor(MonitorBase):
         self._dss = dss
         MonitorBase.__init__(self, self._dss, self._results)
 
-        self._plot_style = CustomPlotStyle()
+        self._plot_style = StaticCustomPlotStyle()
 
     @property
     def monitor_plot_style(self):

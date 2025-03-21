@@ -32,7 +32,7 @@ dss_tools.simulation.solve_snapshot()
 # dss_tools.static_view.voltage_profile(title=f"Voltage profile for feeder {dss.circuit.name}")
 
 # You also can mark buses in the profile by provide a list of voltage_profile_get_bus_mark objetcs to the buses_markers of voltage_profile method.
-buses_marker = [dss_tools.static_view.voltage_profile_get_bus_marker("160r", show_legend=True)]
+buses_marker = [dss_tools.static_view.voltage_profile_get_bus_mark("160r", show_legend=True)]
 dss_tools.static_view.voltage_profile_plot_style.legend_loc = "best"
 dss_tools.static_view.voltage_profile(buses_marker=buses_marker)
 

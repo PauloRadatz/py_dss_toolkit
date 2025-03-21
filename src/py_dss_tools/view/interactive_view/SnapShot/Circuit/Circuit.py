@@ -9,7 +9,7 @@ from plotly.colors import sample_colorscale
 from py_dss_tools.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_tools.model.ModelBase import ModelBase
 from py_dss_interface import DSS
-from py_dss_tools.view.interactive_view.CustomPlotStyle import CustomPlotStyle
+from py_dss_tools.view.interactive_view.InteractiveCustomPlotStyle import InteractiveCustomPlotStyle
 import numpy as np
 from typing import Optional, List
 from py_dss_tools.view.interactive_view.SnapShot.Circuit.ActivePowerSettings import ActivePowerSettings
@@ -26,7 +26,7 @@ class Circuit:
         self._dss = dss
         self._results = results
         self._model = model
-        self._plot_style = CustomPlotStyle()
+        self._plot_style = InteractiveCustomPlotStyle()
         self._active_power_settings = ActivePowerSettings()
         self._voltage_settings = VoltageSettings()
         self._user_numerical_defined_settings = UserDefinedNumericalSettings()

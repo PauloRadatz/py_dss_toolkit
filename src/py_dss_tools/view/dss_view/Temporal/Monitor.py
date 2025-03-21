@@ -6,7 +6,6 @@
 
 import matplotlib.pyplot as plt
 from py_dss_interface import DSS
-from py_dss_tools.view.static_view.CustomPlotStyle import CustomPlotStyle
 from typing import Optional, Union, Tuple
 from py_dss_tools.view.view_base.MonitorBase import MonitorBase
 

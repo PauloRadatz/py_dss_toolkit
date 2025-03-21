@@ -9,7 +9,7 @@ from dataclasses import dataclass
 import matplotlib.pyplot as plt
 
 @dataclass
-class CustomPlotStyle:
+class StaticCustomPlotStyle:
     figure_figsize: tuple = (6, 5)
     figure_facecolor: str = 'white'
     axes_labelcolor: str = '.15'

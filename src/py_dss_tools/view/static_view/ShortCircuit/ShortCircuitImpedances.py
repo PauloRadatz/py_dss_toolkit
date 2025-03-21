@@ -7,7 +7,7 @@
 from py_dss_tools.results.ShortCircuit.FaultResults import FaultResults
 import matplotlib.pyplot as plt
 from py_dss_interface import DSS
-from py_dss_tools.view.static_view.CustomPlotStyle import CustomPlotStyle
+from py_dss_tools.view.static_view.StaticCustomPlotStyle import StaticCustomPlotStyle
 from typing import Optional, Union, Tuple
 
 
@@ -17,7 +17,7 @@ class ShortCircuitImpedances:
         self._results = results
         self._dss = dss
 
-        self._plot_style = CustomPlotStyle()
+        self._plot_style = StaticCustomPlotStyle()
 
     @property
     def short_circuit_impedances_plot_style(self):
