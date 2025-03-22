@@ -14,7 +14,7 @@ dss_file = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "IEEE12
 bus_coords = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "buscoords.dat")
 
 # Creat SnapShot study object
-study = CreateStudy.temporal("My Study", dss_file=dss_file)
+study = CreateStudy.timeseries("My Study", dss_file=dss_file)
 
 # Load bus coordinates for visualization
 study.dss.text(f"buscoords buscoords.dat")
@@ -23,7 +23,7 @@ study.dss.text(f"buscoords buscoords.dat")
 study.model.batchedit("load", "daily", "default")
 
 # Add energymeter and monitors at the feeder head
-study.model.add_line_in_vsource(add_meter=True, add_monitors=True)
+study.model.add_line_in_vsource()
 
 # Run temporal simulation
 study.run()

@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : Monitor.py
+# @File    : DSSMonitor.py
 # @Software: PyCharm
 
 import plotly.graph_objects as go
-from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
+from py_dss_tools.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSeriesPowerFlowResults
 from py_dss_interface import DSS
 from py_dss_tools.view.interactive_view.InteractiveCustomPlotStyle import InteractiveCustomPlotStyle
 from typing import Optional, Union, Tuple
 from py_dss_tools.view.view_base.MonitorBase import MonitorBase
 
 
-class Monitor(MonitorBase):
+class InteractiveMonitor(MonitorBase):
 
-    def __init__(self, dss: DSS, results: TemporalResults):
+    def __init__(self, dss: DSS, results: TimeSeriesPowerFlowResults):
         self._results = results
         self._dss = dss
         MonitorBase.__init__(self, self._dss, self._results)

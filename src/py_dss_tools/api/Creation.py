@@ -6,8 +6,8 @@
 from re import search
 import pathlib
 
-from py_dss_tools.studies.StudySnapShotPowerFlow import StudySnapShotPowerFlow
-from py_dss_tools.studies.StudyTemporal import StudyTemporal
+from py_dss_tools.studies.SnapShotPowerFlow.StudySnapShotPowerFlow import StudySnapShotPowerFlow
+from py_dss_tools.studies.TimeSeriesPowerFlow.StudyTimeSeriesPowerFlow import StudyTimeSeriesPowerFlow
 from py_dss_tools.studies.StudyFault import StudyFault
 from py_dss_tools.studies.StudyModelVerification import StudyModelVerification
 
@@ -20,7 +20,7 @@ from typing import Optional, Union
 
 class CreateStudy:
     @staticmethod
-    def static(
+    def snapshot(
         name: str,
         dss_file: Union[str, pathlib.Path],
         base_frequency: [int, float] = 60,
@@ -29,22 +29,22 @@ class CreateStudy:
         return sc
 
     @staticmethod
-    def temporal(
+    def timeseries(
         name: str,
         dss_file: Union[str, pathlib.Path],
         base_frequency: [int, float] = 60,
-        dss_dll: Optional[str] = None) -> StudyTemporal:
-        sc = StudyTemporal(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
+        dss_dll: Optional[str] = None) -> StudyTimeSeriesPowerFlow:
+        sc = StudyTimeSeriesPowerFlow(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
         return sc
 
-    @staticmethod
-    def fault_study(
-        name: str,
-        dss_file: Union[str, pathlib.Path],
-        base_frequency: [int, float] = 60,
-        dss_dll: Optional[str] = None) -> StudyFault:
-        sc = StudyFault(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
-        return sc
+    # @staticmethod
+    # def fault_study(
+    #     name: str,
+    #     dss_file: Union[str, pathlib.Path],
+    #     base_frequency: [int, float] = 60,
+    #     dss_dll: Optional[str] = None) -> StudyFault:
+    #     sc = StudyFault(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
+    #     return sc
 
     @staticmethod
     def model_verification(

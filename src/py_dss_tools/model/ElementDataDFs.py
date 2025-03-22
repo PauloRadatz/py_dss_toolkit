@@ -25,6 +25,10 @@ class ElementDataDFs:
         return self.__create_dataframe(self._dss.meters)
 
     @property
+    def monitors_df(self) -> pd.DataFrame:
+        return self.__create_dataframe(self._dss.monitors)
+
+    @property
     def generators_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.generators)
 

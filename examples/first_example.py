@@ -15,7 +15,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt.dss")
 
-s = py_dss_tools.CreateStudy.static("Study", dss_file=str(dss_file))
+s = py_dss_tools.CreateStudy.snapshot("Study", dss_file=str(dss_file))
 s.model.add_line_in_vsource(add_meter=True)
 
 

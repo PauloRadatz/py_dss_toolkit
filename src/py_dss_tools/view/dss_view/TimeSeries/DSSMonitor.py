@@ -10,7 +10,7 @@ from typing import Optional, Union, Tuple
 from py_dss_tools.view.view_base.MonitorBase import MonitorBase
 
 
-class Monitor(MonitorBase):
+class DSSMonitor(MonitorBase):
 
     def __init__(self, dss: DSS):
         self._dss = dss

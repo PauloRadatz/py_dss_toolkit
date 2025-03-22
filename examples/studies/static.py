@@ -13,7 +13,7 @@ dss_file = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "IEEE12
 bus_coords = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "buscoords.dat")
 
 # Creat SnapShot study object
-study = CreateStudy.static("My Study", dss_file=dss_file)
+study = CreateStudy.snapshot("My Study", dss_file=dss_file)
 
 # Load bus coordinates for visualization
 study.dss.text(f"buscoords buscoords.dat")

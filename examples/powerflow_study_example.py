@@ -12,7 +12,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 
 dss_file = pathlib.Path(script_path).joinpath("feeders", "123Bus", "IEEE123Master.dss")
 
-study = py_dss_tools.CreateStudy.static(name="Test", dss_file=str(dss_file))
+study = py_dss_tools.CreateStudy.snapshot(name="Test", dss_file=str(dss_file))
 # study.dss.text("New EnergyMeter.M element=Transformer.Sub terminal=1")
 study.model.add_line_in_vsource(add_meter=True)
 study.run()

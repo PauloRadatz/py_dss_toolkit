@@ -10,7 +10,7 @@ from py_dss_tools.view.static_view.SnapShot.StaticViewSnapShotPowerFlowResults i
 from py_dss_tools.view.interactive_view.SnapShot.InteractiveViewSnapShotPowerFlowResults import \
     InteractiveViewSnapShotPowerFlowResults as InteractiveView
 from py_dss_tools.view.dss_view.SnapShot.DSSViewSnapShotPowerFlowResults import DSSViewSnapShotPowerFlowResults as DSSView
-from py_dss_tools.studies.StudySnapShotPowerFlowSettings import StudySnapShotPowerFlowSettings
+from py_dss_tools.studies.SnapShotPowerFlow.StudySnapShotPowerFlowSettings import StudySnapShotPowerFlowSettings
 
 VALID_MODES = ["snap", "snapshot"]  # List of supported modes
 
@@ -62,8 +62,5 @@ class StudySnapShotPowerFlow(StudyBase):
 
     def _validate_settings(self):
         """Ensure the study settings are valid before execution."""
-        self.settings.mode = self.dss.text("get mode")
-        # TODO check if it is working
-        if self.settings.mode not in VALID_MODES:
-            self.settings.number = self.dss.text("get number")
+        self.settings.validate_settings()
 

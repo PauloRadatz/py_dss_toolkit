@@ -6,12 +6,12 @@
 # @Software: PyCharm
 
 from py_dss_interface import DSS
-from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
+from py_dss_tools.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSeriesPowerFlowResults
 from typing import Optional
 
 class MonitorBase:
 
-    def __init__(self, dss: DSS, results: Optional[TemporalResults]):
+    def __init__(self, dss: DSS, results: Optional[TimeSeriesPowerFlowResults]):
         self._dss = dss
         self._results = results
 

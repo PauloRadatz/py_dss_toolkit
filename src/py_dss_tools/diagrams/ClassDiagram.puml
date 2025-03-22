@@ -2,8 +2,8 @@
 'https://plantuml.com/class-diagram
 
 StudyBase <|-- StudySnapShotPowerFlow
-StudyBase <|-- StudyShortCircuit
-StudyBase <|-- StudyTemporal
+StudyBase <|-- StudyTimeSeriesPowerFlow
+'StudyBase <|-- StudyShortCircuit
 
 StudyBase "1" *-- "1" ModelBase : contains
 ElementDataDFs <|-- ModelBase
@@ -19,19 +19,23 @@ Currents <|-- SnapShotPowerFlowResults
 Powers <|-- SnapShotPowerFlowResults
 CircuitSnapShotPowerFlowResults <|-- SnapShotPowerFlowResults
 
-EnergyMeter <|-- TemporalResults
-Monitor <|-- TemporalResults
-Monitor <|-- ViewTemporalResults
+EnergyMeters <|-- TimeSeriesPowerFlowResults
+Monitor <|-- TimeSeriesPowerFlowResults
 
-SnapshotPowerFlowResults <|-- Results
-TemporalResults <|-- Results
-ShortCircuitResults <|-- Results
+'SnapShotPowerFlowResults <|-- TimeSeriesPowerFlowResults
 
 StudySnapShotPowerFlow "1" *-- "1" SnapShotPowerFlowResults : contains
 StudySnapShotPowerFlow "1" *-- "1" StudySnapShotPowerFlowSettings : contains
 StudySnapShotPowerFlow "1" *-- "1" DSSViewSnapShotPowerFlowResults : contains
 StudySnapShotPowerFlow "1" *-- "1" StaticViewSnapShotPowerFlowResults : contains
 StudySnapShotPowerFlow "1" *-- "1" InteractiveViewSnapShotPowerFlowResults : contains
+
+StudyTimeSeriesPowerFlow "1" *-- "1" TimeSeriesPowerFlowResults : contains
+StudyTimeSeriesPowerFlow "1" *-- "1" StudyTimeSeriesPowerFlowSettings : contains
+StudyTimeSeriesPowerFlow "1" *-- "1" DSSViewTimeSeriesPowerFlowResults : contains
+StudyTimeSeriesPowerFlow "1" *-- "1" StaticViewTimeSeriesPowerFlowResults : contains
+StudyTimeSeriesPowerFlow "1" *-- "1" InteractiveViewTimeSeriesPowerFlowResults : contains
+
 
 DSSViewSnapShotPowerFlowResults <|-- DSSVoltageProfile
 StaticViewSnapShotPowerFlowResults <|-- StaticVoltageProfile
@@ -41,18 +45,29 @@ DSSVoltageProfile <|-- VoltageProfileBase
 InteractiveVoltageProfile <|-- VoltageProfileBase
 StaticVoltageProfile <|-- VoltageProfileBase
 
+DSSMonitor <|-- MonitorBase
+InteractiveMonitor <|-- MonitorBase
+StaticMonitor <|-- MonitorBase
+
+DSSViewTimeSeriesPowerFlowResults <|-- DSSMonitor
+StaticViewTimeSeriesPowerFlowResults <|-- StaticMonitor
+InteractiveViewTimeSeriesPowerFlowResults <|-- InteractiveMonitor
+
 InteractiveCustomPlotStyle "1" *-- "1" InteractiveVoltageProfile : contains
 StaticCustomPlotStyle "1" *-- "1" StaticVoltageProfile : contains
 
+InteractiveCustomPlotStyle "1" *-- "1" InteractiveMonitor : contains
+StaticCustomPlotStyle "1" *-- "1" StaticMonitor : contains
 
-StudyShortCircuit "1" *-- "1" ShortCircuitResults : contains
+'StudyShortCircuit "1" *-- "1" ShortCircuitResults : contains
 
 SnapShotPowerFlowResults "1" o-- "1" VoltageProfileBase : contains
 SnapShotPowerFlowResults "1" o-- "1" StaticVoltageProfile : contains
 SnapShotPowerFlowResults "1" o-- "1" InteractiveVoltageProfile : contains
 
-StudyTemporal "1" *-- "1" TemporalResults : contains
-StudyTemporal "1" *-- "1" ViewTemporalResults : contains
+TimeSeriesPowerFlowResults "1" o-- "1" MonitorBase : contains
+TimeSeriesPowerFlowResults "1" o-- "1" StaticMonitor : contains
+TimeSeriesPowerFlowResults "1" o-- "1" InteractiveMonitor : contains
 
 'VoltageProfile <|-- ViewSnapShotPowerFlowResults
 'ViewSnapShotPowerFlowResults "1" o-- "1" SnapshotPowerFlowResults : contains
@@ -64,9 +79,8 @@ StudyTemporal "1" *-- "1" ViewTemporalResults : contains
 'ViewResults "1" o-- "1" Results : contains
 
 StudySettings <|-- StudySnapShotPowerFlowSettings
+StudySettings <|-- StudyTimeSeriesPowerFlowSettings
 
-CustomPlotStyle "1" *-- "1" VoltageProfile : contains
-SnapshotPowerFlowResults "1" o-- "1" VoltageProfile : contains
 
 class DSSUtils {
     -dss: DSS
@@ -93,23 +107,35 @@ class StudySnapShotPowerFlow {
     -validate_settings()
 }
 
+class StudyTimeSeriesPowerFlow {
+    +results: TimeSeriesPowerFlowResults
+    +settings: StudyTimeSeriesPowerFlowSettings
+    +dss_view: DSSViewTimeSeriesPowerFlowResults
+    +static_view: StaticViewTimeSeriesPowerFlowResults
+    +interactive_view: InteractiveViewTimeSeriesPowerFlowResults
+    +run()
+    -validate_settings()
+}
+
 class StudySnapShotPowerFlowSettings {
     +mode: string
     +get_settings()
-    -set_dss_number(value: int)
+    +validate_settings()
+}
+
+class StudyTimeSeriesPowerFlowSettings {
+    +mode: string
+    +number: int
+    +get_settings()
+    +validate_settings()
 }
 
 class StudySettings {
     +algorithm: string
     +time: Union[List[float], Tuple[float]]
+    +validate_settings()
 }
 
-
-class StudyTemporal {
-    +view: ViewTemporalResults
-    +results: TemporalResults
-    +settings: StudyTemporalSettings
-}
 
 class ModelBase {
     -dss: DSS
@@ -170,6 +196,10 @@ class SnapShotPowerFlowResults {
     -dss: DSS
 }
 
+class TimeSeriesPowerFlowResults {
+    -dss: DSS
+}
+
 class VoltagesNodal {
     -dss: DSS
     +voltage_ln_nodes: Tuple[pd.DataFrame, pd.DataFrame]
@@ -206,21 +236,15 @@ class CircuitSnapShotPowerFlowResults {
 }
 
 
-class VoltageProfile {
-    -dss: DSS
-    -results: SnapshotPowerFlowResults
-    + voltage_profile_plot_style: CustomPlotStyle
-    + voltage_profile_get_bus_mark()
-    + voltage_profile()
-}
-
-
 class DSSVoltageProfile {
+    -dss: DSS
     +voltage_profile()
 
 }
 
 class StaticVoltageProfile {
+    -dss: DSS
+    -results: SnapShotPowerFlowResults
     +voltage_profile_plot_style()
     +voltage_profile_get_bus_marker(name, symbol, size, color, marker_name, show_legend)
     +voltage_profile(title, xlabel, ylabel, xlim, ylim, buses_marker, tight_layout, legend, dpi, save_file_path, show)
@@ -228,6 +252,8 @@ class StaticVoltageProfile {
 
 
 class InteractiveVoltageProfile {
+    -dss: DSS
+    -results: SnapShotPowerFlowResults
     +voltage_profile_plot_style()
     +voltage_profile_get_bus_marker(name, symbol, size, color, annotate, marker_name, show_legend)
     +voltage_profile(title, xlabel, ylabel, xlim, ylim, buses_marker, show, save_file_path)
@@ -238,6 +264,51 @@ class VoltageProfileBase {
     -check_energymeter()
     -prepare_results()
 
+}
+
+class EnergyMeters {
+    -dss: DSS
+    +energymeters()
+    -create_dataframe()
+}
+
+class Monitor {
+    -dss: DSS
+    +monitor(name)
+    -create_dataframe(name)
+}
+
+
+class DSSMonitor {
+    -dss: DSS
+    +vmag_vs_time(name, unit)
+    +p_vs_time(name)
+
+}
+
+class StaticMonitor {
+    -dss: DSS
+    -results: TimeSeriesPowerFlowResults
+    +monitor_plot_style()
+    +vmag_vs_time(name, unit, title, xlabel, ylabel, xlim, ylim, tight_layout, legend, dpi, save_file_path, show)
+    +p_vs_time(name, title, xlabel, ylabel, xlim, ylim, tight_layout, legend, dpi, save_file_path, show)
+}
+
+class InteractiveMonitor {
+    -dss: DSS
+    -results: TimeSeriesPowerFlowResults
+    +monitor_plot_style()
+    +vmag_vs_time(name, unit, title, xlabel, ylabel, xlim, ylim, legend, save_file_path, show, get_fig_obj)
+    +p_vs_time(name, title, xlabel, ylabel, xlim, ylim, legend, save_file_path, show, get_fig_obj)
+}
+
+class MonitorBase {
+    -dss: DSS
+    -results: TimeSeriesPowerFlowResults
+    -check_v_monitor(name)
+    -organize_v_results(name)
+    -check_p_monitor(name)
+    -organize_p_results(name)
 }
 
 @enduml

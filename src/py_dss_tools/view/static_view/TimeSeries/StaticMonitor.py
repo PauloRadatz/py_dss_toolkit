@@ -5,16 +5,16 @@
 # @Software: PyCharm
 
 import matplotlib.pyplot as plt
-from py_dss_tools.results.Temporal.TemporalResults import TemporalResults
+from py_dss_tools.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSeriesPowerFlowResults
 from py_dss_interface import DSS
 from py_dss_tools.view.static_view.StaticCustomPlotStyle import StaticCustomPlotStyle
 from typing import Optional, Union, Tuple
 from py_dss_tools.view.view_base.MonitorBase import MonitorBase
 
 
-class Monitor(MonitorBase):
+class StaticMonitor(MonitorBase):
 
-    def __init__(self, dss: DSS, results: TemporalResults):
+    def __init__(self, dss: DSS, results: TimeSeriesPowerFlowResults):
         self._results = results
         self._dss = dss
         MonitorBase.__init__(self, self._dss, self._results)

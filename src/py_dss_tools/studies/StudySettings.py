@@ -12,18 +12,11 @@ import re
 class StudySettings:
     _dss: DSS
     _algorithm: str = field(init=False)
-    _time: Union[List[float], Tuple[float]] = field(init=False)
-
-    def __post_init__(self):
-        self._algorithm = self._dss.text("get algorithm")
-        validate_algorithm(self._dss, self.algorithm)
-        match = re.search(r'\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]', self._dss.text(f"get time"))
-        x, y = float(match.group(1)), float(match.group(2))
-        self._time = (x, y)
-        validate_time(self._dss, self.time)
+    _time: Tuple[float, float] = field(init=False)
 
     @property
     def algorithm(self) -> str:
+        self._algorithm = self._dss.text("get algorithm")
         return self._algorithm
 
     @algorithm.setter
@@ -33,11 +26,18 @@ class StudySettings:
         self._algorithm = value
 
     @property
-    def time(self) -> Union[List[float], Tuple[float]]:
+    def time(self) -> Tuple[float, float]:
+        match = re.search(r'\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]', self._dss.text(f"get time"))
+        x, y = float(match.group(1)), float(match.group(2))
+        self._time = (x, y)
         return self._time
 
     @time.setter
-    def time(self, value: Union[List[float], Tuple[float]]):
-        validate_time(self._dss, value)
+    def time(self, value: Tuple[float, float]):
+        validate_time(value)
         self._time = value
         self._dss.text(f"set time=({value[0]}, {value[1]})")
+
+    def validate_settings(self):
+        validate_algorithm(self.algorithm)
+        validate_time(self.time)
