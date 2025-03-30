@@ -20,7 +20,7 @@ class StudyTimeSeriesPowerFlowSettings(StudySettings):
     _number: int = field(init=False)
     _stepsize: float = field(init=False)
 
-    VALID_MODES: List[str] = field(default_factory=lambda: ["daily", "yearly", "duty"], init=False)
+    VALID_MODES: List[str] = field(default_factory=lambda: ["daily", "yearly", "dutycycle"], init=False)
 
     def __post_init__(self):
         self._initialize_mode()
@@ -53,10 +53,22 @@ class StudyTimeSeriesPowerFlowSettings(StudySettings):
         self._dss.text(f"set number={value}")
         self._number = value
 
+    @property
+    def stepsize(self) -> int:
+        self._stepsize = int(self._dss.text(f"get stepsize"))
+        return self._stepsize
+
+    @stepsize.setter
+    def stepsize(self, value: int):
+        validate_stepsize(value)
+        self._dss.text(f"set stepsize={value}")
+        self._stepsize = value
+
     def get_settings(self):
         return get_settings(self.__dict__)
 
     def validate_settings(self):
         validate_mode(self.mode, self.VALID_MODES)
         validate_number(self.number)
+        validate_stepsize(self.stepsize)
         super().validate_settings()

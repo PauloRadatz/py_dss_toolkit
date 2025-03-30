@@ -10,7 +10,7 @@ class CircuitSnapShotPowerFlowResults:
         self._dss = dss
 
     @property
-    def circuit_summary(self) -> pd.DataFrame:
+    def summary_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
     def __create_dataframe(self):

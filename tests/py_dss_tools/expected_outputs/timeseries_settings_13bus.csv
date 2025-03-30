@@ -1,0 +1,6 @@
+,Settings
+VALIDMODES,"['daily', 'yearly', 'dutycycle']"
+mode,daily
+number,24
+algorithm,normal
+time,"(0.0, 0.0)"

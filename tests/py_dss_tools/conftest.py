@@ -25,6 +25,6 @@ def timeseries_study_13bus():
 def dss_tools_13bus():
     dss = py_dss_interface.DSS()
     dss_tools.update_dss(dss)
-    dss.text(f"compile [{dss_file_13bus}]")
+    dss_tools.configuration.compile_dss(dss_file_13bus)
 
     return dss

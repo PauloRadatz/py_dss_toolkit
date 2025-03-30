@@ -30,7 +30,7 @@ dss.text(f"buscoords buscoords.dat")
 dss_tools.simulation.solve_snapshot(max_control_iter=20)
 
 # You can get the circuit summary
-circuit_summary_df = dss_tools.results.circuit_summary
+circuit_summary_df = dss_tools.results.summary_df
 circuit_summary_df
 
 # You can get the voltage line-neutral nodes similar to when you use 'show voltages LN nodes'

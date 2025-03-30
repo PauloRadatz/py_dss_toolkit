@@ -4,9 +4,10 @@
 # @File    : ElementData.py
 # @Software: PyCharm
 
-from py_dss_interface import DSS
-import pandas as pd
 from typing import Dict
+
+import pandas as pd
+from py_dss_interface import DSS
 
 from py_dss_tools.model.ModelUtils import ModelUtils
 
@@ -40,33 +41,27 @@ class ElementData:
         return df.T
 
     def edit_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
-        ModelUtils(self._dss).is_element_in_model(element_class, element_name)
+        if ModelUtils(self._dss).is_element_in_model(element_class, element_name):
 
-        self._dss.text(f"select {element_class}.{element_name}")
-        element_properties = self._dss.cktelement.property_names
+            self._dss.text(f"select {element_class}.{element_name}")
+            element_properties = self._dss.cktelement.property_names
 
-        dss_string = f"edit {element_class}.{element_name} "
+            dss_string = f"edit {element_class}.{element_name} "
 
-        for p, v in properties.items():
-            if p.lower() not in element_properties:
-                raise ValueError(f"{element_class}.{element_name} does not have property {p}")
-            dss_string = dss_string + f" {p}={v}"
+            for p, v in properties.items():
+                if p.lower() not in element_properties:
+                    raise ValueError(f"{element_class}.{element_name} does not have property {p}")
+                dss_string = dss_string + f" {p}={v}"
 
-        self._dss.text(dss_string)
+            self._dss.text(dss_string)
+        else:
+            raise ValueError(f"{element_class}.{element_name} does not have exist in the model")
 
     def add_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
         dss_string = f"new {element_class}.{element_name} "
         for p, v in properties.items():
             dss_string = dss_string + f" {p}={v}"
         self._dss.text(dss_string)
-
-    def __is_element_in_model(self, element_class: str, element_name: str):
-        element_class = element_class.lower()
-        element_name = element_name.lower()
-        elements_list = [e.lower() for e in self._dss.circuit.elements_names]
-        element_full_name = f"{element_class}.{element_name}"
-        if element_full_name not in elements_list:
-            raise ValueError(f"Model does not have the {element_class}.{element_name}")
 
     def add_line_in_vsource(self, add_meter=False, add_monitors=False):
         code = "unrealbus"
@@ -102,19 +97,6 @@ class ElementData:
             if add_monitors:
                 self.__add_monitor("monitor_feeder_head_pq", "Line.feeder_head", terminal=1, mode=1)
                 self.__add_monitor("monitor_feeder_head_vi", "Line.feeder_head", terminal=1, mode=0)
-
-    def get_first_element(self):
-        self._dss.vsources.name = "source"
-        feeder_head_bus = self._dss.cktelement.bus_names[0].split('.')[0].lower()
-        self._dss.circuit.set_active_bus(feeder_head_bus)
-
-        pd_elements = self._dss.bus.all_pde_active_bus
-        if len(pd_elements) == 1:
-            return pd_elements[0].lower()
-        else:
-            print("More than one pd element connected to the sourcebus?")
-
-        print("here")
 
     def __add_monitor(self, monitor_name: str, element: str, terminal: int, mode: int, vipolar: bool = True,
                       ppolar: bool = False):

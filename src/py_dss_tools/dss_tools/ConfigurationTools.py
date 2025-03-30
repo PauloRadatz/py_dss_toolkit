@@ -5,7 +5,8 @@
 # @Software: PyCharm
 
 from py_dss_interface import DSS
-import pandas as pd
+import pathlib
+from typing import Union
 
 
 class ConfigurationTools:
@@ -13,9 +14,9 @@ class ConfigurationTools:
     def __init__(self, dss: DSS):
         self._dss = dss
 
-    def compile_dss(self, dss_file: str):
+    def compile_dss(self, dss_file: Union[str, pathlib.Path]):
         self._dss.text("ClearAll")
-        self._dss.text("Compile " + "[" + dss_file + "]")
+        self._dss.text(f"Compile [{dss_file}]")
 
     def calc_voltage_base(self):
         self._dss.text("calcvoltagebase")

@@ -8,6 +8,14 @@ def test_dss_tools_add_line_in_vsource_creates_line(dss_tools_13bus):
     line_names = dss.lines.names
     assert "feeder_head" in [name.lower() for name in line_names], "Line.feeder_head was not created"
 
+def test_dss_tools_add_line_in_vsource_creates_line_with_existing_energymeter(dss_tools_13bus):
+    dss = dss_tools_13bus
+    dss_tools.text("New energymeter.EM2 element=Line.670671")
+    dss_tools.model.add_line_in_vsource()
+
+
+    num_meter = dss_tools.model.meters_df.shape[0]
+    assert num_meter == 1
 
 @pytest.mark.parametrize(
     "study_fixture_name",

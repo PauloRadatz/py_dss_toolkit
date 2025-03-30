@@ -23,6 +23,10 @@ def validate_number(number: int):
     if number < 1:
         raise ValueError("Invalid number value. It should be greater than 0.")
 
+def validate_stepsize(stepsize: float):
+    if stepsize < 1:
+        raise ValueError("Invalid stepsize value. It should be greater than 0.")
+
 def validate_mode(mode: str, modes: List[str]):
     if mode.lower() not in modes:
         raise ValueError(f'Invalid value for mode. Should be one of the following options: {modes}.')

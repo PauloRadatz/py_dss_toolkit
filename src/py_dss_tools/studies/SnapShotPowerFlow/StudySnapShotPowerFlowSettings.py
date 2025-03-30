@@ -21,13 +21,12 @@ class StudySnapShotPowerFlowSettings(StudySettings):
 
     def __post_init__(self):
         self._initialize_mode()
-        self._dss.text(f"set mode=snapshot")
         self.validate_settings()
 
     def _initialize_mode(self):
         if self.mode not in self.VALID_MODES:
             print(f"Mode {self.mode} to {self.VALID_MODES[0]}")
-            self._dss.text(f"set mode={self.VALID_MODES[0]}")
+            self._dss.text(f"set mode=snapshot")
 
     @property
     def mode(self) -> str:

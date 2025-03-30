@@ -230,7 +230,7 @@ class Powers {
 
 class CircuitSnapShotPowerFlowResults {
     -dss: DSS
-    +circuit_summary: Tuple[pd.DataFrame, pd.DataFrame]
+    +summary_df: Tuple[pd.DataFrame, pd.DataFrame]
 
     -create_dataframe()
 }
