@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "py-dss-tools"
 version = "0.1.0"
-description = "Advanced Python tools for OpenDSS leveraging py-dss-interface."
+description = "Advanced Python Tools for OpenDSS Powered by EPRI."
 readme = "README.rst"
 license = {text = "MIT"}
 authors = [
@@ -14,7 +14,7 @@ authors = [
 requires-python = ">=3.9"
 keywords = ["OpenDSS", "Python", "Power Systems", "Distribution Systems", "Energy"]
 dependencies = [
-	"py-dss-interface>=2.0.2",
+	"py-dss-interface>=2.1.0",
 	"pandas>=1.5.0",
 	"matplotlib>=3.6.0",
 	"plotly>=5.10.0"
@@ -27,7 +27,6 @@ classifiers = [
   "Operating System :: Microsoft :: Windows",
   "Operating System :: POSIX :: Linux",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -36,8 +35,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/PauloRadatz/py_dss_tools"
-Repository = "https://github.com/PauloRadatz/py_dss_tools"
+"Changelog" = "https://github.com/PauloRadatz/py_dss_tools/blob/master/CHANGELOG.rst"
+"Issue Tracker" = "https://github.com/PauloRadatz/py_dss_tools/issues"
+"Source" = "https://github.com/PauloRadatz/py_dss_tools"
 
 [tool.setuptools]
 packages = { find = {where = ["src"]} }

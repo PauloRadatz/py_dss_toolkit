@@ -8,6 +8,28 @@
 
 🔗 For more information about `py-dss-interface`, visit the [GitHub repository](https://github.com/PauloRadatz/py_dss_interface).
 
+## 📦 Installation
+
+You can install `py-dss-tools` in two ways:
+
+### 👤 User Installation
+
+If you simply want to use the package:
+
+```bash
+pip install py-dss-tools
+```
+
+### 👨‍💻 Developer Installation
+
+If you want to contribute or explore the source code:
+
+```bash
+git clone https://github.com/PauloRadatz/py_dss_tools.git
+cd py_dss_tools
+pip install -e .
+```
+
 ## ✨ Features
 
 - Retrieve, analyze, and visualize OpenDSS model data using with ease.
@@ -138,6 +160,6 @@ Radatz, P. (2025). *py-dss-tools: Advanced Python Tools for OpenDSS powered by E
 ## 🙏 Acknowledgements
 Developed and maintained by [Paulo Radatz](https://www.linkedin.com/in/pauloradatz/), with support from the global OpenDSS community.
 
-Special thanks to the OpenDSS community and all contributors and users who have provided feedback and inspiration. The development of `py-dss-tools` builds on the foundation laid by [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface) and the collective efforts of the OpenDSS ecosystem.
+Special thanks to the OpenDSS community and all contributors and users who have provided feedback and inspiration. The development of `py-dss-tools` builds on the foundation laid by [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface).
 
 ---
