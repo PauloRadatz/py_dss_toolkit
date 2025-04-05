@@ -35,9 +35,9 @@ classifiers = [
 ]
 
 [project.urls]
-"Changelog" = "https://github.com/PauloRadatz/py_dss_tools/blob/master/CHANGELOG.rst"
-"Issue Tracker" = "https://github.com/PauloRadatz/py_dss_tools/issues"
-"Source" = "https://github.com/PauloRadatz/py_dss_tools"
+"Changelog" = "https://github.com/PauloRadatz/py_dss_toolkit/blob/master/CHANGELOG.rst"
+"Issue Tracker" = "https://github.com/PauloRadatz/py_dss_toolkit/issues"
+"Source" = "https://github.com/PauloRadatz/py_dss_toolkit"
 
 [tool.setuptools]
 packages = { find = {where = ["src"]} }

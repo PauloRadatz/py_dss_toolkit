@@ -1,12 +1,15 @@
 # ⚡ py-dss-toolkit: Advanced Python Tools for OpenDSS Powered by EPRI
 
 [![PyPI Version](https://img.shields.io/pypi/v/py-dss-toolkit.svg)](https://pypi.org/project/py-dss-toolkit/)
-[![License](https://img.shields.io/github/license/PauloRadatz/py_dss_tools)](https://github.com/PauloRadatz/py_dss_tools/blob/master/LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_tools/python-app.yml)](https://github.com/PauloRadatz/py_dss_tools/actions)
+[![License](https://img.shields.io/github/license/PauloRadatz/py_dss_toolkit)](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_toolkit/python-app.yml)](https://github.com/PauloRadatz/py_dss_toolkit/actions)
 
 **`py-dss-toolkit`** is a Python package that builds on the capabilities of the [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface) package to provide advanced functionalities for creating Python-OpenDSS solutions more efficiently. By combining the robust connection to OpenDSS provided by `py-dss-interface` with the feature-rich tools of `py-dss-toolkit`, users can streamline their workflows and gain powerful new capabilities for analyzing and manipulating OpenDSS models, simulations, and results.
 
 🔗 For more information about `py-dss-interface`, visit the [GitHub repository](https://github.com/PauloRadatz/py_dss_interface).
+
+🚨 Note: This project was previously known as `py-dss-tools` and the repository was named `py_dss_tools`. It has been renamed to avoid naming conflicts on PyPI.
+
 
 ## 📦 Installation
 
@@ -25,7 +28,7 @@ pip install py-dss-toolkit
 If you want to contribute or explore the source code:
 
 ```bash
-git clone https://github.com/PauloRadatz/py_dss_tools.git
+git clone https://github.com/PauloRadatz/py_dss_toolkit.git
 cd py_dss_toolkit
 pip install -e .
 ```
@@ -45,15 +48,15 @@ pip install -e .
 - Access detailed model information via organized pandas DataFrames.
 - Modify models efficiently with built-in Pythonic tools.
 
-📘 [Example Notebook](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/models.ipynb)
+📘 [Example Notebook](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/models.ipynb)
 
 ### 📊 2. Exploring Simulation Results Capabilities
 
 - Retrieve SnapShot power flow results (voltages, currents, powers) via organized pandas DataFrames.
 - Extract QSTS simulation data including meters and monitors.
 
-📘 [Snapshot Results](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/snapshot_results.ipynb)
-📘 [QSTS Results](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/qsts_results.ipynb)
+📘 [Snapshot Results](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/snapshot_results.ipynb)
+📘 [QSTS Results](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/qsts_results.ipynb)
 
 ### 📈 3. Visualize Simulation Results
 
@@ -67,9 +70,9 @@ All three can be visualized using:
 - 🔍 **Plotly (interactive)** — browser-based interactive plots.
 - 🧾 **Matplotlib (static)** — publication-ready static charts.
 
-📘 [Circuit Interactive View](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/circuit_interactive_view.ipynb)
-📘 [Voltage Profile DSS View](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/voltage_profile_dss_view.ipynb)
-📘 [Voltage Profile Interactive View](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/voltage_profile_interactive_view.ipynb)
+📘 [Circuit Interactive View](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/circuit_interactive_view.ipynb)
+📘 [Voltage Profile DSS View](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/voltage_profile_dss_view.ipynb)
+📘 [Voltage Profile Interactive View](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/voltage_profile_interactive_view.ipynb)
 📘 [Voltage Profile Static View](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/voltage_profile_static_view.ipynb)
 
 ## 🛠️ How to Use py-dss-toolkit?

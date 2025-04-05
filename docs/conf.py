@@ -25,8 +25,8 @@ version = release = '0.0.0'
 pygments_style = 'trac'
 templates_path = ['.']
 extlinks = {
-    'issue': ('https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-toolkit/issues/%s', '#'),
-    'pr': ('https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-toolkit/pull/%s', 'PR #'),
+    'issue': ('https://https://github.com/PauloRadatz/py_dss_toolkit/py_dss_toolkit/py-dss-toolkit/issues/%s', '#'),
+    'pr': ('https://https://github.com/PauloRadatz/py_dss_toolkit/py_dss_tools/py-dss-toolkit/pull/%s', 'PR #'),
 }
 html_theme = "sphinx_py3doc_enhanced_theme"
 html_theme_path = [sphinx_py3doc_enhanced_theme.get_html_theme_path()]

@@ -8,7 +8,7 @@ little bit helps, and credit will always be given.
 Bug reports
 ===========
 
-When `reporting a bug <https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-toolkit/issues>`_ please include:
+When `reporting a bug <https://https://github.com/PauloRadatz/py_dss_toolkit/py_dss_toolkit/py-dss-toolkit/issues>`_ please include:
 
     * Your operating system name and version.
     * Any details about your local setup that might be helpful in troubleshooting.
@@ -24,7 +24,7 @@ articles, and such.
 Feature requests and feedback
 =============================
 
-The best way to send feedback is to file an issue at https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-toolkit/issues.
+The best way to send feedback is to file an issue at https://https://github.com/PauloRadatz/py_dss_toolkit/py_dss_toolkit/py-dss-toolkit/issues.
 
 If you are proposing a feature:
 
@@ -37,11 +37,11 @@ Development
 
 To set up `py-dss-toolkit` for local development:
 
-1. Fork `py-dss-toolkit <https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-toolkit>`_
+1. Fork `py-dss-toolkit <https://https://github.com/PauloRadatz/py_dss_toolkit/py_dss_toolkit/py-dss-toolkit>`_
    (look for the "Fork" button).
 2. Clone your fork locally::
 
-    git clone git@https://github.com/PauloRadatz/py_dss_tools:YOURGITHUBNAME/py-dss-toolkit.git
+    git clone git@https://github.com/PauloRadatz/py_dss_toolkit:YOURGITHUBNAME/py-dss-toolkit.git
 
 3. Create a branch for local development::
 
@@ -74,7 +74,7 @@ For merging, you should:
 4. Add yourself to ``AUTHORS.rst``.
 
 .. [1] If you don't have all the necessary python versions available locally you can rely on Travis - it will
-       `run the tests <https://travis-ci.com/github/py_dss_tools/py-dss-toolkit/pull_requests>`_
+       `run the tests <https://travis-ci.com/github/py_dss_toolkit/py-dss-toolkit/pull_requests>`_
        for each change you add in the pull request.
 
        It will be slower though ...

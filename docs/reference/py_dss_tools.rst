@@ -1,9 +1,9 @@
-py_dss_tools
+py_dss_toolkit
 ============
 
 .. testsetup::
 
-    from py_dss_tools import *
+    from py_dss_toolkit import *
 
-.. automodule:: py_dss_tools
+.. automodule:: py_dss_toolkit
     :members:

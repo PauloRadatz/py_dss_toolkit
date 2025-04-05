@@ -6,7 +6,7 @@ source =
 [run]
 branch = true
 source =
-    py_dss_tools
+    py_dss_toolkit
     tests
 parallel = true
 

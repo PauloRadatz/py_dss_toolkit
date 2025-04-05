@@ -4,4 +4,4 @@ Reference
 .. toctree::
     :glob:
 
-    py_dss_tools*
+    py_dss_toolkit*
