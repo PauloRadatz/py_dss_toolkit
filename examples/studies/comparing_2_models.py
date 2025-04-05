@@ -10,7 +10,7 @@ import py_dss_tools
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 
-dss_file = pathlib.Path(script_path).joinpath("feeders", "13Bus", "IEEE13Nodeckt.dss")
+dss_file = pathlib.Path(script_path).joinpath("../feeders", "13Bus", "IEEE13Nodeckt.dss")
 dss_file = r"C:\PauloRadatz\AzureDevOps\model_reduction\p1rhs1_sub\dss_models\impedance\P1R--p1rhs1_1247--p1rdt2397\4-low_voltage\Master.dss"
 study = py_dss_tools.CreateStudy.generic(name="Test", dss_file=str(dss_file))
 
