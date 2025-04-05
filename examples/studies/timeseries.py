@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : temporal.py
-# @Software: PyCharm
 
 import os
 import pathlib
@@ -30,7 +28,6 @@ study.run()
 
 energymeters_df = study.results.energymeters
 monitor_pq_df = study.results.monitor("monitor_feeder_head_pq")
-
 
 study.static_view.p_vs_time("monitor_feeder_head_pq")
 

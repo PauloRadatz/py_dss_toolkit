@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : static.py
-# @Software: PyCharm
 
 import os
 import pathlib
+
 from py_dss_tools import CreateStudy
 
 script_path = os.path.dirname(os.path.abspath(__file__))
