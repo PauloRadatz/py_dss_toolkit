@@ -3,7 +3,7 @@ requires = ["setuptools>=42", "wheel", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "py-dss-tools"
+name = "py-dss-toolkit"
 version = "0.1.0"
 description = "Advanced Python Tools for OpenDSS Powered by EPRI."
 readme = "README.rst"

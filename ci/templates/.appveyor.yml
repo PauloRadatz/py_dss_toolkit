@@ -4,7 +4,7 @@ image: Visual Studio 2019
 environment:
   global:
     COVERALLS_EXTRAS: '-v'
-    COVERALLS_REPO_TOKEN: [Required for Appveyor, take it from https://coveralls.io/github/py_dss_tools/py-dss-tools]
+    COVERALLS_REPO_TOKEN: [Required for Appveyor, take it from https://coveralls.io/github/py_dss_toolkit/py-dss-toolkit]
   matrix:
     - TOXENV: check
       TOXPYTHON: C:\Python36\python.exe

@@ -4,4 +4,4 @@ Installation
 
 At the command line::
 
-    pip install py-dss-tools
+    pip install py-dss-toolkit

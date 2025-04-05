@@ -16,7 +16,7 @@ extensions = [
 ]
 source_suffix = '.rst'
 master_doc = 'index'
-project = 'py-dss-tools'
+project = 'py-dss-toolkit'
 year = '2021'
 author = 'Paulo Radatz'
 copyright = '{0}, {1}'.format(year, author)
@@ -25,13 +25,13 @@ version = release = '0.0.0'
 pygments_style = 'trac'
 templates_path = ['.']
 extlinks = {
-    'issue': ('https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-tools/issues/%s', '#'),
-    'pr': ('https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-tools/pull/%s', 'PR #'),
+    'issue': ('https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-toolkit/issues/%s', '#'),
+    'pr': ('https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-toolkit/pull/%s', 'PR #'),
 }
 html_theme = "sphinx_py3doc_enhanced_theme"
 html_theme_path = [sphinx_py3doc_enhanced_theme.get_html_theme_path()]
 html_theme_options = {
-    'githuburl': 'https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-tools/'
+    'githuburl': 'https://https://github.com/PauloRadatz/py_dss_tools/py_dss_tools/py-dss-toolkit/'
 }
 
 html_use_smartypants = True

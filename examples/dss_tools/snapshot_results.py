@@ -7,7 +7,7 @@
 import os
 import pathlib
 import py_dss_interface
-from py_dss_tools import dss_tools
+from py_dss_toolkit import dss_tools
 
 # Define the script path and path to the DSS file
 script_path = os.path.dirname(os.path.abspath(__file__))

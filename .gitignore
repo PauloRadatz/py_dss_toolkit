@@ -72,7 +72,7 @@ docs/_build
 
 # Mypy Cache
 .mypy_cache/
-/src/py_dss_tools/tutorials/simple/.ipynb_checkpoints/
+/src/py_dss_toolkit/tutorials/simple/.ipynb_checkpoints/
 
 *.puml
 

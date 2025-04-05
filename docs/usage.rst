@@ -2,6 +2,6 @@
 Usage
 =====
 
-To use py-dss-tools in a project::
+To use py-dss-toolkit in a project::
 
 	import py_dss_tools

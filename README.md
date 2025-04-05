@@ -1,23 +1,23 @@
-# ⚡ py-dss-tools: Advanced Python Tools for OpenDSS Powered by EPRI
+# ⚡ py-dss-toolkit: Advanced Python Tools for OpenDSS Powered by EPRI
 
-[![PyPI Version](https://img.shields.io/pypi/v/py-dss-tools.svg)](https://pypi.org/project/py-dss-tools/)
+[![PyPI Version](https://img.shields.io/pypi/v/py-dss-toolkit.svg)](https://pypi.org/project/py-dss-toolkit/)
 [![License](https://img.shields.io/github/license/PauloRadatz/py_dss_tools)](https://github.com/PauloRadatz/py_dss_tools/blob/master/LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_tools/python-app.yml)](https://github.com/PauloRadatz/py_dss_tools/actions)
 
-**`py-dss-tools`** is a Python package that builds on the capabilities of the [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface) package to provide advanced functionalities for creating Python-OpenDSS solutions more efficiently. By combining the robust connection to OpenDSS provided by `py-dss-interface` with the feature-rich tools of `py-dss-tools`, users can streamline their workflows and gain powerful new capabilities for analyzing and manipulating OpenDSS models, simulations, and results.
+**`py-dss-toolkit`** is a Python package that builds on the capabilities of the [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface) package to provide advanced functionalities for creating Python-OpenDSS solutions more efficiently. By combining the robust connection to OpenDSS provided by `py-dss-interface` with the feature-rich tools of `py-dss-toolkit`, users can streamline their workflows and gain powerful new capabilities for analyzing and manipulating OpenDSS models, simulations, and results.
 
 🔗 For more information about `py-dss-interface`, visit the [GitHub repository](https://github.com/PauloRadatz/py_dss_interface).
 
 ## 📦 Installation
 
-You can install `py-dss-tools` in two ways:
+You can install `py-dss-toolkit` in two ways:
 
 ### 👤 User Installation
 
 If you simply want to use the package:
 
 ```bash
-pip install py-dss-tools
+pip install py-dss-toolkit
 ```
 
 ### 👨‍💻 Developer Installation
@@ -26,7 +26,7 @@ If you want to contribute or explore the source code:
 
 ```bash
 git clone https://github.com/PauloRadatz/py_dss_tools.git
-cd py_dss_tools
+cd py_dss_toolkit
 pip install -e .
 ```
 
@@ -38,7 +38,7 @@ pip install -e .
 - Extract Simulation results directly into pandas DataFrames.
 - Built on top of `py-dss-interface`.
 
-## 🚀 What Can You Do With py-dss-tools?
+## 🚀 What Can You Do With py-dss-toolkit?
 
 ### 🔍 1. Model Exploration and Manipulation
 
@@ -57,7 +57,7 @@ pip install -e .
 
 ### 📈 3. Visualize Simulation Results
 
-`py-dss-tools` supports multiple methods to visualize:
+`py-dss-toolkit` supports multiple methods to visualize:
 - Circuit topology
 - Voltage profiles
 - Time-series results
@@ -72,14 +72,14 @@ All three can be visualized using:
 📘 [Voltage Profile Interactive View](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/voltage_profile_interactive_view.ipynb)
 📘 [Voltage Profile Static View](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/voltage_profile_static_view.ipynb)
 
-## 🛠️ How to Use py-dss-tools?
+## 🛠️ How to Use py-dss-toolkit?
 
 ### 🔧 1. Directly with the `dss_tools` Object
 
-This approach is ideal when you want full flexibility to use `py-dss-tools` alongside your own custom logic or an existing `py-dss-interface` workflow. It allows you to:
+This approach is ideal when you want full flexibility to use `py-dss-toolkit` alongside your own custom logic or an existing `py-dss-interface` workflow. It allows you to:
 
-- Inject the active DSS object into `py-dss-tools` using `update_dss()`
-- Use any feature provided by `py-dss-tools` independently of the study type
+- Inject the active DSS object into `py-dss-toolkit` using `update_dss()`
+- Use any feature provided by `py-dss-toolkit` independently of the study type
 - Combine different simulation types, preprocessing, and postprocessing in a custom flow
 
 ✅ **Pros:**
@@ -94,7 +94,7 @@ This approach is ideal when you want full flexibility to use `py-dss-tools` alon
 
 ```python
 import py_dss_interface
-from py_dss_tools import dss_tools
+from py_dss_toolkit import dss_tools
 
 dss = py_dss_interface.DSS()
 dss.text("compile path/to/model.dss")
@@ -120,7 +120,7 @@ This approach is best when you want a clear, structured workflow that restricts 
 - More abstraction might make it harder to customize or mix multiple simulations
 
 ```python
-from py_dss_tools import CreateStudy
+from py_dss_toolkit import CreateStudy
 
 study = CreateStudy.snapshot("Snapshot Study", dss_file="path/to/model.dss")
 study.run()
@@ -136,18 +136,18 @@ This project is under active development, and there are many additional features
 
 ## 📚 How to Cite
 
-If you use `py-dss-tools` in your academic work, please reference it as follows:
+If you use `py-dss-toolkit` in your academic work, please reference it as follows:
 
 **APA Style:**
 
-Radatz, P. (2025). *py-dss-tools: Advanced Python Tools for OpenDSS powered by EPRI* (Version X.X.X) [Computer software]. GitHub. https://github.com/PauloRadatz/py_dss_tools
+Radatz, P. (2025). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI* (Version X.X.X) [Computer software]. GitHub. https://github.com/PauloRadatz/py_dss_tools
 
 **BibTeX Entry:**
 
 ```bibtex
 @software{radatz2025pydsstools,
   author = {Paulo Radatz},
-  title = {py-dss-tools: Advanced Python Tools for OpenDSS powered by EPRI},
+  title = {py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI},
   year = {2025},
   version = {X.X.X},
   url = {https://github.com/PauloRadatz/py_dss_tools}
@@ -160,6 +160,6 @@ Radatz, P. (2025). *py-dss-tools: Advanced Python Tools for OpenDSS powered by E
 ## 🙏 Acknowledgements
 Developed and maintained by [Paulo Radatz](https://www.linkedin.com/in/pauloradatz/), with support from the global OpenDSS community.
 
-Special thanks to the OpenDSS community and all contributors and users who have provided feedback and inspiration. The development of `py-dss-tools` builds on the foundation laid by [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface).
+Special thanks to the OpenDSS community and all contributors and users who have provided feedback and inspiration. The development of `py-dss-toolkit` builds on the foundation laid by [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface).
 
 ---

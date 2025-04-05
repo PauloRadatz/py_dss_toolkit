@@ -4,7 +4,7 @@
 
 import os
 import pathlib
-from py_dss_tools import CreateStudy
+from py_dss_toolkit import CreateStudy
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 dss_file = pathlib.Path(script_path).joinpath("..", "feeders", "123Bus", "IEEE123Master.dss")
