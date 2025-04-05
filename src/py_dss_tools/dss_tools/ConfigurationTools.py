@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : ConfigurationTools.py
-# @Software: PyCharm
 
 from py_dss_interface import DSS
 import pathlib

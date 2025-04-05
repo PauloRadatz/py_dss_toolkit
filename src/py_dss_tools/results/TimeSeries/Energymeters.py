@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : Energymeters.py
-# @Software: PyCharm
 
 
-from py_dss_interface import DSS
-import pandas as pd
-from dataclasses import dataclass, field
 from typing import Optional
+
+import pandas as pd
+from py_dss_interface import DSS
 
 
 class Energymeters:

@@ -4,9 +4,11 @@
 
 from dataclasses import dataclass, field
 from typing import Union, Optional
+
 from py_dss_interface import DSS
-from py_dss_tools.utils import Utils
+
 from py_dss_tools.model.ModelBase import ModelBase
+from py_dss_tools.utils import Utils
 
 
 @dataclass(kw_only=True)

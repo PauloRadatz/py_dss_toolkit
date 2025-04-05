@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : Powers.py
-# @Software: PyCharm
 
-from py_dss_interface import DSS
-import pandas as pd
-from dataclasses import dataclass, field
 from typing import Tuple
+
+import pandas as pd
+from py_dss_interface import DSS
 
 
 class Powers:

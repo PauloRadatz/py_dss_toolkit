@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : BusesDataDF.py
-# @Software: PyCharm
 
 from py_dss_interface import DSS
 import pandas as pd
@@ -33,6 +31,6 @@ class BusesDataDF:
                 self._dss.circuit.set_active_bus(bus)
                 property_list.append(getattr(self._dss.bus, bus_property))
 
-            dict_to_df[bus_property.lower()] = property_list
+            dict_to_df[bus_property] = property_list
 
         return pd.DataFrame().from_dict(dict_to_df)

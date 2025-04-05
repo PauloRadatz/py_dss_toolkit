@@ -3,14 +3,16 @@
 # @Email   : paulo.radatz@gmail.com
 
 from dataclasses import dataclass
-from py_dss_tools.studies.StudyBase import StudyBase
+
 from py_dss_tools.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
-from py_dss_tools.view.static_view.SnapShot.StaticViewSnapShotPowerFlowResults import \
-    StaticViewSnapShotPowerFlowResults as StaticView
+from py_dss_tools.studies.SnapShotPowerFlow.StudySnapShotPowerFlowSettings import StudySnapShotPowerFlowSettings
+from py_dss_tools.studies.StudyBase import StudyBase
+from py_dss_tools.view.dss_view.SnapShot.DSSViewSnapShotPowerFlowResults import \
+    DSSViewSnapShotPowerFlowResults as DSSView
 from py_dss_tools.view.interactive_view.SnapShot.InteractiveViewSnapShotPowerFlowResults import \
     InteractiveViewSnapShotPowerFlowResults as InteractiveView
-from py_dss_tools.view.dss_view.SnapShot.DSSViewSnapShotPowerFlowResults import DSSViewSnapShotPowerFlowResults as DSSView
-from py_dss_tools.studies.SnapShotPowerFlow.StudySnapShotPowerFlowSettings import StudySnapShotPowerFlowSettings
+from py_dss_tools.view.static_view.SnapShot.StaticViewSnapShotPowerFlowResults import \
+    StaticViewSnapShotPowerFlowResults as StaticView
 
 VALID_MODES = ["snap", "snapshot"]  # List of supported modes
 
@@ -63,4 +65,3 @@ class StudySnapShotPowerFlow(StudyBase):
     def _validate_settings(self):
         """Ensure the study settings are valid before execution."""
         self.settings.validate_settings()
-

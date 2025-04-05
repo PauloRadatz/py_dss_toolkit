@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : MonitorBase.py
-# @Software: PyCharm
 
-from py_dss_interface import DSS
 import pandas as pd
-from dataclasses import dataclass, field
-from typing import Optional, Dict
+from py_dss_interface import DSS
+
 
 class Monitor:
     def __init__(self, dss: DSS):
         self._dss = dss
 
-    def monitor(self, name: str): # -> Optional[Dict[(str, str), pd.DataFrame]]:
+    def monitor(self, name: str):  # -> Optional[Dict[(str, str), pd.DataFrame]]:
         name = name.lower()
         if name not in [m.lower() for m in self._dss.monitors.names]:
             return None
@@ -38,4 +35,3 @@ class Monitor:
             dict_to_df[header] = self._dss.monitors.channel(index + 1)
 
         return pd.DataFrame().from_dict(dict_to_df)
-

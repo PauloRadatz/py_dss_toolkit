@@ -29,7 +29,8 @@ class Utils:
     @staticmethod
     def check_instance(value: [str, float, int], property_name: str, type_: List[str]):
         if type(value).__name__ not in type_:
-            raise Exception(f"\n\nATENTION HERE: Type Error, check the type of the variable {property_name}. Expected: {type_}, but "
-                            f"found {type(value)}")
+            raise Exception(
+                f"\n\nATENTION HERE: Type Error, check the type of the variable {property_name}. Expected: {type_}, but "
+                f"found {type(value)}")
         else:
             return

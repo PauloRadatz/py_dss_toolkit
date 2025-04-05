@@ -2,11 +2,13 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from dataclasses import dataclass, field
-from typing import List, Tuple, Union
-from py_dss_tools.studies.settings_utils import *
-from py_dss_interface import DSS
 import re
+from dataclasses import dataclass, field
+
+from py_dss_interface import DSS
+
+from py_dss_tools.studies.settings_utils import *
+
 
 @dataclass(kw_only=True)
 class StudySettings:

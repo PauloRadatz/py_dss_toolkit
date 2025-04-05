@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : VoltagesElement.py
-# @Software: PyCharm
 
-from py_dss_interface import DSS
-import pandas as pd
-from dataclasses import dataclass, field
 from typing import Tuple
+
+import pandas as pd
+from py_dss_interface import DSS
 
 
 class VoltagesElement:
@@ -33,7 +31,7 @@ class VoltagesElement:
             num_conductors = self._dss.cktelement.num_conductors
 
             nodes = self.__create_terminal_list(self._dss.cktelement.node_order, num_terminals)
-            vmags= self._dss.cktelement.voltages_mag_ang[: 2 * num_terminals * num_conductors: 2]
+            vmags = self._dss.cktelement.voltages_mag_ang[: 2 * num_terminals * num_conductors: 2]
             vangs = self._dss.cktelement.voltages_mag_ang[1: 2 * num_terminals * num_conductors: 2]
 
             bus1, bus2 = self._dss.cktelement.bus_names[0].split(".")[0].lower(), \
@@ -50,7 +48,6 @@ class VoltagesElement:
 
             for i in range(int(len(vmags) / 2), len(vmags)):
                 vmags[i] = vmags[i] / kv_base2
-
 
             element_nodes[element] = nodes
             element_vmags[element] = vmags

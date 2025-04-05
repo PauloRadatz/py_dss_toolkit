@@ -2,14 +2,10 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from typing import List, Tuple, Union
-from dataclasses import dataclass, field, asdict
-from py_dss_interface import DSS
-from py_dss_tools.studies.StudySettings import StudySettings
-import pandas as pd
-from py_dss_tools.studies.settings_utils import *
-from typing import List, Tuple, Union
 from dataclasses import dataclass, field
+
+from py_dss_tools.studies.StudySettings import StudySettings
+from py_dss_tools.studies.settings_utils import *
 
 
 @dataclass(kw_only=True)

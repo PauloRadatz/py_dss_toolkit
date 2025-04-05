@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
-# @File    : SummaryModelData.py
-# @Software: PyCharm
 
-from py_dss_interface import DSS
 import pandas as pd
+from py_dss_interface import DSS
 
 
 class SummaryModelData:
@@ -49,7 +47,8 @@ class SummaryModelData:
                     line_length += self._dss.lines.length
 
         max_line_norm_amps, min_line_norm_amps = self.__get_max_min_norm_amps(elements_list, "line")
-        max_transformer_norm_amps, min_transformer_norm_amps = self.__get_max_min_norm_amps(elements_list, "transformer")
+        max_transformer_norm_amps, min_transformer_norm_amps = self.__get_max_min_norm_amps(elements_list,
+                                                                                            "transformer")
         max_reactor_norm_amps, min_reactor_norm_amps = self.__get_max_min_norm_amps(elements_list, "reactor")
 
         r_dict["line length"] = line_length
