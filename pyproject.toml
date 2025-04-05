@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py-dss-toolkit"
-version = "0.1.0"
+version = "0.2.0"
 description = "Advanced Python Tools for OpenDSS Powered by EPRI."
-readme = "README.rst"
+readme = "README.md"
 license = {text = "MIT"}
 authors = [
   {name = "Paulo Radatz", email = "paulo.radatz@gmail.com"}
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["OpenDSS", "Python", "Power Systems", "Distribution Systems", "Energy"]
 dependencies = [
 	"py-dss-interface>=2.1.0",
