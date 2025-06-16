@@ -12,6 +12,7 @@ import pandas as pd
 @dataclass(kw_only=True)
 class PhasesSettings:
     color_map: dict = field(init=True, repr=True, default_factory=lambda: {
+        '4': ["4-phases", "purple"],
         '3': ["3-phases", "blue"],
         '2': ["2-phases", "red"],
         '1': ["1-phase", "green"]
