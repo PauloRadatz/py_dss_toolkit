@@ -11,10 +11,24 @@ from py_dss_toolkit.results.SnapShot.VoltagesElement import VoltagesElement
 from py_dss_toolkit.results.SnapShot.VoltagesNodal import VoltagesNodal
 from py_dss_toolkit.results.TimeSeries.Energymeters import Energymeters
 from py_dss_toolkit.results.TimeSeries.Monitor import Monitor
+from py_dss_toolkit.results.SnapShot.VoltagesNodalViolations import VoltagesNodalViolations
+from py_dss_toolkit.results.SnapShot.CurrentsViolations import CurrentsViolations
+from py_dss_toolkit.results.SnapShot.CurrentsLoading import CurrentsLoading
+from py_dss_toolkit.results.SnapShot.currents_utils import set_violation_current_limit_type as _set_violation_current_limit_type, get_violation_current_limit_type as _get_violation_current_limit_type
 
 
-class TimeSeriesPowerFlowResults(Energymeters, Monitor, VoltagesNodal, VoltagesElement, Currents, Powers,
-                                 CircuitSnapShotPowerFlowResults):
+
+class TimeSeriesPowerFlowResults(Energymeters,
+                                 Monitor,
+                                 VoltagesNodal,
+                                 VoltagesElement,
+                                 Currents,
+                                 Powers,
+                                 CircuitSnapShotPowerFlowResults,
+                                 VoltagesNodalViolations,
+                                 CurrentsViolations,
+                                 CurrentsLoading
+                                 ):
 
     def __init__(self, dss: DSS):
         self._dss = dss
@@ -25,3 +39,13 @@ class TimeSeriesPowerFlowResults(Energymeters, Monitor, VoltagesNodal, VoltagesE
         Currents.__init__(self, self._dss)
         Powers.__init__(self, self._dss)
         CircuitSnapShotPowerFlowResults.__init__(self, self._dss)
+
+        VoltagesNodalViolations.__init__(self, self._dss)
+        CurrentsViolations.__init__(self, self._dss)
+        CurrentsLoading.__init__(self, self._dss)
+
+    def set_violation_current_limit_type(self, limit_type: str = "norm_amps"):
+        _set_violation_current_limit_type(limit_type)
+
+    def get_violation_current_limit_type(self):
+        return _get_violation_current_limit_type()
