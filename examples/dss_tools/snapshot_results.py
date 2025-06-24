@@ -51,3 +51,13 @@ mag_current_df.head()
 angle_current_df = dss_tools.results.currents_elements[1]
 angle_current_df.head()
 
+# You can check for voltage violations
+violations_mag_voltage_ln_nodes_df = dss_tools.results.violation_voltage_ln_nodes
+violations_mag_voltage_ln_nodes_df.head()
+
+dss_tools.results.set_violation_voltage_ln_limits(v_min_pu=0.98, v_max_pu=1.04)
+violations_mag_voltage_ln_nodes_df = dss_tools.results.violation_voltage_ln_nodes
+violations_mag_voltage_ln_nodes_df.head()
+
+
+
