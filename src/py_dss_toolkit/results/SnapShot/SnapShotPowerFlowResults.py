@@ -9,13 +9,15 @@ from py_dss_toolkit.results.SnapShot.Currents import Currents
 from py_dss_toolkit.results.SnapShot.Powers import Powers
 from py_dss_toolkit.results.SnapShot.VoltagesElement import VoltagesElement
 from py_dss_toolkit.results.SnapShot.VoltagesNodal import VoltagesNodal
+from py_dss_toolkit.results.SnapShot.VoltagesNodalViolations import VoltagesNodalViolations
 
 
-class SnapShotPowerFlowResults(VoltagesNodal, VoltagesElement, Currents, Powers, CircuitSnapShotPowerFlowResults):
+class SnapShotPowerFlowResults(VoltagesNodal, VoltagesElement, Currents, Powers, CircuitSnapShotPowerFlowResults, VoltagesNodalViolations):
     def __init__(self, dss: DSS):
         self._dss = dss
         VoltagesNodal.__init__(self, self._dss)
         VoltagesElement.__init__(self, self._dss)
         Currents.__init__(self, self._dss)
         Powers.__init__(self, self._dss)
+        VoltagesNodalViolations.__init__(self, self._dss)
         CircuitSnapShotPowerFlowResults.__init__(self, self._dss)
