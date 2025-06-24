@@ -1,0 +1,3 @@
+
+New "Load.MT_72775_M1" bus1="727751.1.2.3.4" phases=3 conn=Delta model=2 kv=23.100000000 kw = 0.5068615 pf=0.92 status=variable vmaxpu=1.5 vminpu=0.5 daily="MT2_DO"  
+New "Load.MT_72775_M2" bus1="727751.1.2.3.4" phases=3 conn=Delta model=3 kv=23.100000000 kw = 0.5068615 pf=0.92 status=variable vmaxpu=1.5 vminpu=0.5 daily="MT2_DO" 

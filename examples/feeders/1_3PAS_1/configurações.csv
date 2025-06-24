@@ -1,0 +1,3 @@
+Configuração,Descrição
+intAdequarModeloCarga = 1,Adequa modelo das cargas(model=2/model=3)
+dblVPUMin,Tensão mínima(pu)=0.5

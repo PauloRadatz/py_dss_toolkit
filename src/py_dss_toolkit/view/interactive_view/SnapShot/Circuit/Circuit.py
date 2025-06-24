@@ -104,17 +104,27 @@ class Circuit:
                          "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>")
         if parameter == "active power":
             settings = self._active_power_settings
-            results = self._results.powers_elements[0].iloc[:, :3].sum(axis=1)
+            if "Terminal1.1" not in self._results.powers_elements[0].columns or "Terminal1.2" not in self._results.powers_elements[0].columns or "Terminal1.3" not in self._results.powers_elements[0].columns:
+                raise ValueError("A non 3-phase circuit can't be ploted")
+            results = self._results.powers_elements[0].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
             hovertemplate = hovertemplate + "<b>Total P: </b>%{customdata[3]:.2f} kW<br>"
         elif parameter == "voltage":
             settings = self._voltage_settings
             bus = settings.bus
+            if bus == "bus1":
+                p = 1
+            else:
+                p = 2
+
+            if "Terminal1.1" not in self._results.voltages_elements[0].columns or "Terminal1.2" not in self._results.voltages_elements[0].columns or "Terminal1.3" not in self._results.voltages_elements[0].columns:
+                raise ValueError("A non 3-phase circuit can't be ploted")
+            v = self._results.voltages_elements[0].loc[:, [f"Terminal{p}.1", f"Terminal{p}.2", f"Terminal{p}.3"]]
             if settings.nodes_voltage_value == "mean":
-                results = self._results.voltages_elements[0].iloc[:, :3].mean(axis=1)
+                results = v.mean(axis=1)
             elif settings.nodes_voltage_value == "min":
-                results = self._results.voltages_elements[0].iloc[:, :3].min(axis=1)
+                results = v.min(axis=1)
             elif settings.nodes_voltage_value == "max":
-                results = self._results.voltages_elements[0].iloc[:, :3].max(axis=1)
+                results = v.max(axis=1)
             hovertemplate = (hovertemplate +
                              f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>" +
                              "%{customdata[3]:.4f} pu<br>")
