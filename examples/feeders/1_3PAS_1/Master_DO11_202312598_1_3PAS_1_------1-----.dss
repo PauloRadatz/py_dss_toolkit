@@ -1,0 +1,23 @@
+clear
+Redirect "CircuitoMT_202312598_1_3PAS_1_------1-----.dss"
+Redirect "CodCondutor_202312598_1_3PAS_1_------1-----.dss"
+Redirect "TransformadorMTMTMTBT_202312598_1_3PAS_1_------1-----.dss"
+Redirect "SegmentosMT_202312598_1_3PAS_1_------1-----.dss"
+Redirect "ChavesMT_202312598_1_3PAS_1_------1-----.dss"
+Redirect "SegmentosBT_202312598_1_3PAS_1_------1-----.dss"
+Redirect "RamaisBT_202312598_1_3PAS_1_------1-----.dss"
+Redirect "Medidores_202312598_1_3PAS_1_------1-----.dss"
+Redirect "CurvaCarga_202312598_1_3PAS_1_------1-----.dss"
+Redirect "CargasBT_DO11_202312598_1_3PAS_1_------1-----.dss"
+Redirect "CargasMT_DO11_202312598_1_3PAS_1_------1-----.dss"
+!Redirect "GD_BT_202312598_1_3PAS_1_------1-----.dss"
+!Redirect "GD_MT_202312598_1_3PAS_1_------1-----.dss"
+Set mode = daily
+Set Voltagebases = [0.22 0.38 0.44 23.1]
+Calc Voltagebases
+Set tolerance = 0.0001
+Set maxcontroliter = 10
+!Set algorithm = newton
+!Solve mode = direct
+Solve
+buscoords buscoords.csv
