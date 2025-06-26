@@ -33,6 +33,6 @@ def create_nodal_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFram
     for bus, nodes in bus_nodes.items():
         for node in nodes:
             column_name = f'node{node}'
-            vangs_df.loc[bus, column_name] = bus_vangs[bus][0]
+            vangs_df.loc[bus, column_name] = bus_vangs[bus][order]
 
-    return vmags_df, vangs_df 
+    return vmags_df, vangs_df
