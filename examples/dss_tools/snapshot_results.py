@@ -62,20 +62,27 @@ current_loading_df.head()
 
 # You can check for voltage violations
 violations_mag_voltage_ln_nodes_df = dss_tools.results.violation_voltage_ln_nodes
-violations_mag_voltage_ln_nodes_df.head()
+# Undervoltage
+violations_mag_voltage_ln_nodes_df[0].head()
+# Overvoltage
+violations_mag_voltage_ln_nodes_df[1].head()
 
 dss_tools.results.set_violation_voltage_ln_limits(v_min_pu=0.98, v_max_pu=1.04)
 violations_mag_voltage_ln_nodes_df = dss_tools.results.violation_voltage_ln_nodes
-violations_mag_voltage_ln_nodes_df.head()
+# Undervoltage
+violations_mag_voltage_ln_nodes_df[0].head()
+# Overvoltage
+violations_mag_voltage_ln_nodes_df[1].head()
 
 # You can check for thermal violations
 dss_tools.results.get_violation_current_limit_type()
 # Back to normal amps
 dss_tools.results.set_violation_current_limit_type("norm_amps")
-violations_mag_current_df = dss_tools.results.violations_currents_elements
+violations_mag_current_df = dss_tools.results.violation_currents_elements
 violations_mag_current_df.head()
 
 # You can check for thermal violations using the emergency amps
 dss_tools.results.set_violation_current_limit_type("emerg_amps")
-violations_mag_current_df = dss_tools.results.violations_currents_elements
+violations_mag_current_df = dss_tools.results.violation_currents_elements
 violations_mag_current_df.head()
+

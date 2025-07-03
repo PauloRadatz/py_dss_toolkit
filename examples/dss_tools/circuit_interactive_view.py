@@ -57,3 +57,7 @@ dss_tools.interactive_view.user_categorical_defined_settings.color_map = {'3': [
         '2': ["2-phases", "red"],
         '1': ["1-phase", "green"]}
 dss_tools.interactive_view.circuit_plot(parameter="user categorical defined", title="My Phases")
+
+dss_tools.results.set_violation_voltage_ln_limits(v_min_pu=0.98, v_max_pu=1.04)
+dss_tools.interactive_view.circuit_plot(parameter="voltage violations", title="Voltage Violations")
+dss_tools.interactive_view.circuit_plot(parameter="thermal violations", title="Thermal Violations")

@@ -11,7 +11,7 @@ class CurrentsViolations:
         self.threshold_percent = threshold_percent
 
     @property
-    def violations_currents_elements(self) -> pd.DataFrame:
+    def violation_currents_elements(self) -> pd.DataFrame:
         loading = CurrentsLoading(self._dss)
         loading_df = loading.current_loading_percent
 
