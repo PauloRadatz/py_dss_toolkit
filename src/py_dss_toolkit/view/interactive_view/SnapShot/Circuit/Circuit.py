@@ -18,6 +18,8 @@ from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.VoltageSettings impor
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedNumericalSettings import UserDefinedNumericalSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedCategoricalSettings import UserDefinedCategoricalSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.PhasesSettings import PhasesSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ThermalViolationSettings import ThermalViolationSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.VoltageViolationSettings import VoltageViolationSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBusMarker import CircuitBusMarker
 
 
@@ -33,6 +35,8 @@ class Circuit:
         self._user_numerical_defined_settings = UserDefinedNumericalSettings()
         self._user_categorical_defined_settings = UserDefinedCategoricalSettings()
         self._phases_settings = PhasesSettings()
+        self._thermal_violation_settings = ThermalViolationSettings()
+        self._voltage_violation_settings = VoltageViolationSettings()
 
     def circuit_get_bus_marker(self, name: str, symbol: str = "square",
                                size: float = 10,
@@ -70,6 +74,121 @@ class Circuit:
     def user_categorical_defined_settings(self):
         return self._user_categorical_defined_settings
 
+    def _get_plot_settings(self, parameter):
+        """
+        Helper to get settings, results, hovertemplate, and numerical_plot for a given parameter.
+
+        Supported parameters:
+            - 'active power': Plots total active power (kW) per line.
+            - 'reactive power': Plots total reactive power (kvar) per line.
+            - 'voltage': Plots voltage statistics (mean/min/max) per line terminal.
+            - 'user numerical defined': Plots user-defined numerical results.
+            - 'phases': Plots the number of phases per line.
+            - 'user categorical defined': Plots user-defined categorical results.
+            - 'voltage violations': Highlights lines connected to buses with voltage violations.
+            - 'thermal violations': Highlights lines with thermal (current) violations.
+
+        Returns:
+            settings: The settings object for the parameter.
+            results: The results Series/DataFrame for plotting.
+            hovertemplate: The hovertemplate string for Plotly.
+            numerical_plot: Boolean, True if the plot is numerical/continuous, False if categorical/binary.
+        """
+        numerical_plot = True
+        line_df = self._model.lines_df
+        line_df['name'] = 'line.' + line_df['name']
+        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
+                         "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>")
+        if parameter == "active power":
+            settings = self._active_power_settings
+            columns = self._results.powers_elements[0].columns
+            if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
+                raise ValueError("A non 3-phase circuit can't be plotted")
+            results = self._results.powers_elements[0].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
+            hovertemplate = hovertemplate + "<b>Total P: </b>%{customdata[3]:.2f} kW<br>"
+
+        elif parameter == "reactive power":
+            settings = self._active_power_settings
+            columns = self._results.powers_elements[1].columns
+            if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
+                raise ValueError("A non 3-phase circuit can't be plotted")
+            results = self._results.powers_elements[0].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
+            hovertemplate = hovertemplate + "<b>Total Q: </b>%{customdata[3]:.2f} kvar<br>"
+
+
+        elif parameter == "voltage":
+            settings = self._voltage_settings
+            bus = settings.bus
+            columns = self._results.voltages_elements[0].columns
+            if bus == "bus1":
+                p = 1
+            else:
+                p = 2
+            if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
+                raise ValueError("A non 3-phase circuit can't be plotted")
+            v = self._results.voltages_elements[0].loc[:, [f"Terminal{p}.1", f"Terminal{p}.2", f"Terminal{p}.3"]]
+            if settings.nodes_voltage_value == "mean":
+                results = v.mean(axis=1)
+            elif settings.nodes_voltage_value == "min":
+                results = v.min(axis=1)
+            elif settings.nodes_voltage_value == "max":
+                results = v.max(axis=1)
+            hovertemplate = (hovertemplate +
+                             f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>" +
+                             "%{customdata[3]:.4f} pu<br>")
+        elif parameter == "user numerical defined":
+            settings = self._user_numerical_defined_settings
+            parameter = settings.parameter
+            unit = settings.unit
+            num_decimal_points = settings.num_decimal_points
+            if settings.results is None:
+                raise Exception("No results found")
+            else:
+                results = settings.results
+                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + " %{customdata[3]:" + f".{num_decimal_points}" + "f}" + f" {unit}<br>"
+        elif parameter == "phases":
+            numerical_plot = False
+            settings = self._phases_settings
+            results = line_df.set_index("name")["phases"]
+            hovertemplate = hovertemplate + "<b>Phases: </b>%{customdata[3]}<br>"
+
+        elif parameter == "voltage violations":
+            numerical_plot = False
+            settings = self._voltage_violation_settings
+            under_v_bus_violations = self._results.violation_voltage_ln_nodes[0].index
+            over_v_bus_violations = self._results.violation_voltage_ln_nodes[1].index
+            results = line_df.set_index("name")
+            results["bus"] = results['bus1'].str.split('.', n=1).str[0]
+            results["violation"] = "0"
+            results.loc[results['bus'].isin(under_v_bus_violations), 'violation'] = "1"
+            results.loc[results['bus'].isin(over_v_bus_violations), 'violation'] = "2"
+            results = results["violation"]
+            hovertemplate = hovertemplate
+
+        elif parameter == "thermal violations":
+            numerical_plot = False
+            settings = self._thermal_violation_settings
+            line_violations = self._results.violation_currents_elements.index
+            results = line_df.set_index("name")
+            results["violation"] = "0"
+            results.loc[results.index.isin(line_violations), 'violation'] = "1"
+            results = results["violation"]
+            hovertemplate = hovertemplate
+
+
+        elif parameter == "user categorical defined":
+            numerical_plot = False
+            settings = self._user_categorical_defined_settings
+            parameter = settings.parameter
+            if settings.results is None:
+                raise Exception("No results found")
+            else:
+                results = settings.results
+                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + " %{customdata[3]}"
+        else:
+            raise ValueError(f"Unknown parameter: {parameter}")
+        return settings, results, hovertemplate, numerical_plot
+
     def circuit_plot(self,
                      parameter="active power",
                      title: Optional[str] = "Circuit Plot",
@@ -94,67 +213,11 @@ class Circuit:
         else:
             mode = 'lines'
 
-        numerical_plot = True
-
+        settings, results, hovertemplate, numerical_plot = self._get_plot_settings(parameter)
         line_df = self._model.lines_df
         line_df['name'] = 'line.' + line_df['name']
         num_phases = line_df.set_index("name")["phases"]
         line_type = line_df.set_index("name")["linetype"]
-
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                         "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>")
-        if parameter == "active power":
-            settings = self._active_power_settings
-            if "Terminal1.1" not in self._results.powers_elements[0].columns or "Terminal1.2" not in self._results.powers_elements[0].columns or "Terminal1.3" not in self._results.powers_elements[0].columns:
-                raise ValueError("A non 3-phase circuit can't be ploted")
-            results = self._results.powers_elements[0].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
-            hovertemplate = hovertemplate + "<b>Total P: </b>%{customdata[3]:.2f} kW<br>"
-        elif parameter == "voltage":
-            settings = self._voltage_settings
-            bus = settings.bus
-            if bus == "bus1":
-                p = 1
-            else:
-                p = 2
-
-            if "Terminal1.1" not in self._results.voltages_elements[0].columns or "Terminal1.2" not in self._results.voltages_elements[0].columns or "Terminal1.3" not in self._results.voltages_elements[0].columns:
-                raise ValueError("A non 3-phase circuit can't be ploted")
-            v = self._results.voltages_elements[0].loc[:, [f"Terminal{p}.1", f"Terminal{p}.2", f"Terminal{p}.3"]]
-            if settings.nodes_voltage_value == "mean":
-                results = v.mean(axis=1)
-            elif settings.nodes_voltage_value == "min":
-                results = v.min(axis=1)
-            elif settings.nodes_voltage_value == "max":
-                results = v.max(axis=1)
-            hovertemplate = (hovertemplate +
-                             f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>" +
-                             "%{customdata[3]:.4f} pu<br>")
-        elif parameter == "user numerical defined":
-            settings = self._user_numerical_defined_settings
-            parameter = settings.parameter
-            unit = settings.unit
-            num_decimal_points = settings.num_decimal_points
-            if settings.results is None:
-                raise Exception("No results found")
-            else:
-                results = settings.results
-                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + " %{customdata[3]:" + f".{num_decimal_points}" + "f}" + f" {unit}<br>"
-        elif parameter == "phases":
-            numerical_plot = False
-            settings = self._phases_settings
-            results = num_phases
-            hovertemplate = hovertemplate + "<b>Phases: </b>%{customdata[3]}<br>"
-        elif parameter == "user categorical defined":
-            numerical_plot = False
-            settings = self._user_categorical_defined_settings
-            parameter = settings.parameter
-
-            if settings.results is None:
-                raise Exception("No results found")
-            else:
-                results = settings.results
-                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + " %{customdata[3]}"
-
 
         buses = list()
         bus_coords = list()
@@ -381,7 +444,7 @@ class Circuit:
             fig.show()
 
         return fig
-    
+
     def circuit_geoplot(self,
                      parameter="active power",
                      title: Optional[str] = "Circuit Plot",
@@ -400,67 +463,11 @@ class Circuit:
         else:
             mode = 'lines'
 
-        numerical_plot = True
-
+        settings, results, hovertemplate, numerical_plot = self._get_plot_settings(parameter)
         line_df = self._model.lines_df
         line_df['name'] = 'line.' + line_df['name']
         num_phases = line_df.set_index("name")["phases"]
         line_type = line_df.set_index("name")["linetype"]
-
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                         "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>")
-        if parameter == "active power":
-            settings = self._active_power_settings
-            if "Terminal1.1" not in self._results.powers_elements[0].columns or "Terminal1.2" not in self._results.powers_elements[0].columns or "Terminal1.3" not in self._results.powers_elements[0].columns:
-                raise ValueError("A non 3-phase circuit can't be ploted")
-            results = self._results.powers_elements[0].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
-            hovertemplate = hovertemplate + "<b>Total P: </b>%{customdata[3]:.2f} kW<br>"
-        elif parameter == "voltage":
-            settings = self._voltage_settings
-            bus = settings.bus
-            if bus == "bus1":
-                p = 1
-            else:
-                p = 2
-
-            if "Terminal1.1" not in self._results.voltages_elements[0].columns or "Terminal1.2" not in self._results.voltages_elements[0].columns or "Terminal1.3" not in self._results.voltages_elements[0].columns:
-                raise ValueError("A non 3-phase circuit can't be ploted")
-            v = self._results.voltages_elements[0].loc[:, [f"Terminal{p}.1", f"Terminal{p}.2", f"Terminal{p}.3"]]
-            if settings.nodes_voltage_value == "mean":
-                results = v.mean(axis=1)
-            elif settings.nodes_voltage_value == "min":
-                results = v.min(axis=1)
-            elif settings.nodes_voltage_value == "max":
-                results = v.max(axis=1)
-            hovertemplate = (hovertemplate +
-                             f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>" +
-                             "%{customdata[3]:.4f} pu<br>")
-        elif parameter == "user numerical defined":
-            settings = self._user_numerical_defined_settings
-            parameter = settings.parameter
-            unit = settings.unit
-            num_decimal_points = settings.num_decimal_points
-            if settings.results is None:
-                raise Exception("No results found")
-            else:
-                results = settings.results
-                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + " %{customdata[3]:" + f".{num_decimal_points}" + "f}" + f" {unit}<br>"
-        elif parameter == "phases":
-            numerical_plot = False
-            settings = self._phases_settings
-            results = num_phases
-            hovertemplate = hovertemplate + "<b>Phases: </b>%{customdata[3]}<br>"
-        elif parameter == "user categorical defined":
-            numerical_plot = False
-            settings = self._user_categorical_defined_settings
-            parameter = settings.parameter
-
-            if settings.results is None:
-                raise Exception("No results found")
-            else:
-                results = settings.results
-                hovertemplate = hovertemplate + f"<b>{parameter}:</b>" + " %{customdata[3]}"
-
 
         buses = list()
         bus_coords = list()
@@ -524,34 +531,34 @@ class Circuit:
                     continue
                 color = sample_colorscale(settings.colorscale, value)[0]
                 width = self._get_phase_width(element, num_phases, width_1ph, width_2ph, width_3ph)
-                temp = pd.DataFrame({'element':[element, element, None], 
-                                     'x':[x0, x1, np.nan], 
+                temp = pd.DataFrame({'element':[element, element, None],
+                                     'x':[x0, x1, np.nan],
                                      'y':[y0, y1, np.nan],
-                                     'color':[color, color, color], 
-                                     'bus1':[bus1, bus1, np.nan], 
-                                     'bus2':[bus2, bus2, np.nan], 
-                                     'value':[results.loc[element], results.loc[element], np.nan], 
-                                     'width':[width, width, width], 
+                                     'color':[color, color, color],
+                                     'bus1':[bus1, bus1, np.nan],
+                                     'bus2':[bus2, bus2, np.nan],
+                                     'value':[results.loc[element], results.loc[element], np.nan],
+                                     'width':[width, width, width],
                                      })
                 geo_df = pd.concat([geo_df, temp], axis=0, ignore_index=True)
-            
+
             for (color, width), group in geo_df.groupby(['color', 'width']):
                 fig.add_trace(go.Scattermap(
-                    lat=group['y'], 
-                    lon=group['x'], 
-                    mode=mode, 
+                    lat=group['y'],
+                    lon=group['x'],
+                    mode=mode,
                     line=dict(
-                        color = color, 
+                        color = color,
                         width = width,
-                    ), 
+                    ),
                     name='',
-                    hoverinfo='skip', 
+                    hoverinfo='skip',
                     showlegend=False
                     ))
-                
+
                 group_mid = group[['element', 'x', 'y']].groupby('element').mean().reset_index()
                 group_mid = pd.merge(group_mid, group[['element', 'bus1', 'bus2', 'value']], on='element')
-                
+
                 fig.add_trace(go.Scattermap(
                     lat=group_mid['y'],
                     lon=group_mid['x'],
@@ -596,20 +603,20 @@ class Circuit:
                             len=0.75,
                             ticks="outside",
                             tickvals=custom_tickvals,
-                            ticktext=custom_ticktext, 
-                            x=0.9,  
+                            ticktext=custom_ticktext,
+                            x=0.9,
                             xanchor='left',
                             yanchor='middle',
-                            bgcolor='rgba(0,0,0,0)',  
+                            bgcolor='rgba(0,0,0,0)',
                             borderwidth=0
                         ),
                         showscale=True
                     ),
-                    hoverinfo='none', 
+                    hoverinfo='none',
                     showlegend = False,
                 ))
                 fig.update_layout(
-                    showlegend=False)                    
+                    showlegend=False)
 
         else:
             legend_added = set()
@@ -623,17 +630,17 @@ class Circuit:
                 if x1 == 0 and y1 == 0:
                     continue
                 color = settings.color_map[results.loc[element]][1]
-                category = settings.color_map[results.loc[element]][0]           
+                category = settings.color_map[results.loc[element]][0]
                 width = self._get_phase_width(element, num_phases, width_1ph, width_2ph, width_3ph)
-                temp = pd.DataFrame({'element':[element, element, None], 
-                                     'x':[x0, x1, np.nan], 
+                temp = pd.DataFrame({'element':[element, element, None],
+                                     'x':[x0, x1, np.nan],
                                      'y':[y0, y1, np.nan],
-                                     'color':[color, color, color], 
+                                     'color':[color, color, color],
                                      'category':[category,category,category],
-                                     'bus1':[bus1, bus1, np.nan], 
-                                     'bus2':[bus2, bus2, np.nan], 
-                                     'value':[results.loc[element], results.loc[element], np.nan], 
-                                     'width':[width, width, width], 
+                                     'bus1':[bus1, bus1, np.nan],
+                                     'bus2':[bus2, bus2, np.nan],
+                                     'value':[results.loc[element], results.loc[element], np.nan],
+                                     'width':[width, width, width],
                                      })
                 geo_df = pd.concat([geo_df, temp], axis=0, ignore_index=True)
 
@@ -644,21 +651,21 @@ class Circuit:
 
             for (color, width, category), group in geo_df.groupby(['color', 'width', 'category']):
                 fig.add_trace(go.Scattermap(
-                    lat=group['y'], 
-                    lon=group['x'], 
-                    mode=mode, 
+                    lat=group['y'],
+                    lon=group['x'],
+                    mode=mode,
                     line=dict(
-                        color = color, 
+                        color = color,
                         width = width,
-                    ), 
+                    ),
                     name=category,
-                    hoverinfo='skip', 
+                    hoverinfo='skip',
                     showlegend=show_legend
                     ))
-                
+
                 group_mid = group[['element', 'x', 'y']].groupby('element').mean().reset_index()
                 group_mid = pd.merge(group_mid, group[['element', 'bus1', 'bus2', 'value']], on='element')
-                
+
                 fig.add_trace(go.Scattermap(
                     lat=group_mid['y'],
                     lon=group_mid['x'],
@@ -673,7 +680,7 @@ class Circuit:
 
                 fig.update_layout(
                     showlegend=True,
-                    legend=dict(title=settings.legendgrouptitle_text, 
+                    legend=dict(title=settings.legendgrouptitle_text,
                         x=0.85,
                         y=0.9,
                         traceorder="normal"
@@ -699,21 +706,21 @@ class Circuit:
                         hoverinfo='text',
                         customdata=[[marker.name]],
                         hovertemplate=("<b>Bus: </b>%{customdata[0]}<br>"),
-                    ))                    
+                    ))
 
-        fig.update_layout(title=title, 
+        fig.update_layout(title=title,
                           margin={'r': 0, 't': 32 if title else 0, 'l': 0, 'b': 0},
-                          map_style=map_style, 
-                          autosize=True, 
+                          map_style=map_style,
+                          autosize=True,
                           hovermode='closest',
                           map = dict(
                               bearing=0,
                               center = dict(
                                   lat=np.mean([lat for _, lat in bus_coords if lat != 0]),
-                                  lon=np.mean([lon for lon, _ in bus_coords if lon != 0])           
-                                  ), 
+                                  lon=np.mean([lon for lon, _ in bus_coords if lon != 0])
+                                  ),
                                   zoom = 10),
-                                  )            
+                                  )
 
         if save_file_path:
             fig.write_html(save_file_path)
