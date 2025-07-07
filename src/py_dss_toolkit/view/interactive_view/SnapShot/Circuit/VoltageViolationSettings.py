@@ -13,5 +13,6 @@ class VoltageViolationSettings:
         '0': ["Normal", "blue"],
         '1': ["Under Voltage", "purple"],
         '2': ["Over Voltage", "red"],
+        '3': ["Under and Over Voltages", "orange"],
     })
     legendgrouptitle_text: str = field(init=True, repr=True, default_factory=lambda: "Voltage Violations")
