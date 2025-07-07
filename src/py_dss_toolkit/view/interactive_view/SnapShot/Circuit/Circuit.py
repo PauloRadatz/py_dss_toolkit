@@ -157,11 +157,13 @@ class Circuit:
             settings = self._voltage_violation_settings
             under_v_bus_violations = self._results.violation_voltage_ln_nodes[0].index
             over_v_bus_violations = self._results.violation_voltage_ln_nodes[1].index
+            both_v_bus_violations = under_v_bus_violations.intersection(over_v_bus_violations)
             results = line_df.set_index("name")
             results["bus"] = results['bus1'].str.split('.', n=1).str[0]
             results["violation"] = "0"
             results.loc[results['bus'].isin(under_v_bus_violations), 'violation'] = "1"
             results.loc[results['bus'].isin(over_v_bus_violations), 'violation'] = "2"
+            results.loc[results['bus'].isin(both_v_bus_violations), 'violation'] = "3"
             results = results["violation"]
             hovertemplate = hovertemplate
 
