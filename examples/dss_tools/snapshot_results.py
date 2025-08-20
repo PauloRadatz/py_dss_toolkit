@@ -39,6 +39,12 @@ mag_voltage_ln_nodes_df.head()
 angle_voltage_ln_nodes_df = dss_tools.results.voltage_ln_nodes[1]
 angle_voltage_ln_nodes_df.head()
 
+# You can get the voltage line-line nodes similar to when you use 'Show Voltage LL Nodes'
+mag_voltage_ll_nodes_df = dss_tools.results.voltage_ll_nodes[0]
+mag_voltage_ll_nodes_df.head()
+angle_voltage_ll_nodes_df = dss_tools.results.voltage_ll_nodes[1]
+angle_voltage_ll_nodes_df.head()
+
 # You can get the active and reactive powers for each element
 p_elements_df = dss_tools.results.powers_elements[0]
 p_elements_df.head()
