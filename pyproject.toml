@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py-dss-toolkit"
-version = "0.3.0"
+version = "0.4.0"
 description = "Advanced Python Tools for OpenDSS Powered by EPRI."
 readme = "README.md"
 license = {text = "MIT"}
