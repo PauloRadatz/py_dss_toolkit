@@ -207,7 +207,7 @@ class Circuit:
                      mark_buses: bool = True,
                      bus_markers: Optional[List[CircuitBusMarker]] = None,
                      show_colorbar: bool = True,
-                     show: bool = True,
+                     show: bool = False,
                      save_file_path: Optional[str] = None) -> Optional[go.Figure]:
 
         if mark_buses:
@@ -456,7 +456,7 @@ class Circuit:
                      mark_buses: bool = True,
                      bus_markers: Optional[List[CircuitBusMarker]] = None,
                      show_colorbar: bool = True,
-                     show: bool = True,
+                     show: bool = False,
                      map_style: Optional[str] = 'open-street-map', #https://plotly.com/python/tile-map-layers/
                      save_file_path: Optional[str] = None) -> Optional[go.Figure]:
 
