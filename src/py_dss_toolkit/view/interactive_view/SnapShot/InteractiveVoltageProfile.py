@@ -49,7 +49,7 @@ class InteractiveVoltageProfile(VoltageProfileBase):
                         xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                         ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                         buses_marker: Optional[List[InteractiveVoltageProfileBusMarker]] = None,
-                        show: Optional[bool] = True,
+                        show: Optional[bool] = False,
                         save_file_path: Optional[str] = None) -> Optional[go.Figure]:
         self._check_energymeter()
 
