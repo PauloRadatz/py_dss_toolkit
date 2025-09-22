@@ -2,7 +2,7 @@
 # @Author  : Ana Camila Mamede
 # @Email   : anacamilamamede@gmail.com
 # @File    : circuit_interactive_view_geomap.py
-# @Software: VS Code  
+# @Software: VS Code
 
 
 # Import necessary libraries
@@ -28,27 +28,26 @@ dss.text(f"compile [{dss_file}]")
 dss.text(f"solve")
 
 # Plot active power using default parameters
-fig = dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=False)
-fig.show()
+dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=True)
 
 # Customize plot: Active power with title and custom line widths
-fig = dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=False, 
-                                        title="<b>Active Power [KW]", 
+fig = dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=False,
+                                        title="<b>Active Power [KW]",
                                         width_2ph=2, width_1ph=1)
 fig.show()
 
 # Mark a specific bus in the circuit plot
-bus_list = [dss_tools.interactive_view.circuit_get_bus_marker(name=dss.circuit.buses_names[0], marker_name="My Bus", 
+bus_list = [dss_tools.interactive_view.circuit_get_bus_marker(name=dss.circuit.buses_names[0], marker_name="My Bus",
                                                               color="red", size=20, symbol = 'circle')]
-fig = dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=False, 
-                                                 title="<b>Active Power [KW] with Marked Bus", 
+fig = dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=False,
+                                                 title="<b>Active Power [KW] with Marked Bus",
                                                  bus_markers=bus_list)
 fig.show()
 
 # Change base map and highlight specific buses
-fig = dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=False, 
-                                                title="<b>Active Power [KW] with Marked Bus", 
-                                                bus_markers=bus_list, 
+fig = dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=False,
+                                                title="<b>Active Power [KW] with Marked Bus",
+                                                bus_markers=bus_list,
                                                 map_style="satellite")
 fig.show()
 
