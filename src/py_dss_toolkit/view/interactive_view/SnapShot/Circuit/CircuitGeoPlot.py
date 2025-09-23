@@ -14,7 +14,15 @@ from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBusMarker impo
 
 
 class CircuitGeoPlot(CircuitBase):
-    """Class for creating geographic circuit plots."""
+    """
+    Class for creating geographic circuit plots.
+    
+    Note:
+        This class uses Plotly's Scattermap traces which only support WGS84 (EPSG:4326) 
+        coordinate reference system. If your data is in a different CRS, you need to 
+        transform your coordinates to WGS84 before using this plotting functionality.
+        You can use libraries like pyproj or geopandas for coordinate transformation.
+    """
 
     def circuit_geoplot(self,
                         parameter="active power",
@@ -28,6 +36,38 @@ class CircuitGeoPlot(CircuitBase):
                         show: bool = False,
                         map_style: Optional[str] = 'open-street-map',
                         save_file_path: Optional[str] = None) -> Optional[go.Figure]:
+        """
+        Create an interactive geographic plot of the circuit.
+        
+        This method creates a geographic plot using Plotly's map functionality, displaying
+        circuit elements overlaid on a map background.
+        
+        Important:
+            This method requires coordinates to be in WGS84 (EPSG:4326) format (latitude/longitude).
+            If your bus coordinates are in a different coordinate reference system (CRS), you must
+            transform them to WGS84 before using this method. Use libraries like pyproj or geopandas
+            for coordinate transformation.
+        
+        Args:
+            parameter (str): The parameter to plot. Defaults to "active power".
+            title (Optional[str]): Title for the plot. Defaults to "Circuit Plot".
+            width_3ph (int): Line width for 3-phase elements. Defaults to 3.
+            width_2ph (int): Line width for 2-phase elements. Defaults to 3.
+            width_1ph (int): Line width for 1-phase elements. Defaults to 3.
+            mark_buses (bool): Whether to show bus markers. Defaults to True.
+            bus_markers (Optional[List[CircuitBusMarker]]): Custom bus markers to display.
+            show_colorbar (bool): Whether to show the colorbar. Defaults to True.
+            show (bool): Whether to display the plot immediately. Defaults to False.
+            map_style (Optional[str]): Map style for the background. Options include:
+                'open-street-map', 'white-bg', 'carto-positron', 'carto-darkmatter',
+                'stamen-terrain', 'stamen-toner', 'stamen-watercolor'. Defaults to 'open-street-map'.
+            save_file_path (Optional[str]): Path to save the plot as HTML file.
+        
+        Returns:
+            Optional[go.Figure]: The Plotly figure object, or None if save_file_path is provided.
+        
+
+        """
 
         if mark_buses:
             mode = 'lines+markers'

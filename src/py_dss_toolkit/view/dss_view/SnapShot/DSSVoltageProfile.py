@@ -17,5 +17,5 @@ class DSSVoltageProfile(VoltageProfileBase):
         self._check_energymeter()
         if phases == "":
             self._dss.text(f"plot profile")
-        elif phases == 'all':
-            self._dss.text(f"plot profile phases=all")
+        else:
+            self._dss.text(f"plot profile phases={phases}")
