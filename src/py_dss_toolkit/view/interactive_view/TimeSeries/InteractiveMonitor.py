@@ -35,7 +35,7 @@ class InteractiveMonitor(MonitorBase):
                      ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                      legend: Optional[bool] = True,
                      save_file_path: Optional[str] = None,
-                     show: Optional[bool] = True,
+                     show: Optional[bool] = False,
                      get_fig_obj: bool = False
                      ) -> Optional[go.Figure]:
         self._check_v_monitor(name)
@@ -97,7 +97,7 @@ class InteractiveMonitor(MonitorBase):
                   ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                   legend: Optional[bool] = True,
                   save_file_path: Optional[str] = None,
-                  show: Optional[bool] = True,
+                  show: Optional[bool] = False,
                   get_fig_obj: bool = False
                   ) -> Optional[go.Figure]:
         self._check_p_monitor(name)

@@ -20,8 +20,8 @@ class InteractiveCustomPlotStyle:
     grid_color: str = 'lightgray'
     title_x: float = 0.5  # Center the title
     show_legend: bool = True
-    legend_position: str = 'top right'  # Options: 'top left', 'top right', 'bottom left', 'bottom right', 'outside top left', 'outside top right', 'outside bottom left', 'outside bottom right'
-    
+    legend_position: str = 'outside top right'  # Options: 'top left', 'top right', 'bottom left', 'bottom right', 'outside top left', 'outside top right', 'outside bottom left', 'outside bottom right'
+
     # Custom legend properties (override legend_position when specified)
     legend_x: Optional[float] = None  # X position (0-1 for inside, <0 or >1 for outside)
     legend_y: Optional[float] = None  # Y position (0-1 for inside, <0 or >1 for outside)
@@ -59,7 +59,7 @@ class InteractiveCustomPlotStyle:
     def _get_legend_config(self) -> Dict[str, Any]:
         """
         Get legend configuration based on custom parameters or legend_position.
-        
+
         Returns:
             Dict[str, Any]: Legend configuration dictionary for Plotly
         """
@@ -70,11 +70,11 @@ class InteractiveCustomPlotStyle:
             self.legend_orientation, self.legend_font_family, self.legend_font_color,
             self.legend_itemwidth
         ]
-        
+
         # If any custom parameters are provided, use them
         if any(param is not None for param in custom_params):
             config = {}
-            
+
             # Position parameters
             if self.legend_x is not None:
                 config['x'] = self.legend_x
@@ -84,7 +84,7 @@ class InteractiveCustomPlotStyle:
                 config['xanchor'] = self.legend_xanchor
             if self.legend_yanchor is not None:
                 config['yanchor'] = self.legend_yanchor
-                
+
             # Styling parameters
             if self.legend_bgcolor is not None:
                 config['bgcolor'] = self.legend_bgcolor
@@ -96,7 +96,7 @@ class InteractiveCustomPlotStyle:
                 config['orientation'] = self.legend_orientation
             if self.legend_itemwidth is not None:
                 config['itemwidth'] = self.legend_itemwidth
-                
+
             # Font configuration
             font_config = {'size': self.legend_font_size}
             if self.legend_font_family is not None:
@@ -104,15 +104,15 @@ class InteractiveCustomPlotStyle:
             if self.legend_font_color is not None:
                 font_config['color'] = self.legend_font_color
             config['font'] = font_config
-            
+
             return config
-        
+
         # Otherwise, use the predefined legend_position logic
         return dict(
             font=dict(size=self.legend_font_size),
             xanchor='left' if 'left' in self.legend_position else 'right',
             yanchor='bottom' if 'bottom' in self.legend_position else 'top',
-            x=(-0.35 if 'outside' in self.legend_position and 'left' in self.legend_position else 
+            x=(-0.35 if 'outside' in self.legend_position and 'left' in self.legend_position else
                1.2 if 'outside' in self.legend_position and 'right' in self.legend_position else
                0 if 'left' in self.legend_position else 1),
             y=0 if 'bottom' in self.legend_position else 1,
