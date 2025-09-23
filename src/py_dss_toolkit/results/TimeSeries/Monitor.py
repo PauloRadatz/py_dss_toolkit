@@ -13,7 +13,7 @@ class Monitor:
     def monitor(self, name: str):  # -> Optional[Dict[(str, str), pd.DataFrame]]:
         name = name.lower()
         if name not in [m.lower() for m in self._dss.monitors.names]:
-            return None
+            raise ValueError(f"Monitor '{name}' is not defined in the system. Available monitors: {[m for m in self._dss.monitors.names]}")
 
         return self.__create_dataframe(name)
 
