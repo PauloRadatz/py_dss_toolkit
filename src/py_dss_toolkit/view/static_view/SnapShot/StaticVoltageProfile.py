@@ -239,3 +239,5 @@ class StaticVoltageProfile(VoltageProfileBase):
 
         if show:
             plt.show()
+
+        return fig, ax
