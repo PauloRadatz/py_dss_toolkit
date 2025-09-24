@@ -81,6 +81,8 @@ class StaticMonitor(MonitorBase):
         if show:
             plt.show()
 
+        return fig, ax
+
     def p_vs_time(self,
                   name: str,
                   title: Optional[str] = "Active Power Vs Time",
@@ -130,5 +132,7 @@ class StaticMonitor(MonitorBase):
 
         if show:
             plt.show()
+
+        return fig, ax
 
 
