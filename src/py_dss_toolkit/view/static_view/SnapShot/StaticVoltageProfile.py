@@ -147,6 +147,11 @@ class StaticVoltageProfile(VoltageProfileBase):
                 Defaults to True.
             **kwargs: Additional keyword arguments passed to the matplotlib figure object.
 
+        Returns:
+            Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]: A tuple containing:
+                - fig: The matplotlib Figure object containing the plot
+                - ax: The matplotlib Axes object for further customization
+
         Raises:
             Exception: If no energymeter is found in the circuit (checked by _check_energymeter).
             ValueError: If voltage limits cannot be retrieved from OpenDSS when show_voltage_limits=True.
