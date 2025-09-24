@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py-dss-toolkit"
-version = "0.4.0"
+version = "0.5.0"
 description = "Advanced Python Tools for OpenDSS Powered by EPRI."
 readme = "README.md"
 license = {text = "MIT"}
@@ -14,7 +14,7 @@ authors = [
 requires-python = ">=3.10"
 keywords = ["OpenDSS", "Python", "Power Systems", "Distribution Systems", "Energy"]
 dependencies = [
-	"py-dss-interface>=2.1.0",
+	"py-dss-interface>=2.2.1",
 	"pandas>=1.5.0",
 	"matplotlib>=3.6.0",
 	"plotly>=5.10.0"
