@@ -41,6 +41,9 @@ class MonitorBase:
             v_base = self._dss.bus.kv_base * 1000.0
         elif terminal == 2:
             elem_nodes = self._dss.cktelement.node_order[elem_num_conductors: elem_num_conductors + elem_num_phases]
+            bus = self._dss.cktelement.bus_names[1].split(".")[0]
+            self._dss.circuit.set_active_bus(bus)
+            v_base = self._dss.bus.kv_base * 1000.0
         else:
             raise ValueError(f'terminal=3 not implemented')
         return elem_nodes, v_base
