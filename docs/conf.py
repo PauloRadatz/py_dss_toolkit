@@ -20,7 +20,7 @@ project = 'py-dss-toolkit'
 year = '2021'
 author = 'Paulo Radatz'
 copyright = '{0}, {1}'.format(year, author)
-version = release = '0.0.0'
+version = release = '0.6.0'
 
 pygments_style = 'trac'
 templates_path = ['.']

@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.6.0 (2025-10-16)
+------------------
+* segments_df includes nodes and enabled.
+
+* monitor can plot voltage in pu when connected to element's terminal 2
+
 0.5.0 (2025-09-24)
 ------------------
 * Returns fig and ax objects in the static_view plots.
