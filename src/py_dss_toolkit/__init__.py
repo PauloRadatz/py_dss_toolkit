@@ -1,4 +1,4 @@
-__version__ = '0.5.0'
+__version__ = '0.6.0'
 
 from py_dss_toolkit.view.dss_view import *
 from py_dss_toolkit.view.interactive_view import *
