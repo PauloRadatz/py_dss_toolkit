@@ -10,7 +10,7 @@ class Monitor:
     def __init__(self, dss: DSS):
         self._dss = dss
 
-    def monitor(self, name: str):  # -> Optional[Dict[(str, str), pd.DataFrame]]:
+    def monitor(self, name: str) -> pd.DataFrame:
         name = name.lower()
         if name not in [m.lower() for m in self._dss.monitors.names]:
             raise ValueError(f"Monitor '{name}' is not defined in the system. Available monitors: {[m for m in self._dss.monitors.names]}")
@@ -34,4 +34,4 @@ class Monitor:
         for index, header in enumerate(headers):
             dict_to_df[header] = self._dss.monitors.channel(index + 1)
 
-        return pd.DataFrame().from_dict(dict_to_df)
+        return pd.DataFrame.from_dict(dict_to_df)

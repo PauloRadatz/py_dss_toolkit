@@ -82,6 +82,6 @@ def create_nodal_ll_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataF
             try:
                 vangs_df.loc[bus, column_name] = bus_vangs[bus][order]
             except:
-                vmags_df.loc[bus, column_name] = np.nan
+                vangs_df.loc[bus, column_name] = np.nan
 
     return vmags_df, vangs_df
