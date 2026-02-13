@@ -33,19 +33,19 @@ class ElementData:
 
                 dict_to_df[element_property.lower()] = property_list
 
-            df = pd.DataFrame().from_dict(dict_to_df)
+            df = pd.DataFrame.from_dict(dict_to_df)
             df.set_index("name", inplace=True)
 
             return df.T
 
         else:
-            raise ValueError(f"{element_class}.{element_name} does not have exist in the model")
+            raise ValueError(f"{element_class}.{element_name} does not exist in the model")
 
     def edit_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
         if ModelUtils(self._dss).is_element_in_model(element_class, element_name):
 
             self._dss.text(f"select {element_class}.{element_name}")
-            element_properties = self._dss.cktelement.property_names
+            element_properties = [prop.lower() for prop in self._dss.cktelement.property_names]
 
             dss_string = f"edit {element_class}.{element_name} "
 
@@ -56,9 +56,11 @@ class ElementData:
 
             self._dss.text(dss_string)
         else:
-            raise ValueError(f"{element_class}.{element_name} does not have exist in the model")
+            raise ValueError(f"{element_class}.{element_name} does not exist in the model")
 
     def add_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
+        if ModelUtils(self._dss).is_element_in_model(element_class, element_name):
+            raise ValueError(f"{element_class}.{element_name} already exists in the model")
         dss_string = f"new {element_class}.{element_name} "
         for p, v in properties.items():
             dss_string = dss_string + f" {p}={v}"

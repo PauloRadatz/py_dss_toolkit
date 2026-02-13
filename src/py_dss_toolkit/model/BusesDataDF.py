@@ -11,7 +11,7 @@ class BusesDataDF:
         self._dss = dss
 
     @property
-    def buses_df(self):
+    def buses_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
     def __create_dataframe(self):
@@ -33,4 +33,4 @@ class BusesDataDF:
 
             dict_to_df[bus_property] = property_list
 
-        return pd.DataFrame().from_dict(dict_to_df)
+        return pd.DataFrame.from_dict(dict_to_df)

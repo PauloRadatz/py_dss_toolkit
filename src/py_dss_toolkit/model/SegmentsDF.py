@@ -12,7 +12,7 @@ class SegmentsDF:
         self._dss = dss
 
     @property
-    def segments_df(self):
+    def segments_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
     def __create_dataframe(self):

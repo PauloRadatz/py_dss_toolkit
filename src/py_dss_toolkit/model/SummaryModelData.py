@@ -11,7 +11,7 @@ class SummaryModelData:
         self._dss = dss
 
     @property
-    def summary_df(self):
+    def summary_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
     def __create_dataframe(self):
@@ -52,18 +52,18 @@ class SummaryModelData:
         max_reactor_norm_amps, min_reactor_norm_amps = self.__get_max_min_norm_amps(elements_list, "reactor")
 
         r_dict["line length"] = line_length
-        if min_line_norm_amps != 9999:
+        if min_line_norm_amps != float('inf'):
             r_dict["line min norm amps"] = min_line_norm_amps
             r_dict["line max norm amps"] = max_line_norm_amps
-        if min_transformer_norm_amps != 9999:
+        if min_transformer_norm_amps != float('inf'):
             r_dict["transformer min norm amps"] = min_transformer_norm_amps
             r_dict["transformer max norm amps"] = max_transformer_norm_amps
-        if min_reactor_norm_amps != 9999:
+        if min_reactor_norm_amps != float('inf'):
             r_dict["reactor min norm amps"] = min_reactor_norm_amps
             r_dict["reactor max norm amps"] = max_reactor_norm_amps
 
-        max_load_kw = -9999
-        min_load_kw = 9999
+        max_load_kw = float('-inf')
+        min_load_kw = float('inf')
         for element in elements_list:
             if element.split(".")[0].lower() == "load":
                 self._dss.circuit.set_active_element(element)
@@ -75,7 +75,7 @@ class SummaryModelData:
                     if load_kw > max_load_kw:
                         max_load_kw = load_kw
 
-        if min_load_kw != 9999:
+        if min_load_kw != float('inf'):
             r_dict["load min kw"] = min_load_kw
             r_dict["load max kw"] = max_load_kw
 
@@ -83,8 +83,8 @@ class SummaryModelData:
         return df
 
     def __get_max_min_norm_amps(self, elements_list, element_type):
-        max_norm_amps = -9999
-        min_norm_amps = 9999
+        max_norm_amps = float('-inf')
+        min_norm_amps = float('inf')
         for element in elements_list:
             if element.split(".")[0].lower() == element_type.lower():
                 self._dss.circuit.set_active_element(element)
