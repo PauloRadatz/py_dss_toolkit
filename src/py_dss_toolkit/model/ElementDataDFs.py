@@ -72,4 +72,4 @@ class ElementDataDFs:
 
             dict_to_df[element_property.lower()] = property_list
 
-        return pd.DataFrame().from_dict(dict_to_df)
+        return pd.DataFrame.from_dict(dict_to_df)
