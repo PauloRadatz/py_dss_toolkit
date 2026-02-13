@@ -2,7 +2,7 @@
 
 [![PyPI Version](https://img.shields.io/pypi/v/py-dss-toolkit.svg)](https://pypi.org/project/py-dss-toolkit/)
 [![License](https://img.shields.io/github/license/PauloRadatz/py_dss_toolkit)](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_toolkit/python-app.yml)](https://github.com/PauloRadatz/py_dss_toolkit/actions)
+<!-- [![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_toolkit/python-app.yml)](https://github.com/PauloRadatz/py_dss_toolkit/actions) -->
 
 **`py-dss-toolkit`** is a Python package that builds on the capabilities of the [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface) package to provide advanced functionalities for creating Python-OpenDSS solutions more efficiently. By combining the robust connection to OpenDSS provided by `py-dss-interface` with the feature-rich tools of `py-dss-toolkit`, users can streamline their workflows and gain powerful new capabilities for analyzing and manipulating OpenDSS models, simulations, and results.
 
@@ -73,7 +73,7 @@ All three can be visualized using:
 📘 [Circuit Interactive View](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/circuit_interactive_view.ipynb)
 📘 [Voltage Profile DSS View](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/voltage_profile_dss_view.ipynb)
 📘 [Voltage Profile Interactive View](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/voltage_profile_interactive_view.ipynb)
-📘 [Voltage Profile Static View](https://github.com/PauloRadatz/py_dss_tools/blob/master/examples/dss_tools/voltage_profile_static_view.ipynb)
+📘 [Voltage Profile Static View](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/examples/dss_tools/voltage_profile_static_view.ipynb)
 
 ## 🛠️ How to Use py-dss-toolkit?
 
@@ -133,7 +133,7 @@ study.interactive_view.circuit_plot()
 
 ## 🤝 Community and Support
 
-Contributions and feedback are welcome! Open an issue or start a discussion on the [GitHub Issues Page](https://github.com/PauloRadatz/py_dss_tools/issues).
+Contributions and feedback are welcome! Open an issue or start a discussion on the [GitHub Issues Page](https://github.com/PauloRadatz/py_dss_toolkit/issues).
 
 This project is under active development, and there are many additional features that could be included in the future. If you have ideas or specific needs, feel free to open a feature request, contribute directly, or reach out to me!
 
@@ -143,7 +143,7 @@ If you use `py-dss-toolkit` in your academic work, please reference it as follow
 
 **APA Style:**
 
-Radatz, P. (2025). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI* (Version X.X.X) [Computer software]. GitHub. https://github.com/PauloRadatz/py_dss_tools
+Radatz, P. (2026). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI* (Version X.X.X) [Computer software]. GitHub. https://github.com/PauloRadatz/py_dss_toolkit
 
 **BibTeX Entry:**
 
@@ -151,9 +151,9 @@ Radatz, P. (2025). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by
 @software{radatz2025pydsstools,
   author = {Paulo Radatz},
   title = {py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI},
-  year = {2025},
+  year = {2026},
   version = {X.X.X},
-  url = {https://github.com/PauloRadatz/py_dss_tools}
+  url = {https://github.com/PauloRadatz/py_dss_toolkit}
 }
 ```
 

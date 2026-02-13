@@ -17,7 +17,7 @@ from typing import Union
 
 class ViewResults(InteractiveViewSnapShotPowerFlowResults, InteractiveViewTimeSeriesPowerFlowResults):
 
-    def __init__(self, dss: DSS, results: Union[Results, SnapShotPowerFlowResults, TimeSeriesPowerFlowResults], model: [ModelBase]):
+    def __init__(self, dss: DSS, results: Union[Results, SnapShotPowerFlowResults, TimeSeriesPowerFlowResults], model: ModelBase):
         InteractiveViewSnapShotPowerFlowResults.__init__(self, dss, results, model)
         InteractiveViewTimeSeriesPowerFlowResults.__init__(self, dss, results)
 

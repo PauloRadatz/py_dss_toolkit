@@ -13,6 +13,6 @@ from py_dss_toolkit.model.ModelBase import ModelBase
 
 class InteractiveViewSnapShotPowerFlowResults(InteractiveVoltageProfile, ViewCircuitResults):
 
-    def __init__(self, dss: DSS, results: SnapShotPowerFlowResults, model: [ModelBase]):
+    def __init__(self, dss: DSS, results: SnapShotPowerFlowResults, model: ModelBase):
         InteractiveVoltageProfile.__init__(self, dss, results)
         ViewCircuitResults.__init__(self, dss, results, model)
