@@ -40,6 +40,7 @@ StudyTimeSeriesPowerFlow "1" *-- "1" InteractiveViewTimeSeriesPowerFlowResults :
 DSSViewSnapShotPowerFlowResults <|-- DSSVoltageProfile
 StaticViewSnapShotPowerFlowResults <|-- StaticVoltageProfile
 InteractiveViewSnapShotPowerFlowResults <|-- InteractiveVoltageProfile
+InteractiveViewSnapShotPowerFlowResults <|-- Circuit
 
 DSSVoltageProfile <|-- VoltageProfileBase
 InteractiveVoltageProfile <|-- VoltageProfileBase
@@ -310,5 +311,19 @@ class MonitorBase {
     -check_p_monitor(name)
     -organize_p_results(name)
 }
+
+class Circuit {
+    -dss: DSS
+    -results: SnapShotPowerFlowResults
+    -model: ModelBase
+    +circuit_plot(parameter, title, xlabel, ylabel, ...)
+    +circuit_geoplot(parameter, title, map_style, ...)
+    +circuit_get_bus_marker(name, symbol, size, color)
+}
+
+note right of Circuit
+  Detailed Circuit architecture
+  shown in CircuitModule.puml
+end note
 
 @enduml

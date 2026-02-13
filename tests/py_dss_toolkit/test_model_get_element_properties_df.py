@@ -32,11 +32,11 @@ def test_dss_tools_13bus_model_edit_element_data_df(dss_tools_13bus):
     assert df.loc["emergamps", "632633"] == '1000'
 
 def test_dss_tools_13bus_model_element_element_not_found(dss_tools_13bus):
-    with pytest.raises(ValueError, match=r"line.TEST does not have exist in the model"):
+    with pytest.raises(ValueError, match=r"line.TEST does not exist in the model"):
         dss_tools.model.element_data("line", "TEST")
 
 def test_dss_tools_13bus_model_edit_element_element_not_found(dss_tools_13bus):
-    with pytest.raises(ValueError, match=r"line.TEST does not have exist in the model"):
+    with pytest.raises(ValueError, match=r"line.TEST does not exist in the model"):
         dss_tools.model.edit_element("line", "TEST", dict(normamps=800, emergamps=1000))
 
 def test_dss_tools_13bus_model_edit_element_property_not_found(dss_tools_13bus):

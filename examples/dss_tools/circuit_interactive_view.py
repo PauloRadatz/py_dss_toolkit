@@ -22,6 +22,7 @@ dss_tools.update_dss(dss)
 # Compile the DSS model from the specified file
 dss.text(f"compile [{dss_file}]")
 # Load bus coordinates for visualization
+dss_tools.model.add_line_in_vsource(add_meter=True)
 dss.text(f"buscoords buscoords.dat")
 # Solve the power flow for the system
 dss.text(f"solve")
