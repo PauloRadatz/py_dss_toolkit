@@ -33,27 +33,27 @@ class StudySnapShotPowerFlow(StudyBase):
         self._dss_view = DSSView(self.dss)
 
     @property
-    def results(self):
+    def results(self) -> SnapShotPowerFlowResults:
         """Access study results."""
         return self._results
 
     @property
-    def settings(self):
+    def settings(self) -> StudySnapShotPowerFlowSettings:
         """Access the study's settings."""
         return self._settings
 
     @property
-    def dss_view(self):
+    def dss_view(self) -> DSSView:
         """Access the DSS view instance."""
         return self._dss_view
 
     @property
-    def static_view(self):
+    def static_view(self) -> StaticView:
         """Access the static view instance."""
         return self._static_view
 
     @property
-    def interactive_view(self):
+    def interactive_view(self) -> InteractiveView:
         """Access the interactive view instance."""
         return self._interactive_view
 

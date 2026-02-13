@@ -22,15 +22,15 @@ class StudyFault(StudyBase):
         self._settings = StudyFaultSettings(_dss=self.dss)
 
     @property
-    def results(self):
+    def results(self) -> FaultResults:
         return self._results
 
     @property
-    def view(self):
+    def view(self) -> ViewFaultResults:
         return self._view
 
     @property
-    def settings(self):
+    def settings(self) -> StudyFaultSettings:
         return self._settings
 
     def run(self, disable_der=True, disable_load=True, disable_capacitor=True, control_mode="off"):
