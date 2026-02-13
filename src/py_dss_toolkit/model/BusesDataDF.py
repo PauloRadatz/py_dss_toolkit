@@ -22,7 +22,7 @@ class BusesDataDF:
         bus_properties = ["name", "nodes", "num_nodes", "kv_base", "distance",
                           "coord_defined", "x", "y", "latitude", "longitude",
                           "all_pce_active_bus", "all_pde_active_bus", "line_list", "line_total_miles", "load_list",
-                          "section_id", "total_customers", "unique_node_number"]
+                          "section_id", "total_customers"]
 
         for bus_property in bus_properties:
             property_list = list()
