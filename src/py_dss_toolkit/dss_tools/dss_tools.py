@@ -2,13 +2,20 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from py_dss_interface import DSS
 
 from py_dss_toolkit.dss_tools.ConfigurationTools import ConfigurationTools
 from py_dss_toolkit.dss_tools.SimulationTools import SimulationTools
 from py_dss_toolkit.dss_tools.UtilitiesTools import UtilitiesTools
+
+if TYPE_CHECKING:
+    from py_dss_toolkit.results.Results import Results
+    from py_dss_toolkit.model.ModelBase import ModelBase
+    from py_dss_toolkit.view.static_view.ViewResults import ViewResults as StaticView
+    from py_dss_toolkit.view.interactive_view.ViewResults import ViewResults as InteractiveView
+    from py_dss_toolkit.view.dss_view.ViewResults import ViewResults as DSSView
 
 
 class DSSTools:
@@ -20,7 +27,6 @@ class DSSTools:
             self.__load_objects()
 
     def __load_objects(self):
-        # self._results = ResultsTools(self._dss)
         from py_dss_toolkit.results.Results import Results
         from py_dss_toolkit.model.ModelBase import ModelBase
         from py_dss_toolkit.view.static_view.ViewResults import ViewResults as StaticView
@@ -40,39 +46,39 @@ class DSSTools:
         self.__load_objects()
 
     @property
-    def results(self):
+    def results(self) -> "Results":
         return self._results
 
     @property
-    def model(self):
+    def model(self) -> "ModelBase":
         return self._model
 
     @property
-    def dss_view(self):
+    def dss_view(self) -> "DSSView":
         return self._dss_view
 
     @property
-    def static_view(self):
+    def static_view(self) -> "StaticView":
         return self._static_view
 
     @property
-    def interactive_view(self):
+    def interactive_view(self) -> "InteractiveView":
         return self._interactive_view
 
     @property
-    def simulation(self):
+    def simulation(self) -> SimulationTools:
         return self._simulation
 
     @property
-    def configuration(self):
+    def configuration(self) -> ConfigurationTools:
         return self._configuration
 
     @property
-    def utilities(self):
+    def utilities(self) -> UtilitiesTools:
         return self._utilities
 
-    def text(self, command: str):
-        self._dss.text(command)
+    def text(self, command: str) -> str:
+        return self._dss.text(command)
 
 
 dss_tools = DSSTools(None)
