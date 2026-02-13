@@ -6,6 +6,7 @@ from typing import Tuple
 
 import pandas as pd
 from py_dss_interface import DSS
+from .snapshot_utils import create_terminal_list
 
 
 class Powers:
@@ -30,7 +31,7 @@ class Powers:
             num_terminals = self._dss.cktelement.num_terminals
             num_conductors = self._dss.cktelement.num_conductors
 
-            nodes = self.__create_terminal_list(self._dss.cktelement.node_order, num_terminals)
+            nodes = create_terminal_list(self._dss.cktelement.node_order, num_terminals)
             p = self._dss.cktelement.powers[: 2 * num_terminals * num_conductors: 2]
             q = self._dss.cktelement.powers[1: 2 * num_terminals * num_conductors: 2]
 
@@ -49,7 +50,7 @@ class Powers:
             num_terminals = self._dss.cktelement.num_terminals
             num_conductors = self._dss.cktelement.num_conductors
 
-            nodes = self.__create_terminal_list(self._dss.cktelement.node_order, num_terminals)
+            nodes = create_terminal_list(self._dss.cktelement.node_order, num_terminals)
             p = self._dss.cktelement.powers[: 2 * num_terminals * num_conductors: 2]
             q = self._dss.cktelement.powers[1: 2 * num_terminals * num_conductors: 2]
 
@@ -76,12 +77,3 @@ class Powers:
                 q_df.loc[element, node] = element_q[element][order]
 
         return p_df, q_df
-
-    # TODO move around
-    def __create_terminal_list(self, nodes, num_terminals):
-        terminal_list = []
-        for i, node in enumerate(nodes):
-            terminal_number = int((i // (len(nodes) / num_terminals))) + 1
-            terminal_list.append(f'Terminal{terminal_number}.{node}')
-
-        return terminal_list

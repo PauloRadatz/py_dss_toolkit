@@ -14,7 +14,7 @@ from py_dss_toolkit.results.TimeSeries.Monitor import Monitor
 from py_dss_toolkit.results.SnapShot.VoltagesNodalViolations import VoltagesNodalViolations
 from py_dss_toolkit.results.SnapShot.CurrentsViolations import CurrentsViolations
 from py_dss_toolkit.results.SnapShot.CurrentsLoading import CurrentsLoading
-from py_dss_toolkit.results.SnapShot.currents_utils import set_violation_current_limit_type as _set_violation_current_limit_type, get_violation_current_limit_type as _get_violation_current_limit_type
+from py_dss_toolkit.results.SnapShot.snapshot_utils import set_violation_current_limit_type as _set_violation_current_limit_type, get_violation_current_limit_type as _get_violation_current_limit_type
 
 
 

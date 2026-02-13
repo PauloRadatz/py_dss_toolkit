@@ -6,6 +6,7 @@ from typing import Tuple
 
 import pandas as pd
 from py_dss_interface import DSS
+from .snapshot_utils import create_terminal_list
 
 
 class VoltagesElement:
@@ -30,7 +31,7 @@ class VoltagesElement:
             num_terminals = self._dss.cktelement.num_terminals
             num_conductors = self._dss.cktelement.num_conductors
 
-            nodes = self.__create_terminal_list(self._dss.cktelement.node_order, num_terminals)
+            nodes = create_terminal_list(self._dss.cktelement.node_order, num_terminals)
             vmags = self._dss.cktelement.voltages_mag_ang[: 2 * num_terminals * num_conductors: 2]
             vangs = self._dss.cktelement.voltages_mag_ang[1: 2 * num_terminals * num_conductors: 2]
 
@@ -64,7 +65,7 @@ class VoltagesElement:
             num_terminals = self._dss.cktelement.num_terminals
             num_conductors = self._dss.cktelement.num_conductors
 
-            nodes = self.__create_terminal_list(self._dss.cktelement.node_order, num_terminals)
+            nodes = create_terminal_list(self._dss.cktelement.node_order, num_terminals)
             vmags = self._dss.cktelement.voltages_mag_ang[: 2 * num_terminals * num_conductors: 2]
             vangs = self._dss.cktelement.voltages_mag_ang[1: 2 * num_terminals * num_conductors: 2]
 
@@ -99,12 +100,3 @@ class VoltagesElement:
                 vangs_df.loc[element, node] = element_vangs[element][order]
 
         return vmags_df, vangs_df
-
-    # TODO move around
-    def __create_terminal_list(self, nodes, num_terminals):
-        terminal_list = []
-        for i, node in enumerate(nodes):
-            terminal_number = int((i // (len(nodes) / num_terminals))) + 1
-            terminal_list.append(f'Terminal{terminal_number}.{node}')
-
-        return terminal_list

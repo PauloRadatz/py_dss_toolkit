@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from py_dss_interface import DSS
-from .currents_utils import create_currents_elements_dataframes, get_violation_current_limit_type
+from .snapshot_utils import create_currents_elements_dataframes, get_violation_current_limit_type
 
 class CurrentsLoading:
     def __init__(self, dss: DSS):
