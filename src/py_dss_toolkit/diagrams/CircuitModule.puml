@@ -1,0 +1,256 @@
+@startuml
+'https://plantuml.com/class-diagram
+title Circuit Module - Interactive Circuit Plotting
+
+' ============================================================================
+' Main Classes and Relationships
+' ============================================================================
+
+CircuitBase <|-- Circuit
+CircuitBase <|-- CircuitPlot
+CircuitBase <|-- CircuitGeoPlot
+
+Circuit "1" *-- "1" CircuitPlot : delegates
+Circuit "1" *-- "1" CircuitGeoPlot : delegates
+Circuit "1" *-- "1" CircuitSettingsContainer : contains
+CircuitPlot "1" o-- "1" CircuitSettingsContainer : uses
+CircuitGeoPlot "1" o-- "1" CircuitSettingsContainer : uses
+
+' ============================================================================
+' Strategy Pattern
+' ============================================================================
+
+PlotParameterStrategy <|-- ActivePowerStrategy
+PlotParameterStrategy <|-- ReactivePowerStrategy
+PlotParameterStrategy <|-- VoltageStrategy
+PlotParameterStrategy <|-- DistanceStrategy
+PlotParameterStrategy <|-- PhasesStrategy
+PlotParameterStrategy <|-- VoltageViolationsStrategy
+PlotParameterStrategy <|-- ThermalViolationsStrategy
+PlotParameterStrategy <|-- UserNumericalDefinedStrategy
+PlotParameterStrategy <|-- UserCategoricalDefinedStrategy
+
+CircuitBase "1" o-- "9" PlotParameterStrategy : uses
+
+' ============================================================================
+' Settings Classes and Hierarchy
+' ============================================================================
+
+BaseSettingsNumerical <|-- ActivePowerSettings
+BaseSettingsNumerical <|-- VoltageSettings
+BaseSettingsNumerical <|-- DistanceSettings
+BaseSettingsNumerical <|-- UserDefinedNumericalSettings
+
+CircuitSettingsContainer "1" o-- "1" ActivePowerSettings : contains
+CircuitSettingsContainer "1" o-- "1" VoltageSettings : contains
+CircuitSettingsContainer "1" o-- "1" DistanceSettings : contains
+CircuitSettingsContainer "1" o-- "1" PhasesSettings : contains
+CircuitSettingsContainer "1" o-- "1" ThermalViolationSettings : contains
+CircuitSettingsContainer "1" o-- "1" VoltageViolationSettings : contains
+CircuitSettingsContainer "1" o-- "1" UserDefinedNumericalSettings : contains
+CircuitSettingsContainer "1" o-- "1" UserDefinedCategoricalSettings : contains
+
+' ============================================================================
+' Bus Marker
+' ============================================================================
+
+CircuitBusMarker -- Circuit : used by
+
+' ============================================================================
+' Class Definitions
+' ============================================================================
+
+class CircuitBase {
+    #_dss: DSS
+    #_results: SnapShotPowerFlowResults
+    #_model: ModelBase
+    #_parameter_strategies: dict
+    #_active_power_settings: ActivePowerSettings
+    #_voltage_settings: VoltageSettings
+    #_distance_settings: DistanceSettings
+    #_phases_settings: PhasesSettings
+    #_thermal_violation_settings: ThermalViolationSettings
+    #_voltage_violation_settings: VoltageViolationSettings
+    #_user_numerical_defined_settings: UserDefinedNumericalSettings
+    #_user_categorical_defined_settings: UserDefinedCategoricalSettings
+
+    +circuit_get_bus_marker(name, symbol, size, color, marker_name)
+    #_prepare_plot_data(parameter): dict
+    #_get_plot_settings(parameter): tuple
+    #_calculate_colorbar_range(settings, result_values): Tuple<float, float>
+    #_calculate_colorbar_ticks(settings, result_values): Tuple<array, list>
+    #_get_phase_width(element, num_phases, width_3ph, width_2ph, width_1ph)
+    #_get_dash(element, num_phases, line_type, dash_3ph, dash_2ph, dash_1ph, dash_oh, dash_ug)
+}
+
+class Circuit {
+    -_circuit_plot: CircuitPlot
+    -_circuit_geoplot: CircuitGeoPlot
+
+    +circuit_plot(parameter, title, xlabel, ylabel, width_3ph, width_2ph, width_1ph, dash_3ph, dash_2ph, dash_1ph, dash_oh, dash_ug, mark_buses, bus_markers, show_colorbar, show, save_file_path): Figure
+    +circuit_geoplot(parameter, title, width_3ph, width_2ph, width_1ph, mark_buses, bus_markers, show_colorbar, show, map_style, save_file_path): Figure
+}
+
+class CircuitPlot {
+    +circuit_plot(parameter, title, xlabel, ylabel, width_3ph, width_2ph, width_1ph, dash_3ph, dash_2ph, dash_1ph, dash_oh, dash_ug, mark_buses, bus_markers, show_colorbar, show, save_file_path): Figure
+    -_add_numerical_plot_traces(fig, settings, connections, result_values, bus_coords, bus_to_idx, num_phases, line_type, hovertemplate, cmin, cmax, width_3ph, width_2ph, width_1ph, dash_3ph, dash_2ph, dash_1ph, dash_oh, dash_ug)
+    -_add_categorical_plot_traces(fig, settings, connections, result_values, bus_coords, bus_to_idx, num_phases, line_type, hovertemplate, width_3ph, width_2ph, width_1ph, dash_3ph, dash_2ph, dash_1ph, dash_oh, dash_ug)
+    -_add_colorbar(fig, settings, result_values, custom_tickvals, custom_ticktext, cmin, cmax)
+    -_add_bus_markers(fig, bus_markers, bus_coords, bus_to_idx)
+}
+
+class CircuitGeoPlot {
+    +circuit_geoplot(parameter, title, width_3ph, width_2ph, width_1ph, mark_buses, bus_markers, show_colorbar, show, map_style, save_file_path): Figure
+    -_add_geo_numerical_plot_traces(settings, connections, result_values, bus_coords, bus_to_idx, num_phases, hovertemplate, cmin, cmax, width_3ph, width_2ph, width_1ph): List<Scattermapbox>
+    -_add_geo_categorical_plot_traces(settings, connections, result_values, bus_coords, bus_to_idx, num_phases, hovertemplate, width_3ph, width_2ph, width_1ph): List<Scattermapbox>
+    -_add_geo_colorbar(settings, result_values, custom_tickvals, custom_ticktext, cmin, cmax): Scattermapbox
+    -_add_geo_bus_markers(bus_markers, bus_coords, bus_to_idx): List<Scattermapbox>
+    -_configure_geo_layout(fig, title, map_style, bus_coords)
+}
+
+class PlotParameterStrategy {
+    #_circuit: CircuitBase
+
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class ActivePowerStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class ReactivePowerStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class VoltageStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class DistanceStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class PhasesStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class VoltageViolationsStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class ThermalViolationsStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class UserNumericalDefinedStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class UserCategoricalDefinedStrategy {
+    +get_settings_and_results(): Tuple<settings, results, hovertemplate, numerical_plot>
+}
+
+class CircuitSettingsContainer {
+    +active_power_settings: ActivePowerSettings
+    +voltage_settings: VoltageSettings
+    +distance_settings: DistanceSettings
+    +phases_settings: PhasesSettings
+    +thermal_violation_settings: ThermalViolationSettings
+    +voltage_violation_settings: VoltageViolationSettings
+    +user_numerical_defined_settings: UserDefinedNumericalSettings
+    +user_categorical_defined_settings: UserDefinedCategoricalSettings
+}
+
+class BaseSettingsNumerical {
+    +colorbar_cmin: Optional<float>
+    +colorbar_cmax: Optional<float>
+    +colorbar_tickvals: Optional<int>
+    +colorbar_ticktext_decimal_points: Optional<int>
+    +colorbar_tickvals_list: List<float> or None
+    +colorscale: str
+}
+
+class ActivePowerSettings {
+    +colorbar_title: str = "Active Power (kW)"
+}
+
+class VoltageSettings {
+    +colorbar_title: str = "Voltage (pu)"
+    +bus: str = "bus1"
+    +nodes_voltage_value: str = "mean"
+}
+
+class DistanceSettings {
+    +colorbar_title: str = "Distance"
+}
+
+class UserDefinedNumericalSettings {
+    +colorbar_title: str
+    +parameter: pd.Series
+    +unit: str
+}
+
+class PhasesSettings {
+    +color_map: dict
+}
+
+class ThermalViolationSettings {
+    +color_map: dict
+}
+
+class VoltageViolationSettings {
+    +color_map: dict
+}
+
+class UserDefinedCategoricalSettings {
+    +color_map: dict
+    +parameter: pd.Series
+}
+
+class CircuitBusMarker {
+    +name: str
+    +symbol: str = "circle"
+    +size: float = 10
+    +color: str = "black"
+    +marker_name: str
+}
+
+' ============================================================================
+' Notes
+' ============================================================================
+
+note top of CircuitBase
+  **Base class** containing all shared logic:
+  - Settings management (8 different settings types)
+  - Strategy pattern implementation (9 strategies)
+  - Data preparation and validation
+  - Shared helper methods for colorbars, widths, dashes
+  - Bus coordinate validation with warnings
+end note
+
+note top of Circuit
+  **Main entry point** using composition pattern.
+  Delegates to specialized classes while maintaining
+  clean public API. All settings shared via container.
+end note
+
+note right of PlotParameterStrategy
+  **Strategy Pattern** for handling different
+  plot parameters (power, voltage, distance,
+  phases, violations, user-defined).
+  Each strategy returns appropriate settings,
+  results, hover template, and plot type.
+end note
+
+note bottom of BaseSettingsNumerical
+  **Base class** for numerical plot settings.
+  Provides common colorbar configuration.
+end note
+
+note right of CircuitSettingsContainer
+  **Settings container** for sharing settings
+  between Circuit, CircuitPlot, and CircuitGeoPlot.
+  Implements dependency injection pattern.
+end note
+
+@enduml

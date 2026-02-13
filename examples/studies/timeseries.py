@@ -21,7 +21,7 @@ study.dss.text(f"buscoords buscoords.dat")
 study.model.batchedit("load", "daily", "default")
 
 # Add energymeter and monitors at the feeder head
-study.model.add_line_in_vsource()
+study.model.add_line_in_vsource(add_monitors=True)
 
 # Run temporal simulation
 study.run()

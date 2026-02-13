@@ -12,8 +12,8 @@ import py_dss_interface
 from py_dss_toolkit import dss_tools
 
 # Define the script path and path to the DSS file
-script_path = os.path.dirname(os.getcwd())
-dss_file = os.path.join(script_path, "feeders", "1_3PAS_1", "Master__202312598_1_3PAS_1_------1-----.dss")
+script_path = os.path.dirname(os.path.abspath(__file__))
+dss_file = pathlib.Path(script_path).joinpath("..", "feeders", "1_3PAS_1", "Master__202312598_1_3PAS_1_------1-----.dss")
 
 # Create an instance of DSS
 dss = py_dss_interface.DSS()
@@ -27,6 +27,8 @@ dss.text(f"compile [{dss_file}]")
 # Solve the power flow for the system
 dss.text(f"solve")
 
+
+dss_tools.interactive_view.circuit_plot(parameter="distance", show=True)
 # Plot active power using default parameters
 dss_tools.interactive_view.circuit_geoplot(parameter="active power", show=True)
 

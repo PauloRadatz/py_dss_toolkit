@@ -1,0 +1,64 @@
+@startuml
+'https://plantuml.com/class-diagram
+title Diagram Navigation Guide
+
+package "Main Architecture" {
+    [ClassDiagram.puml] as Main
+    note right of Main
+      **Start here** for overall system understanding
+      - Full system architecture
+      - All major components
+      - High-level relationships
+    end note
+}
+
+package "Detailed Views" {
+    [CircuitModule.puml] as Circuit
+    [SettingsHierarchy.puml] as Settings
+    
+    note right of Circuit
+      **Circuit plotting** deep dive
+      - Strategy pattern implementation
+      - Composition architecture
+      - All 9 plot parameters
+      - Settings integration
+    end note
+    
+    note right of Settings
+      **Quick reference** for settings
+      - All settings classes
+      - Inheritance hierarchy
+      - Default values
+    end note
+}
+
+Main --> Circuit : "See CircuitModule.puml\nfor Circuit details"
+Circuit --> Settings : "See SettingsHierarchy.puml\nfor settings details"
+
+' ============================================================================
+' Decision Tree
+' ============================================================================
+
+note as DecisionTree
+  **Which diagram should I use?**
+  
+  🔍 **Understanding the system?**
+     → Start with ClassDiagram.puml
+  
+  🎨 **Working on circuit plotting?**
+     → CircuitModule.puml
+  
+  ⚙️ **Configuring plot settings?**
+     → SettingsHierarchy.puml
+  
+  ➕ **Adding a new plot parameter?**
+     → CircuitModule.puml (shows Strategy pattern)
+  
+  📊 **Understanding results classes?**
+     → ClassDiagram.puml (Results section)
+  
+  🏗️ **Working on model/studies?**
+     → ClassDiagram.puml
+end note
+
+@enduml

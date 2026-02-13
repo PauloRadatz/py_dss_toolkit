@@ -1,0 +1,91 @@
+@startuml
+'https://plantuml.com/class-diagram
+title Settings Hierarchy - Quick Reference
+
+' ============================================================================
+' Settings Hierarchy
+' ============================================================================
+
+BaseSettingsNumerical <|-- ActivePowerSettings
+BaseSettingsNumerical <|-- VoltageSettings
+BaseSettingsNumerical <|-- DistanceSettings
+BaseSettingsNumerical <|-- UserDefinedNumericalSettings
+
+' ============================================================================
+' Class Definitions
+' ============================================================================
+
+class BaseSettingsNumerical {
+    +colorbar_cmin: Optional<float> = None
+    +colorbar_cmax: Optional<float> = None
+    +colorbar_tickvals: Optional<int> = None
+    +colorbar_ticktext_decimal_points: Optional<int> = None
+    +colorbar_tickvals_list: List<float> or None = None
+    +colorscale: str = "jet_r"
+}
+
+class ActivePowerSettings {
+    ' Inherits all from BaseSettingsNumerical
+    +colorbar_title: str = "Active Power (kW)"
+}
+
+class VoltageSettings {
+    ' Inherits all from BaseSettingsNumerical
+    +colorbar_title: str = "Voltage (pu)"
+    +bus: str = "bus1"
+    +nodes_voltage_value: str = "mean"
+}
+
+class DistanceSettings {
+    ' Inherits all from BaseSettingsNumerical
+    +colorbar_title: str = "Distance"
+}
+
+class UserDefinedNumericalSettings {
+    ' Inherits all from BaseSettingsNumerical
+    +colorbar_title: str
+    +parameter: pd.Series
+    +unit: str
+}
+
+class PhasesSettings {
+    +color_map: dict = {1: "blue", 2: "green", 3: "red"}
+}
+
+class ThermalViolationSettings {
+    +color_map: dict = {0: "green", 1: "red"}
+}
+
+class VoltageViolationSettings {
+    +color_map: dict = {0: "green", 1: "red"}
+}
+
+class UserDefinedCategoricalSettings {
+    +color_map: dict
+    +parameter: pd.Series
+}
+
+' ============================================================================
+' Notes
+' ============================================================================
+
+note top of BaseSettingsNumerical
+  **Common settings** for all numerical plots:
+  - Colorbar range (min/max)
+  - Colorbar ticks (count or explicit values)
+  - Colorscale (Plotly colorscale name)
+  
+  All numerical settings inherit these and add
+  their specific attributes (e.g., colorbar_title)
+end note
+
+note bottom of PhasesSettings
+  **Categorical settings** don't inherit from base.
+  They define color mappings for discrete values.
+  
+  Examples:
+  - Phases: {1: "blue", 2: "green", 3: "red"}
+  - Violations: {0: "green", 1: "red"}
+end note
+
+@enduml
