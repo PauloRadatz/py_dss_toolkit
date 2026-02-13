@@ -13,7 +13,6 @@ import pandas as pd
 class UserDefinedNumericalSettings(BaseSettingsNumerical):
     _parameter: str = field(init=False, repr=True, default="User Numerical Defined")
     unit: str = field(init=True, repr=True, default="Unit")
-    colorbar_title: Optional[str] = field(init=True, repr=True, default=None)
     results: Optional[pd.DataFrame] = field(init=True, repr=True, default=None)
     num_decimal_points: int = field(init=True, repr=True, default=2)
     colorbar_title: str =  field(init=True, repr=True, default="Colorbar Title")
