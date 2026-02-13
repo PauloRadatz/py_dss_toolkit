@@ -17,5 +17,5 @@ class StudyModelVerification(StudyBase):
         self._results = ModelVerificationResults(self._dss)
 
     @property
-    def results(self):
+    def results(self) -> ModelVerificationResults:
         return self._results

@@ -39,23 +39,23 @@ class StudyTimeSeriesPowerFlow(StudyBase):
         return StudyTimeSeriesPowerFlowSettings(_dss=self.dss)
 
     @property
-    def results(self):
+    def results(self) -> TimeSeriesPowerFlowResults:
         return self._results
 
     @property
-    def dss_view(self):
+    def dss_view(self) -> DSSView:
         return self._dss_view
 
     @property
-    def static_view(self):
+    def static_view(self) -> StaticView:
         return self._static_view
 
     @property
-    def interactive_view(self):
+    def interactive_view(self) -> InteractiveView:
         return self._interactive_view
 
     @property
-    def settings(self):
+    def settings(self) -> StudyTimeSeriesPowerFlowSettings:
         return self._settings
 
     @property

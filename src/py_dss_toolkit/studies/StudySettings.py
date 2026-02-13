@@ -4,10 +4,13 @@
 
 import re
 from dataclasses import dataclass, field
+from typing import Tuple
 
 from py_dss_interface import DSS
 
-from py_dss_toolkit.studies.settings_utils import *
+from py_dss_toolkit.studies.settings_utils import (
+    AlgorithmType, validate_algorithm, validate_time, get_settings
+)
 
 
 @dataclass(kw_only=True)
@@ -18,14 +21,24 @@ class StudySettings:
 
     @property
     def algorithm(self) -> str:
-        self._algorithm = self._dss.text("get algorithm")
+        """Get the current algorithm setting.
+        
+        Returns:
+            Algorithm string: 'normal', 'newton', or 'ncim'
+        """
+        self._algorithm = self._dss.text("get algorithm").lower()
         return self._algorithm
 
     @algorithm.setter
-    def algorithm(self, value: str):
-        validate_algorithm(self._dss, value)
-        self._dss.text(f"set algorithm={value}")
-        self._algorithm = value
+    def algorithm(self, value: AlgorithmType):
+        """Set the algorithm for power flow solution.
+        
+        Args:
+            value: Algorithm string - 'normal', 'newton', or 'ncim'
+        """
+        validated = validate_algorithm(value)
+        self._dss.text(f"set algorithm={validated}")
+        self._algorithm = validated
 
     @property
     def time(self) -> Tuple[float, float]:
