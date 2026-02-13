@@ -302,6 +302,11 @@ class CircuitGeoPlot(CircuitBase):
 
     def _configure_geo_layout(self, fig, title, map_style, bus_coords):
         """Configure the geographic plot layout."""
+        valid_lats = [lat for _, lat in bus_coords if lat != 0]
+        valid_lons = [lon for lon, _ in bus_coords if lon != 0]
+        center_lat = np.mean(valid_lats) if valid_lats else 0.0
+        center_lon = np.mean(valid_lons) if valid_lons else 0.0
+
         fig.update_layout(title=title,
                           margin={'r': 0, 't': 32 if title else 0, 'l': 0, 'b': 0},
                           map_style=map_style,
@@ -309,9 +314,6 @@ class CircuitGeoPlot(CircuitBase):
                           hovermode='closest',
                           map=dict(
                               bearing=0,
-                              center=dict(
-                                  lat=np.mean([lat for _, lat in bus_coords if lat != 0]),
-                                  lon=np.mean([lon for lon, _ in bus_coords if lon != 0])
-                              ),
+                              center=dict(lat=center_lat, lon=center_lon),
                               zoom=10),
                           )

@@ -46,6 +46,10 @@ class DSSTools:
         self.__load_objects()
 
     @property
+    def dss(self) -> DSS:
+        return self._dss
+
+    @property
     def results(self) -> "Results":
         return self._results
 
