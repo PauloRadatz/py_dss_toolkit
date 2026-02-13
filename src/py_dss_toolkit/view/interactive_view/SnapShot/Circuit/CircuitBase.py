@@ -6,8 +6,22 @@
 
 import numpy as np
 import pandas as pd
-from typing import Optional, List
+import warnings
+from typing import Literal, Optional, List, Tuple
 from py_dss_interface import DSS
+
+# Type alias for circuit plot parameter options
+CircuitPlotParameter = Literal[
+    "active power",
+    "reactive power",
+    "voltage",
+    "user numerical defined",
+    "phases",
+    "voltage violations",
+    "thermal violations",
+    "user categorical defined",
+    "distance"
+]
 from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.model.ModelBase import ModelBase
 from py_dss_toolkit.view.interactive_view.InteractiveCustomPlotStyle import InteractiveCustomPlotStyle
@@ -18,15 +32,23 @@ from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedCategorica
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.PhasesSettings import PhasesSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ThermalViolationSettings import ThermalViolationSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.VoltageViolationSettings import VoltageViolationSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.DistanceSettings import DistanceSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBusMarker import CircuitBusMarker
 
 
 class PlotParameterStrategy:
     """Base class for plot parameter strategies."""
-    
-    def __init__(self, circuit_instance):
+
+    def __init__(self, circuit_instance: "CircuitBase"):
+        """
+        Initialize the strategy with a CircuitBase instance.
+
+        Args:
+            circuit_instance: The CircuitBase instance that provides access to
+                settings, results, model, and DSS interface.
+        """
         self._circuit = circuit_instance
-    
+
     def get_settings_and_results(self):
         """Return (settings, results, hovertemplate, numerical_plot)"""
         raise NotImplementedError
@@ -51,7 +73,7 @@ class ReactivePowerStrategy(PlotParameterStrategy):
         columns = self._circuit._results.powers_elements[1].columns
         if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
             raise ValueError("A non 3-phase circuit can't be plotted")
-        results = self._circuit._results.powers_elements[0].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
+        results = self._circuit._results.powers_elements[1].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
         hovertemplate = ("<b>%{customdata[0]}</b><br>" +
                         "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
                         "<b>Total Q: </b>%{customdata[3]:.2f} kvar<br>")
@@ -163,34 +185,115 @@ class UserCategoricalDefinedStrategy(PlotParameterStrategy):
                             f"<b>{parameter}:</b>" + " %{customdata[3]}")
         return settings, results, hovertemplate, False
 
+class DistanceStrategy(PlotParameterStrategy):
+    def get_settings_and_results(self):
+        """
+        Calculate distance from energymeter for each line element.
+
+        For each line, uses the maximum distance of its two connected buses
+        from the energymeter as the line's distance value.
+        """
+        settings = self._circuit._distance_settings
+
+        if self._circuit._dss.meters.count == 0:
+            raise ValueError("No energymeter found. Distance plotting requires at least one energymeter in the circuit.")
+
+        buses_df = self._circuit._model.buses_df
+        bus_distance_map = {
+            bus_name.lower().split(".")[0]: distance
+            for bus_name, distance in zip(buses_df['name'], buses_df['distance'])
+        }
+
+        line_df = self._circuit._model.lines_df.copy()
+        line_df['name'] = 'line.' + line_df['name']
+
+        line_df['bus1_name'] = line_df['bus1'].str.split('.').str[0].str.lower()
+        line_df['bus2_name'] = line_df['bus2'].str.split('.').str[0].str.lower()
+
+        line_df['bus1_dist'] = line_df['bus1_name'].map(bus_distance_map)
+        line_df['bus2_dist'] = line_df['bus2_name'].map(bus_distance_map)
+
+        line_df['distance'] = line_df[['bus1_dist', 'bus2_dist']].max(axis=1)
+
+        # Return DataFrame with distance info for customdata construction
+        results = line_df.set_index("name")['distance']
+
+        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
+                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
+                        "<b>Bus farthest from Energymeter: </b>%{customdata[3]:.2f} km<br>")
+        return settings, results, hovertemplate, True
+
+class CircuitSettingsContainer:
+    """Container for circuit plot settings to enable dependency injection."""
+
+    def __init__(self, circuit_base_instance):
+        """Initialize settings container from a CircuitBase instance."""
+        self._plot_style = circuit_base_instance._plot_style
+        self._active_power_settings = circuit_base_instance._active_power_settings
+        self._voltage_settings = circuit_base_instance._voltage_settings
+        self._user_numerical_defined_settings = circuit_base_instance._user_numerical_defined_settings
+        self._user_categorical_defined_settings = circuit_base_instance._user_categorical_defined_settings
+        self._phases_settings = circuit_base_instance._phases_settings
+        self._thermal_violation_settings = circuit_base_instance._thermal_violation_settings
+        self._voltage_violation_settings = circuit_base_instance._voltage_violation_settings
+        self._distance_settings = circuit_base_instance._distance_settings
+        self._parameter_strategies = circuit_base_instance._parameter_strategies
+
 
 class CircuitBase:
     """Base class containing shared logic for circuit plotting."""
 
-    def __init__(self, dss: DSS, results: SnapShotPowerFlowResults, model: ModelBase):
+    def __init__(self, dss: DSS, results: SnapShotPowerFlowResults, model: ModelBase,
+                 settings_container: Optional[CircuitSettingsContainer] = None):
+        """
+        Initialize CircuitBase.
+
+        Args:
+            dss: DSS interface instance
+            results: Power flow results
+            model: Model data
+            settings_container: Optional shared settings container. If None, creates new settings.
+        """
         self._dss = dss
         self._results = results
         self._model = model
-        self._plot_style = InteractiveCustomPlotStyle()
-        self._active_power_settings = ActivePowerSettings()
-        self._voltage_settings = VoltageSettings()
-        self._user_numerical_defined_settings = UserDefinedNumericalSettings()
-        self._user_categorical_defined_settings = UserDefinedCategoricalSettings()
-        self._phases_settings = PhasesSettings()
-        self._thermal_violation_settings = ThermalViolationSettings()
-        self._voltage_violation_settings = VoltageViolationSettings()
-        
-        # Strategy pattern mapping for plot parameters
-        self._parameter_strategies = {
-            "active power": ActivePowerStrategy(self),
-            "reactive power": ReactivePowerStrategy(self),
-            "voltage": VoltageStrategy(self),
-            "user numerical defined": UserNumericalDefinedStrategy(self),
-            "phases": PhasesStrategy(self),
-            "voltage violations": VoltageViolationsStrategy(self),
-            "thermal violations": ThermalViolationsStrategy(self),
-            "user categorical defined": UserCategoricalDefinedStrategy(self)
-        }
+
+        if settings_container is not None:
+            # Use shared settings from container
+            self._plot_style = settings_container._plot_style
+            self._active_power_settings = settings_container._active_power_settings
+            self._voltage_settings = settings_container._voltage_settings
+            self._user_numerical_defined_settings = settings_container._user_numerical_defined_settings
+            self._user_categorical_defined_settings = settings_container._user_categorical_defined_settings
+            self._phases_settings = settings_container._phases_settings
+            self._thermal_violation_settings = settings_container._thermal_violation_settings
+            self._voltage_violation_settings = settings_container._voltage_violation_settings
+            self._distance_settings = settings_container._distance_settings
+            self._parameter_strategies = settings_container._parameter_strategies
+        else:
+            # Create new settings instances
+            self._plot_style = InteractiveCustomPlotStyle()
+            self._active_power_settings = ActivePowerSettings()
+            self._voltage_settings = VoltageSettings()
+            self._user_numerical_defined_settings = UserDefinedNumericalSettings()
+            self._user_categorical_defined_settings = UserDefinedCategoricalSettings()
+            self._phases_settings = PhasesSettings()
+            self._thermal_violation_settings = ThermalViolationSettings()
+            self._voltage_violation_settings = VoltageViolationSettings()
+            self._distance_settings = DistanceSettings()
+
+            # Strategy pattern mapping for plot parameters
+            self._parameter_strategies = {
+                "active power": ActivePowerStrategy(self),
+                "reactive power": ReactivePowerStrategy(self),
+                "voltage": VoltageStrategy(self),
+                "user numerical defined": UserNumericalDefinedStrategy(self),
+                "phases": PhasesStrategy(self),
+                "voltage violations": VoltageViolationsStrategy(self),
+                "thermal violations": ThermalViolationsStrategy(self),
+                "user categorical defined": UserCategoricalDefinedStrategy(self),
+                "distance": DistanceStrategy(self)
+            }
 
     def circuit_get_bus_marker(self, name: str, symbol: str = "square",
                                size: float = 10,
@@ -228,7 +331,11 @@ class CircuitBase:
     def user_categorical_defined_settings(self):
         return self._user_categorical_defined_settings
 
-    def _get_plot_settings(self, parameter):
+    @property
+    def distance_settings(self):
+        return self._distance_settings
+
+    def _get_plot_settings(self, parameter: CircuitPlotParameter):
         """
         Helper to get settings, results, hovertemplate, and numerical_plot for a given parameter.
 
@@ -241,6 +348,7 @@ class CircuitBase:
             - 'user categorical defined': Plots user-defined categorical results.
             - 'voltage violations': Highlights lines connected to buses with voltage violations.
             - 'thermal violations': Highlights lines with thermal (current) violations.
+            - 'distance': Plots distance from energymeter (km) per line.
 
         Returns:
             settings: The settings object for the parameter.
@@ -250,14 +358,14 @@ class CircuitBase:
         """
         if parameter not in self._parameter_strategies:
             raise ValueError(f"Unknown parameter: {parameter}. Supported parameters: {list(self._parameter_strategies.keys())}")
-        
+
         strategy = self._parameter_strategies[parameter]
         return strategy.get_settings_and_results()
 
-    def _prepare_plot_data(self, parameter: str):
+    def _prepare_plot_data(self, parameter: CircuitPlotParameter):
         """
         Prepare common data for both circuit_plot and circuit_geoplot methods.
-        
+
         Returns:
             dict: Contains all the data needed for plotting
         """
@@ -271,7 +379,10 @@ class CircuitBase:
         bus_coords = list()
         elements_list = [element.lower() for element in self._dss.circuit.elements_names]
         connections = []
+        zero_coord_buses = []  # Track buses with (0,0) coordinates
+        result_values = list()
 
+        # Single pass: collect buses, coordinates, connections, and result values
         for element in elements_list:
             if element.split(".")[0].lower() in ["line"]:
                 self._dss.circuit.set_active_element(element)
@@ -279,27 +390,46 @@ class CircuitBase:
                     bus1, bus2 = self._dss.cktelement.bus_names[0].split(".")[0].lower(), \
                         self._dss.cktelement.bus_names[1].split(".")[0].lower()
                     connections.append([element, (bus1.lower(), bus2.lower())])
+                    result_values.append(results.loc[element])
 
                     if bus1 not in buses:
                         self._dss.circuit.set_active_bus(bus1)
                         x, y = self._dss.bus.x, self._dss.bus.y
                         bus_coords.append((x, y))
                         buses.append(bus1)
+                        if x == 0 and y == 0:
+                            zero_coord_buses.append(bus1)
 
                     if bus2 not in buses:
                         self._dss.circuit.set_active_bus(bus2)
                         x, y = self._dss.bus.x, self._dss.bus.y
                         bus_coords.append((x, y))
                         buses.append(bus2)
-        bus_coords = np.array(bus_coords)
+                        if x == 0 and y == 0:
+                            zero_coord_buses.append(bus2)
 
-        result_values = list()
-        for element in elements_list:
-            if element.split(".")[0].lower() in ["line"]:
-                self._dss.circuit.set_active_element(element)
-                if self._dss.cktelement.is_enabled:
-                    result_values.append(results.loc[element])
+        bus_coords = np.array(bus_coords)
         result_values = np.array(result_values)
+
+        # Check if all buses have undefined coordinates
+        if len(zero_coord_buses) == len(buses) and len(buses) > 0:
+            raise ValueError(
+                "All buses have undefined coordinates (0,0). "
+                "Please define bus coordinates using the 'buscoords' command in OpenDSS or set bus x/y properties."
+            )
+
+        # Warn if some buses with undefined coordinates were found
+        if zero_coord_buses and len(zero_coord_buses) < len(buses):
+            warnings.warn(
+                f"{len(zero_coord_buses)} bus(es) have undefined coordinates (0,0) and will be skipped in the plot. "
+                f"OpenDSS uses (0,0) to indicate undefined coordinates. "
+                f"First few buses: {', '.join(zero_coord_buses[:5])}{'...' if len(zero_coord_buses) > 5 else ''}",
+                UserWarning,
+                stacklevel=3
+            )
+
+        # Create bus-to-index mapping for O(1) lookups in plotting methods
+        bus_to_idx = {bus: idx for idx, bus in enumerate(buses)}
 
         return {
             'settings': settings,
@@ -311,6 +441,7 @@ class CircuitBase:
             'line_type': line_type,
             'buses': buses,
             'bus_coords': bus_coords,
+            'bus_to_idx': bus_to_idx,
             'connections': connections,
             'result_values': result_values
         }
@@ -340,3 +471,47 @@ class CircuitBase:
         elif lt == 'ug' and dash_ug is not None:
             return dash_ug
         return default
+
+    def _calculate_colorbar_range(self, settings, result_values: np.ndarray) -> Tuple[float, float]:
+        """
+        Calculate the colorbar min and max values.
+
+        Args:
+            settings: The settings object containing colorbar_cmin and colorbar_cmax.
+            result_values: Array of result values.
+
+        Returns:
+            tuple: (cmin, cmax) values for the colorbar.
+        """
+        cmin = settings.colorbar_cmin if settings.colorbar_cmin else np.min(result_values)
+        cmax = settings.colorbar_cmax if settings.colorbar_cmax else np.max(result_values)
+        return cmin, cmax
+
+    def _calculate_colorbar_ticks(self, settings, result_values: np.ndarray) -> Tuple[Optional[np.ndarray], Optional[List[str]]]:
+        """
+        Calculate the colorbar tick values and text.
+
+        Args:
+            settings: The settings object containing colorbar tick configuration.
+            result_values: Array of result values.
+
+        Returns:
+            tuple: (tickvals, ticktext) for the colorbar, or (None, None) if using defaults.
+        """
+        custom_tickvals = None
+        custom_ticktext = None
+
+        if settings.colorbar_tickvals is not None:
+            custom_tickvals = np.linspace(np.min(result_values), np.max(result_values),
+                                          settings.colorbar_tickvals)
+            if settings.colorbar_ticktext_decimal_points:
+                custom_ticktext = [f"{v:.{settings.colorbar_ticktext_decimal_points}f}" for v in
+                                   custom_tickvals]
+            else:
+                custom_ticktext = [f"{v:.0f}" for v in custom_tickvals]
+
+        if settings.colorbar_tickvals_list:
+            custom_tickvals = settings.colorbar_tickvals_list
+            custom_ticktext = settings.colorbar_tickvals_list
+
+        return custom_tickvals, custom_ticktext

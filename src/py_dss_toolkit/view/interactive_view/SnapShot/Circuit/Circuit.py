@@ -7,12 +7,14 @@
 import plotly.graph_objects as go
 from typing import Optional, List
 from py_dss_interface import DSS
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBase import CircuitPlotParameter
 from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.model.ModelBase import ModelBase
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBase import CircuitBase
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitPlot import CircuitPlot
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitGeoPlot import CircuitGeoPlot
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBusMarker import CircuitBusMarker
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBase import CircuitSettingsContainer
 
 
 class Circuit(CircuitBase):
@@ -30,33 +32,89 @@ class Circuit(CircuitBase):
         # Initialize the base class which contains all shared logic
         super().__init__(dss, results, model)
         
-        # Create instances of the specialized plotting classes
-        self._circuit_plot = CircuitPlot(dss, results, model)
-        self._circuit_geoplot = CircuitGeoPlot(dss, results, model)
+        settings_container = CircuitSettingsContainer(self)
         
-        # Share all settings and strategy objects between instances
-        self._share_instances(self._circuit_plot)
-        self._share_instances(self._circuit_geoplot)
+        # Create instances of the specialized plotting classes with shared settings
+        self._circuit_plot = CircuitPlot(dss, results, model, settings_container=settings_container)
+        self._circuit_geoplot = CircuitGeoPlot(dss, results, model, settings_container=settings_container)
 
-    def circuit_plot(self, *args, **kwargs):
-        """Delegate to CircuitPlot class."""
-        return self._circuit_plot.circuit_plot(*args, **kwargs)
-
-    def circuit_geoplot(self, *args, **kwargs):
-        """Delegate to CircuitGeoPlot class."""
-        return self._circuit_geoplot.circuit_geoplot(*args, **kwargs)
-
-    def _share_instances(self, target_instance):
-        """Share all settings and strategy objects with the target instance."""
-        # Share settings objects
-        target_instance._active_power_settings = self._active_power_settings
-        target_instance._voltage_settings = self._voltage_settings
-        target_instance._user_numerical_defined_settings = self._user_numerical_defined_settings
-        target_instance._user_categorical_defined_settings = self._user_categorical_defined_settings
-        target_instance._phases_settings = self._phases_settings
-        target_instance._thermal_violation_settings = self._thermal_violation_settings
-        target_instance._voltage_violation_settings = self._voltage_violation_settings
-        target_instance._plot_style = self._plot_style
+    def circuit_plot(self,
+                     parameter: CircuitPlotParameter = "active power",
+                     title: Optional[str] = "Circuit Plot",
+                     xlabel: Optional[str] = 'X Coordinate',
+                     ylabel: Optional[str] = 'Y Coordinate',
+                     width_3ph: int = 3,
+                     width_2ph: int = 3,
+                     width_1ph: int = 3,
+                     dash_3ph: Optional[str] = None,
+                     dash_2ph: Optional[str] = None,
+                     dash_1ph: Optional[str] = None,
+                     dash_oh: Optional[str] = None,
+                     dash_ug: Optional[str] = None,
+                     mark_buses: bool = True,
+                     bus_markers: Optional[List[CircuitBusMarker]] = None,
+                     show_colorbar: bool = True,
+                     show: bool = False,
+                     save_file_path: Optional[str] = None) -> Optional[go.Figure]:
+        """
+        Create an interactive circuit plot.
         
-        # Share strategy objects (they reference the same settings)
-        target_instance._parameter_strategies = self._parameter_strategies
+        This method delegates to CircuitPlot.circuit_plot(). See that method's docstring
+        for detailed parameter descriptions.
+        """
+        return self._circuit_plot.circuit_plot(
+            parameter=parameter,
+            title=title,
+            xlabel=xlabel,
+            ylabel=ylabel,
+            width_3ph=width_3ph,
+            width_2ph=width_2ph,
+            width_1ph=width_1ph,
+            dash_3ph=dash_3ph,
+            dash_2ph=dash_2ph,
+            dash_1ph=dash_1ph,
+            dash_oh=dash_oh,
+            dash_ug=dash_ug,
+            mark_buses=mark_buses,
+            bus_markers=bus_markers,
+            show_colorbar=show_colorbar,
+            show=show,
+            save_file_path=save_file_path
+        )
+
+    def circuit_geoplot(self,
+                        parameter: CircuitPlotParameter = "active power",
+                        title: Optional[str] = "Circuit Plot",
+                        width_3ph: int = 3,
+                        width_2ph: int = 3,
+                        width_1ph: int = 3,
+                        mark_buses: bool = True,
+                        bus_markers: Optional[List[CircuitBusMarker]] = None,
+                        show_colorbar: bool = True,
+                        show: bool = False,
+                        map_style: Optional[str] = 'open-street-map',
+                        save_file_path: Optional[str] = None) -> Optional[go.Figure]:
+        """
+        Create an interactive geographic circuit plot.
+        
+        This method delegates to CircuitGeoPlot.circuit_geoplot(). See that method's docstring
+        for detailed parameter descriptions.
+        
+        Important:
+            This method requires coordinates to be in WGS84 (EPSG:4326) format (latitude/longitude).
+            If your bus coordinates are in a different coordinate reference system (CRS), you must
+            transform them to WGS84 before using this method.
+        """
+        return self._circuit_geoplot.circuit_geoplot(
+            parameter=parameter,
+            title=title,
+            width_3ph=width_3ph,
+            width_2ph=width_2ph,
+            width_1ph=width_1ph,
+            mark_buses=mark_buses,
+            bus_markers=bus_markers,
+            show_colorbar=show_colorbar,
+            show=show,
+            map_style=map_style,
+            save_file_path=save_file_path
+        )
