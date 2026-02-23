@@ -24,8 +24,6 @@ class MonitorBase:
         if m_mode != 0:
             error_message = f'Invalid monitor mode. It should be 0 not {m_mode}'
             raise ValueError(error_message)
-        if vi_polar in ["false", "no"]:
-            raise ValueError(f'Invalid monitor vipolar. It should be True or Yes not {vi_polar}')
 
     def _organize_v_results(self, name):
         self._dss.monitors.name = name
@@ -56,8 +54,6 @@ class MonitorBase:
         p_polar = self._dss.text(f"? monitor.{name}.ppolar").lower()
         if m_mode != 1:
             raise ValueError(f'Invalid monitor mode. It should be 1 not {m_mode}')
-        if p_polar in ["true", "yes"]:
-            raise ValueError(f'Invalid monitor ppolar. It should be True or Yes not {p_polar}')
 
     def _organize_p_results(self, name):
         self._dss.monitors.name = name
