@@ -483,8 +483,8 @@ class CircuitBase:
         Returns:
             tuple: (cmin, cmax) values for the colorbar.
         """
-        cmin = settings.colorbar_cmin if settings.colorbar_cmin else np.min(result_values)
-        cmax = settings.colorbar_cmax if settings.colorbar_cmax else np.max(result_values)
+        cmin = settings.colorbar_cmin if settings.colorbar_cmin is not None else np.min(result_values)
+        cmax = settings.colorbar_cmax if settings.colorbar_cmax is not None else np.max(result_values)
         return cmin, cmax
 
     def _calculate_colorbar_ticks(self, settings, result_values: np.ndarray) -> Tuple[Optional[np.ndarray], Optional[List[str]]]:
