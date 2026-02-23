@@ -118,7 +118,7 @@ class CircuitGeoPlot(CircuitBase):
         """Add traces for numerical geographic plots."""
         cmin, cmax = self._calculate_colorbar_range(settings, result_values)
         colorbar_trace_values = np.linspace(cmin, cmax, 100)
-        norm_values = (result_values - cmin) / (cmax - cmin)
+        norm_values = np.clip((result_values - cmin) / (cmax - cmin), 0, 1)
 
         rows = []
         for connection, value in zip(connections, norm_values):
