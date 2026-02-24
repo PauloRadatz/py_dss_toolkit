@@ -2,10 +2,10 @@ name: Tests
 
 on:
   workflow_dispatch:
-  push:
-    branches: [master, main]
-  pull_request:
-    branches: [master, main]
+  # push:
+  #   branches: [master, main]
+  # pull_request:
+  #   branches: [master, main]
 
 jobs:
   test:

@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/py-dss-toolkit.svg)](https://pypi.org/project/py-dss-toolkit/)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-brightgreen)
 [![License](https://img.shields.io/github/license/PauloRadatz/py_dss_toolkit)](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_toolkit/python-app.yml)](https://github.com/PauloRadatz/py_dss_toolkit/actions)
+<!-- [![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_toolkit/python-app.yml)](https://github.com/PauloRadatz/py_dss_toolkit/actions) -->
 ![PyPI Downloads](https://static.pepy.tech/badge/py-dss-toolkit)
 
 **`py-dss-toolkit`** is a Python package that builds on the capabilities of the [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface) package to provide advanced functionalities for creating Python-OpenDSS solutions more efficiently. By combining the robust connection to OpenDSS provided by `py-dss-interface` with the feature-rich tools of `py-dss-toolkit`, users can streamline their workflows and gain powerful new capabilities for analyzing and manipulating OpenDSS models, simulations, and results.
