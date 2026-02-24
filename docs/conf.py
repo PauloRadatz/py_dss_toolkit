@@ -17,10 +17,10 @@ extensions = [
 source_suffix = '.rst'
 master_doc = 'index'
 project = 'py-dss-toolkit'
-year = '2021'
+year = '2026'
 author = 'Paulo Radatz'
 copyright = '{0}, {1}'.format(year, author)
-version = release = '0.7.0'
+version = release = '0.8.0'
 
 pygments_style = 'trac'
 templates_path = ['.']

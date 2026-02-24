@@ -1,12 +1,14 @@
 # ⚡ py-dss-toolkit: Advanced Python Tools for OpenDSS Powered by EPRI
 
-[![PyPI Version](https://img.shields.io/pypi/v/py-dss-toolkit.svg)](https://pypi.org/project/py-dss-toolkit/)
+[![PyPI](https://img.shields.io/pypi/v/py-dss-toolkit.svg)](https://pypi.org/project/py-dss-toolkit/)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-brightgreen)
 [![License](https://img.shields.io/github/license/PauloRadatz/py_dss_toolkit)](https://github.com/PauloRadatz/py_dss_toolkit/blob/master/LICENSE)
-<!-- [![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_toolkit/python-app.yml)](https://github.com/PauloRadatz/py_dss_toolkit/actions) -->
+[![Build Status](https://img.shields.io/github/actions/workflow/status/PauloRadatz/py_dss_toolkit/python-app.yml)](https://github.com/PauloRadatz/py_dss_toolkit/actions)
+![PyPI Downloads](https://static.pepy.tech/badge/py-dss-toolkit)
 
 **`py-dss-toolkit`** is a Python package that builds on the capabilities of the [`py-dss-interface`](https://github.com/PauloRadatz/py_dss_interface) package to provide advanced functionalities for creating Python-OpenDSS solutions more efficiently. By combining the robust connection to OpenDSS provided by `py-dss-interface` with the feature-rich tools of `py-dss-toolkit`, users can streamline their workflows and gain powerful new capabilities for analyzing and manipulating OpenDSS models, simulations, and results.
 
-🔗 For more information about `py-dss-interface`, visit the [GitHub repository](https://github.com/PauloRadatz/py_dss_interface).
+Requires **py-dss-interface** (tested with 2.3.0). For more information about `py-dss-interface`, visit the [GitHub repository](https://github.com/PauloRadatz/py_dss_interface).
 
 🚨 Note: This project was previously known as `py-dss-tools` and the repository was named `py_dss_tools`. It has been renamed to avoid naming conflicts on PyPI.
 
@@ -33,9 +35,19 @@ cd py_dss_toolkit
 pip install -e .
 ```
 
+## 📦 Quickstart Example
+
+```python
+from py_dss_toolkit import CreateStudy
+
+study = CreateStudy.snapshot("My Study", dss_file="path/to/model.dss")
+study.run()
+study.interactive_view.circuit_plot()
+```
+
 ## ✨ Features
 
-- Retrieve, analyze, and visualize OpenDSS model data using with ease.
+- Retrieve, analyze, and visualize OpenDSS model data with ease.
 - Flexible simulation result access via `dss_tools` or structured workflows via `CreateStudy`.
 - Visualize circuit topology, voltage profiles, and time-series using DSSView, Plotly, or Matplotlib.
 - Extract Simulation results directly into pandas DataFrames.
@@ -131,6 +143,18 @@ study.run()
 study.interactive_view.circuit_plot()
 ```
 
+## 🧪 Running Tests
+
+```bash
+pytest tests/ -v --tb=short
+```
+
+## 🎓 Learn More
+
+The best way to master `py-dss-toolkit` and `py-dss-interface` is through the official course:
+
+👉 [Try the first modules for free](https://www.pauloradatz.me/course-py-dss-interface)
+
 ## 🤝 Community and Support
 
 Contributions and feedback are welcome! Open an issue or start a discussion on the [GitHub Issues Page](https://github.com/PauloRadatz/py_dss_toolkit/issues).
@@ -143,22 +167,19 @@ If you use `py-dss-toolkit` in your academic work, please reference it as follow
 
 **APA Style:**
 
-Radatz, P. (2026). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI* (Version X.X.X) [Computer software]. GitHub. https://github.com/PauloRadatz/py_dss_toolkit
+Radatz, P. (2026). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI* (Version 0.8.0) [Computer software]. GitHub. https://github.com/PauloRadatz/py_dss_toolkit
 
 **BibTeX Entry:**
 
 ```bibtex
-@software{radatz2025pydsstools,
+@software{radatz2026pydsstoolkit,
   author = {Paulo Radatz},
   title = {py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI},
   year = {2026},
-  version = {X.X.X},
+  version = {0.8.0},
   url = {https://github.com/PauloRadatz/py_dss_toolkit}
 }
 ```
-
-📌 Please replace `X.X.X` with the version of the package you are using.
-
 
 ## 🙏 Acknowledgements
 Developed and maintained by [Paulo Radatz](https://www.linkedin.com/in/pauloradatz/), with support from the global OpenDSS community.
