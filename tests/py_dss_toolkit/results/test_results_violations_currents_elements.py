@@ -7,7 +7,7 @@ from untils import expected_outputs
 
 def assert_violations_currents_elements_13bus(df, expected_file):
     expected_df = pd.read_parquet(expected_outputs.joinpath(expected_file))
-    assert_frame_equal(df, expected_df)
+    assert_frame_equal(df, expected_df, check_index_type=False)
 
 def test_dss_tools_13bus_violations_currents_elements_norm(dss_tools_13bus):
     dss_tools.simulation.solve_snapshot()

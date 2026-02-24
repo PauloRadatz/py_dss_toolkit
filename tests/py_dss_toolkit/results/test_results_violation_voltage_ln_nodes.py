@@ -7,7 +7,7 @@ from untils import expected_outputs
 
 def assert_violation_under_voltage_ln_nodes_13bus(df):
     expected_df = pd.read_parquet(expected_outputs.joinpath("results_violation_under_voltage_ln_nodes_13bus.parquet"))
-    assert_frame_equal(df, expected_df)
+    assert_frame_equal(df, expected_df, check_index_type=False)
 
 def test_dss_tools_13bus_violation_under_voltage_ln_nodes(dss_tools_13bus):
     dss_tools.simulation.solve_snapshot()
@@ -21,7 +21,7 @@ def test_snapshot_13bus_violation_under_voltage_ln_nodes(snapshot_study_13bus):
 
 def assert_violation_over_voltage_ln_nodes_13bus(df):
     expected_df = pd.read_parquet(expected_outputs.joinpath("results_violation_over_voltage_ln_nodes_13bus.parquet"))
-    assert_frame_equal(df, expected_df)
+    assert_frame_equal(df, expected_df, check_index_type=False)
 
 def test_dss_tools_13bus_violation_over_voltage_ln_nodes(dss_tools_13bus):
     dss_tools.simulation.solve_snapshot()

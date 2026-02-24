@@ -15,9 +15,9 @@ requires-python = ">=3.10"
 keywords = ["OpenDSS", "Python", "Power Systems", "Distribution Systems", "Energy"]
 dependencies = [
 	"py-dss-interface>=2.3.0",
-	"pandas>=1.5.0",
-	"matplotlib>=3.6.0",
-	"plotly>=5.10.0"
+	"pandas>=3.0.1",
+	"matplotlib>=3.10.8",
+	"plotly>=5.20.0"
 ]
 
 classifiers = [
