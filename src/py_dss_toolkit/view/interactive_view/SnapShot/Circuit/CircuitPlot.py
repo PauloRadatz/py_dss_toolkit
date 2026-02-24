@@ -38,7 +38,7 @@ class CircuitPlot(CircuitBase):
                      bus_markers: Optional[List[CircuitBusMarker]] = None,
                      show_colorbar: bool = True,
                      show: bool = False,
-                     save_file_path: Optional[str] = None) -> Optional[go.Figure]:
+                     save_file_path: Optional[str] = None) -> go.Figure:
 
         if mark_buses:
             mode = 'lines+markers'
@@ -110,9 +110,9 @@ class CircuitPlot(CircuitBase):
 
             midpoint_x, midpoint_y = (x0 + x1) / 2, (y0 + y1) / 2
             color = sample_colorscale(settings.colorscale, value)[0]
-            
+
             result_value = results.loc[element]
-            
+
             customdata = [[element, bus1, bus2, result_value],
                             [element, bus1, bus2, result_value]]
 

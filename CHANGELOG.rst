@@ -1,6 +1,13 @@
-
 Changelog
 =========
+
+0.8.0 (2026-02-24)
+------------------
+* Fixed bug in monitor plotting.
+* Added more unit tests and test reorganization (model, results, studies, view)
+* Allow user to access dss via dss_tools.dss.
+* Interactive view / plot style updates
+
 0.7.0 (2026-02-23)
 ------------------
 Updating to work with py-dss-interface 2.3.0

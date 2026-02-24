@@ -36,8 +36,7 @@ class InteractiveMonitor(MonitorBase):
                      legend: Optional[bool] = True,
                      save_file_path: Optional[str] = None,
                      show: Optional[bool] = False,
-                     get_fig_obj: bool = False
-                     ) -> Optional[go.Figure]:
+                     ) -> go.Figure:
         self._check_v_monitor(name)
 
         elem_nodes, v_base = self._organize_v_results(name)
@@ -85,8 +84,8 @@ class InteractiveMonitor(MonitorBase):
             fig.write_html(save_file_path)
         if show:
             fig.show()
-        if get_fig_obj:
-            return fig
+
+        return fig
 
     def p_vs_time(self,
                   name: str,
@@ -97,9 +96,8 @@ class InteractiveMonitor(MonitorBase):
                   ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
                   legend: Optional[bool] = True,
                   save_file_path: Optional[str] = None,
-                  show: Optional[bool] = False,
-                  get_fig_obj: bool = False
-                  ) -> Optional[go.Figure]:
+                  show: Optional[bool] = False
+                  ) -> go.Figure:
         self._check_p_monitor(name)
 
         elem_nodes = self._organize_p_results(name)
@@ -139,5 +137,5 @@ class InteractiveMonitor(MonitorBase):
             fig.write_html(save_file_path)
         if show:
             fig.show()
-        if get_fig_obj:
-            return fig
+
+        return fig

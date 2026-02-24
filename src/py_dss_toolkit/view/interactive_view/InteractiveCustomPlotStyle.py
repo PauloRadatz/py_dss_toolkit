@@ -112,8 +112,8 @@ class InteractiveCustomPlotStyle:
             font=dict(size=self.legend_font_size),
             xanchor='left' if 'left' in self.legend_position else 'right',
             yanchor='bottom' if 'bottom' in self.legend_position else 'top',
-            x=(-0.35 if 'outside' in self.legend_position and 'left' in self.legend_position else
-               1.2 if 'outside' in self.legend_position and 'right' in self.legend_position else
+            x=(-0.15 if 'outside' in self.legend_position and 'left' in self.legend_position else
+               1.02 if 'outside' in self.legend_position and 'right' in self.legend_position else
                0 if 'left' in self.legend_position else 1),
             y=0 if 'bottom' in self.legend_position else 1,
             bgcolor='rgba(255,255,255,0.8)' if 'outside' in self.legend_position else None,

@@ -40,7 +40,7 @@ class CircuitGeoPlot(CircuitBase):
                         show_colorbar: bool = True,
                         show: bool = False,
                         map_style: Optional[str] = 'open-street-map',
-                        save_file_path: Optional[str] = None) -> Optional[go.Figure]:
+                        save_file_path: Optional[str] = None) -> go.Figure:
         """
         Create an interactive geographic plot of the circuit.
 

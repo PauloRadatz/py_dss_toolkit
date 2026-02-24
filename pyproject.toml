@@ -1,20 +1,20 @@
 [build-system]
-requires = ["setuptools>=42", "wheel", "setuptools_scm"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "py-dss-toolkit"
-version = "0.7.0"
+version = "0.8.0"
 description = "Advanced Python Tools for OpenDSS Powered by EPRI."
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
   {name = "Paulo Radatz", email = "paulo.radatz@gmail.com"}
 ]
 requires-python = ">=3.10"
 keywords = ["OpenDSS", "Python", "Power Systems", "Distribution Systems", "Energy"]
 dependencies = [
-	"py-dss-interface>=2.2.1",
+	"py-dss-interface>=2.3.0",
 	"pandas>=1.5.0",
 	"matplotlib>=3.6.0",
 	"plotly>=5.10.0"
@@ -23,13 +23,14 @@ dependencies = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: Microsoft :: Windows",
   "Operating System :: POSIX :: Linux",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Scientific/Engineering",
   "Topic :: Software Development :: Libraries :: Python Modules"
 ]
