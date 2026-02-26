@@ -17,9 +17,8 @@ class Monitor:
 
         return self.__create_dataframe(name)
 
-    def __create_dataframe(self, name: str):
+    def _create_monitor_records(self, name: str):
         self._dss.monitors.name = name
-        num_channels = self._dss.monitors.num_channels
         headers = self._dss.monitors.header
         dbl_hour = self._dss.monitors.dbl_hour
         dbl_freq = self._dss.monitors.dbl_freq
@@ -34,4 +33,8 @@ class Monitor:
         for index, header in enumerate(headers):
             dict_to_df[header] = self._dss.monitors.channel(index + 1)
 
+        return dict_to_df
+
+    def __create_dataframe(self, name: str):
+        dict_to_df = self._create_monitor_records(name)
         return pd.DataFrame.from_dict(dict_to_df)

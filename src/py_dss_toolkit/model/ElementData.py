@@ -13,9 +13,10 @@ from py_dss_toolkit.model.ModelUtils import ModelUtils
 class ElementData:
     def __init__(self, dss: DSS):
         self._dss = dss
+        self._model_utils = ModelUtils(dss)
 
     def _element_data_records(self, element_class: str, element_name: str) -> dict:
-        if ModelUtils(self._dss).is_element_in_model(element_class, element_name):
+        if self._model_utils.is_element_in_model(element_class, element_name):
 
             self._dss.text(f"select {element_class}.{element_name}")
 
@@ -24,14 +25,8 @@ class ElementData:
             records = dict()
             records["name"] = element_name
 
-            for element_property in element_properties:
-                property_list = list()
-
-                property_list.append(
-                    self._dss.dssproperties.value_read(
-                        str(self._dss.cktelement.property_names.index(element_property) + 1)))
-
-                records[element_property.lower()] = property_list
+            for index, element_property in enumerate(element_properties, start=1):
+                records[element_property.lower()] = [self._dss.dssproperties.value_read(str(index))]
 
             return records
 
@@ -47,7 +42,7 @@ class ElementData:
         return df.T
 
     def edit_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
-        if ModelUtils(self._dss).is_element_in_model(element_class, element_name):
+        if self._model_utils.is_element_in_model(element_class, element_name):
 
             self._dss.text(f"select {element_class}.{element_name}")
             element_properties = [prop.lower() for prop in self._dss.cktelement.property_names]
@@ -64,7 +59,7 @@ class ElementData:
             raise ValueError(f"{element_class}.{element_name} does not exist in the model")
 
     def add_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
-        if ModelUtils(self._dss).is_element_in_model(element_class, element_name):
+        if self._model_utils.is_element_in_model(element_class, element_name):
             raise ValueError(f"{element_class}.{element_name} already exists in the model")
         dss_string = f"new {element_class}.{element_name} "
         for p, v in properties.items():
