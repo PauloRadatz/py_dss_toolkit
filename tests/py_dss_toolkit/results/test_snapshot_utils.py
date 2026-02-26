@@ -50,5 +50,5 @@ class TestViolationCurrentLimitType:
         assert get_violation_current_limit_type() == "norm_amps"
 
     def test_invalid_limit_type_raises(self):
-        with pytest.raises(AssertionError, match="limit_type must be"):
+        with pytest.raises(ValueError, match="limit_type must be"):
             set_violation_current_limit_type("invalid_type")

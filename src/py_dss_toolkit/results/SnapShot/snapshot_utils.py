@@ -10,7 +10,8 @@ _violation_current_limit_type = "norm_amps"
 
 def set_violation_current_limit_type(limit_type: str = "norm_amps"):
     global _violation_current_limit_type
-    assert limit_type in ("norm_amps", "emerg_amps"), "limit_type must be 'norm_amps' or 'emerg_amps'"
+    if limit_type not in ("norm_amps", "emerg_amps"):
+        raise ValueError("limit_type must be 'norm_amps' or 'emerg_amps'")
     _violation_current_limit_type = limit_type
 
 def get_violation_current_limit_type() -> str:
