@@ -3,6 +3,8 @@
 # @Email   : paulo.radatz@gmail.com
 
 
+from typing import Dict, List
+
 import pandas as pd
 from py_dss_interface import DSS
 
@@ -15,7 +17,7 @@ class SegmentsDF:
     def segments_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
-    def __create_dataframe(self):
+    def _create_segments_records(self) -> Dict[str, List]:
         elements_names = self._dss.circuit.elements_names
 
         filtered_elements = [element for element in elements_names if
@@ -36,20 +38,25 @@ class SegmentsDF:
         enabled_list = list()
         for elem in filtered_elements:
             self._dss.circuit.set_active_element(elem)
-            elem_name_list.append(self._dss.cktelement.name.lower())
-            elem_bus1_list.append(self._dss.cktelement.bus_names[0].split(".")[0])
-            nodes1 = self._dss.cktelement.bus_names[0].split(".")[1:]
+            elem_name = self._dss.cktelement.name.lower()
+            bus_names = self._dss.cktelement.bus_names
+            bus1_full = bus_names[0]
+            bus2_full = bus_names[1]
+
+            elem_name_list.append(elem_name)
+            elem_bus1_list.append(bus1_full.split(".")[0])
+            nodes1 = bus1_full.split(".")[1:]
             if len(nodes1) == 0:
                 elem_nodes1_list.append(["1", "2", "3"])
             else:
                 elem_nodes1_list.append(nodes1)
-            elem_bus2_list.append(self._dss.cktelement.bus_names[1].split(".")[0])
-            nodes2 = self._dss.cktelement.bus_names[1].split(".")[1:]
+            elem_bus2_list.append(bus2_full.split(".")[0])
+            nodes2 = bus2_full.split(".")[1:]
             if len(nodes2) == 0:
                 elem_nodes2_list.append(["1", "2", "3"])
             else:
                 elem_nodes2_list.append(nodes2)
-            elem_type_list.append(self._dss.cktelement.name.lower().split(".")[0])
+            elem_type_list.append(elem_name.split(".")[0])
 
             self._dss.circuit.set_active_bus(elem_bus1_list[-1])
             elem_x1_list.append(self._dss.bus.x)
@@ -64,17 +71,20 @@ class SegmentsDF:
             else:
                 enabled_list.append(True)
 
-        dict_df = dict()
-        dict_df["name"] = elem_name_list
-        dict_df["bus1"] = elem_bus1_list
-        dict_df["nodes1"] = elem_nodes1_list
-        dict_df["bus2"] = elem_bus2_list
-        dict_df["nodes2"] = elem_nodes2_list
-        dict_df["type"] = elem_type_list
-        dict_df["x1"] = elem_x1_list
-        dict_df["y1"] = elem_y1_list
-        dict_df["x2"] = elem_x2_list
-        dict_df["y2"] = elem_y2_list
-        dict_df["enabled"] = enabled_list
+        records = dict()
+        records["name"] = elem_name_list
+        records["bus1"] = elem_bus1_list
+        records["nodes1"] = elem_nodes1_list
+        records["bus2"] = elem_bus2_list
+        records["nodes2"] = elem_nodes2_list
+        records["type"] = elem_type_list
+        records["x1"] = elem_x1_list
+        records["y1"] = elem_y1_list
+        records["x2"] = elem_x2_list
+        records["y2"] = elem_y2_list
+        records["enabled"] = enabled_list
 
-        return pd.DataFrame.from_dict(dict_df)
+        return records
+
+    def __create_dataframe(self):
+        return pd.DataFrame.from_dict(self._create_segments_records())

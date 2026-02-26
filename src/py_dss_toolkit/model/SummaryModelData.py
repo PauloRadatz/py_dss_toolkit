@@ -14,12 +14,11 @@ class SummaryModelData:
     def summary_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
-    def __create_dataframe(self):
+    def _create_summary_records(self) -> dict:
         r_dict = dict()
-        r_order = ["buses", "nodes", "ckt elements"]
-        r_dict[r_order[0]] = self._dss.circuit.num_buses
-        r_dict[r_order[1]] = self._dss.circuit.num_nodes
-        r_dict[r_order[2]] = self._dss.circuit.num_ckt_elements
+        r_dict["buses"] = self._dss.circuit.num_buses
+        r_dict["nodes"] = self._dss.circuit.num_nodes
+        r_dict["ckt elements"] = self._dss.circuit.num_ckt_elements
 
         elements_list = self._dss.circuit.elements_names
 
@@ -35,8 +34,7 @@ class SummaryModelData:
                     element_counts[element_class] = 1
 
         for element_class, count in element_counts.items():
-            r_order.append(f"{element_class.lower()}")
-            r_dict[r_order[-1]] = count
+            r_dict[element_class.lower()] = count
 
         line_length = 0
         for element in elements_list:
@@ -79,8 +77,10 @@ class SummaryModelData:
             r_dict["load min kw"] = min_load_kw
             r_dict["load max kw"] = max_load_kw
 
-        df = pd.DataFrame.from_dict(r_dict, orient='index', columns=['count'])
-        return df
+        return r_dict
+
+    def __create_dataframe(self):
+        return pd.DataFrame.from_dict(self._create_summary_records(), orient='index', columns=['count'])
 
     def __get_max_min_norm_amps(self, elements_list, element_type):
         max_norm_amps = float('-inf')

@@ -49,13 +49,13 @@ class PlotParameterStrategy:
         """
         self._circuit = circuit_instance
 
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df: "pd.DataFrame" = None):
         """Return (settings, results, hovertemplate, numerical_plot)"""
         raise NotImplementedError
 
 
 class ActivePowerStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._active_power_settings
         columns = self._circuit._results.powers_elements[0].columns
         if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
@@ -68,7 +68,7 @@ class ActivePowerStrategy(PlotParameterStrategy):
 
 
 class ReactivePowerStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._active_power_settings
         columns = self._circuit._results.powers_elements[1].columns
         if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
@@ -81,7 +81,7 @@ class ReactivePowerStrategy(PlotParameterStrategy):
 
 
 class VoltageStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._voltage_settings
         bus = settings.bus
         columns = self._circuit._results.voltages_elements[0].columns
@@ -106,7 +106,7 @@ class VoltageStrategy(PlotParameterStrategy):
 
 
 class UserNumericalDefinedStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._user_numerical_defined_settings
         parameter = settings.parameter
         unit = settings.unit
@@ -124,11 +124,12 @@ class UserNumericalDefinedStrategy(PlotParameterStrategy):
 
 
 class PhasesStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._phases_settings
-        line_df = self._circuit._model.lines_df
-        line_df['name'] = 'line.' + line_df['name']
-        results = line_df.set_index("name")["phases"]
+        if lines_df is None:
+            lines_df = self._circuit._model.lines_df
+            lines_df['name'] = 'line.' + lines_df['name']
+        results = lines_df.set_index("name")["phases"]
         hovertemplate = ("<b>%{customdata[0]}</b><br>" +
                         "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
                         "<b>Phases: </b>%{customdata[3]}<br>")
@@ -136,14 +137,15 @@ class PhasesStrategy(PlotParameterStrategy):
 
 
 class VoltageViolationsStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._voltage_violation_settings
         under_v_bus_violations = self._circuit._results.violation_voltage_ln_nodes[0].index
         over_v_bus_violations = self._circuit._results.violation_voltage_ln_nodes[1].index
         both_v_bus_violations = under_v_bus_violations.intersection(over_v_bus_violations)
-        line_df = self._circuit._model.lines_df
-        line_df['name'] = 'line.' + line_df['name']
-        results = line_df.set_index("name")
+        if lines_df is None:
+            lines_df = self._circuit._model.lines_df
+            lines_df['name'] = 'line.' + lines_df['name']
+        results = lines_df.set_index("name")
         results["bus"] = results['bus1'].str.split('.', n=1).str[0]
         results["violation"] = "0"
         results.loc[results['bus'].isin(under_v_bus_violations), 'violation'] = "1"
@@ -156,12 +158,13 @@ class VoltageViolationsStrategy(PlotParameterStrategy):
 
 
 class ThermalViolationsStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._thermal_violation_settings
         line_violations = self._circuit._results.violation_currents_elements.index
-        line_df = self._circuit._model.lines_df
-        line_df['name'] = 'line.' + line_df['name']
-        results = line_df.set_index("name")
+        if lines_df is None:
+            lines_df = self._circuit._model.lines_df
+            lines_df['name'] = 'line.' + lines_df['name']
+        results = lines_df.set_index("name")
         results["violation"] = "0"
         results.loc[results.index.isin(line_violations), 'violation'] = "1"
         results = results["violation"]
@@ -171,7 +174,7 @@ class ThermalViolationsStrategy(PlotParameterStrategy):
 
 
 class UserCategoricalDefinedStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._user_categorical_defined_settings
         parameter = settings.parameter
         if settings.results is None:
@@ -186,7 +189,7 @@ class UserCategoricalDefinedStrategy(PlotParameterStrategy):
         return settings, results, hovertemplate, False
 
 class DistanceStrategy(PlotParameterStrategy):
-    def get_settings_and_results(self):
+    def get_settings_and_results(self, lines_df=None):
         """
         Calculate distance from energymeter for each line element.
 
@@ -204,8 +207,11 @@ class DistanceStrategy(PlotParameterStrategy):
             for bus_name, distance in zip(buses_df['name'], buses_df['distance'])
         }
 
-        line_df = self._circuit._model.lines_df.copy()
-        line_df['name'] = 'line.' + line_df['name']
+        if lines_df is not None:
+            line_df = lines_df.copy()
+        else:
+            line_df = self._circuit._model.lines_df.copy()
+            line_df['name'] = 'line.' + line_df['name']
 
         line_df['bus1_name'] = line_df['bus1'].str.split('.').str[0].str.lower()
         line_df['bus2_name'] = line_df['bus2'].str.split('.').str[0].str.lower()
@@ -335,7 +341,7 @@ class CircuitBase:
     def distance_settings(self):
         return self._distance_settings
 
-    def _get_plot_settings(self, parameter: CircuitPlotParameter):
+    def _get_plot_settings(self, parameter: CircuitPlotParameter, lines_df: pd.DataFrame = None):
         """
         Helper to get settings, results, hovertemplate, and numerical_plot for a given parameter.
 
@@ -360,56 +366,54 @@ class CircuitBase:
             raise ValueError(f"Unknown parameter: {parameter}. Supported parameters: {list(self._parameter_strategies.keys())}")
 
         strategy = self._parameter_strategies[parameter]
-        return strategy.get_settings_and_results()
+        return strategy.get_settings_and_results(lines_df=lines_df)
 
-    def _prepare_plot_data(self, parameter: CircuitPlotParameter):
+    def _prepare_plot_data(self, parameter: CircuitPlotParameter, warn_zero_coord_buses: bool = False):
         """
         Prepare common data for both circuit_plot and circuit_geoplot methods.
 
         Returns:
             dict: Contains all the data needed for plotting
         """
-        settings, results, hovertemplate, numerical_plot = self._get_plot_settings(parameter)
         line_df = self._model.lines_df.copy()
         line_df['name'] = 'line.' + line_df['name']
+        settings, results, hovertemplate, numerical_plot = self._get_plot_settings(parameter, lines_df=line_df)
         num_phases = line_df.set_index("name")["phases"]
         line_type = line_df.set_index("name")["linetype"]
 
-        buses = list()
-        bus_coords = list()
-        elements_list = [element.lower() for element in self._dss.circuit.elements_names]
-        connections = []
-        zero_coord_buses = []  # Track buses with (0,0) coordinates
-        result_values = list()
+        segments_df = self._model.segments_df
+        line_segments = segments_df[
+            (segments_df["type"] == "line") & (segments_df["enabled"])
+        ]
 
-        # Single pass: collect buses, coordinates, connections, and result values
-        for element in elements_list:
-            if element.split(".")[0].lower() in ["line"]:
-                self._dss.circuit.set_active_element(element)
-                if self._dss.cktelement.is_enabled:
-                    bus1, bus2 = self._dss.cktelement.bus_names[0].split(".")[0].lower(), \
-                        self._dss.cktelement.bus_names[1].split(".")[0].lower()
-                    connections.append([element, (bus1.lower(), bus2.lower())])
-                    result_values.append(results.loc[element])
+        if len(line_segments) > 0:
+            bus1_df = line_segments[["bus1", "x1", "y1"]].rename(
+                columns={"bus1": "bus", "x1": "x", "y1": "y"}
+            )
+            bus2_df = line_segments[["bus2", "x2", "y2"]].rename(
+                columns={"bus2": "bus", "x2": "x", "y2": "y"}
+            )
+            bus_coords_df = pd.concat([bus1_df, bus2_df]).drop_duplicates(
+                subset=["bus"], keep="first"
+            )
+            bus_to_coord = {
+                str(r.bus).lower(): (float(r.x), float(r.y))
+                for r in bus_coords_df.itertuples(index=False)
+            }
+        else:
+            bus_to_coord = {}
 
-                    if bus1 not in buses:
-                        self._dss.circuit.set_active_bus(bus1)
-                        x, y = self._dss.bus.x, self._dss.bus.y
-                        bus_coords.append((x, y))
-                        buses.append(bus1)
-                        if x == 0 and y == 0:
-                            zero_coord_buses.append(bus1)
-
-                    if bus2 not in buses:
-                        self._dss.circuit.set_active_bus(bus2)
-                        x, y = self._dss.bus.x, self._dss.bus.y
-                        bus_coords.append((x, y))
-                        buses.append(bus2)
-                        if x == 0 and y == 0:
-                            zero_coord_buses.append(bus2)
-
-        bus_coords = np.array(bus_coords)
-        result_values = np.array(result_values)
+        buses = sorted(bus_to_coord.keys())
+        bus_coords = np.array([bus_to_coord[b] for b in buses])
+        zero_coord_buses = [b for b in buses if bus_to_coord[b] == (0.0, 0.0)]
+        connections = [
+            [r.name, (str(r.bus1).lower(), str(r.bus2).lower())]
+            for r in line_segments.itertuples(index=False)
+        ]
+        if len(line_segments) > 0:
+            result_values = results.loc[line_segments["name"]].values
+        else:
+            result_values = np.array([])
 
         # Check if all buses have undefined coordinates
         if len(zero_coord_buses) == len(buses) and len(buses) > 0:
@@ -419,7 +423,7 @@ class CircuitBase:
             )
 
         # Warn if some buses with undefined coordinates were found
-        if zero_coord_buses and len(zero_coord_buses) < len(buses):
+        if warn_zero_coord_buses and zero_coord_buses and len(zero_coord_buses) < len(buses):
             warnings.warn(
                 f"{len(zero_coord_buses)} bus(es) have undefined coordinates (0,0) and will be skipped in the plot. "
                 f"OpenDSS uses (0,0) to indicate undefined coordinates. "

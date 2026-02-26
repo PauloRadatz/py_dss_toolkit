@@ -23,10 +23,12 @@ def create_terminal_list(nodes, num_terminals):
         terminal_list.append(f'Terminal{terminal_number}.{node}')
     return terminal_list
 
-def create_currents_elements_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def create_currents_elements_records(dss: DSS) -> Tuple[dict, dict, list, dict, dict]:
     element_nodes = dict()
     element_imags = dict()
     element_iangs = dict()
+    element_norm_amps = dict()
+    element_emerg_amps = dict()
     elements = list()
 
     is_there_pd = dss.circuit.pd_element_first()
@@ -40,6 +42,8 @@ def create_currents_elements_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.Data
         element_nodes[element] = nodes
         element_imags[element] = imags
         element_iangs[element] = iangs
+        element_norm_amps[element] = dss.cktelement.norm_amps
+        element_emerg_amps[element] = dss.cktelement.emerg_amps
         elements.append(element)
         if not dss.circuit.pd_element_next():
             is_there_pd = False
@@ -59,12 +63,25 @@ def create_currents_elements_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.Data
         if not dss.circuit.pc_element_next():
             is_there_pc = False
 
-    imags_df = pd.DataFrame(index=elements)
-    for element, nodes in element_nodes.items():
-        for order, node in enumerate(nodes):
-            imags_df.loc[element, node] = element_imags[element][order]
-    iangs_df = pd.DataFrame(index=elements)
-    for element, nodes in element_nodes.items():
-        for order, node in enumerate(nodes):
-            iangs_df.loc[element, node] = element_iangs[element][order]
+    imags_records = {
+        element: {node: element_imags[element][order] for order, node in enumerate(nodes)}
+        for element, nodes in element_nodes.items()
+    }
+
+    iangs_records = {
+        element: {node: element_iangs[element][order] for order, node in enumerate(nodes)}
+        for element, nodes in element_nodes.items()
+    }
+
+    return imags_records, iangs_records, elements, element_norm_amps, element_emerg_amps
+
+def create_currents_elements_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    imags_records, iangs_records, elements, _, _ = create_currents_elements_records(dss)
+
+    imags_df = pd.DataFrame.from_dict(imags_records, orient='index')
+    imags_df = imags_df.reindex(elements)
+
+    iangs_df = pd.DataFrame.from_dict(iangs_records, orient='index')
+    iangs_df = iangs_df.reindex(elements)
+
     return imags_df, iangs_df
