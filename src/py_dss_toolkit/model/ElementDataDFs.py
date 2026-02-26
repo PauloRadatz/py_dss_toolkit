@@ -3,6 +3,8 @@
 # @Email   : paulo.radatz@gmail.com
 
 
+from typing import Optional, Dict, List
+
 from py_dss_interface import DSS
 import pandas as pd
 
@@ -43,33 +45,33 @@ class ElementDataDFs:
     def loads_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.loads)
 
-    def __create_dataframe(self, element):
+    def _create_element_data_records(self, element) -> Optional[Dict[str, List]]:
         if element.count == 0:
             return None
 
         element.first()
         element_properties = self._dss.cktelement.property_names
+        prop_keys = [p.lower() for p in element_properties]
+        num_props = len(element_properties)
 
-        dict_to_df = dict()
-
-        name_list = list()
-
+        rows = []
         for element_name in element.names:
             element.name = element_name
             if self._dss.cktelement.is_enabled:
-                name_list.append(element.name.lower())
-        dict_to_df["name"] = name_list
+                row = [element.name.lower()]
+                for idx in range(num_props):
+                    row.append(self._dss.dssproperties.value_read(str(idx + 1)))
+                rows.append(row)
 
-        for element_property in element_properties:
-            property_list = list()
+        if not rows:
+            return None
 
-            for element_name in element.names:
-                element.name = element_name
-                if self._dss.cktelement.is_enabled:
-                    property_list.append(
-                        self._dss.dssproperties.value_read(
-                            str(self._dss.cktelement.property_names.index(element_property) + 1)))
+        columns = ["name"] + prop_keys
+        records = {col: [r[i] for r in rows] for i, col in enumerate(columns)}
+        return records
 
-            dict_to_df[element_property.lower()] = property_list
-
-        return pd.DataFrame.from_dict(dict_to_df)
+    def __create_dataframe(self, element):
+        records = self._create_element_data_records(element)
+        if records is None:
+            return None
+        return pd.DataFrame.from_dict(records)

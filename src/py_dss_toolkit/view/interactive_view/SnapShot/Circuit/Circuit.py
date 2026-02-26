@@ -54,6 +54,7 @@ class Circuit(CircuitBase):
                      mark_buses: bool = True,
                      bus_markers: Optional[List[CircuitBusMarker]] = None,
                      show_colorbar: bool = True,
+                     warn_zero_coord_buses: bool = False,
                      show: bool = False,
                      save_file_path: Optional[str] = None) -> Optional[go.Figure]:
         """
@@ -78,6 +79,7 @@ class Circuit(CircuitBase):
             mark_buses=mark_buses,
             bus_markers=bus_markers,
             show_colorbar=show_colorbar,
+            warn_zero_coord_buses=warn_zero_coord_buses,
             show=show,
             save_file_path=save_file_path
         )
@@ -91,6 +93,7 @@ class Circuit(CircuitBase):
                         mark_buses: bool = True,
                         bus_markers: Optional[List[CircuitBusMarker]] = None,
                         show_colorbar: bool = True,
+                        warn_zero_coord_buses: bool = False,
                         show: bool = False,
                         map_style: Optional[str] = 'open-street-map',
                         save_file_path: Optional[str] = None) -> Optional[go.Figure]:
@@ -114,6 +117,7 @@ class Circuit(CircuitBase):
             mark_buses=mark_buses,
             bus_markers=bus_markers,
             show_colorbar=show_colorbar,
+            warn_zero_coord_buses=warn_zero_coord_buses,
             show=show,
             map_style=map_style,
             save_file_path=save_file_path

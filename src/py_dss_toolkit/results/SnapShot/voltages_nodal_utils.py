@@ -4,8 +4,7 @@ from typing import Tuple
 import math
 import numpy as np
 
-def create_nodal_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    node_order = [node.lower() for node in dss.circuit.y_node_order]
+def create_nodal_voltage_records(dss: DSS) -> Tuple[dict, dict, list]:
     bus_nodes = dict()
     bus_vmags = dict()
     bus_vangs = dict()
@@ -23,24 +22,30 @@ def create_nodal_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFram
         bus_vmags[bus] = vmags
         bus_vangs[bus] = vangs
 
-    vmags_df = pd.DataFrame(index=buses)
+    vmags_records = {
+        bus: {f'node{node}': bus_vmags[bus][order] for order, node in enumerate(nodes)}
+        for bus, nodes in bus_nodes.items()
+    }
 
-    for bus, nodes in bus_nodes.items():
-        for order, node in enumerate(nodes):
-            column_name = f'node{node}'
-            vmags_df.loc[bus, column_name] = bus_vmags[bus][order]
+    vangs_records = {
+        bus: {f'node{node}': bus_vangs[bus][order] for order, node in enumerate(nodes)}
+        for bus, nodes in bus_nodes.items()
+    }
 
-    vangs_df = pd.DataFrame(index=buses)
+    return vmags_records, vangs_records, buses
 
-    for bus, nodes in bus_nodes.items():
-        for order, node in enumerate(nodes):
-            column_name = f'node{node}'
-            vangs_df.loc[bus, column_name] = bus_vangs[bus][order]
+def create_nodal_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    vmags_records, vangs_records, buses = create_nodal_voltage_records(dss)
+
+    vmags_df = pd.DataFrame.from_dict(vmags_records, orient='index')
+    vmags_df = vmags_df.reindex(buses)
+
+    vangs_df = pd.DataFrame.from_dict(vangs_records, orient='index')
+    vangs_df = vangs_df.reindex(buses)
 
     return vmags_df, vangs_df
 
-def create_nodal_ll_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    node_order = [node.lower() for node in dss.circuit.y_node_order]
+def create_nodal_ll_voltage_records(dss: DSS) -> Tuple[dict, dict, list]:
     bus_nodes = dict()
     bus_vmags = dict()
     bus_vangs = dict()
@@ -64,24 +69,35 @@ def create_nodal_ll_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataF
             bus_vmags[bus] = vmags
             bus_vangs[bus] = vangs
 
-    vmags_df = pd.DataFrame(index=buses)
-
+    vmags_records = {}
     for bus, nodes in bus_nodes.items():
+        row = {}
         for order, node in enumerate(nodes):
-            column_name = f'node{node}'
             try:
-                vmags_df.loc[bus, column_name] = bus_vmags[bus][order]
-            except:
-                vmags_df.loc[bus, column_name] = np.nan
+                row[f'node{node}'] = bus_vmags[bus][order]
+            except (IndexError, KeyError):
+                row[f'node{node}'] = np.nan
+        vmags_records[bus] = row
 
-    vangs_df = pd.DataFrame(index=buses)
-
+    vangs_records = {}
     for bus, nodes in bus_nodes.items():
+        row = {}
         for order, node in enumerate(nodes):
-            column_name = f'node{node}'
             try:
-                vangs_df.loc[bus, column_name] = bus_vangs[bus][order]
-            except:
-                vangs_df.loc[bus, column_name] = np.nan
+                row[f'node{node}'] = bus_vangs[bus][order]
+            except (IndexError, KeyError):
+                row[f'node{node}'] = np.nan
+        vangs_records[bus] = row
+
+    return vmags_records, vangs_records, buses
+
+def create_nodal_ll_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    vmags_records, vangs_records, buses = create_nodal_ll_voltage_records(dss)
+
+    vmags_df = pd.DataFrame.from_dict(vmags_records, orient='index')
+    vmags_df = vmags_df.reindex(buses)
+
+    vangs_df = pd.DataFrame.from_dict(vangs_records, orient='index')
+    vangs_df = vangs_df.reindex(buses)
 
     return vmags_df, vangs_df

@@ -17,8 +17,7 @@ class Powers:
     def powers_elements(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         return self.__create_dataframe()
 
-    def __create_dataframe(self):
-        node_order = [node.lower() for node in self._dss.circuit.y_node_order]
+    def _create_powers_records(self) -> Tuple[dict, dict, list]:
         element_nodes = dict()
         element_p = dict()
         element_q = dict()
@@ -27,7 +26,6 @@ class Powers:
         is_there_pd = self._dss.circuit.pd_element_first()
         while is_there_pd:
             element = self._dss.cktelement.name.lower()
-            num_phases = self._dss.cktelement.num_phases
             num_terminals = self._dss.cktelement.num_terminals
             num_conductors = self._dss.cktelement.num_conductors
 
@@ -46,7 +44,6 @@ class Powers:
         is_there_pc = self._dss.circuit.pc_element_first()
         while is_there_pc:
             element = self._dss.cktelement.name.lower()
-            num_phases = self._dss.cktelement.num_phases
             num_terminals = self._dss.cktelement.num_terminals
             num_conductors = self._dss.cktelement.num_conductors
 
@@ -62,18 +59,25 @@ class Powers:
             if not self._dss.circuit.pc_element_next():
                 is_there_pc = False
 
-        p_df = pd.DataFrame(index=elements)
+        p_records = {
+            element: {node: element_p[element][order] for order, node in enumerate(nodes)}
+            for element, nodes in element_nodes.items()
+        }
 
-        for element, nodes in element_nodes.items():
-            for order, node in enumerate(nodes):
-                # column_name = f'node{node}'
-                p_df.loc[element, node] = element_p[element][order]
+        q_records = {
+            element: {node: element_q[element][order] for order, node in enumerate(nodes)}
+            for element, nodes in element_nodes.items()
+        }
 
-        q_df = pd.DataFrame(index=elements)
+        return p_records, q_records, elements
 
-        for element, nodes in element_nodes.items():
-            for order, node in enumerate(nodes):
-                # column_name = f'node{node}'
-                q_df.loc[element, node] = element_q[element][order]
+    def __create_dataframe(self):
+        p_records, q_records, elements = self._create_powers_records()
+
+        p_df = pd.DataFrame.from_dict(p_records, orient='index')
+        p_df = p_df.reindex(elements)
+
+        q_df = pd.DataFrame.from_dict(q_records, orient='index')
+        q_df = q_df.reindex(elements)
 
         return p_df, q_df

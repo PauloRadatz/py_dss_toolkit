@@ -15,12 +15,12 @@ class CurrentsViolations:
         loading = CurrentsLoading(self._dss)
         loading_df = loading.current_loading_percent
 
-        mask = []
-        for idx, row in loading_df.iterrows():
-            if idx.startswith("transformer."):
-                relevant = row[[col for col in row.index if "Terminal1" in col]]
-                mask.append((relevant > self.threshold_percent).any())
-            else:
-                mask.append((row > self.threshold_percent).any())
+        terminal1_cols = [c for c in loading_df.columns if "Terminal1" in c]
+        is_transformer = loading_df.index.str.startswith("transformer.")
+        mask = pd.Series(False, index=loading_df.index)
+        if is_transformer.any():
+            mask[is_transformer] = (loading_df.loc[is_transformer, terminal1_cols] > self.threshold_percent).any(axis=1)
+        if (~is_transformer).any():
+            mask[~is_transformer] = (loading_df[~is_transformer] > self.threshold_percent).any(axis=1)
         violating_elements = loading_df[mask]
         return violating_elements

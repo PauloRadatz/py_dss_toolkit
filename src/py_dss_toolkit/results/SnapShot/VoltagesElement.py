@@ -17,8 +17,7 @@ class VoltagesElement:
     def voltages_elements(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         return self.__create_dataframe()
 
-    def __create_dataframe(self):
-        node_order = [node.lower() for node in self._dss.circuit.y_node_order]
+    def _create_voltages_element_records(self) -> Tuple[dict, dict, list]:
         element_nodes = dict()
         element_vmags = dict()
         element_vangs = dict()
@@ -27,7 +26,6 @@ class VoltagesElement:
         is_there_pd = self._dss.circuit.pd_element_first()
         while is_there_pd:
             element = self._dss.cktelement.name.lower()
-            num_phases = self._dss.cktelement.num_phases
             num_terminals = self._dss.cktelement.num_terminals
             num_conductors = self._dss.cktelement.num_conductors
 
@@ -61,7 +59,6 @@ class VoltagesElement:
         is_there_pc = self._dss.circuit.pc_element_first()
         while is_there_pc:
             element = self._dss.cktelement.name.lower()
-            num_phases = self._dss.cktelement.num_phases
             num_terminals = self._dss.cktelement.num_terminals
             num_conductors = self._dss.cktelement.num_conductors
 
@@ -85,18 +82,25 @@ class VoltagesElement:
             if not self._dss.circuit.pc_element_next():
                 is_there_pc = False
 
-        vmags_df = pd.DataFrame(index=elements)
+        vmags_records = {
+            element: {node: element_vmags[element][order] for order, node in enumerate(nodes)}
+            for element, nodes in element_nodes.items()
+        }
 
-        for element, nodes in element_nodes.items():
-            for order, node in enumerate(nodes):
-                # column_name = f'node{node}'
-                vmags_df.loc[element, node] = element_vmags[element][order]
+        vangs_records = {
+            element: {node: element_vangs[element][order] for order, node in enumerate(nodes)}
+            for element, nodes in element_nodes.items()
+        }
 
-        vangs_df = pd.DataFrame(index=elements)
+        return vmags_records, vangs_records, elements
 
-        for element, nodes in element_nodes.items():
-            for order, node in enumerate(nodes):
-                # column_name = f'node{node}'
-                vangs_df.loc[element, node] = element_vangs[element][order]
+    def __create_dataframe(self):
+        vmags_records, vangs_records, elements = self._create_voltages_element_records()
+
+        vmags_df = pd.DataFrame.from_dict(vmags_records, orient='index')
+        vmags_df = vmags_df.reindex(elements)
+
+        vangs_df = pd.DataFrame.from_dict(vangs_records, orient='index')
+        vangs_df = vangs_df.reindex(elements)
 
         return vmags_df, vangs_df

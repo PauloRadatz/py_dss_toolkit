@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.10.0 (2026-02-26)
+-------------------
+* Relaxed dependency constraints to improve compatibility in Google Colab environments.
+
+0.9.0 (2026-02-26)
+------------------
+* Performance improvements across model, results, and view modules
+
 0.8.0 (2026-02-24)
 ------------------
 * Fixed bug in monitor plotting.

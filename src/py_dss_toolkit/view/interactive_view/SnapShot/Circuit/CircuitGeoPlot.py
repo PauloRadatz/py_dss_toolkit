@@ -38,6 +38,7 @@ class CircuitGeoPlot(CircuitBase):
                         mark_buses: bool = True,
                         bus_markers: Optional[List[CircuitBusMarker]] = None,
                         show_colorbar: bool = True,
+                        warn_zero_coord_buses: bool = False,
                         show: bool = False,
                         map_style: Optional[str] = 'open-street-map',
                         save_file_path: Optional[str] = None) -> go.Figure:
@@ -62,6 +63,8 @@ class CircuitGeoPlot(CircuitBase):
             mark_buses (bool): Whether to show bus markers. Defaults to True.
             bus_markers (Optional[List[CircuitBusMarker]]): Custom bus markers to display.
             show_colorbar (bool): Whether to show the colorbar. Defaults to True.
+            warn_zero_coord_buses (bool): If True, show warning when buses have undefined (0,0)
+                coordinates. Defaults to False.
             show (bool): Whether to display the plot immediately. Defaults to False.
             map_style (Optional[str]): Map style for the background. Options include:
                 'open-street-map', 'white-bg', 'carto-positron', 'carto-darkmatter',
@@ -79,7 +82,7 @@ class CircuitGeoPlot(CircuitBase):
         else:
             mode = 'lines'
 
-        plot_data = self._prepare_plot_data(parameter)
+        plot_data = self._prepare_plot_data(parameter, warn_zero_coord_buses=warn_zero_coord_buses)
         settings = plot_data['settings']
         results = plot_data['results']
         hovertemplate = plot_data['hovertemplate']
@@ -97,7 +100,7 @@ class CircuitGeoPlot(CircuitBase):
                                               bus_coords, bus_to_idx, result_values, num_phases,
                                               width_1ph, width_2ph, width_3ph, mode, show_colorbar)
         else:
-            self._add_geo_categorical_plot_traces(fig, settings, results, hovertemplate, connections,
+            self._add_geo_categorical_plot_traces(fig, settings, result_values, hovertemplate, connections,
                                                 bus_coords, bus_to_idx, num_phases,
                                                 width_1ph, width_2ph, width_3ph, mode)
 
@@ -119,21 +122,19 @@ class CircuitGeoPlot(CircuitBase):
         cmin, cmax = self._calculate_colorbar_range(settings, result_values)
         colorbar_trace_values = np.linspace(cmin, cmax, 100)
         norm_values = np.clip((result_values - cmin) / (cmax - cmin), 0, 1)
+        colors = sample_colorscale(settings.colorscale, list(norm_values))
 
         rows = []
-        for connection, value in zip(connections, norm_values):
+        for connection, color, value in zip(connections, colors, result_values):
             element, (bus1, bus2) = connection
             x0, y0 = bus_coords[bus_to_idx[bus1]]
             x1, y1 = bus_coords[bus_to_idx[bus2]]
-            # Skip buses with (0,0) coordinates - OpenDSS uses this to indicate undefined coordinates
-            # Note: If your circuit legitimately has a bus at (0,0), offset it slightly (e.g., 0.0001, 0.0001)
             if x0 == 0 and y0 == 0:
                 continue
             if x1 == 0 and y1 == 0:
                 continue
-            color = sample_colorscale(settings.colorscale, value)[0]
             width = self._get_phase_width(element, num_phases, width_1ph, width_2ph, width_3ph)
-            result_value = results.loc[element]
+            result_value = value
             # Add two points for the line segment plus a separator
             rows.append({'element': element, 'x': x0, 'y': y0, 'color': color,
                         'bus1': bus1, 'bus2': bus2, 'value': result_value, 'width': width})
@@ -175,23 +176,20 @@ class CircuitGeoPlot(CircuitBase):
         if show_colorbar:
             self._add_geo_colorbar(fig, settings, colorbar_trace_values, cmin, cmax, result_values)
 
-    def _add_geo_categorical_plot_traces(self, fig, settings, results, hovertemplate, connections,
+    def _add_geo_categorical_plot_traces(self, fig, settings, result_values, hovertemplate, connections,
                                         bus_coords, bus_to_idx, num_phases,
                                         width_1ph, width_2ph, width_3ph, mode):
         """Add traces for categorical geographic plots."""
         legend_added = set()
         rows = []
-        for connection in connections:
+        for connection, result_value in zip(connections, result_values):
             element, (bus1, bus2) = connection
             x0, y0 = bus_coords[bus_to_idx[bus1]]
             x1, y1 = bus_coords[bus_to_idx[bus2]]
-            # Skip buses with (0,0) coordinates - OpenDSS uses this to indicate undefined coordinates
-            # Note: If your circuit legitimately has a bus at (0,0), offset it slightly (e.g., 0.0001, 0.0001)
             if x0 == 0 and y0 == 0:
                 continue
             if x1 == 0 and y1 == 0:
                 continue
-            result_value = results.loc[element]
             color = settings.color_map[result_value][1]
             category = settings.color_map[result_value][0]
             width = self._get_phase_width(element, num_phases, width_1ph, width_2ph, width_3ph)
