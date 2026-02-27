@@ -40,10 +40,6 @@ class CircuitPlot(CircuitBase):
                      warn_zero_coord_buses: bool = False,
                      show: bool = False,
                      save_file_path: Optional[str] = None) -> go.Figure:
-        """
-        Create an interactive circuit plot.
-
-        """
 
         if mark_buses:
             mode = 'lines+markers'
