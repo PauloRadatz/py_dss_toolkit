@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.12.0 (2026-02-27)
+-------------------
+* ``user_numerical_defined_settings.results`` and ``user_categorical_defined_settings.results`` now require a pandas Series (not DataFrame); raises descriptive error if DataFrame is passed.
+
 0.11.0 (2026-02-27)
 -------------------
 * Added Losses results: ``losses_elements`` returns total active and reactive losses per PD element (kW, kvar).
