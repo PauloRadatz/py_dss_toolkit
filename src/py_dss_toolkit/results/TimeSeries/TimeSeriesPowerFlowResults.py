@@ -4,8 +4,10 @@
 
 from py_dss_interface import DSS
 
+from py_dss_toolkit.results.SnapShot.AllLosses import AllLosses
 from py_dss_toolkit.results.SnapShot.CircuitSnapShotPowerFlowResults import CircuitSnapShotPowerFlowResults
 from py_dss_toolkit.results.SnapShot.Currents import Currents
+from py_dss_toolkit.results.SnapShot.Losses import Losses
 from py_dss_toolkit.results.SnapShot.Powers import Powers
 from py_dss_toolkit.results.SnapShot.VoltagesElement import VoltagesElement
 from py_dss_toolkit.results.SnapShot.VoltagesNodal import VoltagesNodal
@@ -24,6 +26,8 @@ class TimeSeriesPowerFlowResults(Energymeters,
                                  VoltagesElement,
                                  Currents,
                                  Powers,
+                                 Losses,
+                                 AllLosses,
                                  CircuitSnapShotPowerFlowResults,
                                  VoltagesNodalViolations,
                                  CurrentsViolations,
@@ -38,6 +42,8 @@ class TimeSeriesPowerFlowResults(Energymeters,
         VoltagesElement.__init__(self, self._dss)
         Currents.__init__(self, self._dss)
         Powers.__init__(self, self._dss)
+        Losses.__init__(self, self._dss)
+        AllLosses.__init__(self, self._dss)
         CircuitSnapShotPowerFlowResults.__init__(self, self._dss)
 
         VoltagesNodalViolations.__init__(self, self._dss)

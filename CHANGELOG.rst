@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.11.0 (2026-02-27)
+-------------------
+* Added Losses results: ``losses_elements`` returns total active and reactive losses per PD element (kW, kvar).
+* Added AllLosses results: ``all_losses_elements`` returns total, load, and no-load losses per PD element using ``cktelement.all_losses``.
+* Added unit tests for losses_elements and all_losses_elements.
+
 0.10.0 (2026-02-26)
 -------------------
 * Relaxed dependency constraints to improve compatibility in Google Colab environments.
