@@ -115,11 +115,14 @@ class UserNumericalDefinedStrategy(PlotParameterStrategy):
             raise ValueError(f"No results found for 'user numerical defined' parameter. "
                            f"Please set the results using: "
                            f"circuit.user_numerical_defined_settings.results = your_data")
-        else:
-            results = settings.results
-            hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                            "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                            f"<b>{parameter}:</b>" + " %{customdata[3]:" + f".{num_decimal_points}" + "f}" + f" {unit}<br>")
+        if isinstance(settings.results, pd.DataFrame):
+            raise ValueError(
+                "user_numerical_defined_settings.results must be a pandas Series, not a DataFrame. "
+            )
+        results = settings.results
+        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
+                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
+                        f"<b>{parameter}:</b>" + " %{customdata[3]:" + f".{num_decimal_points}" + "f}" + f" {unit}<br>")
         return settings, results, hovertemplate, True
 
 
@@ -181,11 +184,14 @@ class UserCategoricalDefinedStrategy(PlotParameterStrategy):
             raise ValueError(f"No results found for 'user categorical defined' parameter. "
                            f"Please set the results using: "
                            f"circuit.user_categorical_defined_settings.results = your_data")
-        else:
-            results = settings.results
-            hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                            "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                            f"<b>{parameter}:</b>" + " %{customdata[3]}")
+        if isinstance(settings.results, pd.DataFrame):
+            raise ValueError(
+                "user_categorical_defined_settings.results must be a pandas Series, not a DataFrame. "
+            )
+        results = settings.results
+        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
+                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
+                        f"<b>{parameter}:</b>" + " %{customdata[3]}")
         return settings, results, hovertemplate, False
 
 class DistanceStrategy(PlotParameterStrategy):
