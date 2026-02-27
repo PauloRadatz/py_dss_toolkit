@@ -17,6 +17,8 @@ VoltagesNodal <|-- SnapShotPowerFlowResults
 VoltagesElement <|-- SnapShotPowerFlowResults
 Currents <|-- SnapShotPowerFlowResults
 Powers <|-- SnapShotPowerFlowResults
+Losses <|-- SnapShotPowerFlowResults
+AllLosses <|-- SnapShotPowerFlowResults
 CircuitSnapShotPowerFlowResults <|-- SnapShotPowerFlowResults
 
 EnergyMeters <|-- TimeSeriesPowerFlowResults
@@ -225,6 +227,20 @@ class Currents {
 class Powers {
     -dss: DSS
     +powers_elements: Tuple[pd.DataFrame, pd.DataFrame]
+
+    -create_dataframe()
+}
+
+class Losses {
+    -dss: DSS
+    +losses_elements: Tuple[pd.DataFrame, pd.DataFrame]
+
+    -create_dataframe()
+}
+
+class AllLosses {
+    -dss: DSS
+    +all_losses_elements: pd.DataFrame
 
     -create_dataframe()
 }

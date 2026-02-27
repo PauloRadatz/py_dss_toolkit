@@ -17,10 +17,14 @@ class CurrentsViolations:
 
         terminal1_cols = [c for c in loading_df.columns if "Terminal1" in c]
         is_transformer = loading_df.index.str.startswith("transformer.")
-        mask = pd.Series(False, index=loading_df.index)
+        mask = pd.Series(False, index=loading_df.index, dtype=bool)
         if is_transformer.any():
-            mask[is_transformer] = (loading_df.loc[is_transformer, terminal1_cols] > self.threshold_percent).any(axis=1)
+            mask.loc[is_transformer] = (
+                loading_df.loc[is_transformer, terminal1_cols] > self.threshold_percent
+            ).any(axis=1).astype(bool)
         if (~is_transformer).any():
-            mask[~is_transformer] = (loading_df[~is_transformer] > self.threshold_percent).any(axis=1)
+            mask.loc[~is_transformer] = (
+                loading_df[~is_transformer] > self.threshold_percent
+            ).any(axis=1).astype(bool)
         violating_elements = loading_df[mask]
         return violating_elements
