@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.13.0
+-------------------
+* ``dss_tools`` now raises a descriptive error telling the user to call ``dss_tools.update_dss(dss)`` before accessing lazy properties or calling ``text()`` without a connected DSS instance.
+
+
 0.12.0 (2026-02-27)
 -------------------
 * ``user_numerical_defined_settings.results`` and ``user_categorical_defined_settings.results`` now require a pandas Series (not DataFrame); raises descriptive error if DataFrame is passed.
