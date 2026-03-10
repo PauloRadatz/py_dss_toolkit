@@ -1,6 +1,8 @@
 from types import SimpleNamespace
 from unittest.mock import patch
 
+import pytest
+
 from py_dss_toolkit.dss_tools.ConfigurationTools import ConfigurationTools
 from py_dss_toolkit.dss_tools.SimulationTools import SimulationTools
 from py_dss_toolkit.dss_tools.UtilitiesTools import UtilitiesTools
@@ -109,3 +111,27 @@ def test_dss_tools_update_dss_refreshes_dependent_objects():
         assert tools.simulation is sim_cls.return_value
         assert tools.configuration is cfg_cls.return_value
         assert tools.utilities is util_cls.return_value
+
+
+@pytest.mark.parametrize(
+    ("accessor", "args"),
+    [
+        ("dss", ()),
+        ("results", ()),
+        ("model", ()),
+        ("dss_view", ()),
+        ("static_view", ()),
+        ("interactive_view", ()),
+        ("simulation", ()),
+        ("configuration", ()),
+        ("utilities", ()),
+        ("text", ("solve",)),
+    ],
+)
+def test_dss_tools_requires_update_dss_before_property_access(accessor, args):
+    tools = DSSTools(None)
+
+    with pytest.raises(RuntimeError, match="update_dss"):
+        value = getattr(tools, accessor)
+        if callable(value):
+            value(*args)

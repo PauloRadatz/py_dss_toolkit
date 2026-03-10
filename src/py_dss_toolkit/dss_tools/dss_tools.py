@@ -22,6 +22,14 @@ class DSSTools:
 
     def __init__(self, dss: Optional[DSS]):
         self._dss = dss
+        self._results = None
+        self._model = None
+        self._dss_view = None
+        self._static_view = None
+        self._interactive_view = None
+        self._simulation = None
+        self._configuration = None
+        self._utilities = None
 
         if dss:
             self.__load_objects()
@@ -45,43 +53,57 @@ class DSSTools:
         self._dss = dss
         self.__load_objects()
 
+    def __raise_if_dss_not_connected(self):
+        if self._dss is None:
+            raise RuntimeError("DSS is not connected. Use dss_tools.update_dss(dss) before accessing this property. Where dss is an instance of py_dss_interface.DSS()")
+
     @property
     def dss(self) -> DSS:
+        self.__raise_if_dss_not_connected()
         return self._dss
 
     @property
     def results(self) -> "Results":
+        self.__raise_if_dss_not_connected()
         return self._results
 
     @property
     def model(self) -> "ModelBase":
+        self.__raise_if_dss_not_connected()
         return self._model
 
     @property
     def dss_view(self) -> "DSSView":
+        self.__raise_if_dss_not_connected()
         return self._dss_view
 
     @property
     def static_view(self) -> "StaticView":
+        self.__raise_if_dss_not_connected()
         return self._static_view
 
     @property
     def interactive_view(self) -> "InteractiveView":
+        self.__raise_if_dss_not_connected()
         return self._interactive_view
 
     @property
     def simulation(self) -> SimulationTools:
+        self.__raise_if_dss_not_connected()
         return self._simulation
 
     @property
     def configuration(self) -> ConfigurationTools:
+        self.__raise_if_dss_not_connected()
         return self._configuration
 
     @property
     def utilities(self) -> UtilitiesTools:
+        self.__raise_if_dss_not_connected()
         return self._utilities
 
     def text(self, command: str) -> str:
+        self.__raise_if_dss_not_connected()
         return self._dss.text(command)
 
 
