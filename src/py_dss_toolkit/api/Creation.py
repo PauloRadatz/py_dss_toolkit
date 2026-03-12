@@ -5,7 +5,6 @@ import pathlib
 from py_dss_toolkit.studies.SnapShotPowerFlow.StudySnapShotPowerFlow import StudySnapShotPowerFlow
 from py_dss_toolkit.studies.TimeSeriesPowerFlow.StudyTimeSeriesPowerFlow import StudyTimeSeriesPowerFlow
 from py_dss_toolkit.studies.StudyFault import StudyFault
-from py_dss_toolkit.studies.StudyModelVerification import StudyModelVerification
 
 from typing import Optional, Union
 
@@ -41,14 +40,5 @@ class CreateStudy:
     #     dss_dll: Optional[str] = None) -> StudyFault:
     #     sc = StudyFault(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
     #     return sc
-
-    @staticmethod
-    def model_verification(
-        name: str,
-        dss_file: Union[str, pathlib.Path],
-        base_frequency: Union[int, float] = 60,
-        dss_dll: Optional[str] = None) -> StudyModelVerification:
-        sc = StudyModelVerification(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
-        return sc
 
 

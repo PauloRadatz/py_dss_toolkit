@@ -17,6 +17,12 @@ class SegmentsDF:
     def segments_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
+    @property
+    def disabled_segments_df(self) -> pd.DataFrame:
+        """Segments (lines, transformers, reactors) with enabled=False."""
+        df = self.segments_df
+        return df[~df["enabled"]].reset_index(drop=True)
+
     def _create_segments_records(self) -> Dict[str, List]:
         elements_names = self._dss.circuit.elements_names
 

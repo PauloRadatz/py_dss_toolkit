@@ -10,7 +10,7 @@ class ModelUtils:
     def __init__(self, dss: DSS):
         self._dss = dss
 
-    def is_element_in_model(self, element_class: str, element_name: str):
+    def is_element_in_model(self, element_class: str, element_name: str) -> bool:
         element_class = element_class.lower()
         element_name = element_name.lower()
         elements_list = [e.lower() for e in self._dss.circuit.elements_names]
@@ -19,8 +19,12 @@ class ModelUtils:
             return False
         return True
 
-    def disable_elements_type(self, element_type: str):
+    def is_bus_in_model(self, bus: str) -> bool:
+        bus = bus.lower()
+        return bus in [b.lower() for b in self._dss.circuit.buses_names]
+
+    def disable_elements_type(self, element_type: str) -> None:
         self._dss.text(f"batchedit {element_type}..* enabled=false")
 
-    def batchedit(self, element_type: str, property_name: str, value: str):
+    def batchedit(self, element_type: str, property_name: str, value: str) -> None:
         self._dss.text(f"batchedit {element_type}..* {property_name}={value}")

@@ -45,6 +45,16 @@ class ElementDataDFs:
     def loads_df(self) -> pd.DataFrame:
         return self.__create_dataframe(self._dss.loads)
 
+    @property
+    def pvsystems_df(self) -> Optional[pd.DataFrame]:
+        """DataFrame of PV system elements (name, bus1, pmpp, kva, ...). None if none exist."""
+        return self.__create_dataframe(self._dss.pvsystems)
+
+    @property
+    def storage_df(self) -> Optional[pd.DataFrame]:
+        """DataFrame of storage elements (name, bus1, kwrated, kwhrated, ...). None if none exist."""
+        return self.__create_dataframe(self._dss.storages)
+
     def _create_element_data_records(self, element) -> Optional[Dict[str, List]]:
         if element.count == 0:
             return None
