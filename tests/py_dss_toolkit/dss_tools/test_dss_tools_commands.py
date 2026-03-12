@@ -1,5 +1,5 @@
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import ANY, patch
 
 import pytest
 
@@ -93,7 +93,7 @@ def test_dss_tools_update_dss_refreshes_dependent_objects():
         tools = DSSTools(None)
         tools.update_dss(fake_dss)
 
-        results_cls.assert_called_once_with(fake_dss)
+        results_cls.assert_called_once_with(fake_dss, ANY)
         model_cls.assert_called_once_with(fake_dss)
         static_cls.assert_called_once_with(fake_dss, results_cls.return_value)
         interactive_cls.assert_called_once_with(fake_dss, results_cls.return_value, model_cls.return_value)

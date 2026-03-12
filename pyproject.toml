@@ -17,7 +17,8 @@ dependencies = [
 	"py-dss-interface>=2.3.0",
 	"pandas>=2.2",
 	"matplotlib>=3.10",
-	"plotly>=5.20"
+	"plotly>=5.20",
+	"networkx>=3.0"
 ]
 
 classifiers = [

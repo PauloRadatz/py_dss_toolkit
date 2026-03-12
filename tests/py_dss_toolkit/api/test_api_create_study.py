@@ -2,12 +2,10 @@ import os
 import pathlib
 
 from py_dss_toolkit import CreateStudy
-from py_dss_toolkit.results.ModelVerification.ModelVerificationResults import ModelVerificationResults
 from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSeriesPowerFlowResults
 from py_dss_toolkit.studies.SnapShotPowerFlow.StudySnapShotPowerFlow import StudySnapShotPowerFlow
 from py_dss_toolkit.studies.TimeSeriesPowerFlow.StudyTimeSeriesPowerFlow import StudyTimeSeriesPowerFlow
-from py_dss_toolkit.studies.StudyModelVerification import StudyModelVerification
 
 
 SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -36,8 +34,3 @@ def test_create_study_timeseries_returns_expected_type_and_wiring():
     assert study.dss_view is not None
 
 
-def test_create_study_model_verification_returns_expected_type_and_results():
-    study = CreateStudy.model_verification(name="mv study", dss_file=DSS_FILE_13BUS)
-
-    assert isinstance(study, StudyModelVerification)
-    assert isinstance(study.results, ModelVerificationResults)

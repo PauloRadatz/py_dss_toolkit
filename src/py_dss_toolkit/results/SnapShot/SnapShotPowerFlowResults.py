@@ -2,6 +2,8 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
+from typing import Callable, Dict, Optional, Union
+
 from py_dss_interface import DSS
 
 from py_dss_toolkit.results.SnapShot.AllLosses import AllLosses
@@ -11,12 +13,14 @@ from py_dss_toolkit.results.SnapShot.Losses import Losses
 from py_dss_toolkit.results.SnapShot.Powers import Powers
 from py_dss_toolkit.results.SnapShot.VoltagesElement import VoltagesElement
 from py_dss_toolkit.results.SnapShot.VoltagesNodal import VoltagesNodal
+from py_dss_toolkit.results.SnapShot.VoltagesNodalSmart import VoltagesNodalSmart
 from py_dss_toolkit.results.SnapShot.VoltagesNodalViolations import VoltagesNodalViolations
 from py_dss_toolkit.results.SnapShot.CurrentsViolations import CurrentsViolations
 from py_dss_toolkit.results.SnapShot.CurrentsLoading import CurrentsLoading
 from py_dss_toolkit.results.SnapShot.snapshot_utils import set_violation_current_limit_type as _set_violation_current_limit_type, get_violation_current_limit_type as _get_violation_current_limit_type
 
 class SnapShotPowerFlowResults(VoltagesNodal,
+                               VoltagesNodalSmart,
                                VoltagesElement,
                                Currents,
                                Powers,
@@ -26,9 +30,10 @@ class SnapShotPowerFlowResults(VoltagesNodal,
                                VoltagesNodalViolations,
                                CurrentsViolations,
                                CurrentsLoading):
-    def __init__(self, dss: DSS):
+    def __init__(self, dss: DSS, connection_type_map: Union[Dict[str, str], Callable[[], Dict[str, str]], None] = None):
         self._dss = dss
         VoltagesNodal.__init__(self, self._dss)
+        VoltagesNodalSmart.__init__(self, self._dss, connection_type_map)
         VoltagesElement.__init__(self, self._dss)
         Currents.__init__(self, self._dss)
         Powers.__init__(self, self._dss)

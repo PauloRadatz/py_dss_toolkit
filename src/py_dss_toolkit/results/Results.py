@@ -2,6 +2,7 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
+from typing import Callable, Dict, Optional, Union
 
 from py_dss_interface import DSS
 
@@ -12,8 +13,8 @@ from py_dss_toolkit.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSer
 
 class Results(SnapShotPowerFlowResults, TimeSeriesPowerFlowResults, FaultResults):
 
-    def __init__(self, dss: DSS):
+    def __init__(self, dss: DSS, connection_type_map: Union[Dict[str, str], Callable[[], Dict[str, str]], None] = None):
         self._dss = dss
-        SnapShotPowerFlowResults.__init__(self, self._dss)
+        SnapShotPowerFlowResults.__init__(self, self._dss, connection_type_map)
         TimeSeriesPowerFlowResults.__init__(self, self._dss)
         FaultResults.__init__(self, self._dss)
