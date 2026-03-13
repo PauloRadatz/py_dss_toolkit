@@ -40,5 +40,5 @@ def test_dss_tools_13bus_model_edit_element_element_not_found(dss_tools_13bus):
         dss_tools.model.edit_element("line", "TEST", dict(normamps=800, emergamps=1000))
 
 def test_dss_tools_13bus_model_edit_element_property_not_found(dss_tools_13bus):
-    with pytest.raises(ValueError, match=r"line.632633 does not have property test_property"):
+    with pytest.raises(ValueError, match=r"line.632633 does not have property 'test_property'"):
         dss_tools.model.edit_element("line", "632633", dict(test_property=800, emergamps=1000))

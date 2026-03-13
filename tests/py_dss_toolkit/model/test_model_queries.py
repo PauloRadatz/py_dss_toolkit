@@ -419,6 +419,19 @@ Calcvoltagebases
 Solve
 """
 
+SCRIPT_BRANCH_ABCD = """
+ClearAll
+New Circuit.Thevenin bus1=A pu=1.0 basekv=13.8 model=ideal
+New Line.L1 bus1=A bus2=B phases=3 r1=0.1 x1=0.1 c1=0 length=1
+New Line.L2 bus1=B bus2=C phases=3 r1=0.1 x1=0.1 c1=0 length=1
+New Line.L3 bus1=B bus2=D phases=3 r1=0.1 x1=0.1 c1=0 length=1
+New load.l1 bus1=C kw=50 pf=1
+New load.l2 bus1=D kw=50 pf=1
+Set voltagebases=[13.8]
+Calcvoltagebases
+Solve
+"""
+
 SCRIPT_SAME_BUSES_3XFMR = """
 ClearAll
 New Circuit.Thevenin bus1=A pu=1.0 basekv=13.8 model=ideal
@@ -560,9 +573,9 @@ def test_upstream_buses_from_bus_radial():
     run_dss_script(SCRIPT_RADIAL_ABC)
     dss_tools.model.refresh_graph()
     df = dss_tools.model.upstream_buses_from_bus_df("b")
-    assert "bus" in df.columns and "level" in df.columns
+    assert "name" in df.columns and "level" in df.columns
     assert len(df) == 1
-    assert df.iloc[0]["bus"] == "a"
+    assert df.iloc[0]["name"] == "a"
     assert df.iloc[0]["level"] == 1
     assert "kv_base" in df.columns or "distance" in df.columns
 
@@ -573,7 +586,7 @@ def test_upstream_buses_from_bus_source_empty():
     dss_tools.model.refresh_graph()
     df = dss_tools.model.upstream_buses_from_bus_df("a")
     assert len(df) == 0
-    assert "bus" in df.columns and "level" in df.columns
+    assert "name" in df.columns and "level" in df.columns
 
 
 def test_upstream_buses_from_bus_raises_for_nonexistent_bus():
@@ -592,9 +605,9 @@ def test_downstream_buses_from_bus_radial():
     run_dss_script(SCRIPT_RADIAL_ABC)
     dss_tools.model.refresh_graph()
     df = dss_tools.model.downstream_buses_from_bus_df("b")
-    assert "bus" in df.columns and "level" in df.columns
+    assert "name" in df.columns and "level" in df.columns
     assert len(df) == 1
-    assert df.iloc[0]["bus"] == "c"
+    assert df.iloc[0]["name"] == "c"
     assert df.iloc[0]["level"] == 1
     assert "kv_base" in df.columns or "distance" in df.columns
 
@@ -605,7 +618,7 @@ def test_downstream_buses_from_bus_leaf_empty():
     dss_tools.model.refresh_graph()
     df = dss_tools.model.downstream_buses_from_bus_df("c")
     assert len(df) == 0
-    assert "bus" in df.columns and "level" in df.columns
+    assert "name" in df.columns and "level" in df.columns
 
 
 def test_downstream_buses_from_bus_raises_for_nonexistent_bus():
@@ -661,7 +674,7 @@ def test_upstream_buses_from_segment():
     run_dss_script(SCRIPT_RADIAL_ABC)
     dss_tools.model.refresh_graph()
     df = dss_tools.model.upstream_buses_from_segment_df("line.l2")
-    assert list(df["bus"].tolist()) == ["a", "b"]
+    assert list(df["name"].tolist()) == ["a", "b"]
     assert list(df["level"].tolist()) == [1, 2]
 
 
@@ -670,7 +683,7 @@ def test_downstream_buses_from_segment():
     run_dss_script(SCRIPT_RADIAL_ABC)
     dss_tools.model.refresh_graph()
     df = dss_tools.model.downstream_buses_from_segment_df("line.l1")
-    assert list(df["bus"].tolist()) == ["b", "c"]
+    assert list(df["name"].tolist()) == ["b", "c"]
     assert list(df["level"].tolist()) == [1, 2]
 
 
@@ -758,8 +771,8 @@ def test_buses_path_between_buses_df():
     run_dss_script(SCRIPT_RADIAL_ABC)
     dss_tools.model.refresh_graph()
     df = dss_tools.model.buses_path_between_buses_df("a", "c")
-    assert "bus" in df.columns and "level" in df.columns
-    assert list(df["bus"]) == ["a", "b", "c"]
+    assert "name" in df.columns and "level" in df.columns
+    assert list(df["name"]) == ["a", "b", "c"]
     assert list(df["level"]) == [1, 2, 3]
     assert "kv_base" in df.columns or "distance" in df.columns
 
@@ -770,7 +783,7 @@ def test_buses_path_between_buses_same_bus():
     dss_tools.model.refresh_graph()
     df = dss_tools.model.buses_path_between_buses_df("b", "b")
     assert len(df) == 1
-    assert df.iloc[0]["bus"] == "b"
+    assert df.iloc[0]["name"] == "b"
     assert df.iloc[0]["level"] == 1
 
 
@@ -780,3 +793,42 @@ def test_buses_path_between_buses_raises_for_nonexistent_bus():
     dss_tools.model.refresh_graph()
     with pytest.raises(ValueError, match="does not exist in the circuit"):
         dss_tools.model.buses_path_between_buses_df("nonexistent", "b")
+
+
+# -- Common path to source between buses --
+
+
+def test_common_path_to_source_between_buses_df_branch():
+    """Branch A->B->{C,D}: common path between C and D returns [a, b]."""
+    run_dss_script(SCRIPT_BRANCH_ABCD)
+    dss_tools.model.refresh_graph()
+    df = dss_tools.model.common_path_to_source_between_buses_df("c", "d")
+    assert "name" in df.columns and "level" in df.columns
+    assert list(df["name"]) == ["a", "b"]
+    assert list(df["level"]) == [1, 2]
+
+
+def test_common_path_to_source_between_buses_df_same_bus():
+    """Same bus returns its full upstream path from source to that bus."""
+    run_dss_script(SCRIPT_RADIAL_ABC)
+    dss_tools.model.refresh_graph()
+    df = dss_tools.model.common_path_to_source_between_buses_df("c", "c")
+    assert list(df["name"]) == ["a", "b", "c"]
+    assert list(df["level"]) == [1, 2, 3]
+
+
+def test_common_path_to_source_between_buses_df_with_source():
+    """Source and downstream bus share only the path ending at the source itself."""
+    run_dss_script(SCRIPT_RADIAL_ABC)
+    dss_tools.model.refresh_graph()
+    df = dss_tools.model.common_path_to_source_between_buses_df("a", "c")
+    assert list(df["name"]) == ["a"]
+    assert list(df["level"]) == [1]
+
+
+def test_common_path_to_source_between_buses_df_raises_for_nonexistent_bus():
+    """Nonexistent bus raises ValueError."""
+    run_dss_script(SCRIPT_BRANCH_ABCD)
+    dss_tools.model.refresh_graph()
+    with pytest.raises(ValueError, match="does not exist in the circuit"):
+        dss_tools.model.common_path_to_source_between_buses_df("nonexistent", "d")

@@ -42,7 +42,7 @@ class PCElementsQueries:
         bus = bus.lower()
         result: Set[str] = {bus}
         for r in self._downstream_buses_from_bus_records(bus):
-            result.add(r["bus"])
+            result.add(r["name"])
         return result
 
     def _load_kw_kvar_at_buses(self, buses: Set[str]) -> tuple[float, float]:
