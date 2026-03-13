@@ -66,12 +66,9 @@ def test_add_line_in_vsource_preserves_bus_coordinates(snapshot_study_13bus):
 
     assert x_new == x_original and y_new == y_original, "Bus coordinates were not preserved"
 
-def test_add_line_in_vsource_is_idempotent(snapshot_study_13bus):
+def test_add_line_in_vsource_raises_when_already_applied(snapshot_study_13bus):
     snapshot_study_13bus.model.add_line_in_vsource()
-    initial_lines = set(snapshot_study_13bus.dss.lines.names)
 
-    # Call again
-    snapshot_study_13bus.model.add_line_in_vsource()
-    lines_after = set(snapshot_study_13bus.dss.lines.names)
-
-    assert initial_lines == lines_after, "Function should not recreate line if it already exists"
+    # Calling again should raise ValueError since bus already ends with _unrealbus
+    with pytest.raises(ValueError, match="already used add_line_in_vsource"):
+        snapshot_study_13bus.model.add_line_in_vsource()
