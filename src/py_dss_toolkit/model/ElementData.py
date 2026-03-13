@@ -74,7 +74,13 @@ class ElementData:
         x = self._dss.bus.x
         y = self._dss.bus.y
 
-        if feeder_head_bus.split("_")[-1] != code:
+        if feeder_head_bus.split("_")[-1] == code:
+            raise ValueError(
+                f"The feeder head bus '{feeder_head_bus}' already ends with '_unrealbus'. "
+                "You have probably already used add_line_in_vsource before. "
+                "This operation cannot be applied twice."
+            )
+        else:
             self._dss.text(f'Edit Vsource.source bus1={feeder_head_bus}_{code}')
             self._dss.text(f'New Line.feeder_head bus1={feeder_head_bus}_{code} bus2={feeder_head_bus} Switch=True')
 
