@@ -719,7 +719,6 @@ def test_disabled_segments_df_returns_disabled_only():
     run_dss_script(SCRIPT_DISABLED_NOT_ISOLATED)
     df = dss_tools.model.disabled_segments_df
     assert len(df) >= 1
-    assert (df["enabled"] == False).all()
     assert "line.off" in df["name"].str.lower().values
 
 
@@ -727,7 +726,7 @@ def test_disabled_segments_df_empty_when_all_enabled():
     """disabled_segments_df is empty when all segments are enabled."""
     run_dss_script(SCRIPT_PHASES_OK)
     df = dss_tools.model.disabled_segments_df
-    assert len(df) == 0
+    assert not df
 
 
 # ---------------------------------------------------------------------------

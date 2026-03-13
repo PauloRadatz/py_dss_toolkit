@@ -51,7 +51,11 @@ class ElementData:
 
             for p, v in properties.items():
                 if p.lower() not in element_properties:
-                    raise ValueError(f"{element_class}.{element_name} does not have property {p}")
+                    valid_options = ", ".join(sorted(element_properties))
+                    raise ValueError(
+                        f"{element_class}.{element_name} does not have property '{p}'. "
+                        f"Valid options: {valid_options}"
+                    )
                 dss_string = dss_string + f" {p}={v}"
 
             self._dss.text(dss_string)
@@ -61,6 +65,24 @@ class ElementData:
     def add_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
         if self._model_utils.is_element_in_model(element_class, element_name):
             raise ValueError(f"{element_class}.{element_name} already exists in the model")
+
+        # Validate properties against an existing element of the same class (lowercase comparison)
+        class_prefix = f"{element_class}."
+        existing = [
+            e for e in self._dss.circuit.elements_names
+            if e.lower().startswith(class_prefix.lower())
+        ]
+        if existing:
+            self._dss.circuit.set_active_element(existing[0])
+            element_properties = [p.lower() for p in self._dss.cktelement.property_names]
+            for p, v in properties.items():
+                if p.lower() not in element_properties:
+                    valid_options = ", ".join(sorted(element_properties))
+                    raise ValueError(
+                        f"{element_class}.{element_name} does not have property '{p}'. "
+                        f"Valid options: {valid_options}"
+                    )
+
         dss_string = f"new {element_class}.{element_name} "
         for p, v in properties.items():
             dss_string = dss_string + f" {p}={v}"

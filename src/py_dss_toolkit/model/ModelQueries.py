@@ -23,36 +23,23 @@ class ModelQueries:
     def __init__(self, dss: DSS):
         self._dss = dss
 
-    # ------------------------------------------------------------------
-    # Validation helpers
-    # ------------------------------------------------------------------
-
     def _validate_bus(self, bus: str) -> str:
-        """Lowercase *bus* and raise ``ValueError`` if it does not exist."""
-        bus = bus.lower()
-        if bus not in [b.lower() for b in self._dss.circuit.buses_names]:
+        if not self.is_bus_in_model(bus):
             raise ValueError(f"Bus '{bus}' does not exist in the circuit.")
         return bus
 
     def _validate_segment(self, segment: str) -> str:
-        """Lowercase *segment* and raise ``ValueError`` if it does not exist."""
         segment = segment.lower()
-        if segment not in [e.lower() for e in self._dss.circuit.elements_names]:
+        if not self.is_element_in_model(segment.split(".")[0], segment.split(".")[1]):
             raise ValueError(f"Segment '{segment}' does not exist in the circuit.")
         return segment
 
-    # ------------------------------------------------------------------
-    # Empty DataFrame helpers (consistent column schema)
-    # ------------------------------------------------------------------
-
     def _empty_bus_df(self) -> pd.DataFrame:
-        """Empty bus DataFrame with bus, level, and all buses_df property columns."""
         buses = self.buses_df
         prop_cols = [c for c in buses.columns if c != "name"]
         return pd.DataFrame(columns=["bus", "level"] + prop_cols)
 
     def _empty_segment_df(self) -> pd.DataFrame:
-        """Empty segment DataFrame with segment, level, and all graph_df columns."""
         edge_cols = [c for c in self.graph_df.columns if c != "name"]
         return pd.DataFrame(columns=["segment", "level"] + list(edge_cols))
 
@@ -62,11 +49,9 @@ class ModelQueries:
 
     @property
     def source_bus(self) -> str:
-        """Name of the source bus (where the Vsource is connected)."""
         return self.graph.graph["source_bus"]
 
     def _upstream_path(self, bus: str) -> List[str]:
-        """Ordered list of bus names from the source bus to *bus*."""
         bus = bus.lower()
         G = self.graph
         source = G.graph["source_bus"]
@@ -104,7 +89,7 @@ class ModelQueries:
         if match.empty:
             return None
         row = match.iloc[0]
-        return (str(row["bus1"]).lower(), str(row["bus2"]).lower())
+        return str(row["bus1"]).lower(), str(row["bus2"]).lower()
 
     def _upstream_bus_of_pair(self, bus1: str, bus2: str) -> str:
         """Return the bus closer to source (shorter upstream path)."""
@@ -270,7 +255,7 @@ class ModelQueries:
         path = self._upstream_path(bus)
         if len(path) < 2:
             return []
-        return [{"bus": b, "level": i} for i, b in enumerate(path[:-1], start=1)]
+        return [{"name": b, "level": i} for i, b in enumerate(path[:-1], start=1)]
 
     def _enrich_buses_df_with_bus_properties(self, df: pd.DataFrame) -> pd.DataFrame:
         """Join bus+level DataFrame with buses_df properties. Returns enriched DataFrame.
@@ -278,14 +263,13 @@ class ModelQueries:
         Column order: bus (1st), level (2nd), then bus properties.
         """
         buses = self.buses_df.copy()
-        buses["bus"] = buses["name"].str.lower()
-        buses = buses.drop(columns=["name"])
+        buses["name"] = buses["name"].str.lower()
         if df.empty:
-            prop_cols = [c for c in buses.columns if c != "bus"]
-            return pd.DataFrame(columns=["bus", "level"] + prop_cols)
-        result = df.merge(buses, on="bus", how="left")
-        other_cols = [c for c in result.columns if c not in ("bus", "level")]
-        return result[["bus", "level"] + other_cols]
+            prop_cols = [c for c in buses.columns if c != "name"]
+            return pd.DataFrame(columns=["name", "level"] + prop_cols)
+        result = df.merge(buses, on="name", how="left")
+        other_cols = [c for c in result.columns if c not in ("name", "level")]
+        return result[["name", "level"] + other_cols]
 
     def upstream_buses_from_bus_df(self, bus: str) -> pd.DataFrame:
         """DataFrame of buses upstream of *bus* with ``bus``, ``level``, and buses_df properties.
@@ -313,9 +297,9 @@ class ModelQueries:
             for v in G.successors(u):
                 if v not in visited:
                     visited.add(v)
-                    result.append({"bus": v, "level": level + 1})
+                    result.append({"name": v, "level": level + 1})
                     queue.append((v, level + 1))
-        return sorted(result, key=lambda r: (r["level"], r["bus"]))
+        return sorted(result, key=lambda r: (r["level"], r["name"]))
 
     def downstream_buses_from_bus_df(self, bus: str) -> pd.DataFrame:
         """DataFrame of buses downstream of *bus* with ``bus``, ``level``, and buses_df properties.
@@ -334,7 +318,7 @@ class ModelQueries:
         path = self._upstream_path(bus)
         if not path:
             return []
-        return [{"bus": b, "level": i} for i, b in enumerate(path, start=1)]
+        return [{"name": b, "level": i} for i, b in enumerate(path, start=1)]
 
     def upstream_buses_from_segment_df(self, segment: str) -> pd.DataFrame:
         """DataFrame of buses upstream of the segment with ``bus``, ``level``, and buses_df properties."""
@@ -354,9 +338,9 @@ class ModelQueries:
             return []
         upstream_bus = self._upstream_bus_of_pair(pair[0], pair[1])
         downstream_bus = pair[1] if upstream_bus == pair[0] else pair[0]
-        records = [{"bus": downstream_bus, "level": 1}]
+        records = [{"name": downstream_bus, "level": 1}]
         for r in self._downstream_buses_from_bus_records(downstream_bus):
-            records.append({"bus": r["bus"], "level": r["level"] + 1})
+            records.append({"name": r["name"], "level": r["level"] + 1})
         return records
 
     def downstream_buses_from_segment_df(self, segment: str) -> pd.DataFrame:
@@ -383,16 +367,46 @@ class ModelQueries:
                 break
         return path1[common_len - 1 :][::-1] + path2[common_len:]
 
+    def _common_path_to_source_between_buses(self, bus1: str, bus2: str) -> List[str]:
+        """Ordered list of shared upstream buses from source to the common ancestor."""
+        bus1, bus2 = bus1.lower(), bus2.lower()
+        path1 = self._upstream_path(bus1)
+        path2 = self._upstream_path(bus2)
+        if not path1 or not path2:
+            return []
+
+        common_path: List[str] = []
+        for b1, b2 in zip(path1, path2):
+            if b1 != b2:
+                break
+            common_path.append(b1)
+        return common_path
+
     def _buses_path_between_buses_records(self, bus1: str, bus2: str) -> List[Dict[str, Any]]:
         """Records of buses on the path from *bus1* to *bus2* with level (1 = bus1, 2 = next, ...). For API use."""
         path = self._path_between_buses(bus1, bus2)
-        return [{"bus": b, "level": i} for i, b in enumerate(path, start=1)]
+        return [{"name": b, "level": i} for i, b in enumerate(path, start=1)]
 
     def buses_path_between_buses_df(self, bus1: str, bus2: str) -> pd.DataFrame:
         """DataFrame of buses on the path from *bus1* to *bus2* with ``bus``, ``level``, and buses_df properties."""
         self._validate_bus(bus1)
         self._validate_bus(bus2)
         records = self._buses_path_between_buses_records(bus1, bus2)
+        if not records:
+            return self._empty_bus_df()
+        df = pd.DataFrame(records)
+        return self._enrich_buses_df_with_bus_properties(df)
+
+    def _common_path_to_source_between_buses_records(self, bus1: str, bus2: str) -> List[Dict[str, Any]]:
+        """Records of the shared upstream path from source to the common ancestor."""
+        path = self._common_path_to_source_between_buses(bus1, bus2)
+        return [{"name": b, "level": i} for i, b in enumerate(path, start=1)]
+
+    def common_path_to_source_between_buses_df(self, bus1: str, bus2: str) -> pd.DataFrame:
+        """DataFrame of the buses shared on the path from source to both buses."""
+        self._validate_bus(bus1)
+        self._validate_bus(bus2)
+        records = self._common_path_to_source_between_buses_records(bus1, bus2)
         if not records:
             return self._empty_bus_df()
         df = pd.DataFrame(records)

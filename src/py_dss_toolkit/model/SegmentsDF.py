@@ -3,7 +3,7 @@
 # @Email   : paulo.radatz@gmail.com
 
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import pandas as pd
 from py_dss_interface import DSS
@@ -14,14 +14,33 @@ class SegmentsDF:
         self._dss = dss
 
     @property
-    def segments_df(self) -> pd.DataFrame:
-        return self.__create_dataframe()
+    def _enabled_segments_records(self) -> Dict[str, List]:
+        return self._filter_segments_records(enabled=True)
 
     @property
-    def disabled_segments_df(self) -> pd.DataFrame:
-        """Segments (lines, transformers, reactors) with enabled=False."""
-        df = self.segments_df
-        return df[~df["enabled"]].reset_index(drop=True)
+    def _disabled_segments_records(self) -> Dict[str, List]:
+        return self._filter_segments_records(enabled=False)
+
+    @property
+    def segments_df(self) -> Optional[pd.DataFrame]:
+        df = self.__create_dataframe(self._create_segments_records())
+        if df.empty:
+            return None
+        return df
+
+    @property
+    def enabled_segments_df(self) -> Optional[pd.DataFrame]:
+        df = self.__create_dataframe(self._enabled_segments_records)
+        if df.empty:
+            return None
+        return df.drop(columns=["enabled"]).reset_index(drop=True)
+
+    @property
+    def disabled_segments_df(self) -> Optional[pd.DataFrame]:
+        df = self.__create_dataframe(self._disabled_segments_records)
+        if df.empty:
+            return None
+        return df.drop(columns=["enabled"]).reset_index(drop=True)
 
     def _create_segments_records(self) -> Dict[str, List]:
         elements_names = self._dss.circuit.elements_names
@@ -92,5 +111,10 @@ class SegmentsDF:
 
         return records
 
-    def __create_dataframe(self):
-        return pd.DataFrame.from_dict(self._create_segments_records())
+    def _filter_segments_records(self, enabled: bool) -> Dict[str, List]:
+        records = self._create_segments_records()
+        indexes = [i for i, value in enumerate(records["enabled"]) if value is enabled]
+        return {key: [values[i] for i in indexes] for key, values in records.items()}
+
+    def __create_dataframe(self, records: Dict[str, List]):
+        return pd.DataFrame.from_dict(records)
