@@ -2,7 +2,7 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from typing import Callable, Dict, Optional, Union
+from typing import Callable, Dict, Union
 
 from py_dss_interface import DSS
 

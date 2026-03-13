@@ -2,7 +2,7 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from typing import Callable, Dict, Optional, Tuple, Union
+from typing import Callable, Dict, Tuple, Union
 
 import pandas as pd
 from py_dss_interface import DSS
@@ -25,7 +25,7 @@ class VoltagesNodalSmart:
     def _connection_type_map(self) -> Dict[str, str]:
         m = self._raw_connection_type_map
         if callable(m):
-            return m()
+            return m() or {}
         return m or {}
 
     @property

@@ -1,6 +1,6 @@
 import pandas as pd
 from py_dss_interface import DSS
-from typing import Tuple
+from typing import Dict, Tuple
 import math
 import numpy as np
 
@@ -105,7 +105,7 @@ def create_nodal_ll_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataF
 
 def create_nodal_smart_voltage_dataframes(
     dss: DSS,
-    connection_type_map: dict,
+    connection_type_map: Dict[str, str],
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Per-bus LN or LL voltage selection based on *connection_type_map*.
 
