@@ -408,7 +408,7 @@ class ModelQueries:
         for level, (u, v) in enumerate(zip(path[:-1], path[1:]), start=1):
             for r in self._segments_between_pair(u, v):
                 rec = {"segment": r.get("name", ""), "level": level, "bus1": u, "bus2": v}
-                rec.update({k: v for k, v in r.items() if k not in ("name",)})
+                rec.update({k: val for k, val in r.items() if k not in ("name",)})
                 result.append(rec)
         return result
 

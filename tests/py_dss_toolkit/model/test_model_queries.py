@@ -235,6 +235,31 @@ def test_feeding_voltage_center_tap_always_ln():
     assert vll == 0.48
 
 
+def test_feeding_voltage_cascaded_intermediate_bus():
+    """Cascaded transformers: intermediate bus B gets T1's secondary voltage."""
+    run_dss_script(SCRIPT_CASCADED_TRANSFORMERS)
+    vll, vln = dss_tools.model.feeding_voltage("b")
+    assert vll == 4.16
+    assert vln == round(4.16 / math.sqrt(3), 4)
+
+
+def test_feeding_voltage_cascaded_leaf_bus():
+    """Cascaded transformers: leaf bus C gets T2's secondary voltage, not T1's."""
+    run_dss_script(SCRIPT_CASCADED_TRANSFORMERS)
+    vll, vln = dss_tools.model.feeding_voltage("c")
+    assert vll == 0.22
+    assert vln == round(0.22 / math.sqrt(3), 4)
+
+
+def test_feeding_voltage_downstream_inherits_through_line():
+    """Bus C (connected to B by a line) inherits B's transformer-derived voltage."""
+    run_dss_script(SCRIPT_DELTA_WITH_DOWNSTREAM)
+    vll_b, vln_b = dss_tools.model.feeding_voltage("b")
+    vll_c, vln_c = dss_tools.model.feeding_voltage("c")
+    assert vll_c == vll_b
+    assert vln_c == vln_b
+
+
 # ---------------------------------------------------------------------------
 # bus_connection_type
 # ---------------------------------------------------------------------------
