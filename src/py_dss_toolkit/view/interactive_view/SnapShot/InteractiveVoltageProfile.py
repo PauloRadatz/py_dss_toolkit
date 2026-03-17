@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_interface import DSS
 from typing import Optional, Union, Tuple, List
-from py_dss_toolkit.view.view_base.VoltageProfileBase import VoltageProfileBase
+from py_dss_toolkit.view.view_base.VoltageProfileBase import VoltageProfileBase, VOLTAGE_TYPE
 from py_dss_toolkit.view.interactive_view.SnapShot.InteractiveVoltageProfileBusMarker import InteractiveVoltageProfileBusMarker
 from py_dss_toolkit.view.interactive_view.InteractiveCustomPlotStyle import InteractiveCustomPlotStyle
 
@@ -43,6 +43,7 @@ class InteractiveVoltageProfile(VoltageProfileBase):
                                        show_legend=show_legend)
 
     def voltage_profile(self,
+                        voltage_type: VOLTAGE_TYPE = "ln",
                         title: Optional[str] = "Voltage Profile",
                         xlabel: Optional[str] = "Distance (km)",
                         ylabel: Optional[str] = "Voltage (pu)",
@@ -63,6 +64,9 @@ class InteractiveVoltageProfile(VoltageProfileBase):
         maximum and minimum limits from OpenDSS.
 
         Args:
+            voltage_type (Literal["ln", "ll", "ln-ll"], optional): Voltage reference to use.
+                "ln" for line-to-neutral, "ll" for line-to-line, or "ln-ll" for smart
+                per-bus selection based on connection type. Defaults to "ln".
             title (Optional[str], optional): The title of the plot. Defaults to "Voltage Profile".
             xlabel (Optional[str], optional): Label for the x-axis. Defaults to "Distance".
             ylabel (Optional[str], optional): Label for the y-axis. Defaults to "Voltage (pu)".
@@ -100,7 +104,7 @@ class InteractiveVoltageProfile(VoltageProfileBase):
         """
         self._check_energymeter()
 
-        buses, df, distances, sections = self._prepare_results()
+        buses, df, distances, sections = self._prepare_results(voltage_type)
         node_colors = {1: 'black', 2: 'red', 3: 'blue'}
 
         fig = go.Figure()

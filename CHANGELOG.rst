@@ -11,6 +11,7 @@ Changelog
 * Graph capabilities: ``CircuitGraph``, ``GraphBuilder`` for topology analysis.
 * Loading currents fixed for terminal 2 and 3 of transformers.
 * Fixed 13bus example and updated expected test outputs.
+* Voltage profile plots: added ``voltage_type`` parameter (``"ln"``, ``"ll"``, ``"ln-ll"``) to ``StaticVoltageProfile.voltage_profile()`` and ``InteractiveVoltageProfile.voltage_profile()``. ``"ln"`` uses line-to-neutral, ``"ll"`` uses line-to-line, ``"ln-ll"`` uses smart per-bus selection via ``VoltagesNodalSmart``.
 
 0.12.0 (2026-02-27)
 -------------------
