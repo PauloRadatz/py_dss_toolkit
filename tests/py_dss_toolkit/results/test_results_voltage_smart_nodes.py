@@ -63,8 +63,9 @@ def test_smart_util_all_ln():
     smart_vmags, smart_vangs = create_nodal_smart_voltage_dataframes(dss, conn_map)
     ln_vmags, ln_vangs = create_nodal_voltage_dataframes(dss)
 
-    pd.testing.assert_frame_equal(smart_vmags, ln_vmags)
-    pd.testing.assert_frame_equal(smart_vangs, ln_vangs)
+    pd.testing.assert_frame_equal(smart_vmags.drop(columns=["voltage_type"]), ln_vmags)
+    pd.testing.assert_frame_equal(smart_vangs.drop(columns=["voltage_type"]), ln_vangs)
+    assert (smart_vmags["voltage_type"] == "ln").all()
 
 
 def test_smart_util_ll_buses_use_ll_voltages():
@@ -77,18 +78,25 @@ def test_smart_util_ll_buses_use_ll_voltages():
     ln_vmags, _ = create_nodal_voltage_dataframes(dss)
     ll_vmags, _ = create_nodal_ll_voltage_dataframes(dss)
 
+    smart_vmags_numeric = smart_vmags.drop(columns=["voltage_type"])
+
     # Bus "a" (LN) should match the LN result
     pd.testing.assert_series_equal(
-        smart_vmags.loc["a"].dropna(), ln_vmags.loc["a"].dropna(), check_names=False
+        smart_vmags_numeric.loc["a"].dropna(), ln_vmags.loc["a"].dropna(), check_names=False
     )
 
     # Bus "b" (LL) should match the LL result (if LL data exists)
     if "b" in ll_vmags.index and not ll_vmags.loc["b"].isna().all():
         pd.testing.assert_series_equal(
-            smart_vmags.loc["b"].dropna(),
+            smart_vmags_numeric.loc["b"].dropna(),
             ll_vmags.loc["b"].dropna(),
             check_names=False,
         )
+
+    # voltage_type column reflects LN/LL per bus
+    assert smart_vmags.loc["a", "voltage_type"] == "ln"
+    assert smart_vmags.loc["b", "voltage_type"] == "ll"
+    assert smart_vmags.loc["c", "voltage_type"] == "ll"
 
 
 def test_smart_util_empty_map_defaults_to_ln():
@@ -98,8 +106,8 @@ def test_smart_util_empty_map_defaults_to_ln():
     smart_vmags, smart_vangs = create_nodal_smart_voltage_dataframes(dss, {})
     ln_vmags, ln_vangs = create_nodal_voltage_dataframes(dss)
 
-    pd.testing.assert_frame_equal(smart_vmags, ln_vmags)
-    pd.testing.assert_frame_equal(smart_vangs, ln_vangs)
+    pd.testing.assert_frame_equal(smart_vmags.drop(columns=["voltage_type"]), ln_vmags)
+    pd.testing.assert_frame_equal(smart_vangs.drop(columns=["voltage_type"]), ln_vangs)
 
 
 def test_smart_util_returns_correct_shape():
@@ -120,7 +128,7 @@ def test_smart_util_returns_correct_shape():
 
 
 def test_voltage_nodes_via_dss_tools():
-    """dss_tools.results.voltage_nodes returns DataFrames of correct shape."""
+    """dss_tools.results.voltage_nodes returns DataFrames with voltage_type column."""
     _run(SCRIPT_3PH_DD)
     dss_tools.simulation.solve_snapshot()
     vmags, vangs = dss_tools.results.voltage_nodes
@@ -130,3 +138,7 @@ def test_voltage_nodes_via_dss_tools():
     num_buses = len(dss_tools.dss.circuit.buses_names)
     assert vmags.shape[0] == num_buses
     assert vangs.shape[0] == num_buses
+    assert "voltage_type" in vmags.columns
+    assert "voltage_type" in vangs.columns
+    assert set(vmags["voltage_type"]) <= {"ln", "ll"}
+    assert set(vangs["voltage_type"]) <= {"ln", "ll"}

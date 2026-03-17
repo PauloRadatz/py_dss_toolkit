@@ -37,23 +37,23 @@ def _has_phase_issue(parent_nodes, child_nodes) -> bool:
     return not child_phases.issubset(parent_phases)
 
 
-def _collect_pc_elements(dss: DSS) -> dict:
-    """Bus -> list of (element_name, nodes). Includes loads, generators, capacitors."""
-    result: dict = {}
+def _shunt_elements_by_bus(model) -> dict:
+    """Bus -> list of (element_name, nodes) for shunt elements needing phase validation.
 
-    pc_prefixes = ("load.", "generator.", "capacitor.")
-    for elem in dss.circuit.elements_names:
-        elem_lower = elem.lower()
-        if not any(elem_lower.startswith(p) for p in pc_prefixes):
-            continue
-        dss.circuit.set_active_element(elem)
-        if not dss.cktelement.is_enabled:
-            continue
-        bus_full = dss.cktelement.bus_names[0]
-        parts = bus_full.split(".")
-        bus = parts[0].lower() if parts else ""
-        nodes = parts[1:] if len(parts) > 1 else ["1", "2", "3"]
-        result.setdefault(bus, []).append((elem_lower, nodes))
+    Includes PC elements (loads, generators, pvsystems, storage) and
+    shunt PD elements (wye capacitors: bus1 == bus2; delta capacitors: bus2 empty).
+    """
+    result: dict = {}
+    pc_df = model.enabled_pc_elements_df
+    if pc_df is not None:
+        for _, row in pc_df.iterrows():
+            result.setdefault(row["bus1"], []).append((row["name"], row["nodes1"]))
+
+    pd_df = model.enabled_pd_elements_df
+    if pd_df is not None:
+        shunt = pd_df[(pd_df["bus2"] == "") | (pd_df["bus1"] == pd_df["bus2"])]
+        for _, row in shunt.iterrows():
+            result.setdefault(row["bus1"], []).append((row["name"], row["nodes1"]))
 
     return result
 
@@ -133,7 +133,7 @@ class NodesConnectionsParentChildDF:
                         child_nodes,
                     ])
 
-        pc_at_bus = _collect_pc_elements(self._dss)
+        pc_at_bus = _shunt_elements_by_bus(self._model)
 
         for bus in bus_parent_phases:
             parent_phases = bus_parent_phases[bus]

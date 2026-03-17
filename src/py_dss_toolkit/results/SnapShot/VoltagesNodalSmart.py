@@ -40,5 +40,7 @@ class VoltagesNodalSmart:
         -------
         (vmags_df, vangs_df)
             Per-unit voltage magnitudes and angles, one row per bus.
+            Both DataFrames include a ``voltage_type`` column ('ln' or 'll')
+            indicating the voltage reference used for each bus.
         """
         return create_nodal_smart_voltage_dataframes(self._dss, self._connection_type_map)

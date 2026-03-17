@@ -12,7 +12,7 @@ from py_dss_toolkit.model_verification.NodesConnectionsParentChildDF import (
     _normalize_nodes,
     _phase_nodes,
     _has_phase_issue,
-    _collect_pc_elements,
+    _shunt_elements_by_bus,
 )
 
 
@@ -33,6 +33,14 @@ def _get_source_phases(dss: DSS) -> set:
         nph = int(getattr(dss.vsources, "phases", 3) or 3)
         nodes = [str(i) for i in range(1, nph + 1)]
     return _phase_nodes(nodes)
+
+
+def _get_source_parent_name(dss: DSS) -> str:
+    """Parent label for the source bus (e.g. vsource.source)."""
+    dss.vsources.first()
+    if dss.vsources.count == 0:
+        return "source"
+    return f"vsource.{dss.vsources.name}".lower()
 
 
 class NodesConnectionsPropagatedDF:
@@ -64,7 +72,9 @@ class NodesConnectionsPropagatedDF:
             return self._empty_df()
 
         source_phases = _get_source_phases(self._dss)
+        source_parent = _get_source_parent_name(self._dss)
         validated: dict[str, set] = {source: source_phases}
+        bus_parent_names: dict[str, list[str]] = {source: [source_parent]}
         rows: list[list] = []
 
         queue: deque[str] = deque([source])
@@ -73,6 +83,7 @@ class NodesConnectionsPropagatedDF:
         while queue:
             u = queue.popleft()
             parent_validated = validated[u]
+            parent_names = bus_parent_names.get(u, [])
 
             for v in G.successors(u):
                 if v in visited:
@@ -88,10 +99,13 @@ class NodesConnectionsPropagatedDF:
                     all_nodes2_phases |= _phase_nodes(edata.get("nodes2", []))
                     edge_names.append(edata.get("name", ""))
 
+                bus_parent_names[v] = edge_names
+
                 if not all_nodes1_phases or not all_nodes1_phases.issubset(parent_validated):
                     combined_nodes1 = sorted(all_nodes1_phases) if all_nodes1_phases else ["1", "2", "3"]
+                    parent_label = ", ".join(parent_names) if parent_names else ""
                     rows.append([
-                        "",
+                        parent_label,
                         u,
                         sorted(parent_validated),
                         ", ".join(edge_names),
@@ -104,12 +118,14 @@ class NodesConnectionsPropagatedDF:
 
                 queue.append(v)
 
-        pc_at_bus = _collect_pc_elements(self._dss)
+        pc_at_bus = _shunt_elements_by_bus(self._model)
         for bus, valid_phases in validated.items():
+            parent_names = bus_parent_names.get(bus, [])
+            parent_label = ", ".join(parent_names) if parent_names else ""
             for elem_name, elem_nodes in pc_at_bus.get(bus, []):
                 if _has_phase_issue(list(valid_phases), elem_nodes):
                     rows.append([
-                        "",
+                        parent_label,
                         bus,
                         sorted(valid_phases),
                         elem_name,

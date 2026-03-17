@@ -11,7 +11,7 @@ from py_dss_toolkit.model_verification.ReversedSegmentsDF import ReversedSegment
 from py_dss_toolkit.model_verification.NodesConnectionsParentChildDF import NodesConnectionsParentChildDF
 from py_dss_toolkit.model_verification.NodesConnectionsPropagatedDF import NodesConnectionsPropagatedDF
 from py_dss_toolkit.model_verification.LoadsTransformerVoltageDF import LoadsTransformerVoltageDF
-from py_dss_toolkit.model_verification.MeshedEdgesDF import MeshedEdgesDF
+from py_dss_toolkit.model_verification.LoopEdgesDF import LoopEdgesDF
 
 
 class ModelVerification(
@@ -21,13 +21,13 @@ class ModelVerification(
     NodesConnectionsParentChildDF,
     NodesConnectionsPropagatedDF,
     LoadsTransformerVoltageDF,
-    MeshedEdgesDF,
+    LoopEdgesDF,
 ):
     """Facade for model verification checks.
 
     Exposes: isolated_df, isolated_graph, isolated_subgraphs, same_buses_segments_df,
     reversed_segments_df, nodes_connections_parent_child_df, nodes_connections_propagated_df,
-    loads_transformer_voltage_df, meshed_edges_df, and is_radial (True if circuit has no loops).
+    loads_transformer_voltage_df, loop_edges_df, and is_radial (True if circuit has no loops).
     """
 
     def __init__(self, dss: DSS, model: ModelBase):
@@ -39,4 +39,4 @@ class ModelVerification(
         NodesConnectionsParentChildDF.__init__(self, self._dss, self._model)
         NodesConnectionsPropagatedDF.__init__(self, self._dss, self._model)
         LoadsTransformerVoltageDF.__init__(self, self._dss, self._model)
-        MeshedEdgesDF.__init__(self, self._model)
+        LoopEdgesDF.__init__(self, self._model)
