@@ -26,6 +26,7 @@ from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPow
 from py_dss_toolkit.model.ModelBase import ModelBase
 from py_dss_toolkit.view.interactive_view.InteractiveCustomPlotStyle import InteractiveCustomPlotStyle
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ActivePowerSettings import ActivePowerSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ReactivePowerSettings import ReactivePowerSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.VoltageSettings import VoltageSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedNumericalSettings import UserDefinedNumericalSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedCategoricalSettings import UserDefinedCategoricalSettings
@@ -69,7 +70,7 @@ class ActivePowerStrategy(PlotParameterStrategy):
 
 class ReactivePowerStrategy(PlotParameterStrategy):
     def get_settings_and_results(self, lines_df=None):
-        settings = self._circuit._active_power_settings
+        settings = self._circuit._reactive_power_settings
         columns = self._circuit._results.powers_elements[1].columns
         if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
             raise ValueError("A non 3-phase circuit can't be plotted")
@@ -242,6 +243,7 @@ class CircuitSettingsContainer:
         """Initialize settings container from a CircuitBase instance."""
         self._plot_style = circuit_base_instance._plot_style
         self._active_power_settings = circuit_base_instance._active_power_settings
+        self._reactive_power_settings = circuit_base_instance._reactive_power_settings
         self._voltage_settings = circuit_base_instance._voltage_settings
         self._user_numerical_defined_settings = circuit_base_instance._user_numerical_defined_settings
         self._user_categorical_defined_settings = circuit_base_instance._user_categorical_defined_settings
@@ -274,6 +276,7 @@ class CircuitBase:
             # Use shared settings from container
             self._plot_style = settings_container._plot_style
             self._active_power_settings = settings_container._active_power_settings
+            self._reactive_power_settings = settings_container._reactive_power_settings
             self._voltage_settings = settings_container._voltage_settings
             self._user_numerical_defined_settings = settings_container._user_numerical_defined_settings
             self._user_categorical_defined_settings = settings_container._user_categorical_defined_settings
@@ -286,6 +289,7 @@ class CircuitBase:
             # Create new settings instances
             self._plot_style = InteractiveCustomPlotStyle()
             self._active_power_settings = ActivePowerSettings()
+            self._reactive_power_settings = ReactivePowerSettings()
             self._voltage_settings = VoltageSettings()
             self._user_numerical_defined_settings = UserDefinedNumericalSettings()
             self._user_categorical_defined_settings = UserDefinedCategoricalSettings()
@@ -326,6 +330,10 @@ class CircuitBase:
     @property
     def active_power_settings(self):
         return self._active_power_settings
+
+    @property
+    def reactive_power_settings(self):
+        return self._reactive_power_settings
 
     @property
     def voltage_settings(self):
