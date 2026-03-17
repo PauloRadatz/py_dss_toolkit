@@ -41,11 +41,23 @@ def _build_voltage_profile_base(*, meter_count, meter_names, enabled_meter_eleme
     meters = SimpleNamespace(count=meter_count, names=meter_names)
     dss = SimpleNamespace(meters=meters, circuit=circuit, cktelement=cktelement)
 
-    df = pd.DataFrame(
+    df_ln = pd.DataFrame(
         {"node1": [1.0, 0.99], "node2": [1.01, 1.0], "node3": [0.98, 0.97]},
         index=["sourcebus", "loadbus"],
     )
-    results = SimpleNamespace(voltage_ln_nodes=[df])
+    df_ll = pd.DataFrame(
+        {"node1": [1.02, 0.98], "node2": [1.03, 0.99], "node3": [0.97, 0.96]},
+        index=["sourcebus", "loadbus"],
+    )
+    df_smart = pd.DataFrame(
+        {"voltage_type": ["ln", "ll"], "node1": [1.0, 0.98], "node2": [1.01, 0.99], "node3": [0.98, 0.96]},
+        index=["sourcebus", "loadbus"],
+    )
+    results = SimpleNamespace(
+        voltage_ln_nodes=[df_ln],
+        voltage_ll_nodes=[df_ll],
+        voltage_nodes=[df_smart],
+    )
 
     voltage_profile = VoltageProfileBase(dss=dss, results=results)
 
@@ -65,7 +77,7 @@ def test_check_energymeter_raises_when_no_meter_exists():
         element_data={},
     )
 
-    with pytest.raises(ValueError, match="One enerymeter should exist"):
+    with pytest.raises(ValueError, match="One energymeter should exist"):
         voltage_profile._check_energymeter()
 
 
@@ -77,7 +89,7 @@ def test_check_energymeter_raises_when_none_enabled():
         element_data={},
     )
 
-    with pytest.raises(ValueError, match="At least one enerymeter should be enabled"):
+    with pytest.raises(ValueError, match="At least one energymeter should be enabled"):
         voltage_profile._check_energymeter()
 
 
@@ -89,7 +101,7 @@ def test_check_energymeter_raises_when_more_than_one_enabled():
         element_data={},
     )
 
-    with pytest.raises(ValueError, match="Only one enerymeter should be enabled"):
+    with pytest.raises(ValueError, match="Only one energymeter should be enabled"):
         voltage_profile._check_energymeter()
 
 
@@ -104,8 +116,8 @@ def test_check_energymeter_accepts_single_enabled_meter():
     voltage_profile._check_energymeter()
 
 
-def test_prepare_results_normalizes_buses_and_filters_disabled_sections():
-    voltage_profile = _build_voltage_profile_base(
+def _build_with_line_section():
+    return _build_voltage_profile_base(
         meter_count=1,
         meter_names=["m1"],
         enabled_meter_elements={"m1": True},
@@ -115,6 +127,10 @@ def test_prepare_results_normalizes_buses_and_filters_disabled_sections():
             "load.ld1": {"enabled": True, "bus_names": ["LOADBUS.1.2.3", "OTHERBUS.1.2.3"]},
         },
     )
+
+
+def test_prepare_results_normalizes_buses_and_filters_disabled_sections():
+    voltage_profile = _build_with_line_section()
     voltage_profile._dss.circuit.elements_names = ["line.l1", "reactor.r1", "load.ld1"]
 
     buses, df, distances, sections = voltage_profile._prepare_results()
@@ -123,3 +139,42 @@ def test_prepare_results_normalizes_buses_and_filters_disabled_sections():
     assert list(df.index) == ["sourcebus", "loadbus"]
     assert distances == [0.0, 1.2, 2.5]
     assert sections == [("sourcebus", "loadbus")]
+
+
+def test_prepare_results_voltage_type_ln():
+    voltage_profile = _build_with_line_section()
+    voltage_profile._dss.circuit.elements_names = ["line.l1"]
+
+    _, df, _, _ = voltage_profile._prepare_results(voltage_type="ln")
+
+    assert df.loc["sourcebus", "node1"] == 1.0
+    assert df.loc["loadbus", "node1"] == 0.99
+
+
+def test_prepare_results_voltage_type_ll():
+    voltage_profile = _build_with_line_section()
+    voltage_profile._dss.circuit.elements_names = ["line.l1"]
+
+    _, df, _, _ = voltage_profile._prepare_results(voltage_type="ll")
+
+    assert df.loc["sourcebus", "node1"] == 1.02
+    assert df.loc["loadbus", "node1"] == 0.98
+
+
+def test_prepare_results_voltage_type_ln_ll_smart():
+    voltage_profile = _build_with_line_section()
+    voltage_profile._dss.circuit.elements_names = ["line.l1"]
+
+    _, df, _, _ = voltage_profile._prepare_results(voltage_type="ln-ll")
+
+    assert "voltage_type" not in df.columns
+    assert df.loc["sourcebus", "node1"] == 1.0
+    assert df.loc["loadbus", "node1"] == 0.98
+
+
+def test_prepare_results_invalid_voltage_type():
+    voltage_profile = _build_with_line_section()
+    voltage_profile._dss.circuit.elements_names = ["line.l1"]
+
+    with pytest.raises(ValueError, match="voltage_type must be"):
+        voltage_profile._prepare_results(voltage_type="invalid")

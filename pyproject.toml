@@ -20,7 +20,6 @@ dependencies = [
 	"plotly>=5.20",
 	"networkx>=3.0"
 ]
-
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Science/Research",
@@ -34,6 +33,11 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
   "Topic :: Scientific/Engineering",
   "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[project.optional-dependencies]
+dev = [
+	"pyarrow",
 ]
 
 [project.urls]

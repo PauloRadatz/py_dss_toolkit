@@ -6,7 +6,7 @@
 import random
 import string
 from inspect import currentframe
-from typing import List
+from typing import List, Union
 
 
 class Utils:
@@ -27,10 +27,8 @@ class Utils:
         return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(12))
 
     @staticmethod
-    def check_instance(value: [str, float, int], property_name: str, type_: List[str]):
+    def check_instance(value: Union[str, float, int], property_name: str, type_: List[str]) -> None:
         if type(value).__name__ not in type_:
-            raise Exception(
-                f"\n\nATENTION HERE: Type Error, check the type of the variable {property_name}. Expected: {type_}, but "
-                f"found {type(value)}")
-        else:
-            return
+            raise TypeError(
+                f"Type error for {property_name}. Expected one of {type_}, but found {type(value)}."
+            )

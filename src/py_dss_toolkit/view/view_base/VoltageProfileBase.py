@@ -6,7 +6,9 @@
 
 from py_dss_interface import DSS
 from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
-from typing import Optional
+from typing import Literal, Optional
+
+VOLTAGE_TYPE = Literal["ln", "ll", "ln-ll"]
 
 class VoltageProfileBase:
 
@@ -16,7 +18,7 @@ class VoltageProfileBase:
 
     def _check_energymeter(self):
         if self._dss.meters.count == 0:
-            raise ValueError(f'One enerymeter should exist to plot the voltage profile.')
+            raise ValueError(f'One energymeter should exist to plot the voltage profile.')
         elif self._dss.meters.count > 1:
             count_enabled = 0
             for m in self._dss.meters.names:
@@ -25,12 +27,21 @@ class VoltageProfileBase:
                     count_enabled += 1
 
             if count_enabled == 0:
-                raise ValueError(f'At least one enerymeter should be enabled to plot the voltage profile.')
+                raise ValueError(f'At least one energymeter should be enabled to plot the voltage profile.')
             elif count_enabled > 1:
-                raise ValueError(f'Only one enerymeter should be enabled to plot the voltage profile.')
+                raise ValueError(f'Only one energymeter should be enabled to plot the voltage profile.')
 
-    def _prepare_results(self):
-        df = self._results.voltage_ln_nodes[0]
+    def _prepare_results(self, voltage_type: VOLTAGE_TYPE = "ln"):
+        if voltage_type == "ln":
+            df = self._results.voltage_ln_nodes[0]
+        elif voltage_type == "ll":
+            df = self._results.voltage_ll_nodes[0]
+        elif voltage_type == "ln-ll":
+            df = self._results.voltage_nodes[0]
+            df = df.drop(columns="voltage_type", errors="ignore")
+        else:
+            raise ValueError(f"voltage_type must be 'ln', 'll', or 'ln-ll', got '{voltage_type}'")
+
         buses = [bus.lower().split(".")[0] for bus in self._dss.circuit.buses_names]
         distances = self._dss.circuit.buses_distances
         sections = list()

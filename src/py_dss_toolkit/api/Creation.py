@@ -4,7 +4,6 @@ import pathlib
 
 from py_dss_toolkit.studies.SnapShotPowerFlow.StudySnapShotPowerFlow import StudySnapShotPowerFlow
 from py_dss_toolkit.studies.TimeSeriesPowerFlow.StudyTimeSeriesPowerFlow import StudyTimeSeriesPowerFlow
-from py_dss_toolkit.studies.StudyFault import StudyFault
 
 from typing import Optional, Union
 
