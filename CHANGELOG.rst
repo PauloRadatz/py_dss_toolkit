@@ -1,10 +1,16 @@
 Changelog
 =========
 
-0.13.0
+0.13.0 (unreleased)
 -------------------
 * ``dss_tools`` now raises a descriptive error telling the user to call ``dss_tools.update_dss(dss)`` before accessing lazy properties or calling ``text()`` without a connected DSS instance.
-
+* Model verification tests reorganized by feature: ``test_isolated``, ``test_nodes_connections``, ``test_loop_edges``, ``test_loads_transformer_voltage``, ``test_reversed_segments``, ``test_same_buses_segments``, ``test_disabled_segments``.
+* ``meshed_edges_df`` renamed to ``loop_edges_df`` (aligns with OpenDSS "Show Loops" terminology).
+* ``voltage_nodes`` now includes a ``voltage_type`` column ('ln' or 'll') indicating the voltage reference used per bus.
+* Added ``PCElementsDF`` and ``PDElementsDF`` for PC/PD element DataFrames.
+* Graph capabilities: ``CircuitGraph``, ``GraphBuilder`` for topology analysis.
+* Loading currents fixed for terminal 2 and 3 of transformers.
+* Fixed 13bus example and updated expected test outputs.
 
 0.12.0 (2026-02-27)
 -------------------

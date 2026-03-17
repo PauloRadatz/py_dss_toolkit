@@ -111,6 +111,9 @@ def create_nodal_smart_voltage_dataframes(
 
     For each bus, picks the LN or LL row according to
     ``connection_type_map.get(bus, 'ln')``.  No graph import needed.
+
+    Both returned DataFrames include a ``voltage_type`` column ('ln' or 'll')
+    indicating the voltage reference used for each bus.
     """
     ln_vmags, ln_vangs = create_nodal_voltage_dataframes(dss)
     ll_vmags, ll_vangs = create_nodal_ll_voltage_dataframes(dss)
@@ -119,6 +122,7 @@ def create_nodal_smart_voltage_dataframes(
 
     vmags_rows = {}
     vangs_rows = {}
+    voltage_types = {}
 
     for bus_name in buses:
         conn_type = connection_type_map.get(bus_name, "ln")
@@ -127,6 +131,9 @@ def create_nodal_smart_voltage_dataframes(
             and bus_name in ll_vmags.index
             and not ll_vmags.loc[bus_name].isna().all()
         )
+
+        vtype = "ll" if use_ll else "ln"
+        voltage_types[bus_name] = vtype
 
         if use_ll:
             vmags_rows[bus_name] = ll_vmags.loc[bus_name]
@@ -137,8 +144,10 @@ def create_nodal_smart_voltage_dataframes(
 
     vmags_df = pd.DataFrame.from_dict(vmags_rows, orient="index")
     vmags_df = vmags_df.reindex(buses)
+    vmags_df.insert(0, "voltage_type", [voltage_types.get(b, "ln") for b in buses])
 
     vangs_df = pd.DataFrame.from_dict(vangs_rows, orient="index")
     vangs_df = vangs_df.reindex(buses)
+    vangs_df.insert(0, "voltage_type", [voltage_types.get(b, "ln") for b in buses])
 
     return vmags_df, vangs_df

@@ -9,6 +9,8 @@ from typing import Any, Dict, List, Set, Tuple
 import networkx as nx
 from py_dss_interface import DSS
 
+from typing import Optional
+
 from py_dss_toolkit.model.BusesDataDF import BusesDataDF
 from py_dss_toolkit.model.ElementDataDFs import ElementDataDFs
 from py_dss_toolkit.model.SegmentsDF import SegmentsDF
@@ -25,10 +27,10 @@ class GraphBuilder:
     """
 
     @staticmethod
-    def build(dss: DSS) -> nx.MultiDiGraph:
+    def build(dss: DSS, model: Optional[object] = None) -> nx.MultiDiGraph:
         source_bus = GraphBuilder._find_source_bus(dss)
         bus_data = GraphBuilder._collect_bus_data(dss)
-        edge_list, adjacency = GraphBuilder._collect_edges(dss)
+        edge_list, adjacency = GraphBuilder._collect_edges(dss, model)
 
         G = nx.MultiDiGraph()
         G.graph["source_bus"] = source_bus
@@ -96,8 +98,11 @@ class GraphBuilder:
         return result
 
     @staticmethod
-    def _collect_edges(dss: DSS) -> Tuple[Dict[frozenset, List[Dict[str, Any]]], Dict[str, Set[str]]]:
-        segments_df = SegmentsDF(dss).segments_df
+    def _collect_edges(dss: DSS, model: Optional[object] = None) -> Tuple[Dict[frozenset, List[Dict[str, Any]]], Dict[str, Set[str]]]:
+        if model is not None and hasattr(model, "segments_df"):
+            segments_df = model.segments_df
+        else:
+            segments_df = SegmentsDF(dss).segments_df
         enabled_segments = segments_df[segments_df["enabled"]]
 
         tr_lookup = GraphBuilder._build_transformer_lookup(dss)
@@ -203,10 +208,11 @@ class GraphBuilder:
 
     @staticmethod
     def _swap_edge_direction(attrs: Dict[str, Any]) -> None:
-        """Swap direction-sensitive attributes so they match the BFS edge direction."""
-        attrs["bus1_dss"], attrs["bus2_dss"] = attrs["bus2_dss"], attrs["bus1_dss"]
-        attrs["nodes1"], attrs["nodes2"] = attrs["nodes2"], attrs["nodes1"]
+        """Swap direction-sensitive attributes so they match the BFS edge direction.
 
+        bus1_dss and bus2_dss are NOT swapped; they always reflect the DSS/model
+        segment order. nodes1/nodes2 stay with their respective buses.
+        """
         if attrs.get("type") == "transformer":
             if "kv_primary" in attrs:
                 attrs["kv_primary"], attrs["kv_secondary"] = attrs["kv_secondary"], attrs["kv_primary"]

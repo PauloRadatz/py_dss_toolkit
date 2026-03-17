@@ -8,6 +8,29 @@ from py_dss_interface import DSS
 from py_dss_toolkit.model.ModelBase import ModelBase
 
 _PHASE_NODES = {"1", "2", "3"}
+_NEUTRAL_NODES = {"0", "4"}
+
+
+def _load_uses_vll(nodes: list) -> bool:
+    """True if load kV is line-to-line based on connection.
+
+    - 3ph (3 nodes in [1,2,3]): vll
+    - 1ph with 2 nodes in [1,2,3] (e.g. B.1.2): vll
+    - 1ph with 1 phase node and neutral (e.g. B.1.0, B.2.4): vln
+    - 1ph with single phase node only (e.g. B.1): vln
+    - Empty nodes (default 3ph): vll
+    """
+    phase_nodes = [n for n in nodes if n in _PHASE_NODES]
+    neutral_nodes = [n for n in nodes if n in _NEUTRAL_NODES]
+    phase_count = len(phase_nodes)
+
+    if phase_count >= 2:
+        return True  # 3ph or 1ph between two phases
+    if phase_count == 1 and neutral_nodes:
+        return False  # 1ph phase-to-neutral
+    if phase_count == 1:
+        return False  # 1ph single node (e.g. B.1) → ln
+    return True  # empty nodes → default 3ph
 
 
 class LoadsTransformerVoltageDF:
@@ -27,19 +50,20 @@ class LoadsTransformerVoltageDF:
 
         df = self._model.loads_df
         if df is None or df.empty:
-            return pd.DataFrame(columns=["Load", "kV_set", "kV_use"])
+            return pd.DataFrame(columns=["Load", "kv_load", "kv_transformer", "voltage_type"])
 
         for _, row in df.iterrows():
             bus_full = str(row["bus1"])
             bus = bus_full.split(".")[0].lower()
             nodes = bus_full.split(".")[1:]
-            phase_count = sum(1 for n in nodes if n in _PHASE_NODES)
 
             vll, vln = self._model.feeding_voltage(bus)
-            expected = round(vll if phase_count >= 2 else vln, 2)
+            uses_vll = _load_uses_vll(nodes)
+            voltage_type = "ll" if uses_vll else "ln"
+            kv_transformer = round(vll if uses_vll else vln, 4)
 
-            kv_set = float(row["kv"])
-            if round(kv_set, 2) != expected:
-                data.append([row["name"], kv_set, expected])
+            kv_load = float(row["kv"])
+            if round(kv_load, 4) != kv_transformer:
+                data.append([row["name"], kv_load, kv_transformer, voltage_type])
 
-        return pd.DataFrame(data, columns=["Load", "kV_set", "kV_use"])
+        return pd.DataFrame(data, columns=["Load", "kv_load", "kv_transformer", "voltage_type"])

@@ -1,4 +1,4 @@
-from tests.py_dss_toolkit.model._dss_script_runner import run_dss_script
+from _dss_script_runner import run_dss_script
 from py_dss_toolkit import dss_tools
 
 

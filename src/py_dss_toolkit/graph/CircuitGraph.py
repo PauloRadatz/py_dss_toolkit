@@ -2,6 +2,8 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
+from typing import Optional
+
 import networkx as nx
 import pandas as pd
 from py_dss_interface import DSS
@@ -17,8 +19,9 @@ class CircuitGraph(ModelQueries):
     :meth:`refresh` after modifying the circuit to force a rebuild.
     """
 
-    def __init__(self, dss: DSS):
+    def __init__(self, dss: DSS, model: Optional[object] = None):
         self._dss = dss
+        self._model = model
         self._cached_graph = None
         ModelQueries.__init__(self, dss)
 
@@ -26,7 +29,7 @@ class CircuitGraph(ModelQueries):
     def graph(self) -> nx.MultiDiGraph:
         """Directed multigraph: nodes = buses, edges = PD elements."""
         if self._cached_graph is None:
-            self._cached_graph = GraphBuilder.build(self._dss)
+            self._cached_graph = GraphBuilder.build(self._dss, self._model)
         return self._cached_graph
 
     @property

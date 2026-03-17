@@ -1,4 +1,4 @@
-__version__ = '0.12.0'
+__version__ = '0.13.0'
 
 from .api.Creation import CreateStudy
 from .dss_tools.dss_tools import dss_tools

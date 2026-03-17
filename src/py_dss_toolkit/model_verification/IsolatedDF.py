@@ -19,7 +19,7 @@ class IsolatedDF:
 
     @property
     def isolated_df(self) -> pd.DataFrame:
-        """DataFrame of enabled branches and loads not reachable from the source bus."""
+        """DataFrame of enabled segments and shunt elements not reachable from the source bus."""
         G = self.isolated_graph
         data = []
 
@@ -28,26 +28,28 @@ class IsolatedDF:
                 "element_name": attrs.get("name", ""),
                 "bus1": u,
                 "bus2": v,
-                "type": "branch",
+                "type": "segment",
             })
 
         for node, attrs in G.nodes(data=True):
-            if attrs.get("type") == "load_bus":
+            shunt_elements = attrs.get("shunt_elements", [])
+            for elem_name, _elem_type in shunt_elements:
                 data.append({
-                    "element_name": attrs.get("element_name", ""),
+                    "element_name": elem_name,
                     "bus1": node,
                     "bus2": "",
-                    "type": "load",
+                    "type": "shunt",
                 })
 
         return pd.DataFrame(data, columns=["element_name", "bus1", "bus2", "type"])
 
     @property
     def isolated_graph(self) -> nx.DiGraph:
-        """DiGraph of all buses and enabled branches not reachable from the source bus.
+        """DiGraph of all buses and enabled segments not reachable from the source bus.
 
-        Nodes that come exclusively from loads (no branch endpoint) carry
-        ``type="load_bus"`` and ``element_name="load.<name>"`` as node attributes.
+        Nodes that come exclusively from shunt elements (PC elements and shunt
+        PD elements like capacitors) with no segment endpoint carry
+        ``shunt_elements`` as a list of (element_name, element_type).
         Edge attributes mirror the segment data: ``name``, ``type``.
         """
         return self._build_isolated_graph()
@@ -56,12 +58,12 @@ class IsolatedDF:
     def isolated_subgraphs(self) -> List[nx.DiGraph]:
         """One DiGraph per weakly-connected isolated island.
 
-        Useful for analysing or visualising each disconnected component
+        Useful for analyzing or visualizing each disconnected component
         independently (e.g. to count elements per island or layout each one).
         """
         G = self.isolated_graph
         return [
-            G.subgraph(component).copy()
+            nx.DiGraph(G.subgraph(component))
             for component in nx.weakly_connected_components(G)
         ]
 
@@ -88,16 +90,26 @@ class IsolatedDF:
                 type=row["type"],
             )
 
-        loads_df = self._model.loads_df
-        if loads_df is not None and not loads_df.empty:
-            for _, row in loads_df.iterrows():
-                bus = str(row["bus1"]).split(".")[0].lower()
-                if bus not in full_graph:
-                    full_graph.add_node(
-                        bus,
-                        type="load_bus",
-                        element_name=f"load.{row['name']}",
-                    )
+        shunt_by_bus: dict = {}
+
+        pc_df = self._model.enabled_pc_elements_df
+        if pc_df is not None:
+            for _, row in pc_df.iterrows():
+                shunt_by_bus.setdefault(row["bus1"], []).append(
+                    (row["name"], row["type"]))
+
+        pd_df = self._model.enabled_pd_elements_df
+        if pd_df is not None:
+            shunt_pd = pd_df[(pd_df["bus2"] == "") | (pd_df["bus1"] == pd_df["bus2"])]
+            for _, row in shunt_pd.iterrows():
+                shunt_by_bus.setdefault(row["bus1"], []).append(
+                    (row["name"], row["type"]))
+
+        for bus, elements in shunt_by_bus.items():
+            if bus not in full_graph:
+                full_graph.add_node(bus, shunt_elements=elements)
+            else:
+                full_graph.nodes[bus]["shunt_elements"] = elements
 
         isolated_buses = set(full_graph.nodes()) - reachable
-        return full_graph.subgraph(isolated_buses).copy()
+        return nx.DiGraph(full_graph.subgraph(isolated_buses))
