@@ -13,6 +13,10 @@ class Losses:
         self._dss = dss
 
     @property
+    def _losses_records(self) -> Tuple[dict, dict, list]:
+        return self._create_losses_records()
+
+    @property
     def losses_elements(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         return self.__create_dataframe()
 

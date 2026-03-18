@@ -51,16 +51,20 @@ class LoopEdgesDF:
         self._model = model
 
     @property
+    def _loop_edges_records(self) -> list:
+        return self._create_loop_edges_records()
+
+    @property
     def loop_edges_df(self) -> pd.DataFrame:
         """DataFrame of segments that close loops (bus1, bus2, name, type, cycle_id, level)."""
-        return self._build_loop_edges_df()
+        return pd.DataFrame(self._loop_edges_records, columns=["bus1", "bus2", "name", "type", "cycle_id", "level"])
 
     @property
     def is_radial(self) -> bool:
         """True if the circuit has no loops (all segments form a forest)."""
-        return len(self.loop_edges_df) == 0
+        return len(self._loop_edges_records) == 0
 
-    def _build_loop_edges_df(self) -> pd.DataFrame:
+    def _create_loop_edges_records(self) -> list:
         segments = self._model.segments_df
         enabled = segments[segments["enabled"]].copy()
         enabled["bus1"] = enabled["bus1"].str.lower()
@@ -68,7 +72,7 @@ class LoopEdgesDF:
         enabled = enabled[enabled["bus1"] != enabled["bus2"]]
 
         if enabled.empty:
-            return pd.DataFrame(columns=["bus1", "bus2", "name", "type", "cycle_id", "level"])
+            return []
 
         G = nx.Graph()
         for _, row in enabled.iterrows():
@@ -98,4 +102,4 @@ class LoopEdgesDF:
                         "level": level,
                     })
 
-        return pd.DataFrame(rows, columns=["bus1", "bus2", "name", "type", "cycle_id", "level"])
+        return rows

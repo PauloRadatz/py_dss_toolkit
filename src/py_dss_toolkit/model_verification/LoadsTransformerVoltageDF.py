@@ -41,17 +41,23 @@ class LoadsTransformerVoltageDF:
         self._model = model
 
     @property
+    def _loads_transformer_voltage_records(self) -> list:
+        return self._create_loads_transformer_voltage_records()
+
+    @property
     def loads_transformer_voltage_df(self) -> pd.DataFrame:
         """DataFrame of loads whose kV setting does not match the upstream transformer voltage."""
-        return self._check_load_transformer()
+        return pd.DataFrame(
+            self._loads_transformer_voltage_records,
+            columns=["Load", "kv_load", "kv_transformer", "voltage_type"],
+        )
 
-    def _check_load_transformer(self) -> pd.DataFrame:
-        data = []
-
+    def _create_loads_transformer_voltage_records(self) -> list:
         df = self._model.loads_df
         if df is None or df.empty:
-            return pd.DataFrame(columns=["Load", "kv_load", "kv_transformer", "voltage_type"])
+            return []
 
+        data = []
         for _, row in df.iterrows():
             bus_full = str(row["bus1"])
             bus = bus_full.split(".")[0].lower()
@@ -66,4 +72,4 @@ class LoadsTransformerVoltageDF:
             if round(kv_load, 4) != kv_transformer:
                 data.append([row["name"], kv_load, kv_transformer, voltage_type])
 
-        return pd.DataFrame(data, columns=["Load", "kv_load", "kv_transformer", "voltage_type"])
+        return data

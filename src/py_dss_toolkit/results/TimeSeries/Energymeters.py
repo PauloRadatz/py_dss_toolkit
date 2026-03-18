@@ -14,6 +14,10 @@ class Energymeters:
         self._dss = dss
 
     @property
+    def _energymeter_records(self):
+        return self._create_energymeter_records()
+
+    @property
     def energymeters(self) -> Optional[pd.DataFrame]:
         return self.__create_dataframe()
 

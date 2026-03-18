@@ -14,46 +14,84 @@ class ElementDataDFs:
         self._dss = dss
 
     @property
-    def lines_df(self) -> pd.DataFrame:
-        return self.__create_dataframe(self._dss.lines)
+    def _lines_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.lines)
 
     @property
-    def transformers_df(self) -> pd.DataFrame:
-        return self.__create_dataframe(self._dss.transformers)
+    def _transformers_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.transformers)
 
     @property
-    def meters_df(self) -> pd.DataFrame:
-        return self.__create_dataframe(self._dss.meters)
+    def _meters_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.meters)
 
     @property
-    def monitors_df(self) -> pd.DataFrame:
-        return self.__create_dataframe(self._dss.monitors)
+    def _monitors_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.monitors)
 
     @property
-    def generators_df(self) -> pd.DataFrame:
-        return self.__create_dataframe(self._dss.generators)
+    def _generators_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.generators)
 
     @property
-    def vsources_df(self) -> pd.DataFrame:
-        return self.__create_dataframe(self._dss.vsources)
+    def _vsources_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.vsources)
 
     @property
-    def regcontrols_df(self) -> pd.DataFrame:
-        return self.__create_dataframe(self._dss.regcontrols)
+    def _regcontrols_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.regcontrols)
 
     @property
-    def loads_df(self) -> pd.DataFrame:
-        return self.__create_dataframe(self._dss.loads)
+    def _loads_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.loads)
+
+    @property
+    def _pvsystems_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.pvsystems)
+
+    @property
+    def _storage_records(self) -> Optional[Dict[str, List]]:
+        return self._create_element_data_records(self._dss.storages)
+
+    @property
+    def lines_df(self) -> Optional[pd.DataFrame]:
+        return self.__create_dataframe_from_records(self._lines_records)
+
+    @property
+    def transformers_df(self) -> Optional[pd.DataFrame]:
+        return self.__create_dataframe_from_records(self._transformers_records)
+
+    @property
+    def meters_df(self) -> Optional[pd.DataFrame]:
+        return self.__create_dataframe_from_records(self._meters_records)
+
+    @property
+    def monitors_df(self) -> Optional[pd.DataFrame]:
+        return self.__create_dataframe_from_records(self._monitors_records)
+
+    @property
+    def generators_df(self) -> Optional[pd.DataFrame]:
+        return self.__create_dataframe_from_records(self._generators_records)
+
+    @property
+    def vsources_df(self) -> Optional[pd.DataFrame]:
+        return self.__create_dataframe_from_records(self._vsources_records)
+
+    @property
+    def regcontrols_df(self) -> Optional[pd.DataFrame]:
+        return self.__create_dataframe_from_records(self._regcontrols_records)
+
+    @property
+    def loads_df(self) -> Optional[pd.DataFrame]:
+        return self.__create_dataframe_from_records(self._loads_records)
 
     @property
     def pvsystems_df(self) -> Optional[pd.DataFrame]:
-        """DataFrame of PV system elements (name, bus1, pmpp, kva, ...). None if none exist."""
-        return self.__create_dataframe(self._dss.pvsystems)
+        return self.__create_dataframe_from_records(self._pvsystems_records)
 
     @property
     def storage_df(self) -> Optional[pd.DataFrame]:
-        """DataFrame of storage elements (name, bus1, kwrated, kwhrated, ...). None if none exist."""
-        return self.__create_dataframe(self._dss.storages)
+        return self.__create_dataframe_from_records(self._storage_records)
 
     def _create_element_data_records(self, element) -> Optional[Dict[str, List]]:
         if element.count == 0:
@@ -80,8 +118,8 @@ class ElementDataDFs:
         records = {col: [r[i] for r in rows] for i, col in enumerate(columns)}
         return records
 
-    def __create_dataframe(self, element):
-        records = self._create_element_data_records(element)
+    @staticmethod
+    def __create_dataframe_from_records(records: Optional[Dict[str, List]]) -> Optional[pd.DataFrame]:
         if records is None:
             return None
         return pd.DataFrame.from_dict(records)

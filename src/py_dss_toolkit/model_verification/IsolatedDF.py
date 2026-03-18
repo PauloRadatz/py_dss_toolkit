@@ -18,8 +18,15 @@ class IsolatedDF:
         self._model = model
 
     @property
+    def _isolated_records(self) -> list:
+        return self._create_isolated_records()
+
+    @property
     def isolated_df(self) -> pd.DataFrame:
         """DataFrame of enabled segments and shunt elements not reachable from the source bus."""
+        return pd.DataFrame(self._isolated_records, columns=["element_name", "bus1", "bus2", "type"])
+
+    def _create_isolated_records(self) -> list:
         G = self.isolated_graph
         data = []
 
@@ -41,7 +48,7 @@ class IsolatedDF:
                     "type": "shunt",
                 })
 
-        return pd.DataFrame(data, columns=["element_name", "bus1", "bus2", "type"])
+        return data
 
     @property
     def isolated_graph(self) -> nx.DiGraph:

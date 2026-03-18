@@ -15,10 +15,17 @@ class ShortCircuitImpedances:
         self._dss = dss
 
     @property
-    def short_circuit_impedances(self) -> pd.DataFrame:
-        return self.__short_circuit_impedances()
+    def _short_circuit_impedances_records(self) -> dict:
+        return self._create_short_circuit_impedances_records()
 
-    def __short_circuit_impedances(self) -> pd.DataFrame:
+    @property
+    def short_circuit_impedances(self) -> pd.DataFrame:
+        records = self._short_circuit_impedances_records
+        df = pd.DataFrame.from_dict(records)
+        df = df.set_index(["Bus Name"])
+        return df
+
+    def _create_short_circuit_impedances_records(self) -> dict:
         buses = self._dss.circuit.buses_names
 
         distance = list()
@@ -37,15 +44,11 @@ class ShortCircuitImpedances:
             r0_list.append(zsc0[0])
             x0_list.append(zsc0[1])
 
-        dict_to_df = dict()
-        dict_to_df["Bus Name"] = buses
-        dict_to_df["Distance (m?)"] = distance
-        dict_to_df["r1 (Ohm)"] = r1_list
-        dict_to_df["x1 (Ohm)"] = x1_list
-        dict_to_df["r0 (Ohm)"] = r0_list
-        dict_to_df["x0 (Ohm)"] = x0_list
-
-        df = pd.DataFrame.from_dict(dict_to_df)
-        df = df.set_index(["Bus Name"])
-
-        return df
+        return {
+            "Bus Name": buses,
+            "Distance (m?)": distance,
+            "r1 (Ohm)": r1_list,
+            "x1 (Ohm)": x1_list,
+            "r0 (Ohm)": r0_list,
+            "x0 (Ohm)": x0_list,
+        }
