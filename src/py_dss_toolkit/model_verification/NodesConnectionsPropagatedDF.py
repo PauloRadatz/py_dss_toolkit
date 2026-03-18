@@ -61,15 +61,26 @@ class NodesConnectionsPropagatedDF:
         self._model = model
 
     @property
+    def _nodes_connections_propagated_records(self) -> list:
+        return self._create_nodes_connections_propagated_records()
+
+    @property
     def nodes_connections_propagated_df(self) -> pd.DataFrame:
         """DataFrame of propagated phase-connection issues."""
-        return self._check_propagated()
+        rows = self._nodes_connections_propagated_records
+        if not rows:
+            return self._empty_df()
+        return pd.DataFrame(
+            rows,
+            columns=["parent_name", "parent_bus", "parent_node",
+                      "element_name", "element_bus", "element_node"],
+        )
 
-    def _check_propagated(self) -> pd.DataFrame:
+    def _create_nodes_connections_propagated_records(self) -> list:
         G = self._model.graph
         source = G.graph.get("source_bus", "")
         if not source:
-            return self._empty_df()
+            return []
 
         source_phases = _get_source_phases(self._dss)
         source_parent = _get_source_parent_name(self._dss)
@@ -133,11 +144,7 @@ class NodesConnectionsPropagatedDF:
                         elem_nodes,
                     ])
 
-        return pd.DataFrame(
-            rows,
-            columns=["parent_name", "parent_bus", "parent_node",
-                      "element_name", "element_bus", "element_node"],
-        )
+        return rows
 
     @staticmethod
     def _empty_df() -> pd.DataFrame:

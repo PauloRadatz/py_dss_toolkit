@@ -14,6 +14,10 @@ class VoltagesElement:
         self._dss = dss
 
     @property
+    def _voltages_element_records(self) -> Tuple[dict, dict, list]:
+        return self._create_voltages_element_records()
+
+    @property
     def voltages_elements(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         return self.__create_dataframe()
 

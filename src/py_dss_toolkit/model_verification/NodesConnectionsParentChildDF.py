@@ -75,11 +75,18 @@ class NodesConnectionsParentChildDF:
         self._model = model
 
     @property
+    def _nodes_connections_parent_child_records(self) -> list:
+        return self._create_nodes_connections_parent_child_records()
+
+    @property
     def nodes_connections_parent_child_df(self) -> pd.DataFrame:
         """DataFrame of phase-connection issues between parent and child elements."""
-        return self._check_nodes_connections_parent_child()
+        return pd.DataFrame(
+            self._nodes_connections_parent_child_records,
+            columns=["parent_name", "parent_bus", "parent_node", "element_name", "element_bus", "element_node"],
+        )
 
-    def _check_nodes_connections_parent_child(self) -> pd.DataFrame:
+    def _create_nodes_connections_parent_child_records(self) -> list:
         """Check phase connections for PD and PC elements at each bus."""
         bus_parent_phases: dict[str, set] = {}
         bus_parent_names: dict[str, list] = {}
@@ -176,7 +183,4 @@ class NodesConnectionsParentChildDF:
                         elem_nodes,
                     ])
 
-        return pd.DataFrame(
-            rows,
-            columns=["parent_name", "parent_bus", "parent_node", "element_name", "element_bus", "element_node"],
-        )
+        return rows

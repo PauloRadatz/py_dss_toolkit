@@ -35,21 +35,21 @@ class SegmentsDF(PDElementsDF):
 
     @property
     def segments_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._create_segments_records())
+        df = self.__create_dataframe(self._segments_records)
         if df.empty:
             return None
         return df
 
     @property
     def enabled_segments_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._filter_segments_records(enabled=True))
+        df = self.__create_dataframe(self._enabled_segments_records)
         if df.empty:
             return None
         return df.drop(columns=["enabled"]).reset_index(drop=True)
 
     @property
     def disabled_segments_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._filter_segments_records(enabled=False))
+        df = self.__create_dataframe(self._disabled_segments_records)
         if df.empty:
             return None
         return df.drop(columns=["enabled"]).reset_index(drop=True)

@@ -27,22 +27,34 @@ class PCElementsDF:
         self._dss = dss
 
     @property
+    def _pc_elements_records(self) -> Dict[str, List]:
+        return self._create_pc_elements_records()
+
+    @property
+    def _enabled_pc_elements_records(self) -> Dict[str, List]:
+        return self._filter_pc_elements_records(enabled=True)
+
+    @property
+    def _disabled_pc_elements_records(self) -> Dict[str, List]:
+        return self._filter_pc_elements_records(enabled=False)
+
+    @property
     def pc_elements_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._create_pc_elements_records())
+        df = self.__create_dataframe(self._pc_elements_records)
         if df.empty:
             return None
         return df
 
     @property
     def enabled_pc_elements_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._filter_pc_elements_records(enabled=True))
+        df = self.__create_dataframe(self._enabled_pc_elements_records)
         if df.empty:
             return None
         return df.drop(columns=["enabled"]).reset_index(drop=True)
 
     @property
     def disabled_pc_elements_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._filter_pc_elements_records(enabled=False))
+        df = self.__create_dataframe(self._disabled_pc_elements_records)
         if df.empty:
             return None
         return df.drop(columns=["enabled"]).reset_index(drop=True)

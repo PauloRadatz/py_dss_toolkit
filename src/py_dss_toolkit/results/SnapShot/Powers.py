@@ -14,6 +14,10 @@ class Powers:
         self._dss = dss
 
     @property
+    def _powers_records(self) -> Tuple[dict, dict, list]:
+        return self._create_powers_records()
+
+    @property
     def powers_elements(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         return self.__create_dataframe()
 

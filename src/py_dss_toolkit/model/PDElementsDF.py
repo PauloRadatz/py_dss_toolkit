@@ -22,22 +22,34 @@ class PDElementsDF:
         self._dss = dss
 
     @property
+    def _pd_elements_records(self) -> Dict[str, List]:
+        return self._create_pd_elements_records()
+
+    @property
+    def _enabled_pd_elements_records(self) -> Dict[str, List]:
+        return self._filter_pd_elements_records(enabled=True)
+
+    @property
+    def _disabled_pd_elements_records(self) -> Dict[str, List]:
+        return self._filter_pd_elements_records(enabled=False)
+
+    @property
     def pd_elements_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._create_pd_elements_records())
+        df = self.__create_dataframe(self._pd_elements_records)
         if df.empty:
             return None
         return df
 
     @property
     def enabled_pd_elements_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._filter_pd_elements_records(enabled=True))
+        df = self.__create_dataframe(self._enabled_pd_elements_records)
         if df.empty:
             return None
         return df.drop(columns=["enabled"]).reset_index(drop=True)
 
     @property
     def disabled_pd_elements_df(self) -> Optional[pd.DataFrame]:
-        df = self.__create_dataframe(self._filter_pd_elements_records(enabled=False))
+        df = self.__create_dataframe(self._disabled_pd_elements_records)
         if df.empty:
             return None
         return df.drop(columns=["enabled"]).reset_index(drop=True)

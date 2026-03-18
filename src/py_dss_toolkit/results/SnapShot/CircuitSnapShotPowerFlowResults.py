@@ -10,28 +10,23 @@ class CircuitSnapShotPowerFlowResults:
         self._dss = dss
 
     @property
+    def _summary_records(self) -> dict:
+        return self._create_summary_records()
+
+    @property
     def summary_df(self) -> pd.DataFrame:
-        return self.__create_dataframe()
-
-    def __create_dataframe(self):
-        p_feeder_kw = -self._dss.circuit.total_power[0]
-        q_feeder_kvar = -self._dss.circuit.total_power[1]
-        p_losses_feeder_kw = self._dss.circuit.losses[0] / 1000.0
-        q_losses_feeder_kvar = self._dss.circuit.losses[1] / 1000.0
-        max_v_pu = max(self._dss.circuit.buses_vmag_pu)
-        min_v_pu = min(self._dss.circuit.buses_vmag_pu)
-
-        data = {
-            'P feeder (kW)': [p_feeder_kw],
-            'Q feeder (kvar)': [q_feeder_kvar],
-            'P losses (kW)': [p_losses_feeder_kw],
-            'Q losses (kvar)': [q_losses_feeder_kvar],
-            'max voltage (pu)': [max_v_pu],
-            'min voltage (pu)': [min_v_pu]
-        }
-
+        data = self._summary_records
         df = pd.DataFrame(data)
         df = df.T.rename(columns={0: 'Results'})
-
         return df
+
+    def _create_summary_records(self) -> dict:
+        return {
+            'P feeder (kW)': [-self._dss.circuit.total_power[0]],
+            'Q feeder (kvar)': [-self._dss.circuit.total_power[1]],
+            'P losses (kW)': [self._dss.circuit.losses[0] / 1000.0],
+            'Q losses (kvar)': [self._dss.circuit.losses[1] / 1000.0],
+            'max voltage (pu)': [max(self._dss.circuit.buses_vmag_pu)],
+            'min voltage (pu)': [min(self._dss.circuit.buses_vmag_pu)],
+        }
 

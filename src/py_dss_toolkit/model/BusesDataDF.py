@@ -13,6 +13,10 @@ class BusesDataDF:
         self._dss = dss
 
     @property
+    def _buses_records(self) -> Dict[str, List]:
+        return self._create_buses_records()
+
+    @property
     def buses_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 

@@ -17,6 +17,10 @@ class AllLosses:
         self._dss = dss
 
     @property
+    def _all_losses_records(self) -> Tuple[dict, list]:
+        return self._create_all_losses_records()
+
+    @property
     def all_losses_elements(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
