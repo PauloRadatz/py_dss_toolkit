@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.13.0 (unreleased)
+0.13.0 (2026-03-18)
 -------------------
 * ``dss_tools`` now raises a descriptive error telling the user to call ``dss_tools.update_dss(dss)`` before accessing lazy properties or calling ``text()`` without a connected DSS instance.
 * Model verification tests reorganized by feature: ``test_isolated``, ``test_nodes_connections``, ``test_loop_edges``, ``test_loads_transformer_voltage``, ``test_reversed_segments``, ``test_same_buses_segments``, ``test_disabled_segments``.
