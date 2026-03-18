@@ -14,8 +14,20 @@ class Currents:
         self._dss = dss
 
     @property
-    def _currents_elements_records(self) -> Tuple[dict, dict, list, dict, dict]:
-        return create_currents_elements_records(self._dss)
+    def _currents_element_mag_records(self) -> dict:
+        return create_currents_elements_records(self._dss)[0]
+
+    @property
+    def _currents_element_ang_records(self) -> dict:
+        return create_currents_elements_records(self._dss)[1]
+
+    @property
+    def _currents_element_norm_amps_records(self) -> dict:
+        return create_currents_elements_records(self._dss)[3]
+
+    @property
+    def _currents_element_emerg_amps_records(self) -> dict:
+        return create_currents_elements_records(self._dss)[4]
 
     @property
     def currents_elements(self) -> Tuple[pd.DataFrame, pd.DataFrame]:

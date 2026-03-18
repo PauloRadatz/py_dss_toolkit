@@ -11,6 +11,10 @@ class SummaryModelData:
         self._dss = dss
 
     @property
+    def _summary_model_records(self) -> dict:
+        return self._create_summary_records()
+
+    @property
     def summary_df(self) -> pd.DataFrame:
         return self.__create_dataframe()
 
