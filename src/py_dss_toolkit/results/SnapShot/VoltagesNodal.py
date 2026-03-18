@@ -19,12 +19,20 @@ class VoltagesNodal:
         self._dss = dss
 
     @property
-    def _voltage_ln_nodes_records(self) -> Tuple[dict, dict, list]:
-        return create_nodal_voltage_records(self._dss)
+    def _voltage_mag_ln_nodes_records(self) -> dict:
+        return create_nodal_voltage_records(self._dss)[0]
 
     @property
-    def _voltage_ll_nodes_records(self) -> Tuple[dict, dict, list]:
-        return create_nodal_ll_voltage_records(self._dss)
+    def _voltage_ang_ln_nodes_records(self) -> dict:
+        return create_nodal_voltage_records(self._dss)[1]
+
+    @property
+    def _voltage_mag_ll_nodes_records(self) -> dict:
+        return create_nodal_ll_voltage_records(self._dss)[0]
+
+    @property
+    def _voltage_ang_ll_nodes_records(self) -> dict:
+        return create_nodal_ll_voltage_records(self._dss)[1]
 
     @property
     def voltage_ln_nodes(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
