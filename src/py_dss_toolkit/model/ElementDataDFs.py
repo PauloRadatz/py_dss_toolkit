@@ -10,6 +10,16 @@ import pandas as pd
 
 
 class ElementDataDFs:
+    """Tabular exports of major OpenDSS element classes (one row per element).
+
+    Mixed into :class:`~py_dss_toolkit.model.ModelBase.ModelBase`. Each ``*_df``
+    returns ``None`` if that class has no **enabled** elements; otherwise a
+    DataFrame with a lowercase ``name`` column and one column per DSS property
+    from ``cktelement.property_names`` for that class.
+
+    Access via ``dss_tools.model.lines_df`` (or ``study.model.…``), etc.
+    """
+
     def __init__(self, dss: DSS):
         self._dss = dss
 
@@ -55,42 +65,52 @@ class ElementDataDFs:
 
     @property
     def lines_df(self) -> Optional[pd.DataFrame]:
+        """All ``Line`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._lines_records)
 
     @property
     def transformers_df(self) -> Optional[pd.DataFrame]:
+        """All ``Transformer`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._transformers_records)
 
     @property
     def meters_df(self) -> Optional[pd.DataFrame]:
+        """All ``EnergyMeter`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._meters_records)
 
     @property
     def monitors_df(self) -> Optional[pd.DataFrame]:
+        """All ``Monitor`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._monitors_records)
 
     @property
     def generators_df(self) -> Optional[pd.DataFrame]:
+        """All ``Generator`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._generators_records)
 
     @property
     def vsources_df(self) -> Optional[pd.DataFrame]:
+        """All ``Vsource`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._vsources_records)
 
     @property
     def regcontrols_df(self) -> Optional[pd.DataFrame]:
+        """All ``RegControl`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._regcontrols_records)
 
     @property
     def loads_df(self) -> Optional[pd.DataFrame]:
+        """All ``Load`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._loads_records)
 
     @property
     def pvsystems_df(self) -> Optional[pd.DataFrame]:
+        """All ``PVSystem`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._pvsystems_records)
 
     @property
     def storage_df(self) -> Optional[pd.DataFrame]:
+        """All ``Storage`` elements; ``None`` if none enabled."""
         return self.__create_dataframe_from_records(self._storage_records)
 
     def _create_element_data_records(self, element) -> Optional[Dict[str, List]]:

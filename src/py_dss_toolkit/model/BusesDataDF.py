@@ -9,6 +9,12 @@ import pandas as pd
 
 
 class BusesDataDF:
+    """Bus-level attributes from the OpenDSS ``Bus`` interface, one row per bus.
+
+    Mixed into :class:`~py_dss_toolkit.model.ModelBase.ModelBase`; use
+    ``dss_tools.model.buses_df`` (or ``study.model.buses_df``) in application code.
+    """
+
     def __init__(self, dss: DSS):
         self._dss = dss
 
@@ -18,6 +24,16 @@ class BusesDataDF:
 
     @property
     def buses_df(self) -> pd.DataFrame:
+        """Data of every bus in the compiled circuit.
+
+        Columns follow OpenDSS bus variables: ``name``, ``nodes``, ``num_nodes``,
+        ``kv_base``, ``distance``, ``coord_defined``, ``x``, ``y``, ``latitude``,
+        ``longitude``, ``all_pce_active_bus``, ``all_pde_active_bus``, ``line_list``,
+        ``line_total_miles``, ``load_list``, ``section_id``, ``total_customers``.
+
+        Returns:
+            pd.DataFrame: One row per bus; column dtypes follow the engine values.
+        """
         return self.__create_dataframe()
 
     def _create_buses_records(self) -> Dict[str, List]:

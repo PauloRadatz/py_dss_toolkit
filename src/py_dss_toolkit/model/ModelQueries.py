@@ -49,6 +49,12 @@ class ModelQueries:
 
     @property
     def source_bus(self) -> str:
+        """Circuit element's bus name used as the root of the directed graph (typically the ``sourcebus`` bus).
+
+        Returns:
+            str: Lowercase bus name from ``graph.graph['source_bus']``; upstream/downstream
+            queries are relative to this node.
+        """
         return self.graph.graph["source_bus"]
 
     def _upstream_path(self, bus: str) -> List[str]:
