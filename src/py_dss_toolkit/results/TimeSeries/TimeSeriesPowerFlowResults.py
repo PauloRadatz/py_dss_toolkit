@@ -2,6 +2,8 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
+from typing import Callable, Dict, Union
+
 from py_dss_interface import DSS
 
 from py_dss_toolkit.results.SnapShot.AllLosses import AllLosses
@@ -34,7 +36,11 @@ class TimeSeriesPowerFlowResults(Energymeters,
                                  CurrentsLoading
                                  ):
 
-    def __init__(self, dss: DSS):
+    def __init__(
+        self,
+        dss: DSS,
+        connection_type_map: Union[Dict[str, str], Callable[[], Dict[str, str]], None] = None,
+    ):
         self._dss = dss
         Energymeters.__init__(self, self._dss)
         Monitor.__init__(self, self._dss)
@@ -46,7 +52,7 @@ class TimeSeriesPowerFlowResults(Energymeters,
         AllLosses.__init__(self, self._dss)
         CircuitSnapShotPowerFlowResults.__init__(self, self._dss)
 
-        VoltagesNodalViolations.__init__(self, self._dss)
+        VoltagesNodalViolations.__init__(self, self._dss, connection_type_map)
         CurrentsViolations.__init__(self, self._dss)
         CurrentsLoading.__init__(self, self._dss)
 

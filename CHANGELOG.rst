@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.14.0 (2026-03-25)
+-------------------
+* Nodal voltage violations: ``violation_voltage_ll_nodes`` applies the same per-unit limits as ``violation_voltage_ln_nodes`` to line-to-line nodal magnitudes (from ``create_nodal_ll_voltage_dataframes``).
+* Nodal voltage violations: ``violation_voltage_nodes`` uses the same per-bus LN/LL selection as ``VoltagesNodalSmart.voltage_nodes`` (via ``create_nodal_smart_voltage_dataframes``); violation checks use numeric columns only so the ``voltage_type`` column is not compared to limits.
+* ``VoltagesNodalViolations`` accepts an optional ``connection_type_map`` (dict or callable), aligned with ``VoltagesNodalSmart``; ``Results``, ``SnapShotPowerFlowResults``, and ``TimeSeriesPowerFlowResults`` pass it through so ``dss_tools.results`` stays consistent with ``bus_connection_type_map``.
+* ``dss_tools.dss_view`` raises ``RuntimeError`` when ``dss.backend`` is not ``Windows-Delphi`` (DSSView.exe requires the Delphi OpenDSS build).
+
 0.13.0 (2026-03-18)
 -------------------
 * ``dss_tools`` now raises a descriptive error telling the user to call ``dss_tools.update_dss(dss)`` before accessing lazy properties or calling ``text()`` without a connected DSS instance.

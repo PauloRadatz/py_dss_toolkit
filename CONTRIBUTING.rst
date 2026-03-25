@@ -21,6 +21,18 @@ py-dss-toolkit could always use more documentation, whether as part of the
 official py-dss-toolkit docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
+Docstrings
+----------
+
+Use **Google-style** docstrings so they render correctly with Sphinx Napoleon
+(see the `Google example <https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html>`_).
+
+* One-line summary, blank line, then optional detail.
+* Sections: ``Args:``, ``Returns:``, ``Raises:``, ``Yields:``, ``Note:``, ``Example:`` — **do not** use NumPy-style
+  underlines (``-------``) under section headers.
+* New or updated **public** API (classes and functions meant for users) should include a clear summary and
+  ``Args`` / ``Returns`` / ``Raises`` where applicable.
+
 Feature requests and feedback
 =============================
 

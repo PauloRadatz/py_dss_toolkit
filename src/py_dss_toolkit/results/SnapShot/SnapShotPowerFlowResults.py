@@ -40,7 +40,7 @@ class SnapShotPowerFlowResults(VoltagesNodal,
         Losses.__init__(self, self._dss)
         AllLosses.__init__(self, self._dss)
         CircuitSnapShotPowerFlowResults.__init__(self, self._dss)
-        VoltagesNodalViolations.__init__(self, self._dss)
+        VoltagesNodalViolations.__init__(self, self._dss, connection_type_map)
         CurrentsViolations.__init__(self, self._dss)
         CurrentsLoading.__init__(self, self._dss)
 

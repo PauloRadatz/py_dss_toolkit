@@ -11,6 +11,12 @@ from py_dss_toolkit.model.ModelUtils import ModelUtils
 
 
 class ElementData:
+    """Read and edit individual OpenDSS elements by class and name.
+
+    Mixed into :class:`~py_dss_toolkit.model.ModelBase.ModelBase`. Access via
+    ``model.element_data(...)``, ``model.edit_element(...)``, etc.
+    """
+
     def __init__(self, dss: DSS):
         self._dss = dss
         self._model_utils = ModelUtils(dss)
@@ -34,6 +40,19 @@ class ElementData:
             raise ValueError(f"{element_class}.{element_name} does not exist in the model")
 
     def element_data(self, element_class: str, element_name: str) -> pd.DataFrame:
+        """Return all DSS properties for one element as a small DataFrame.
+
+        Args:
+            element_class: OpenDSS class name (e.g. ``"Line"``, ``"Load"``).
+            element_name: Element name without the class prefix.
+
+        Returns:
+            pd.DataFrame: Property values for that element (transposed so each row is a
+            property name from ``cktelement.property_names``).
+
+        Raises:
+            ValueError: If the element is not in the compiled circuit.
+        """
         records = self._element_data_records(element_class, element_name)
 
         df = pd.DataFrame.from_dict(records)
@@ -42,6 +61,17 @@ class ElementData:
         return df.T
 
     def edit_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
+        """Apply ``DSS edit``-style updates to an existing element.
+
+        Args:
+            element_class: OpenDSS class name (e.g. ``"Line"``).
+            element_name: Element name without the class prefix.
+            properties: ``property_name`` → value strings as accepted by OpenDSS.
+
+        Raises:
+            ValueError: If the element does not exist, or a key is not a valid property
+                for that element class.
+        """
         if self._model_utils.is_element_in_model(element_class, element_name):
 
             self._dss.text(f"select {element_class}.{element_name}")
@@ -63,6 +93,18 @@ class ElementData:
             raise ValueError(f"{element_class}.{element_name} does not exist in the model")
 
     def add_element(self, element_class: str, element_name: str, properties: Dict[str, str]) -> None:
+        """Create a new element with ``New``-style DSS text.
+
+        Args:
+            element_class: OpenDSS class name (e.g. ``"Line"``).
+            element_name: Element name without the class prefix.
+            properties: ``property_name`` → value strings. If another element of the
+                same class exists, property names are validated against it.
+
+        Raises:
+            ValueError: If the element already exists, or a key is not a valid property
+                when validation is possible.
+        """
         if self._model_utils.is_element_in_model(element_class, element_name):
             raise ValueError(f"{element_class}.{element_name} already exists in the model")
 
@@ -89,6 +131,20 @@ class ElementData:
         self._dss.text(dss_string)
 
     def add_line_in_vsource(self, add_meter=False, add_monitors=False):
+        """Insert a feeder-head switch line and optional meter/monitors at the Vsource.
+
+        Moves the ``Vsource.source`` to a synthetic bus, adds ``Line.feeder_head`` as a
+        closed switch, and optionally creates an energymeter and monitors. Intended
+        for a single call per circuit unless the feeder head is already modified.
+
+        Args:
+            add_meter: If True and no enabled energymeter exists, add ``meter_feeder_head`` at ``Line.feeder_head``.
+            add_monitors: If True, add P/Q and V/I monitors on ``Line.feeder_head``.
+
+        Raises:
+            ValueError: If this helper was already applied (feeder head bus name ends
+                with the expected suffix).
+        """
         code = "unrealbus"
         self._dss.vsources.name = "source"
         feeder_head_bus = self._dss.cktelement.bus_names[0].split('.')[0].lower()

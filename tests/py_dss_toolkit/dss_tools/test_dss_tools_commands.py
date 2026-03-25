@@ -10,7 +10,8 @@ from py_dss_toolkit.dss_tools.dss_tools import DSSTools
 
 
 class FakeDSS:
-    def __init__(self):
+    def __init__(self, backend="Windows-Delphi"):
+        self.backend = backend
         self.commands = []
         self.dssinterface = SimpleNamespace(datapath=None)
 
@@ -111,6 +112,15 @@ def test_dss_tools_update_dss_refreshes_dependent_objects():
         assert tools.simulation is sim_cls.return_value
         assert tools.configuration is cfg_cls.return_value
         assert tools.utilities is util_cls.return_value
+
+
+def test_dss_view_requires_windows_delphi_backend():
+    fake_dss = FakeDSS(backend="Linux")
+    tools = DSSTools(None)
+    tools.update_dss(fake_dss)
+
+    with pytest.raises(RuntimeError, match="DSSView"):
+        _ = tools.dss_view
 
 
 @pytest.mark.parametrize(

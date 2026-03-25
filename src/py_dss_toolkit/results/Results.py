@@ -16,5 +16,5 @@ class Results(SnapShotPowerFlowResults, TimeSeriesPowerFlowResults, FaultResults
     def __init__(self, dss: DSS, connection_type_map: Union[Dict[str, str], Callable[[], Dict[str, str]], None] = None):
         self._dss = dss
         SnapShotPowerFlowResults.__init__(self, self._dss, connection_type_map)
-        TimeSeriesPowerFlowResults.__init__(self, self._dss)
+        TimeSeriesPowerFlowResults.__init__(self, self._dss, connection_type_map)
         FaultResults.__init__(self, self._dss)
