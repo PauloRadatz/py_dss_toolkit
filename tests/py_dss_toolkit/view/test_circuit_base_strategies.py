@@ -7,12 +7,21 @@ import pytest
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBase import CircuitBase
 
 
+def _empty_vmags():
+    return pd.DataFrame(columns=["node1", "node2", "node3"])
+
+
 def _build_circuit_base():
     dss = SimpleNamespace()
     results = SimpleNamespace(
         powers_elements=[pd.DataFrame(), pd.DataFrame()],
-        voltages_elements=[pd.DataFrame()],
+        voltages_elements=[pd.DataFrame(), pd.DataFrame()],
+        voltage_ln_nodes=[_empty_vmags(), _empty_vmags()],
+        voltage_ll_nodes=[_empty_vmags(), _empty_vmags()],
+        voltage_nodes=[_empty_vmags(), _empty_vmags()],
         violation_voltage_ln_nodes=[pd.DataFrame(), pd.DataFrame()],
+        violation_voltage_ll_nodes=[pd.DataFrame(), pd.DataFrame()],
+        violation_voltage_nodes=[pd.DataFrame(), pd.DataFrame()],
         violation_currents_elements=pd.DataFrame(),
     )
     model = SimpleNamespace(
@@ -20,6 +29,90 @@ def _build_circuit_base():
         buses_df=pd.DataFrame(columns=["name", "distance"]),
     )
     return CircuitBase(dss=dss, results=results, model=model)
+
+
+def _sample_vmags_bus_ab():
+    return pd.DataFrame(
+        {
+            "node1": [1.0, 0.98],
+            "node2": [1.01, 0.99],
+            "node3": [1.0, 0.97],
+        },
+        index=["a", "b"],
+    )
+
+
+def test_voltage_strategy_uses_nodal_ln_and_bus2_mean():
+    circuit = _build_circuit_base()
+    circuit._results.voltage_ln_nodes = (_sample_vmags_bus_ab(), _empty_vmags())
+    lines_df = pd.DataFrame(
+        {
+            "name": ["line.l1"],
+            "bus1": ["a"],
+            "bus2": ["b"],
+            "phases": [3],
+            "linetype": ["oh"],
+        }
+    )
+    _, results, _, _ = circuit._get_plot_settings("voltage", lines_df=lines_df)
+    assert results["line.l1"] == pytest.approx((0.98 + 0.99 + 0.97) / 3.0)
+
+
+def test_voltage_strategy_ln_ll_switch():
+    circuit = _build_circuit_base()
+    ln_df = _sample_vmags_bus_ab()
+    ll_df = pd.DataFrame(
+        {"node1": [2.0, 2.1], "node2": [2.0, 2.0], "node3": [2.0, 2.2]},
+        index=["a", "b"],
+    )
+    circuit._results.voltage_ln_nodes = (ln_df, _empty_vmags())
+    circuit._results.voltage_ll_nodes = (ll_df, _empty_vmags())
+    lines_df = pd.DataFrame(
+        {
+            "name": ["line.l1"],
+            "bus1": ["a"],
+            "bus2": ["b"],
+            "phases": [3],
+            "linetype": ["oh"],
+        }
+    )
+    circuit.voltage_settings.voltage_type = "ll"
+    _, results, _, _ = circuit._get_plot_settings("voltage", lines_df=lines_df)
+    assert results["line.l1"] == pytest.approx((2.1 + 2.0 + 2.2) / 3.0)
+
+
+def test_voltage_violations_strategy_follows_voltage_type():
+    circuit = _build_circuit_base()
+    lines_df = pd.DataFrame(
+        {
+            "name": ["line.l1", "line.l2", "line.l3"],
+            "bus1": ["x", "y", "z"],
+            "bus2": ["a", "b", "c"],
+            "phases": [3, 3, 3],
+            "linetype": ["oh", "oh", "oh"],
+        }
+    )
+    circuit._results.violation_voltage_ln_nodes = (pd.DataFrame(index=["x"]), pd.DataFrame())
+    circuit._results.violation_voltage_ll_nodes = (pd.DataFrame(index=["y"]), pd.DataFrame())
+    circuit._results.violation_voltage_nodes = (pd.DataFrame(index=["z"]), pd.DataFrame())
+
+    circuit.voltage_settings.voltage_type = "ln"
+    _, res_ln, _, _ = circuit._get_plot_settings("voltage violations", lines_df=lines_df.copy())
+    assert res_ln["line.l1"] == "1"
+    assert res_ln["line.l2"] == "0"
+    assert res_ln["line.l3"] == "0"
+
+    circuit.voltage_settings.voltage_type = "ll"
+    _, res_ll, _, _ = circuit._get_plot_settings("voltage violations", lines_df=lines_df.copy())
+    assert res_ll["line.l1"] == "0"
+    assert res_ll["line.l2"] == "1"
+    assert res_ll["line.l3"] == "0"
+
+    circuit.voltage_settings.voltage_type = "ln-ll"
+    _, res_sm, _, _ = circuit._get_plot_settings("voltage violations", lines_df=lines_df.copy())
+    assert res_sm["line.l1"] == "0"
+    assert res_sm["line.l2"] == "0"
+    assert res_sm["line.l3"] == "1"
 
 
 def test_get_plot_settings_raises_for_unknown_parameter():

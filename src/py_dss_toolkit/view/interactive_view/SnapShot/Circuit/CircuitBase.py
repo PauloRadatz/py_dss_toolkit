@@ -37,6 +37,35 @@ from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.DistanceSettings impo
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBusMarker import CircuitBusMarker
 
 
+def _get_nodal_vmags_dataframe(results: SnapShotPowerFlowResults, voltage_type: str) -> pd.DataFrame:
+    if voltage_type == "ln":
+        return results.voltage_ln_nodes[0]
+    if voltage_type == "ll":
+        return results.voltage_ll_nodes[0]
+    if voltage_type == "ln-ll":
+        df = results.voltage_nodes[0]
+        return df.drop(columns="voltage_type", errors="ignore")
+    raise ValueError(f"voltage_type must be 'ln', 'll', or 'ln-ll', got {voltage_type!r}")
+
+
+def _resolve_bus_row_index(bus_short: str, vmags_df: pd.DataFrame):
+    """Map a short bus name (as in ``lines_df``) to ``vmags_df`` index (short or full)."""
+    bus_key = str(bus_short).lower().split(".")[0]
+    if bus_key in vmags_df.index:
+        return bus_key
+    matches = [
+        b for b in vmags_df.index
+        if str(b).lower().split(".")[0] == bus_key
+    ]
+    if len(matches) >= 1:
+        return matches[0]
+    raise KeyError(bus_key)
+
+
+def _violation_bus_index_as_short_names(index: pd.Index) -> set:
+    return {str(x).lower().split(".")[0] for x in index}
+
+
 class PlotParameterStrategy:
     """Base class for plot parameter strategies."""
 
@@ -85,20 +114,36 @@ class VoltageStrategy(PlotParameterStrategy):
     def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._voltage_settings
         bus = settings.bus
-        columns = self._circuit._results.voltages_elements[0].columns
-        if bus == "bus1":
-            p = 1
-        else:
-            p = 2
-        if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
+        vmags_df = _get_nodal_vmags_dataframe(self._circuit._results, settings.voltage_type)
+        if not {"node1", "node2", "node3"}.issubset(vmags_df.columns):
             raise ValueError("A non 3-phase circuit can't be plotted")
-        v = self._circuit._results.voltages_elements[0].loc[:, [f"Terminal{p}.1", f"Terminal{p}.2", f"Terminal{p}.3"]]
-        if settings.nodes_voltage_value == "mean":
-            results = v.mean(axis=1)
-        elif settings.nodes_voltage_value == "min":
-            results = v.min(axis=1)
-        elif settings.nodes_voltage_value == "max":
-            results = v.max(axis=1)
+        if lines_df is None:
+            lines_df = self._circuit._model.lines_df.copy()
+            lines_df["name"] = "line." + lines_df["name"]
+        else:
+            lines_df = lines_df.copy()
+        bus_col = "bus1" if bus == "bus1" else "bus2"
+        agg = settings.nodes_voltage_value
+        out = {}
+        for _, row in lines_df.iterrows():
+            line_name = row["name"]
+            bus_short = str(row[bus_col]).lower().split(".")[0]
+            try:
+                bus_idx = _resolve_bus_row_index(bus_short, vmags_df)
+                vals = vmags_df.loc[bus_idx, ["node1", "node2", "node3"]]
+                if agg == "mean":
+                    out[line_name] = float(vals.mean())
+                elif agg == "min":
+                    out[line_name] = float(vals.min())
+                elif agg == "max":
+                    out[line_name] = float(vals.max())
+                else:
+                    raise ValueError(
+                        f"nodes_voltage_value must be 'mean', 'min', or 'max', got {agg!r}"
+                    )
+            except (KeyError, TypeError, ValueError):
+                out[line_name] = np.nan
+        results = pd.Series(out)
         hovertemplate = ("<b>%{customdata[0]}</b><br>" +
                         "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
                         f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>" +
@@ -143,8 +188,17 @@ class PhasesStrategy(PlotParameterStrategy):
 class VoltageViolationsStrategy(PlotParameterStrategy):
     def get_settings_and_results(self, lines_df=None):
         settings = self._circuit._voltage_violation_settings
-        under_v_bus_violations = self._circuit._results.violation_voltage_ln_nodes[0].index
-        over_v_bus_violations = self._circuit._results.violation_voltage_ln_nodes[1].index
+        vt = self._circuit._voltage_settings.voltage_type
+        if vt == "ln":
+            under_df, over_df = self._circuit._results.violation_voltage_ln_nodes
+        elif vt == "ll":
+            under_df, over_df = self._circuit._results.violation_voltage_ll_nodes
+        elif vt == "ln-ll":
+            under_df, over_df = self._circuit._results.violation_voltage_nodes
+        else:
+            raise ValueError(f"voltage_type must be 'ln', 'll', or 'ln-ll', got {vt!r}")
+        under_v_bus_violations = _violation_bus_index_as_short_names(under_df.index)
+        over_v_bus_violations = _violation_bus_index_as_short_names(over_df.index)
         both_v_bus_violations = under_v_bus_violations.intersection(over_v_bus_violations)
         if lines_df is None:
             lines_df = self._circuit._model.lines_df
@@ -362,11 +416,13 @@ class CircuitBase:
         Supported parameters:
             - 'active power': Plots total active power (kW) per line.
             - 'reactive power': Plots total reactive power (kvar) per line.
-            - 'voltage': Plots voltage statistics (mean/min/max) per line terminal.
+            - 'voltage': Plots voltage statistics (mean/min/max) at the selected line bus using nodal
+              magnitudes; reference is ``circuit.voltage_settings.voltage_type`` (``ln``, ``ll``, or ``ln-ll``).
             - 'user numerical defined': Plots user-defined numerical results.
             - 'phases': Plots the number of phases per line.
             - 'user categorical defined': Plots user-defined categorical results.
-            - 'voltage violations': Highlights lines connected to buses with voltage violations.
+            - 'voltage violations': Highlights lines connected to buses with voltage violations
+              (same pu limits; uses ``violation_voltage_*`` matching ``voltage_settings.voltage_type``).
             - 'thermal violations': Highlights lines with thermal (current) violations.
             - 'distance': Plots distance from energymeter (km) per line.
 
