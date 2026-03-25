@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.15.0 (2026-03-25)
+-------------------
+* Interactive circuit plots (``circuit_plot`` / ``circuit_geoplot``): ``VoltageSettings.voltage_type`` (``"ln"``, ``"ll"``, or ``"ln-ll"``) selects nodal magnitudes like the voltage profile; per-line values use mean/min/max over ``node1``–``node3`` at the chosen ``bus1``/``bus2``. Voltage violation coloring uses the matching ``violation_voltage_*`` results based on the same setting.
+
 0.14.0 (2026-03-25)
 -------------------
 * Nodal voltage violations: ``violation_voltage_ll_nodes`` applies the same per-unit limits as ``violation_voltage_ln_nodes`` to line-to-line nodal magnitudes (from ``create_nodal_ll_voltage_dataframes``).
