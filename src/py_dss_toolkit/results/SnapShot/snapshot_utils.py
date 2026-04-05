@@ -4,7 +4,29 @@
 
 import pandas as pd
 from py_dss_interface import DSS
-from typing import Tuple
+from typing import Any, Dict, Tuple
+
+
+def dataframe_to_column_records(df: pd.DataFrame) -> Dict[str, Any]:
+    """Convert a DataFrame (including named index) to dict-of-column-lists for JSON-friendly APIs."""
+    if df is None or df.empty:
+        return {}
+    d = df.reset_index()
+    out: Dict[str, Any] = {}
+    for col in d.columns:
+        vals = []
+        for v in d[col].tolist():
+            if pd.isna(v):
+                vals.append(None)
+            elif hasattr(v, "item") and callable(getattr(v, "item")):
+                try:
+                    vals.append(v.item())
+                except Exception:
+                    vals.append(v)
+            else:
+                vals.append(v)
+        out[str(col)] = vals
+    return out
 
 _violation_current_limit_type = "norm_amps"
 

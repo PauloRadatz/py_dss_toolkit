@@ -1,6 +1,9 @@
+import numpy as np
+import pandas as pd
 import pytest
 from py_dss_toolkit.results.SnapShot.snapshot_utils import (
     create_terminal_list,
+    dataframe_to_column_records,
     set_violation_current_limit_type,
     get_violation_current_limit_type,
 )
@@ -52,3 +55,26 @@ class TestViolationCurrentLimitType:
     def test_invalid_limit_type_raises(self):
         with pytest.raises(ValueError, match="limit_type must be"):
             set_violation_current_limit_type("invalid_type")
+
+
+class TestDataframeToColumnRecords:
+    def test_empty_dataframe(self):
+        assert dataframe_to_column_records(pd.DataFrame()) == {}
+
+    def test_named_index_and_numeric_columns(self):
+        df = pd.DataFrame({"a": [1.0, 2.0], "b": [3, 4]}, index=pd.Index(["x", "y"], name="bus"))
+        rec = dataframe_to_column_records(df)
+        assert rec["bus"] == ["x", "y"]
+        assert rec["a"] == [1.0, 2.0]
+        assert rec["b"] == [3, 4]
+
+    def test_numpy_scalar_becomes_python(self):
+        df = pd.DataFrame({"v": [np.float64(1.25)]}, index=["n1"])
+        rec = dataframe_to_column_records(df)
+        assert isinstance(rec["v"][0], float)
+        assert rec["v"][0] == 1.25
+
+    def test_nan_becomes_none(self):
+        df = pd.DataFrame({"v": [float("nan")]})
+        rec = dataframe_to_column_records(df)
+        assert rec["v"][0] is None

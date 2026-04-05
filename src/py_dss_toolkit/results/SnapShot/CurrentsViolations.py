@@ -1,6 +1,8 @@
 import pandas as pd
 from py_dss_interface import DSS
+
 from .CurrentsLoading import CurrentsLoading
+from .snapshot_utils import dataframe_to_column_records
 
 class CurrentsViolations:
     def __init__(self, dss: DSS):
@@ -28,3 +30,7 @@ class CurrentsViolations:
             ).any(axis=1).astype(bool)
         violating_elements = loading_df[mask]
         return violating_elements
+
+    @property
+    def _violation_currents_elements_records(self) -> dict:
+        return dataframe_to_column_records(self.violation_currents_elements)
