@@ -2,6 +2,7 @@ import pandas as pd
 from py_dss_interface import DSS
 from typing import Callable, Dict, Tuple, Union
 
+from .snapshot_utils import dataframe_to_column_records
 from .voltages_nodal_utils import (
     create_nodal_ll_voltage_dataframes,
     create_nodal_smart_voltage_dataframes,
@@ -96,3 +97,27 @@ class VoltagesNodalViolations:
             self._dss, self._connection_type_map
         )
         return _undervoltage_overvoltage_from_vmags(vmags_df, self.v_min_pu, self.v_max_pu)
+
+    @property
+    def _violation_voltage_ln_nodes_records(self) -> dict:
+        u_df, o_df = self.violation_voltage_ln_nodes
+        return {
+            "undervoltage": dataframe_to_column_records(u_df),
+            "overvoltage": dataframe_to_column_records(o_df),
+        }
+
+    @property
+    def _violation_voltage_ll_nodes_records(self) -> dict:
+        u_df, o_df = self.violation_voltage_ll_nodes
+        return {
+            "undervoltage": dataframe_to_column_records(u_df),
+            "overvoltage": dataframe_to_column_records(o_df),
+        }
+
+    @property
+    def _violation_voltage_nodes_records(self) -> dict:
+        u_df, o_df = self.violation_voltage_nodes
+        return {
+            "undervoltage": dataframe_to_column_records(u_df),
+            "overvoltage": dataframe_to_column_records(o_df),
+        }

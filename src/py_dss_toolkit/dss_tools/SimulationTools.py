@@ -3,7 +3,7 @@
 # @Email   : paulo.radatz@gmail.com
 
 from py_dss_interface import DSS
-
+from typing import Dict, Union
 
 class SimulationTools:
 
@@ -25,3 +25,11 @@ class SimulationTools:
         self._dss.text(f"Set Stepsize={stepsize}")
         self._dss.text(f"Set number={number}")
         self._dss.text("solve")
+
+    def snapshot_solve_status(self) -> Dict[str, Union[bool, int]]:
+        return {
+            "converged": bool(self._dss.solution.converged),
+            "control_iterations": self._dss.solution.control_iterations,
+            "max_control_iterations": self._dss.solution.max_control_iterations,
+            "control_iteration_limit_hit": self._dss.solution.control_iterations == self._dss.solution.max_control_iterations,
+        }

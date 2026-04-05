@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.16.0 (2026-04-05)
+-------------------
+* ``ConfigurationTools.circuit_readiness()`` reports whether the active circuit has elements (``ready``, ``code``, ``message``); empty circuits return ``code="no_elements"``.
+* ``SimulationTools.snapshot_solve_status()`` returns snapshot solve flags: ``converged``, ``control_iterations``, ``max_control_iterations``, and ``control_iteration_limit_hit``.
+* SnapShot: ``snapshot_utils.dataframe_to_column_records()`` converts a DataFrame (including a named index) to column-oriented dicts suitable for JSON (``NaN`` → ``None``, NumPy scalars normalized to Python values).
+* SnapShot results expose private ``_*_records`` helpers built on that helper: ``CurrentsLoading._current_loading_percent_records``, ``CurrentsViolations._violation_currents_elements_records``, ``VoltagesNodalSmart._voltage_mag_smart_nodes_records`` / ``_voltage_ang_smart_nodes_records``, and ``VoltagesNodalViolations._violation_voltage_ln_nodes_records``, ``_violation_voltage_ll_nodes_records``, ``_violation_voltage_nodes_records`` (each violation group returns ``undervoltage`` / ``overvoltage`` column records).
+
 0.15.0 (2026-03-25)
 -------------------
 * Interactive circuit plots (``circuit_plot`` / ``circuit_geoplot``): ``VoltageSettings.voltage_type`` (``"ln"``, ``"ll"``, or ``"ln-ll"``) selects nodal magnitudes like the voltage profile; per-line values use mean/min/max over ``node1``–``node3`` at the chosen ``bus1``/``bus2``. Voltage violation coloring uses the matching ``violation_voltage_*`` results based on the same setting.

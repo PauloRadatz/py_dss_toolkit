@@ -10,10 +10,14 @@ from py_dss_toolkit.dss_tools.dss_tools import DSSTools
 
 
 class FakeDSS:
-    def __init__(self, backend="Windows-Delphi"):
+    def __init__(self, backend="Windows-Delphi", *, elements_names=None):
         self.backend = backend
         self.commands = []
         self.dssinterface = SimpleNamespace(datapath=None)
+        self.circuit = SimpleNamespace(
+            elements_names=[] if elements_names is None else list(elements_names),
+        )
+        self.solution = SimpleNamespace(converged=True, control_iterations=2, max_control_iterations=10)
 
     def text(self, command: str):
         self.commands.append(command)
@@ -59,6 +63,50 @@ def test_configuration_tools_compile_dss_emits_clearall_then_compile():
     tools.compile_dss("my_case.dss")
 
     assert dss.commands == ["ClearAll", "Compile [my_case.dss]"]
+
+
+def test_configuration_tools_circuit_readiness_not_ready_when_no_elements():
+    dss = FakeDSS()
+    tools = ConfigurationTools(dss)
+
+    assert tools.circuit_readiness() == {
+        "ready": False,
+        "code": "no_elements",
+        "message": "No circuit elements; compile a DSS file first.",
+    }
+
+
+def test_configuration_tools_circuit_readiness_ready_when_elements_present():
+    dss = FakeDSS(elements_names=["line.l1"])
+    tools = ConfigurationTools(dss)
+
+    assert tools.circuit_readiness() == {"ready": True, "code": "ok", "message": ""}
+
+
+def test_simulation_tools_snapshot_solve_status_returns_expected_fields():
+    dss = FakeDSS()
+    dss.solution.converged = 1
+    dss.solution.control_iterations = 3
+    dss.solution.max_control_iterations = 10
+    tools = SimulationTools(dss)
+
+    assert tools.snapshot_solve_status() == {
+        "converged": True,
+        "control_iterations": 3,
+        "max_control_iterations": 10,
+        "control_iteration_limit_hit": False,
+    }
+
+
+def test_simulation_tools_snapshot_solve_status_control_iteration_limit_hit_when_equal():
+    dss = FakeDSS()
+    dss.solution.control_iterations = 10
+    dss.solution.max_control_iterations = 10
+    tools = SimulationTools(dss)
+
+    status = tools.snapshot_solve_status()
+    assert status["control_iteration_limit_hit"] is True
+    assert status["converged"] is True
 
 
 def test_utilities_tools_save_circuit_emits_case_commands_and_sets_datapath():

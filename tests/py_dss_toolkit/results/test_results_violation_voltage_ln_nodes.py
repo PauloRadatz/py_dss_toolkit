@@ -33,6 +33,19 @@ def test_snapshot_13bus_violation_over_voltage_ln_nodes(snapshot_study_13bus):
     df = snapshot_study_13bus.results.violation_voltage_ln_nodes[1]
     assert_violation_over_voltage_ln_nodes_13bus(df)
 
+
+def test_violation_voltage_ln_nodes_records_matches_dataframe_lengths(dss_tools_13bus):
+    dss_tools.simulation.solve_snapshot()
+    u_df, o_df = dss_tools.results.violation_voltage_ln_nodes
+    rec = dss_tools.results._violation_voltage_ln_nodes_records
+    assert set(rec.keys()) == {"undervoltage", "overvoltage"}
+    if not u_df.empty:
+        n = len(next(iter(rec["undervoltage"].values())))
+        assert n == len(u_df)
+    if not o_df.empty:
+        n = len(next(iter(rec["overvoltage"].values())))
+        assert n == len(o_df)
+
 @pytest.mark.parametrize(
     "study_fixture_name",
     [

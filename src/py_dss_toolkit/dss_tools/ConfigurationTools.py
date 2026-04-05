@@ -4,7 +4,7 @@
 
 from py_dss_interface import DSS
 import pathlib
-from typing import Union
+from typing import Union, Dict
 
 
 class ConfigurationTools:
@@ -18,3 +18,13 @@ class ConfigurationTools:
 
     def calc_voltage_base(self):
         self._dss.text("calcvoltagebase")
+
+    def circuit_readiness(self) -> Dict[str, Union[bool, str]]:
+        names = self._dss.circuit.elements_names
+        if not names:
+            return {
+                "ready": False,
+                "code": "no_elements",
+                "message": "No circuit elements; compile a DSS file first.",
+            }
+        return {"ready": True, "code": "ok", "message": ""}

@@ -7,6 +7,7 @@ from typing import Callable, Dict, Tuple, Union
 import pandas as pd
 from py_dss_interface import DSS
 
+from py_dss_toolkit.results.SnapShot.snapshot_utils import dataframe_to_column_records
 from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import (
     create_nodal_smart_voltage_dataframes,
 )
@@ -40,3 +41,13 @@ class VoltagesNodalSmart:
             reference used for each bus.
         """
         return create_nodal_smart_voltage_dataframes(self._dss, self._connection_type_map)
+
+    @property
+    def _voltage_mag_smart_nodes_records(self) -> dict:
+        vmags_df, _ = self.voltage_nodes
+        return dataframe_to_column_records(vmags_df)
+
+    @property
+    def _voltage_ang_smart_nodes_records(self) -> dict:
+        _, vangs_df = self.voltage_nodes
+        return dataframe_to_column_records(vangs_df)

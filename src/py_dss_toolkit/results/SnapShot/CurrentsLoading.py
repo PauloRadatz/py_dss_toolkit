@@ -2,7 +2,11 @@ import pandas as pd
 import numpy as np
 from py_dss_interface import DSS
 from py_dss_toolkit.model.ElementDataDFs import ElementDataDFs
-from .snapshot_utils import create_currents_elements_records, get_violation_current_limit_type
+from .snapshot_utils import (
+    create_currents_elements_records,
+    dataframe_to_column_records,
+    get_violation_current_limit_type,
+)
 
 
 def _parse_dss_list(value: str) -> list:
@@ -71,4 +75,8 @@ class CurrentsLoading:
             else:
                 loading_df.loc[element] = (imags_df.loc[element] / amps) * 100
         return loading_df
+
+    @property
+    def _current_loading_percent_records(self) -> dict:
+        return dataframe_to_column_records(self.current_loading_percent)
 
