@@ -86,7 +86,13 @@ def test_loads_transformer_voltage_df_columns():
     run_dss_script(SCRIPT_3PH_LOAD_CORRECT_KV)
     dss_tools.model.refresh_graph()
     df = dss_tools.model_verification.loads_transformer_voltage_df
-    assert list(df.columns) == ["Load", "kv_load", "kv_transformer", "voltage_type"]
+    assert list(df.columns) == [
+        "Load",
+        "Transformer",
+        "kv_load",
+        "kv_transformer",
+        "voltage_type",
+    ]
 
 
 def test_loads_transformer_voltage_df_empty_when_3ph_kv_correct():
@@ -104,6 +110,7 @@ def test_loads_transformer_voltage_df_detects_3ph_kv_mismatch():
     df = dss_tools.model_verification.loads_transformer_voltage_df
     assert len(df) == 1
     assert df.iloc[0]["Load"] == "l3bad"
+    assert df.iloc[0]["Transformer"] == "tr"
     assert round(df.iloc[0]["kv_load"], 2) == 0.13
     assert round(df.iloc[0]["kv_transformer"], 2) == 0.22
     assert df.iloc[0]["voltage_type"] == "ll"
@@ -124,6 +131,7 @@ def test_loads_transformer_voltage_df_detects_1ph_ln_kv_mismatch():
     df = dss_tools.model_verification.loads_transformer_voltage_df
     assert len(df) == 1
     assert df.iloc[0]["Load"] == "l1bad"
+    assert df.iloc[0]["Transformer"] == "tr"
     assert round(df.iloc[0]["kv_load"], 2) == 0.22
     assert round(df.iloc[0]["kv_transformer"], 2) == 0.13
     assert df.iloc[0]["voltage_type"] == "ln"

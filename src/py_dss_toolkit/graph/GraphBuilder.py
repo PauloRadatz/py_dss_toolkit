@@ -42,6 +42,7 @@ class GraphBuilder:
         G.nodes[source_bus]["connection_type"] = "ln"
         G.nodes[source_bus]["vll"] = source_vll
         G.nodes[source_bus]["vln"] = source_vln
+        G.nodes[source_bus]["feeding_transformer"] = ""
 
         visited: Set[str] = {source_bus}
         queue: deque = deque([source_bus])
@@ -59,6 +60,7 @@ class GraphBuilder:
                     neighbor_conn = current_conn
                     neighbor_vll = current_vll
                     neighbor_vln = current_vln
+                    neighbor_feeding = cur.get("feeding_transformer", "")
                     xfmr_resolved = False
                     for attrs in edge_list.get(pair_key, []):
                         attrs = dict(attrs)
@@ -71,10 +73,12 @@ class GraphBuilder:
                         if not xfmr_resolved and attrs.get("type") == "transformer":
                             neighbor_conn = GraphBuilder._connection_type_from_transformer(attrs)
                             neighbor_vll, neighbor_vln = GraphBuilder._feeding_voltage_from_transformer(attrs)
+                            neighbor_feeding = GraphBuilder._transformer_obj_name_from_segment(attrs["name"])
                             xfmr_resolved = True
                     G.nodes[neighbor]["connection_type"] = neighbor_conn
                     G.nodes[neighbor]["vll"] = neighbor_vll
                     G.nodes[neighbor]["vln"] = neighbor_vln
+                    G.nodes[neighbor]["feeding_transformer"] = neighbor_feeding
 
         return G
 
@@ -149,6 +153,14 @@ class GraphBuilder:
         for _, tr_row in transformers_df.iterrows():
             lookup[tr_row["name"]] = tr_row.to_dict()
         return lookup
+
+    @staticmethod
+    def _transformer_obj_name_from_segment(segment_name: str) -> str:
+        """OpenDSS object name without the ``Transformer.`` class prefix (segment names are ``class.name``)."""
+        parts = str(segment_name).split(".", 1)
+        if len(parts) == 2 and parts[0].lower() == "transformer":
+            return parts[1]
+        return str(segment_name)
 
     @staticmethod
     def _source_voltage(dss: DSS) -> Tuple[float, float]:

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.17.0 (2026-04-06)
+-------------------
+* Model: ``ModelQueries.load_to_transformer_df`` and ``_load_to_transformer_records`` list every enabled load with its feeding transformer from the graph node attribute (same values as ``feeding_transformer``; all loads, unlike ``model_verification.loads_transformer_voltage_df`` which is kV-mismatch-only).
+
 0.16.0 (2026-04-05)
 -------------------
 * ``ConfigurationTools.circuit_readiness()`` reports whether the active circuit has elements (``ready``, ``code``, ``message``); empty circuits return ``code="no_elements"``.
