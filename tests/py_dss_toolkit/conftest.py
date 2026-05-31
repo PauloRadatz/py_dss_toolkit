@@ -50,7 +50,7 @@ def timeseries_study_13bus():
 
 @pytest.fixture(scope="function")
 def dss_tools_13bus():
-    dss = py_dss_interface.DSS()
+    dss = py_dss_interface.DSS(windows_version="cpp")
     dss_tools.update_dss(dss)
     dss_tools.configuration.compile_dss(dss_file_13bus)
 

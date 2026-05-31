@@ -9,8 +9,12 @@ from py_dss_interface import DSS
 from .voltages_nodal_utils import (
     create_nodal_voltage_records,
     create_nodal_voltage_dataframes,
+    create_nodal_voltage_records_loop,
+    create_nodal_voltage_dataframes_loop,
     create_nodal_ll_voltage_records,
     create_nodal_ll_voltage_dataframes,
+    create_nodal_ll_voltage_records_loop,
+    create_nodal_ll_voltage_dataframes_loop,
 )
 
 
@@ -31,12 +35,28 @@ class VoltagesNodal:
         return create_nodal_voltage_records(self._dss)[1]
 
     @property
+    def _voltage_mag_ln_nodes_records_loop(self) -> dict:
+        return create_nodal_voltage_records_loop(self._dss)[0]
+
+    @property
+    def _voltage_ang_ln_nodes_records_loop(self) -> dict:
+        return create_nodal_voltage_records_loop(self._dss)[1]
+
+    @property
     def _voltage_mag_ll_nodes_records(self) -> dict:
         return create_nodal_ll_voltage_records(self._dss)[0]
 
     @property
     def _voltage_ang_ll_nodes_records(self) -> dict:
         return create_nodal_ll_voltage_records(self._dss)[1]
+
+    @property
+    def _voltage_mag_ll_nodes_records_loop(self) -> dict:
+        return create_nodal_ll_voltage_records_loop(self._dss)[0]
+
+    @property
+    def _voltage_ang_ll_nodes_records_loop(self) -> dict:
+        return create_nodal_ll_voltage_records_loop(self._dss)[1]
 
     @property
     def voltage_ln_nodes(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -49,11 +69,29 @@ class VoltagesNodal:
         return create_nodal_voltage_dataframes(self._dss)
 
     @property
+    def voltage_ln_nodes_loop(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        """Original loop-based implementation of :attr:`voltage_ln_nodes`.
+
+        Kept for reference/fallback while migrating to ``dss.export.voltages_ln``;
+        scheduled for removal once the new path is fully validated.
+        """
+        return create_nodal_voltage_dataframes_loop(self._dss)
+
+    @property
     def voltage_ll_nodes(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """Line-to-line per-unit nodal voltages (magnitude and angle) for every bus.
 
         Returns:
             Tuple[pd.DataFrame, pd.DataFrame]: ``(vmags_df, vangs_df)`` in the same
-            layout as :attr:`voltage_ln_nodes`, but derived from ``pu_vll``.
+            layout as :attr:`voltage_ln_nodes`, but derived from ``export.voltages_ll``.
         """
         return create_nodal_ll_voltage_dataframes(self._dss)
+
+    @property
+    def voltage_ll_nodes_loop(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        """Original loop-based implementation of :attr:`voltage_ll_nodes`.
+
+        Kept for reference/fallback while migrating to ``dss.export.voltages_ll``;
+        scheduled for removal once the new path is fully validated.
+        """
+        return create_nodal_ll_voltage_dataframes_loop(self._dss)

@@ -5,6 +5,59 @@ import math
 import numpy as np
 
 def create_nodal_voltage_records(dss: DSS) -> Tuple[dict, dict, list]:
+    """Line-to-neutral nodal voltage records built from ``dss.export.voltages_ln``.
+
+    Fast replacement for :func:`create_nodal_voltage_records_loop`: instead of
+    iterating every bus from Python, it reads the in-memory CSV that OpenDSS
+    produces for the ``export voltages`` command and parses it.
+    """
+    csv = dss.export.voltages_ln
+    lines = csv.splitlines()
+
+    vmags_records = dict()
+    vangs_records = dict()
+    buses = list()
+
+    for line in lines[1:]:  # skip header row
+        if not line.strip():
+            continue
+        parts = [p.strip() for p in line.split(",")]
+        bus = parts[0].replace('"', '').split(".")[0].lower()
+        buses.append(bus)
+
+        vmag_row = dict()
+        vang_row = dict()
+        # After "Bus, BasekV" the row repeats 4-field node blocks:
+        # Node, Magnitude, Angle, pu. Zero-fill padding has Node == 0.
+        k = 2
+        while k + 4 <= len(parts):
+            node = parts[k]
+            angle = parts[k + 2]
+            pu = parts[k + 3]
+            if node != "0":
+                vmag_row[f"node{int(node)}"] = float(pu)
+                vang_row[f"node{int(node)}"] = float(angle)
+            k += 4
+
+        vmags_records[bus] = vmag_row
+        vangs_records[bus] = vang_row
+
+    return vmags_records, vangs_records, buses
+
+def create_nodal_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    vmags_records, vangs_records, buses = create_nodal_voltage_records(dss)
+
+    vmags_df = pd.DataFrame.from_dict(vmags_records, orient='index')
+    vmags_df = vmags_df.reindex(buses)
+
+    vangs_df = pd.DataFrame.from_dict(vangs_records, orient='index')
+    vangs_df = vangs_df.reindex(buses)
+
+    return vmags_df, vangs_df
+
+def create_nodal_voltage_records_loop(dss: DSS) -> Tuple[dict, dict, list]:
+    # Original implementation that iterates over every bus from Python.
+    # Kept for reference/fallback; superseded by create_nodal_voltage_records.
     bus_nodes = dict()
     bus_vmags = dict()
     bus_vangs = dict()
@@ -34,8 +87,8 @@ def create_nodal_voltage_records(dss: DSS) -> Tuple[dict, dict, list]:
 
     return vmags_records, vangs_records, buses
 
-def create_nodal_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    vmags_records, vangs_records, buses = create_nodal_voltage_records(dss)
+def create_nodal_voltage_dataframes_loop(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    vmags_records, vangs_records, buses = create_nodal_voltage_records_loop(dss)
 
     vmags_df = pd.DataFrame.from_dict(vmags_records, orient='index')
     vmags_df = vmags_df.reindex(buses)
@@ -45,7 +98,9 @@ def create_nodal_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFram
 
     return vmags_df, vangs_df
 
-def create_nodal_ll_voltage_records(dss: DSS) -> Tuple[dict, dict, list]:
+def create_nodal_ll_voltage_records_loop(dss: DSS) -> Tuple[dict, dict, list]:
+    # Original implementation that iterates over every bus from Python.
+    # Kept for reference/fallback; superseded by create_nodal_ll_voltage_records.
     bus_nodes = dict()
     bus_vmags = dict()
     bus_vangs = dict()
@@ -90,6 +145,55 @@ def create_nodal_ll_voltage_records(dss: DSS) -> Tuple[dict, dict, list]:
         vangs_records[bus] = row
 
     return vmags_records, vangs_records, buses
+
+def create_nodal_ll_voltage_records(dss: DSS) -> Tuple[dict, dict, list]:
+    """Line-to-line nodal voltage records built from ``dss.export.voltages_ll``.
+
+    Fast replacement for :func:`create_nodal_ll_voltage_records_loop`: reads the
+    in-memory CSV and remaps LL labels (12/23/31) to node1/node2/node3 columns.
+    """
+    csv = dss.export.voltages_ll
+    lines = csv.splitlines()
+
+    vmags_records = dict()
+    vangs_records = dict()
+    buses = list()
+
+    for line in lines[1:]:  # skip header row
+        if not line.strip():
+            continue
+        parts = [p.strip() for p in line.split(",")]
+        bus = parts[0].replace('"', '').split(".")[0].lower()
+        buses.append(bus)
+
+        vmag_row = dict()
+        vang_row = dict()
+        k = 2
+        while k + 4 <= len(parts):
+            node = parts[k]
+            angle = parts[k + 2]
+            pu = parts[k + 3]
+            if node != "0":
+                col = int(node) // 10
+                vmag_row[f"node{col}"] = float(pu)
+                vang_row[f"node{col}"] = float(angle)
+            k += 4
+
+        vmags_records[bus] = vmag_row
+        vangs_records[bus] = vang_row
+
+    return vmags_records, vangs_records, buses
+
+def create_nodal_ll_voltage_dataframes_loop(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    vmags_records, vangs_records, buses = create_nodal_ll_voltage_records_loop(dss)
+
+    vmags_df = pd.DataFrame.from_dict(vmags_records, orient='index')
+    vmags_df = vmags_df.reindex(buses)
+
+    vangs_df = pd.DataFrame.from_dict(vangs_records, orient='index')
+    vangs_df = vangs_df.reindex(buses)
+
+    return vmags_df, vangs_df
 
 def create_nodal_ll_voltage_dataframes(dss: DSS) -> Tuple[pd.DataFrame, pd.DataFrame]:
     vmags_records, vangs_records, buses = create_nodal_ll_voltage_records(dss)
