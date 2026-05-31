@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Unit tests for ModelQueries topology, feeding_voltage, and bus_connection_type.
+Unit tests for ModelQueries topology, feeding_voltage, feeding_transformer, and bus_connection_type.
 
 Each test uses a minimal DSS script that exercises one specific branch of the
 decision logic, making the expected values easy to reason about.
@@ -80,6 +80,18 @@ New Transformer.T1 phases=1 windings=3 xhl=5 %loadloss=0.15 %noloadloss=0.015 %i
 ~ wdg=2 bus=B.1.0 kv=0.24 kva=25 conn=wye
 ~ wdg=3 bus=B.0.2 kv=0.24 kva=25 conn=wye
 Set voltagebases=[13.8 0.24]
+Calcvoltagebases
+Solve
+"""
+
+SCRIPT_LOAD_3PH_DY_SECONDARY = """
+ClearAll
+New Circuit.Thevenin bus1=A pu=1.0 basekv=13.8 model=ideal
+New Transformer.T1 phases=3 windings=2 xhl=5 %loadloss=0.15 %noloadloss=0.015 %imag=2
+~ wdg=1 bus=A kV=13.8 kva=300 conn=delta
+~ wdg=2 bus=B kV=0.22  kva=300 conn=wye
+New load.l1 bus1=B.1.2.3 kv=0.22 phases=3 kw=100 pf=1
+Set voltagebases=[13.8 0.22]
 Calcvoltagebases
 Solve
 """
@@ -258,6 +270,54 @@ def test_feeding_voltage_downstream_inherits_through_line():
     vll_c, vln_c = dss_tools.model.feeding_voltage("c")
     assert vll_c == vll_b
     assert vln_c == vln_b
+
+
+def test_feeding_transformer_3ph_dy_secondary():
+    """Secondary bus gets the segment name of the first transformer on the hop from source."""
+    run_dss_script(SCRIPT_3PH_DY)
+    assert dss_tools.model.feeding_transformer("b") == "t1"
+
+
+def test_feeding_transformer_cascaded_leaf_is_last_xfmr_on_path():
+    """Leaf bus C: feeding transformer is T2 (voltage-defining hop), not T1."""
+    run_dss_script(SCRIPT_CASCADED_TRANSFORMERS)
+    assert dss_tools.model.feeding_transformer("c") == "t2"
+
+
+def test_feeding_transformer_raises_for_nonexistent_bus():
+    """feeding_transformer raises ValueError when bus does not exist in circuit."""
+    run_dss_script(SCRIPT_NO_TRANSFORMER)
+    with pytest.raises(ValueError, match="does not exist in the circuit"):
+        dss_tools.model.feeding_transformer("nonexistent")
+
+
+def test_load_to_transformer_df_row_count_and_columns():
+    """load_to_transformer_df matches loads_df length and fixed schema."""
+    run_dss_script(SCRIPT_LOAD_3PH_DY_SECONDARY)
+    dss_tools.model.refresh_graph()
+    loads_df = dss_tools.model.loads_df
+    df = dss_tools.model.load_to_transformer_df()
+    assert len(df) == len(loads_df)
+    assert list(df.columns) == ["load", "transformer"]
+
+
+def test_load_to_transformer_records_match_feeding_transformer():
+    """Graph attribute matches feeding_transformer(bus) for the load bus."""
+    run_dss_script(SCRIPT_LOAD_3PH_DY_SECONDARY)
+    dss_tools.model.refresh_graph()
+    recs = dss_tools.model._load_to_transformer_records()
+    assert len(recs) == 1
+    assert recs[0]["transformer"] == dss_tools.model.feeding_transformer("b")
+    assert recs[0]["transformer"] == "t1"
+
+
+def test_load_to_transformer_df_empty_when_no_loads():
+    """No Load elements -> empty DataFrame with expected columns."""
+    run_dss_script(SCRIPT_3PH_DY)
+    dss_tools.model.refresh_graph()
+    df = dss_tools.model.load_to_transformer_df()
+    assert df.empty
+    assert list(df.columns) == ["load", "transformer"]
 
 
 # ---------------------------------------------------------------------------

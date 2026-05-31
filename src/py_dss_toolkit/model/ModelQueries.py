@@ -458,6 +458,56 @@ class ModelQueries:
         node = self.graph.nodes[bus]
         return (node.get("vll", 0.0), node.get("vln", 0.0))
 
+    def feeding_transformer(self, bus: str) -> str:
+        """OpenDSS object name of the transformer that sets *bus* voltage.
+
+        Empty string at the source bus or when the hop from upstream is not via a
+        transformer segment (voltage inherited). Matches the same BFS rule as
+        :meth:`feeding_voltage`.
+
+        Raises:
+            ValueError: If *bus* does not exist in the circuit.
+        """
+        bus = self._validate_bus(bus)
+        return self.graph.nodes[bus].get("feeding_transformer", "")
+
+    def _load_to_transformer_records(self) -> List[Dict[str, Any]]:
+        """One dict per enabled load: ``load``, ``transformer``.
+
+        ``transformer`` is read from ``graph.nodes[bus]['feeding_transformer']`` (same
+        value as :meth:`feeding_transformer` after validation). Uses the graph
+        directly for speed, not :meth:`feeding_transformer` in a loop.
+
+        Unlike model verification's ``loads_transformer_voltage_df`` (kV mismatch
+        rows only), this lists **all** loads.
+        """
+        df = self.loads_df
+        if df is None or df.empty:
+            return []
+        G = self.graph
+        records: List[Dict[str, Any]] = []
+        for _, row in df.iterrows():
+            bus_full = str(row["bus1"])
+            bus = bus_full.split(".")[0].lower()
+            if bus in G:
+                tr = G.nodes[bus].get("feeding_transformer", "")
+            else:
+                tr = ""
+            records.append(
+                {
+                    "load": str(row["name"]),
+                    "transformer": tr,
+                }
+            )
+        return records
+
+    def load_to_transformer_df(self) -> pd.DataFrame:
+        """Tabular :meth:`_load_to_transformer_records` (columns ``load``, ``transformer``)."""
+        records = self._load_to_transformer_records()
+        if not records:
+            return pd.DataFrame(columns=["load", "transformer"])
+        return pd.DataFrame(records)
+
     @property
     def bus_connection_type_map(self) -> Dict[str, str]:
         """Mapping of every bus to ``'ln'`` or ``'ll'``.
