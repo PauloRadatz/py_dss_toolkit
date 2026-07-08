@@ -4,7 +4,8 @@
 # @File    : CircuitBusMarker.py
 # @Software: PyCharm
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 
 
 @dataclass(kw_only=True)

@@ -3,14 +3,15 @@
 # @Email   : paulo.radatz@gmail.com
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Tuple
 
 from py_dss_interface import DSS
 
-from py_dss_toolkit.studies.settings_utils import (
-    AlgorithmType, validate_algorithm, validate_time, get_settings
-)
+from py_dss_toolkit.studies.settings_utils import AlgorithmType
+from py_dss_toolkit.studies.settings_utils import validate_algorithm
+from py_dss_toolkit.studies.settings_utils import validate_time
 
 
 @dataclass(kw_only=True)
@@ -22,7 +23,7 @@ class StudySettings:
     @property
     def algorithm(self) -> str:
         """Get the current algorithm setting.
-        
+
         Returns:
             Algorithm string: 'normal', 'newton', or 'ncim'
         """
@@ -32,7 +33,7 @@ class StudySettings:
     @algorithm.setter
     def algorithm(self, value: AlgorithmType):
         """Set the algorithm for power flow solution.
-        
+
         Args:
             value: Algorithm string - 'normal', 'newton', or 'ncim'
         """
@@ -42,7 +43,7 @@ class StudySettings:
 
     @property
     def time(self) -> Tuple[float, float]:
-        match = re.search(r'\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]', self._dss.text(f"get time"))
+        match = re.search(r"\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]", self._dss.text("get time"))
         x, y = float(match.group(1)), float(match.group(2))
         self._time = (x, y)
         return self._time

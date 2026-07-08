@@ -4,6 +4,7 @@ from py_dss_interface import DSS
 from .CurrentsLoading import CurrentsLoading
 from .snapshot_utils import dataframe_to_column_records
 
+
 class CurrentsViolations:
     def __init__(self, dss: DSS):
         self._dss = dss
@@ -22,12 +23,10 @@ class CurrentsViolations:
         mask = pd.Series(False, index=loading_df.index, dtype=bool)
         if is_transformer.any():
             mask.loc[is_transformer] = (
-                loading_df.loc[is_transformer, terminal1_cols] > self.threshold_percent
-            ).any(axis=1).astype(bool)
+                (loading_df.loc[is_transformer, terminal1_cols] > self.threshold_percent).any(axis=1).astype(bool)
+            )
         if (~is_transformer).any():
-            mask.loc[~is_transformer] = (
-                loading_df[~is_transformer] > self.threshold_percent
-            ).any(axis=1).astype(bool)
+            mask.loc[~is_transformer] = (loading_df[~is_transformer] > self.threshold_percent).any(axis=1).astype(bool)
         violating_elements = loading_df[mask]
         return violating_elements
 

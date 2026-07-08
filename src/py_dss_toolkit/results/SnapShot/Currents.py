@@ -6,7 +6,9 @@ from typing import Tuple
 
 import pandas as pd
 from py_dss_interface import DSS
-from .snapshot_utils import create_currents_elements_records, create_currents_elements_dataframes
+
+from .snapshot_utils import create_currents_elements_dataframes
+from .snapshot_utils import create_currents_elements_records
 
 
 class Currents:

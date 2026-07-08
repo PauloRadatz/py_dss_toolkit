@@ -2,7 +2,9 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from typing import Dict, List, Optional
+from typing import Dict
+from typing import List
+from typing import Optional
 
 import pandas as pd
 from py_dss_interface import DSS
@@ -62,10 +64,7 @@ class PCElementsDF:
     def _create_pc_elements_records(self) -> Dict[str, List]:
         elements_names = self._dss.circuit.elements_names
 
-        filtered_elements = [
-            elem for elem in elements_names
-            if any(elem.lower().startswith(p) for p in _PC_PREFIXES)
-        ]
+        filtered_elements = [elem for elem in elements_names if any(elem.lower().startswith(p) for p in _PC_PREFIXES)]
 
         name_list = []
         bus1_list = []

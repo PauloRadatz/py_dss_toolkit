@@ -12,7 +12,6 @@ from py_dss_toolkit.model.ModelBase import ModelBase
 
 
 class IsolatedDF:
-
     def __init__(self, dss: DSS, model: ModelBase):
         self._dss = dss
         self._model = model
@@ -31,22 +30,26 @@ class IsolatedDF:
         data = []
 
         for u, v, attrs in G.edges(data=True):
-            data.append({
-                "element_name": attrs.get("name", ""),
-                "bus1": u,
-                "bus2": v,
-                "type": "segment",
-            })
+            data.append(
+                {
+                    "element_name": attrs.get("name", ""),
+                    "bus1": u,
+                    "bus2": v,
+                    "type": "segment",
+                }
+            )
 
         for node, attrs in G.nodes(data=True):
             shunt_elements = attrs.get("shunt_elements", [])
             for elem_name, _elem_type in shunt_elements:
-                data.append({
-                    "element_name": elem_name,
-                    "bus1": node,
-                    "bus2": "",
-                    "type": "shunt",
-                })
+                data.append(
+                    {
+                        "element_name": elem_name,
+                        "bus1": node,
+                        "bus2": "",
+                        "type": "shunt",
+                    }
+                )
 
         return data
 
@@ -69,10 +72,7 @@ class IsolatedDF:
         independently (e.g. to count elements per island or layout each one).
         """
         G = self.isolated_graph
-        return [
-            nx.DiGraph(G.subgraph(component))
-            for component in nx.weakly_connected_components(G)
-        ]
+        return [nx.DiGraph(G.subgraph(component)) for component in nx.weakly_connected_components(G)]
 
     # ------------------------------------------------------------------
     # Private helpers
@@ -92,7 +92,8 @@ class IsolatedDF:
         full_graph = nx.DiGraph()
         for _, row in enabled.iterrows():
             full_graph.add_edge(
-                row["bus1"], row["bus2"],
+                row["bus1"],
+                row["bus2"],
                 name=row["name"],
                 type=row["type"],
             )
@@ -102,15 +103,13 @@ class IsolatedDF:
         pc_df = self._model.enabled_pc_elements_df
         if pc_df is not None:
             for _, row in pc_df.iterrows():
-                shunt_by_bus.setdefault(row["bus1"], []).append(
-                    (row["name"], row["type"]))
+                shunt_by_bus.setdefault(row["bus1"], []).append((row["name"], row["type"]))
 
         pd_df = self._model.enabled_pd_elements_df
         if pd_df is not None:
             shunt_pd = pd_df[(pd_df["bus2"] == "") | (pd_df["bus1"] == pd_df["bus2"])]
             for _, row in shunt_pd.iterrows():
-                shunt_by_bus.setdefault(row["bus1"], []).append(
-                    (row["name"], row["type"]))
+                shunt_by_bus.setdefault(row["bus1"], []).append((row["name"], row["type"]))
 
         for bus, elements in shunt_by_bus.items():
             if bus not in full_graph:

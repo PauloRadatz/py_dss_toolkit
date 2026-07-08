@@ -2,17 +2,13 @@
 """Tests for violation_voltage_ll_nodes and violation_voltage_nodes."""
 
 import pandas as pd
-import pytest
 import py_dss_interface
+import pytest
 
 from py_dss_toolkit import dss_tools
-from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import (
-    create_nodal_smart_voltage_dataframes,
-)
-from py_dss_toolkit.results.SnapShot.VoltagesNodalViolations import (
-    VoltagesNodalViolations,
-    _undervoltage_overvoltage_from_vmags,
-)
+from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import create_nodal_smart_voltage_dataframes
+from py_dss_toolkit.results.SnapShot.VoltagesNodalViolations import VoltagesNodalViolations
+from py_dss_toolkit.results.SnapShot.VoltagesNodalViolations import _undervoltage_overvoltage_from_vmags
 
 SCRIPT_3PH_DY = """
 ClearAll
@@ -86,9 +82,7 @@ def test_violation_voltage_nodes_matches_helper_with_model_map():
     conn_map = dss_tools.model.bus_connection_type_map
 
     vmags, _ = create_nodal_smart_voltage_dataframes(dss_tools.dss, conn_map)
-    expected_under, expected_over = _undervoltage_overvoltage_from_vmags(
-        vmags, results.v_min_pu, results.v_max_pu
-    )
+    expected_under, expected_over = _undervoltage_overvoltage_from_vmags(vmags, results.v_min_pu, results.v_max_pu)
 
     under, over = results.violation_voltage_nodes
     pd.testing.assert_frame_equal(under, expected_under, check_index_type=False)

@@ -4,14 +4,12 @@
 # @File    : load_allocation.py
 # @Software: PyCharm
 
-from py_dss_interface import DSS
-import pandas as pd
-from py_dss_toolkit.studies import StudyGeneric
 from typing import Union
+
+from py_dss_toolkit.studies import StudyGeneric
 
 
 class LoadAllocation:
-
     def __init__(self, study: StudyGeneric):
         self._study = study
         self._dss = self._study.dss

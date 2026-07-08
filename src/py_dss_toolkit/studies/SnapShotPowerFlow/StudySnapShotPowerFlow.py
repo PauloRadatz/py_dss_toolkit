@@ -7,12 +7,15 @@ from dataclasses import dataclass
 from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.studies.SnapShotPowerFlow.StudySnapShotPowerFlowSettings import StudySnapShotPowerFlowSettings
 from py_dss_toolkit.studies.StudyBase import StudyBase
-from py_dss_toolkit.view.dss_view.SnapShot.DSSViewSnapShotPowerFlowResults import \
-    DSSViewSnapShotPowerFlowResults as DSSView
-from py_dss_toolkit.view.interactive_view.SnapShot.InteractiveViewSnapShotPowerFlowResults import \
-    InteractiveViewSnapShotPowerFlowResults as InteractiveView
-from py_dss_toolkit.view.static_view.SnapShot.StaticViewSnapShotPowerFlowResults import \
-    StaticViewSnapShotPowerFlowResults as StaticView
+from py_dss_toolkit.view.dss_view.SnapShot.DSSViewSnapShotPowerFlowResults import (
+    DSSViewSnapShotPowerFlowResults as DSSView,
+)
+from py_dss_toolkit.view.interactive_view.SnapShot.InteractiveViewSnapShotPowerFlowResults import (
+    InteractiveViewSnapShotPowerFlowResults as InteractiveView,
+)
+from py_dss_toolkit.view.static_view.SnapShot.StaticViewSnapShotPowerFlowResults import (
+    StaticViewSnapShotPowerFlowResults as StaticView,
+)
 
 VALID_MODES = ["snap", "snapshot"]  # List of supported modes
 

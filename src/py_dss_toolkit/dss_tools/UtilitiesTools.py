@@ -8,7 +8,6 @@ from py_dss_interface import DSS
 
 
 class UtilitiesTools:
-
     def __init__(self, dss: DSS):
         self._dss = dss
 
@@ -20,4 +19,4 @@ class UtilitiesTools:
             self._dss.text(f"set casename='{case_name}'")
             self._dss.text(f"save circuit Dir={case_name}")
         else:
-            self._dss.text(f"save circuit")
+            self._dss.text("save circuit")

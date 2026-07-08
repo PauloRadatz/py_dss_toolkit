@@ -3,7 +3,11 @@
 # @Email   : paulo.radatz@gmail.com
 
 import collections
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 import networkx as nx
 import pandas as pd
@@ -106,9 +110,7 @@ class ModelQueries:
     def _segments_between_pair(self, b1: str, b2: str) -> List[Dict[str, Any]]:
         """All segments between bus pair (order-independent)."""
         df = self.graph_df
-        mask = ((df["bus1"] == b1) & (df["bus2"] == b2)) | (
-            (df["bus1"] == b2) & (df["bus2"] == b1)
-        )
+        mask = ((df["bus1"] == b1) & (df["bus2"] == b2)) | ((df["bus1"] == b2) & (df["bus2"] == b1))
         return df[mask].to_dict("records")
 
     def segments_at_bus_df(self, bus: str) -> pd.DataFrame:
@@ -515,10 +517,7 @@ class ModelQueries:
         The value is stored as a node attribute (``connection_type``) on the
         graph during construction, so this is just a view over the graph nodes.
         """
-        return {
-            bus: data.get("connection_type", "ln")
-            for bus, data in self.graph.nodes(data=True)
-        }
+        return {bus: data.get("connection_type", "ln") for bus, data in self.graph.nodes(data=True)}
 
     def bus_connection_type(self, bus: str) -> str:
         """Whether *bus* should use ``'ln'`` or ``'ll'`` voltage.

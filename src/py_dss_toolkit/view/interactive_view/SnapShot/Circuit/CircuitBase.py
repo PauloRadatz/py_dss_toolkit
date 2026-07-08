@@ -4,10 +4,14 @@
 # @File    : CircuitBase.py
 # @Software: PyCharm
 
+import warnings
+from typing import List
+from typing import Literal
+from typing import Optional
+from typing import Tuple
+
 import numpy as np
 import pandas as pd
-import warnings
-from typing import Literal, Optional, List, Tuple
 from py_dss_interface import DSS
 
 # Type alias for circuit plot parameter options
@@ -20,21 +24,25 @@ CircuitPlotParameter = Literal[
     "voltage violations",
     "thermal violations",
     "user categorical defined",
-    "distance"
+    "distance",
 ]
-from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.model.ModelBase import ModelBase
+from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.view.interactive_view.InteractiveCustomPlotStyle import InteractiveCustomPlotStyle
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ActivePowerSettings import ActivePowerSettings
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ReactivePowerSettings import ReactivePowerSettings
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.VoltageSettings import VoltageSettings
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedNumericalSettings import UserDefinedNumericalSettings
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedCategoricalSettings import UserDefinedCategoricalSettings
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.PhasesSettings import PhasesSettings
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ThermalViolationSettings import ThermalViolationSettings
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.VoltageViolationSettings import VoltageViolationSettings
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.DistanceSettings import DistanceSettings
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBusMarker import CircuitBusMarker
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.DistanceSettings import DistanceSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.PhasesSettings import PhasesSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ReactivePowerSettings import ReactivePowerSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ThermalViolationSettings import ThermalViolationSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedCategoricalSettings import (
+    UserDefinedCategoricalSettings,
+)
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.UserDefinedNumericalSettings import (
+    UserDefinedNumericalSettings,
+)
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.VoltageSettings import VoltageSettings
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.VoltageViolationSettings import VoltageViolationSettings
 
 
 def _get_nodal_vmags_dataframe(results: SnapShotPowerFlowResults, voltage_type: str) -> pd.DataFrame:
@@ -53,10 +61,7 @@ def _resolve_bus_row_index(bus_short: str, vmags_df: pd.DataFrame):
     bus_key = str(bus_short).lower().split(".")[0]
     if bus_key in vmags_df.index:
         return bus_key
-    matches = [
-        b for b in vmags_df.index
-        if str(b).lower().split(".")[0] == bus_key
-    ]
+    matches = [b for b in vmags_df.index if str(b).lower().split(".")[0] == bus_key]
     if len(matches) >= 1:
         return matches[0]
     raise KeyError(bus_key)
@@ -90,10 +95,14 @@ class ActivePowerStrategy(PlotParameterStrategy):
         columns = self._circuit._results.powers_elements[0].columns
         if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
             raise ValueError("A non 3-phase circuit can't be plotted")
-        results = self._circuit._results.powers_elements[0].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                        "<b>Total P: </b>%{customdata[3]:.2f} kW<br>")
+        results = (
+            self._circuit._results.powers_elements[0].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
+        )
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>"
+            + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+            + "<b>Total P: </b>%{customdata[3]:.2f} kW<br>"
+        )
         return settings, results, hovertemplate, True
 
 
@@ -103,10 +112,14 @@ class ReactivePowerStrategy(PlotParameterStrategy):
         columns = self._circuit._results.powers_elements[1].columns
         if "Terminal1.1" not in columns or "Terminal1.2" not in columns or "Terminal1.3" not in columns:
             raise ValueError("A non 3-phase circuit can't be plotted")
-        results = self._circuit._results.powers_elements[1].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                        "<b>Total Q: </b>%{customdata[3]:.2f} kvar<br>")
+        results = (
+            self._circuit._results.powers_elements[1].loc[:, ["Terminal1.1", "Terminal1.2", "Terminal1.3"]].sum(axis=1)
+        )
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>"
+            + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+            + "<b>Total Q: </b>%{customdata[3]:.2f} kvar<br>"
+        )
         return settings, results, hovertemplate, True
 
 
@@ -138,16 +151,16 @@ class VoltageStrategy(PlotParameterStrategy):
                 elif agg == "max":
                     out[line_name] = float(vals.max())
                 else:
-                    raise ValueError(
-                        f"nodes_voltage_value must be 'mean', 'min', or 'max', got {agg!r}"
-                    )
+                    raise ValueError(f"nodes_voltage_value must be 'mean', 'min', or 'max', got {agg!r}")
             except (KeyError, TypeError, ValueError):
                 out[line_name] = np.nan
         results = pd.Series(out)
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                        f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>" +
-                        "%{customdata[3]:.4f} pu<br>")
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>"
+            + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+            + f"<b>{settings.nodes_voltage_value.capitalize()} {bus.capitalize()} Voltage: </b>"
+            + "%{customdata[3]:.4f} pu<br>"
+        )
         return settings, results, hovertemplate, True
 
 
@@ -158,17 +171,23 @@ class UserNumericalDefinedStrategy(PlotParameterStrategy):
         unit = settings.unit
         num_decimal_points = settings.num_decimal_points
         if settings.results is None:
-            raise ValueError(f"No results found for 'user numerical defined' parameter. "
-                           f"Please set the results using: "
-                           f"circuit.user_numerical_defined_settings.results = your_data")
-        if isinstance(settings.results, pd.DataFrame):
             raise ValueError(
-                "user_numerical_defined_settings.results must be a pandas Series, not a DataFrame. "
+                "No results found for 'user numerical defined' parameter. "
+                "Please set the results using: "
+                "circuit.user_numerical_defined_settings.results = your_data"
             )
+        if isinstance(settings.results, pd.DataFrame):
+            raise ValueError("user_numerical_defined_settings.results must be a pandas Series, not a DataFrame. ")
         results = settings.results
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                        f"<b>{parameter}:</b>" + " %{customdata[3]:" + f".{num_decimal_points}" + "f}" + f" {unit}<br>")
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>"
+            + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+            + f"<b>{parameter}:</b>"
+            + " %{customdata[3]:"
+            + f".{num_decimal_points}"
+            + "f}"
+            + f" {unit}<br>"
+        )
         return settings, results, hovertemplate, True
 
 
@@ -177,11 +196,13 @@ class PhasesStrategy(PlotParameterStrategy):
         settings = self._circuit._phases_settings
         if lines_df is None:
             lines_df = self._circuit._model.lines_df
-            lines_df['name'] = 'line.' + lines_df['name']
+            lines_df["name"] = "line." + lines_df["name"]
         results = lines_df.set_index("name")["phases"]
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                        "<b>Phases: </b>%{customdata[3]}<br>")
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>"
+            + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+            + "<b>Phases: </b>%{customdata[3]}<br>"
+        )
         return settings, results, hovertemplate, False
 
 
@@ -202,16 +223,17 @@ class VoltageViolationsStrategy(PlotParameterStrategy):
         both_v_bus_violations = under_v_bus_violations.intersection(over_v_bus_violations)
         if lines_df is None:
             lines_df = self._circuit._model.lines_df
-            lines_df['name'] = 'line.' + lines_df['name']
+            lines_df["name"] = "line." + lines_df["name"]
         results = lines_df.set_index("name")
-        results["bus"] = results['bus1'].str.split('.', n=1).str[0]
+        results["bus"] = results["bus1"].str.split(".", n=1).str[0]
         results["violation"] = "0"
-        results.loc[results['bus'].isin(under_v_bus_violations), 'violation'] = "1"
-        results.loc[results['bus'].isin(over_v_bus_violations), 'violation'] = "2"
-        results.loc[results['bus'].isin(both_v_bus_violations), 'violation'] = "3"
+        results.loc[results["bus"].isin(under_v_bus_violations), "violation"] = "1"
+        results.loc[results["bus"].isin(over_v_bus_violations), "violation"] = "2"
+        results.loc[results["bus"].isin(both_v_bus_violations), "violation"] = "3"
         results = results["violation"]
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>")
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>" + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+        )
         return settings, results, hovertemplate, False
 
 
@@ -221,13 +243,14 @@ class ThermalViolationsStrategy(PlotParameterStrategy):
         line_violations = self._circuit._results.violation_currents_elements.index
         if lines_df is None:
             lines_df = self._circuit._model.lines_df
-            lines_df['name'] = 'line.' + lines_df['name']
+            lines_df["name"] = "line." + lines_df["name"]
         results = lines_df.set_index("name")
         results["violation"] = "0"
-        results.loc[results.index.isin(line_violations), 'violation'] = "1"
+        results.loc[results.index.isin(line_violations), "violation"] = "1"
         results = results["violation"]
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>")
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>" + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+        )
         return settings, results, hovertemplate, False
 
 
@@ -236,18 +259,22 @@ class UserCategoricalDefinedStrategy(PlotParameterStrategy):
         settings = self._circuit._user_categorical_defined_settings
         parameter = settings.parameter
         if settings.results is None:
-            raise ValueError(f"No results found for 'user categorical defined' parameter. "
-                           f"Please set the results using: "
-                           f"circuit.user_categorical_defined_settings.results = your_data")
-        if isinstance(settings.results, pd.DataFrame):
             raise ValueError(
-                "user_categorical_defined_settings.results must be a pandas Series, not a DataFrame. "
+                "No results found for 'user categorical defined' parameter. "
+                "Please set the results using: "
+                "circuit.user_categorical_defined_settings.results = your_data"
             )
+        if isinstance(settings.results, pd.DataFrame):
+            raise ValueError("user_categorical_defined_settings.results must be a pandas Series, not a DataFrame. ")
         results = settings.results
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                        f"<b>{parameter}:</b>" + " %{customdata[3]}")
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>"
+            + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+            + f"<b>{parameter}:</b>"
+            + " %{customdata[3]}"
+        )
         return settings, results, hovertemplate, False
+
 
 class DistanceStrategy(PlotParameterStrategy):
     def get_settings_and_results(self, lines_df=None):
@@ -260,35 +287,40 @@ class DistanceStrategy(PlotParameterStrategy):
         settings = self._circuit._distance_settings
 
         if self._circuit._dss.meters.count == 0:
-            raise ValueError("No energymeter found. Distance plotting requires at least one energymeter in the circuit.")
+            raise ValueError(
+                "No energymeter found. Distance plotting requires at least one energymeter in the circuit."
+            )
 
         buses_df = self._circuit._model.buses_df
         bus_distance_map = {
             bus_name.lower().split(".")[0]: distance
-            for bus_name, distance in zip(buses_df['name'], buses_df['distance'])
+            for bus_name, distance in zip(buses_df["name"], buses_df["distance"])
         }
 
         if lines_df is not None:
             line_df = lines_df.copy()
         else:
             line_df = self._circuit._model.lines_df.copy()
-            line_df['name'] = 'line.' + line_df['name']
+            line_df["name"] = "line." + line_df["name"]
 
-        line_df['bus1_name'] = line_df['bus1'].str.split('.').str[0].str.lower()
-        line_df['bus2_name'] = line_df['bus2'].str.split('.').str[0].str.lower()
+        line_df["bus1_name"] = line_df["bus1"].str.split(".").str[0].str.lower()
+        line_df["bus2_name"] = line_df["bus2"].str.split(".").str[0].str.lower()
 
-        line_df['bus1_dist'] = line_df['bus1_name'].map(bus_distance_map)
-        line_df['bus2_dist'] = line_df['bus2_name'].map(bus_distance_map)
+        line_df["bus1_dist"] = line_df["bus1_name"].map(bus_distance_map)
+        line_df["bus2_dist"] = line_df["bus2_name"].map(bus_distance_map)
 
-        line_df['distance'] = line_df[['bus1_dist', 'bus2_dist']].max(axis=1)
+        line_df["distance"] = line_df[["bus1_dist", "bus2_dist"]].max(axis=1)
 
         # Return DataFrame with distance info for customdata construction
-        results = line_df.set_index("name")['distance']
+        results = line_df.set_index("name")["distance"]
 
-        hovertemplate = ("<b>%{customdata[0]}</b><br>" +
-                        "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>" +
-                        "<b>Bus farthest from Energymeter: </b>%{customdata[3]:.2f} km<br>")
+        hovertemplate = (
+            "<b>%{customdata[0]}</b><br>"
+            + "<b>Bus1: </b>%{customdata[1]} | <b>Bus2: </b>%{customdata[2]}<br>"
+            + "<b>Bus farthest from Energymeter: </b>%{customdata[3]:.2f} km<br>"
+        )
         return settings, results, hovertemplate, True
+
 
 class CircuitSettingsContainer:
     """Container for circuit plot settings to enable dependency injection."""
@@ -311,8 +343,13 @@ class CircuitSettingsContainer:
 class CircuitBase:
     """Base class containing shared logic for circuit plotting."""
 
-    def __init__(self, dss: DSS, results: SnapShotPowerFlowResults, model: ModelBase,
-                 settings_container: Optional[CircuitSettingsContainer] = None):
+    def __init__(
+        self,
+        dss: DSS,
+        results: SnapShotPowerFlowResults,
+        model: ModelBase,
+        settings_container: Optional[CircuitSettingsContainer] = None,
+    ):
         """
         Initialize CircuitBase.
 
@@ -362,20 +399,20 @@ class CircuitBase:
                 "voltage violations": VoltageViolationsStrategy(self),
                 "thermal violations": ThermalViolationsStrategy(self),
                 "user categorical defined": UserCategoricalDefinedStrategy(self),
-                "distance": DistanceStrategy(self)
+                "distance": DistanceStrategy(self),
             }
 
-    def circuit_get_bus_marker(self, name: str, symbol: str = "square",
-                               size: float = 10,
-                               color: str = "black",
-                               marker_name: Optional[str] = None):
+    def circuit_get_bus_marker(
+        self,
+        name: str,
+        symbol: str = "square",
+        size: float = 10,
+        color: str = "black",
+        marker_name: Optional[str] = None,
+    ):
         if not marker_name:
             marker_name = name
-        return CircuitBusMarker(name=name,
-                                symbol=symbol,
-                                size=size,
-                                color=color,
-                                marker_name=marker_name)
+        return CircuitBusMarker(name=name, symbol=symbol, size=size, color=color, marker_name=marker_name)
 
     @property
     def circuit_plot_style(self):
@@ -433,7 +470,9 @@ class CircuitBase:
             numerical_plot: Boolean, True if the plot is numerical/continuous, False if categorical/binary.
         """
         if parameter not in self._parameter_strategies:
-            raise ValueError(f"Unknown parameter: {parameter}. Supported parameters: {list(self._parameter_strategies.keys())}")
+            raise ValueError(
+                f"Unknown parameter: {parameter}. Supported parameters: {list(self._parameter_strategies.keys())}"
+            )
 
         strategy = self._parameter_strategies[parameter]
         return strategy.get_settings_and_results(lines_df=lines_df)
@@ -446,30 +485,19 @@ class CircuitBase:
             dict: Contains all the data needed for plotting
         """
         line_df = self._model.lines_df.copy()
-        line_df['name'] = 'line.' + line_df['name']
+        line_df["name"] = "line." + line_df["name"]
         settings, results, hovertemplate, numerical_plot = self._get_plot_settings(parameter, lines_df=line_df)
         num_phases = line_df.set_index("name")["phases"]
         line_type = line_df.set_index("name")["linetype"]
 
         segments_df = self._model.segments_df
-        line_segments = segments_df[
-            (segments_df["type"] == "line") & (segments_df["enabled"])
-        ]
+        line_segments = segments_df[(segments_df["type"] == "line") & (segments_df["enabled"])]
 
         if len(line_segments) > 0:
-            bus1_df = line_segments[["bus1", "x1", "y1"]].rename(
-                columns={"bus1": "bus", "x1": "x", "y1": "y"}
-            )
-            bus2_df = line_segments[["bus2", "x2", "y2"]].rename(
-                columns={"bus2": "bus", "x2": "x", "y2": "y"}
-            )
-            bus_coords_df = pd.concat([bus1_df, bus2_df]).drop_duplicates(
-                subset=["bus"], keep="first"
-            )
-            bus_to_coord = {
-                str(r.bus).lower(): (float(r.x), float(r.y))
-                for r in bus_coords_df.itertuples(index=False)
-            }
+            bus1_df = line_segments[["bus1", "x1", "y1"]].rename(columns={"bus1": "bus", "x1": "x", "y1": "y"})
+            bus2_df = line_segments[["bus2", "x2", "y2"]].rename(columns={"bus2": "bus", "x2": "x", "y2": "y"})
+            bus_coords_df = pd.concat([bus1_df, bus2_df]).drop_duplicates(subset=["bus"], keep="first")
+            bus_to_coord = {str(r.bus).lower(): (float(r.x), float(r.y)) for r in bus_coords_df.itertuples(index=False)}
         else:
             bus_to_coord = {}
 
@@ -477,8 +505,7 @@ class CircuitBase:
         bus_coords = np.array([bus_to_coord[b] for b in buses])
         zero_coord_buses = [b for b in buses if bus_to_coord[b] == (0.0, 0.0)]
         connections = [
-            [r.name, (str(r.bus1).lower(), str(r.bus2).lower())]
-            for r in line_segments.itertuples(index=False)
+            [r.name, (str(r.bus1).lower(), str(r.bus2).lower())] for r in line_segments.itertuples(index=False)
         ]
         if len(line_segments) > 0:
             result_values = results.loc[line_segments["name"]].values
@@ -499,25 +526,25 @@ class CircuitBase:
                 f"OpenDSS uses (0,0) to indicate undefined coordinates. "
                 f"First few buses: {', '.join(zero_coord_buses[:5])}{'...' if len(zero_coord_buses) > 5 else ''}",
                 UserWarning,
-                stacklevel=3
+                stacklevel=3,
             )
 
         # Create bus-to-index mapping for O(1) lookups in plotting methods
         bus_to_idx = {bus: idx for idx, bus in enumerate(buses)}
 
         return {
-            'settings': settings,
-            'results': results,
-            'hovertemplate': hovertemplate,
-            'numerical_plot': numerical_plot,
-            'line_df': line_df,
-            'num_phases': num_phases,
-            'line_type': line_type,
-            'buses': buses,
-            'bus_coords': bus_coords,
-            'bus_to_idx': bus_to_idx,
-            'connections': connections,
-            'result_values': result_values
+            "settings": settings,
+            "results": results,
+            "hovertemplate": hovertemplate,
+            "numerical_plot": numerical_plot,
+            "line_df": line_df,
+            "num_phases": num_phases,
+            "line_type": line_type,
+            "buses": buses,
+            "bus_coords": bus_coords,
+            "bus_to_idx": bus_to_idx,
+            "connections": connections,
+            "result_values": result_values,
         }
 
     def _get_phase_width(self, element, num_phases, width_1ph, width_2ph, width_3ph):
@@ -533,16 +560,16 @@ class CircuitBase:
     def _get_dash(self, element, num_phases, dash_1ph, dash_2ph, dash_3ph, line_type, dash_oh, dash_ug):
         num_phase = int(num_phases[element])
         lt = line_type[element]
-        default = 'solid'
+        default = "solid"
         if num_phase >= 3 and dash_3ph is not None:
             return dash_3ph
         elif num_phase == 2 and dash_2ph is not None:
             return dash_2ph
         elif num_phase == 1 and dash_1ph is not None:
             return dash_1ph
-        elif lt == 'oh' and dash_oh is not None:
+        elif lt == "oh" and dash_oh is not None:
             return dash_oh
-        elif lt == 'ug' and dash_ug is not None:
+        elif lt == "ug" and dash_ug is not None:
             return dash_ug
         return default
 
@@ -561,7 +588,9 @@ class CircuitBase:
         cmax = settings.colorbar_cmax if settings.colorbar_cmax is not None else np.max(result_values)
         return cmin, cmax
 
-    def _calculate_colorbar_ticks(self, settings, result_values: np.ndarray) -> Tuple[Optional[np.ndarray], Optional[List[str]]]:
+    def _calculate_colorbar_ticks(
+        self, settings, result_values: np.ndarray
+    ) -> Tuple[Optional[np.ndarray], Optional[List[str]]]:
         """
         Calculate the colorbar tick values and text.
 
@@ -576,11 +605,9 @@ class CircuitBase:
         custom_ticktext = None
 
         if settings.colorbar_tickvals is not None:
-            custom_tickvals = np.linspace(np.min(result_values), np.max(result_values),
-                                          settings.colorbar_tickvals)
+            custom_tickvals = np.linspace(np.min(result_values), np.max(result_values), settings.colorbar_tickvals)
             if settings.colorbar_ticktext_decimal_points:
-                custom_ticktext = [f"{v:.{settings.colorbar_ticktext_decimal_points}f}" for v in
-                                   custom_tickvals]
+                custom_ticktext = [f"{v:.{settings.colorbar_ticktext_decimal_points}f}" for v in custom_tickvals]
             else:
                 custom_ticktext = [f"{v:.0f}" for v in custom_tickvals]
 

@@ -4,7 +4,12 @@
 # @File    : settings_utils.py
 # @Software: PyCharm
 
-from typing import Dict, List, Literal, Tuple, get_args, Union
+from typing import Dict
+from typing import List
+from typing import Literal
+from typing import Tuple
+from typing import Union
+from typing import get_args
 
 import pandas as pd
 from py_dss_interface import DSS
@@ -34,13 +39,12 @@ def validate_algorithm(algorithm: AlgorithmType) -> str:
         ValueError: If algorithm is not valid
     """
     if algorithm.lower() not in VALID_ALGORITHMS:
-        raise ValueError(f'Invalid value for algorithm. Should be one of the following options: {VALID_ALGORITHMS}.')
+        raise ValueError(f"Invalid value for algorithm. Should be one of the following options: {VALID_ALGORITHMS}.")
     return algorithm.lower()
 
 
 def validate_time(time: Tuple[Union[int, float], Union[int, float]]):
-    if not (isinstance(time, (tuple, list)) and len(time) == 2 and all(
-        isinstance(v, (float, int)) for v in time)):
+    if not (isinstance(time, (tuple, list)) and len(time) == 2 and all(isinstance(v, (float, int)) for v in time)):
         raise ValueError("Invalid time format. Expected a tuple or list with two numerical values.")
 
 
@@ -68,7 +72,7 @@ def validate_mode(mode: str, valid_modes: List[str]) -> str:
         ValueError: If mode is not valid
     """
     if mode.lower() not in valid_modes:
-        raise ValueError(f'Invalid value for mode. Should be one of the following options: {valid_modes}.')
+        raise ValueError(f"Invalid value for mode. Should be one of the following options: {valid_modes}.")
     return mode.lower()
 
 

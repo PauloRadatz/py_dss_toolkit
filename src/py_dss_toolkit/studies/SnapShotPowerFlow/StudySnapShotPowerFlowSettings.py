@@ -2,14 +2,16 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 
 from py_dss_interface import DSS
 
+from py_dss_toolkit.studies.settings_utils import VALID_SNAPSHOT_MODES
+from py_dss_toolkit.studies.settings_utils import SnapshotModeType
+from py_dss_toolkit.studies.settings_utils import get_settings
+from py_dss_toolkit.studies.settings_utils import validate_mode
 from py_dss_toolkit.studies.StudySettings import StudySettings
-from py_dss_toolkit.studies.settings_utils import (
-    SnapshotModeType, VALID_SNAPSHOT_MODES, validate_mode, get_settings
-)
 
 
 @dataclass(kw_only=True)
@@ -31,7 +33,7 @@ class StudySnapShotPowerFlowSettings(StudySettings):
     @property
     def mode(self) -> str:
         """Get the current simulation mode.
-        
+
         Returns:
             Mode string: 'snapshot' or 'snap'
         """
@@ -41,7 +43,7 @@ class StudySnapShotPowerFlowSettings(StudySettings):
     @mode.setter
     def mode(self, value: SnapshotModeType):
         """Set the simulation mode.
-        
+
         Args:
             value: Mode string - 'snapshot' or 'snap'
         """

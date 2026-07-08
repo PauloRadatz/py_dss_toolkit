@@ -1,6 +1,6 @@
 from _dss_script_runner import run_dss_script
-from py_dss_toolkit import dss_tools
 
+from py_dss_toolkit import dss_tools
 
 SCRIPT_ENABLED = """
 ClearAll
@@ -52,4 +52,3 @@ def test_meters_df_none_when_no_meters():
     run_dss_script(SCRIPT_NONE)
     df = dss_tools.model.meters_df
     assert df is None
-

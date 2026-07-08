@@ -4,14 +4,15 @@
 # @File    : StudyFaultSettings.py
 # @Software: PyCharm
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 
-from py_dss_interface import DSS
-
+from py_dss_toolkit.studies.settings_utils import VALID_FAULT_MODES
+from py_dss_toolkit.studies.settings_utils import FaultModeType
+from py_dss_toolkit.studies.settings_utils import check_mode
+from py_dss_toolkit.studies.settings_utils import get_settings
+from py_dss_toolkit.studies.settings_utils import set_mode
 from py_dss_toolkit.studies.StudySettings import StudySettings
-from py_dss_toolkit.studies.settings_utils import (
-    FaultModeType, VALID_FAULT_MODES, check_mode, set_mode, get_settings
-)
 
 
 @dataclass(kw_only=True)
@@ -24,7 +25,7 @@ class StudyFaultSettings(StudySettings):
     @property
     def mode(self) -> str:
         """Get the current fault study mode.
-        
+
         Returns:
             Mode string: 'faultstudy', 'f', or 'fault'
         """
@@ -33,7 +34,7 @@ class StudyFaultSettings(StudySettings):
     @mode.setter
     def mode(self, value: FaultModeType):
         """Set the fault study mode.
-        
+
         Args:
             value: Mode string - 'faultstudy', 'f', or 'fault'
         """

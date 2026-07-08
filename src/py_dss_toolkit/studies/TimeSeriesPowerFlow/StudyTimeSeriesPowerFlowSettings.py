@@ -5,14 +5,18 @@
 # @Software: PyCharm
 
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 
 from py_dss_interface import DSS
 
+from py_dss_toolkit.studies.settings_utils import VALID_TIMESERIES_MODES
+from py_dss_toolkit.studies.settings_utils import TimeSeriesModeType
+from py_dss_toolkit.studies.settings_utils import get_settings
+from py_dss_toolkit.studies.settings_utils import validate_mode
+from py_dss_toolkit.studies.settings_utils import validate_number
+from py_dss_toolkit.studies.settings_utils import validate_stepsize
 from py_dss_toolkit.studies.StudySettings import StudySettings
-from py_dss_toolkit.studies.settings_utils import (
-    TimeSeriesModeType, VALID_TIMESERIES_MODES, validate_mode, validate_number, validate_stepsize, get_settings
-)
 
 
 @dataclass(kw_only=True)
@@ -36,7 +40,7 @@ class StudyTimeSeriesPowerFlowSettings(StudySettings):
     @property
     def mode(self) -> str:
         """Get the current simulation mode.
-        
+
         Returns:
             Mode string: 'daily', 'yearly', or 'dutycycle'
         """
@@ -46,7 +50,7 @@ class StudyTimeSeriesPowerFlowSettings(StudySettings):
     @mode.setter
     def mode(self, value: TimeSeriesModeType):
         """Set the simulation mode.
-        
+
         Args:
             value: Mode string - 'daily', 'yearly', or 'dutycycle'
         """

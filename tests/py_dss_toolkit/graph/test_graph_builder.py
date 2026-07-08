@@ -308,7 +308,6 @@ def test_graph_builder_13bus_reversed_segments_df(dss_tools_13bus):
     assert reversed_df.equals(df[df["reversed"]].reset_index(drop=True))
 
 
-
 def test_graph_builder_13bus_edit_line_reverses_order_shows_reversed(dss_tools_13bus):
     """Edit Line.632633 to swap bus1/bus2, then verify the edge is marked reversed."""
     dss_tools.text("edit line.632633 bus1=633 bus2=632")
@@ -318,7 +317,7 @@ def test_graph_builder_13bus_edit_line_reverses_order_shows_reversed(dss_tools_1
     df = model.graph_df
     line_632633 = df[df["name"] == "line.632633"]
     assert len(line_632633) == 1
-    assert line_632633["reversed"].iloc[0] == True
+    assert line_632633["reversed"].iloc[0]
 
 
 def test_graph_builder_13bus_edit_transformer_wdg_order_shows_reversed(dss_tools_13bus):
@@ -330,7 +329,7 @@ def test_graph_builder_13bus_edit_transformer_wdg_order_shows_reversed(dss_tools
     df = model.graph_df
     tr_sub = df[df["name"] == "transformer.sub"]
     assert len(tr_sub) == 1
-    assert tr_sub["reversed"].iloc[0] == True
+    assert tr_sub["reversed"].iloc[0]
 
 
 # ---------------------------------------------------------------------------

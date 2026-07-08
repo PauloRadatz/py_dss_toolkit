@@ -41,25 +41,19 @@ class Losses:
             if not self._dss.circuit.pd_element_next():
                 is_there_pd = False
 
-        p_records = {
-            element: {"P losses (kW)": element_p_losses[element]}
-            for element in elements
-        }
+        p_records = {element: {"P losses (kW)": element_p_losses[element]} for element in elements}
 
-        q_records = {
-            element: {"Q losses (kvar)": element_q_losses[element]}
-            for element in elements
-        }
+        q_records = {element: {"Q losses (kvar)": element_q_losses[element]} for element in elements}
 
         return p_records, q_records, elements
 
     def __create_dataframe(self):
         p_records, q_records, elements = self._create_losses_records()
 
-        p_df = pd.DataFrame.from_dict(p_records, orient='index')
+        p_df = pd.DataFrame.from_dict(p_records, orient="index")
         p_df = p_df.reindex(elements)
 
-        q_df = pd.DataFrame.from_dict(q_records, orient='index')
+        q_df = pd.DataFrame.from_dict(q_records, orient="index")
         q_df = q_df.reindex(elements)
 
         return p_df, q_df

@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
 
 from py_dss_toolkit.results.TimeSeries.Monitor import Monitor
 

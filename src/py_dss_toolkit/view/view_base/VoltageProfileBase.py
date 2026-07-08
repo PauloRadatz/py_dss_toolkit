@@ -4,21 +4,24 @@
 # @File    : VoltageProfileBase.py
 # @Software: PyCharm
 
+from typing import Literal
+from typing import Optional
+
 from py_dss_interface import DSS
+
 from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
-from typing import Literal, Optional
 
 VOLTAGE_TYPE = Literal["ln", "ll", "ln-ll"]
 
-class VoltageProfileBase:
 
+class VoltageProfileBase:
     def __init__(self, dss: DSS, results: Optional[SnapShotPowerFlowResults]):
         self._dss = dss
         self._results = results
 
     def _check_energymeter(self):
         if self._dss.meters.count == 0:
-            raise ValueError(f'One energymeter should exist to plot the voltage profile.')
+            raise ValueError("One energymeter should exist to plot the voltage profile.")
         elif self._dss.meters.count > 1:
             count_enabled = 0
             for m in self._dss.meters.names:
@@ -27,9 +30,9 @@ class VoltageProfileBase:
                     count_enabled += 1
 
             if count_enabled == 0:
-                raise ValueError(f'At least one energymeter should be enabled to plot the voltage profile.')
+                raise ValueError("At least one energymeter should be enabled to plot the voltage profile.")
             elif count_enabled > 1:
-                raise ValueError(f'Only one energymeter should be enabled to plot the voltage profile.')
+                raise ValueError("Only one energymeter should be enabled to plot the voltage profile.")
 
     def _prepare_results(self, voltage_type: VOLTAGE_TYPE = "ln"):
         if voltage_type == "ln":
@@ -51,6 +54,9 @@ class VoltageProfileBase:
                 self._dss.circuit.set_active_element(element)
                 if self._dss.cktelement.is_enabled:
                     sections.append(
-                        (self._dss.cktelement.bus_names[0].lower().split(".")[0],
-                         self._dss.cktelement.bus_names[1].lower().split(".")[0]))
+                        (
+                            self._dss.cktelement.bus_names[0].lower().split(".")[0],
+                            self._dss.cktelement.bus_names[1].lower().split(".")[0],
+                        )
+                    )
         return buses, df, distances, sections

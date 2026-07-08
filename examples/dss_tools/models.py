@@ -22,9 +22,9 @@ dss_tools.update_dss(dss)
 # Compile the DSS model from the specified file
 dss.text(f"compile [{dss_file}]")
 # Load bus coordinates for visualization
-dss.text(f"buscoords buscoords.dat")
+dss.text("buscoords buscoords.dat")
 # Solve the power flow for the system
-dss.text(f"solve")
+dss.text("solve")
 
 # Retrieve key dataframes from the model
 summary_df = dss_tools.model.summary_df  # Summary of the model

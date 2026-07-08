@@ -4,17 +4,18 @@
 # @File    : StudyFault.py
 # @Software: PyCharm
 
-from py_dss_toolkit.studies.StudyBase import StudyBase
-from py_dss_toolkit.results.ShortCircuit.FaultResults import FaultResults
-from py_dss_toolkit.view.static_view.ShortCircuit.ViewFaultStudy import ViewFaultResults
-from py_dss_toolkit.studies.StudyFaultSettings import StudyFaultSettings
 from dataclasses import dataclass
+
 from py_dss_toolkit.dss_tools.dss_tools import dss_tools
 from py_dss_toolkit.model.ModelUtils import ModelUtils
+from py_dss_toolkit.results.ShortCircuit.FaultResults import FaultResults
+from py_dss_toolkit.studies.StudyBase import StudyBase
+from py_dss_toolkit.studies.StudyFaultSettings import StudyFaultSettings
+from py_dss_toolkit.view.static_view.ShortCircuit.ViewFaultStudy import ViewFaultResults
+
 
 @dataclass(kw_only=True)
 class StudyFault(StudyBase):
-
     def __post_init__(self):
         super().__post_init__()
         self._results = FaultResults(self._dss)

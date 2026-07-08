@@ -13,7 +13,6 @@ if TYPE_CHECKING:
 
 
 class ReversedSegmentsDF:
-
     def __init__(self, model: ModelBase) -> None:
         self._model = model
 

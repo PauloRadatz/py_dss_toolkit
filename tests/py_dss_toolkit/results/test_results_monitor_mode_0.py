@@ -1,9 +1,8 @@
 import pandas as pd
-import pytest
 from pandas.testing import assert_frame_equal
+from untils import expected_outputs
 
 from py_dss_toolkit import dss_tools
-from untils import expected_outputs
 
 
 def assert_monitor_13bus(df):
@@ -23,4 +22,3 @@ def test_snapshot_13bus_results_monitor(timeseries_study_13bus):
     timeseries_study_13bus.run()
     df = timeseries_study_13bus.results.monitor("monitor_feeder_head_vi")
     assert_monitor_13bus(df)
-

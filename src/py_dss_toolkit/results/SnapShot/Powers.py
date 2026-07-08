@@ -6,6 +6,7 @@ from typing import Tuple
 
 import pandas as pd
 from py_dss_interface import DSS
+
 from .snapshot_utils import create_terminal_list
 
 
@@ -38,8 +39,8 @@ class Powers:
             num_conductors = self._dss.cktelement.num_conductors
 
             nodes = create_terminal_list(self._dss.cktelement.node_order, num_terminals)
-            p = self._dss.cktelement.powers[: 2 * num_terminals * num_conductors: 2]
-            q = self._dss.cktelement.powers[1: 2 * num_terminals * num_conductors: 2]
+            p = self._dss.cktelement.powers[: 2 * num_terminals * num_conductors : 2]
+            q = self._dss.cktelement.powers[1 : 2 * num_terminals * num_conductors : 2]
 
             element_nodes[element] = nodes
             element_p[element] = p
@@ -56,8 +57,8 @@ class Powers:
             num_conductors = self._dss.cktelement.num_conductors
 
             nodes = create_terminal_list(self._dss.cktelement.node_order, num_terminals)
-            p = self._dss.cktelement.powers[: 2 * num_terminals * num_conductors: 2]
-            q = self._dss.cktelement.powers[1: 2 * num_terminals * num_conductors: 2]
+            p = self._dss.cktelement.powers[: 2 * num_terminals * num_conductors : 2]
+            q = self._dss.cktelement.powers[1 : 2 * num_terminals * num_conductors : 2]
 
             element_nodes[element] = nodes
             element_p[element] = p
@@ -82,10 +83,10 @@ class Powers:
     def __create_dataframe(self):
         p_records, q_records, elements = self._create_powers_records()
 
-        p_df = pd.DataFrame.from_dict(p_records, orient='index')
+        p_df = pd.DataFrame.from_dict(p_records, orient="index")
         p_df = p_df.reindex(elements)
 
-        q_df = pd.DataFrame.from_dict(q_records, orient='index')
+        q_df = pd.DataFrame.from_dict(q_records, orient="index")
         q_df = q_df.reindex(elements)
 
         return p_df, q_df

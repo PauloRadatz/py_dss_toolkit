@@ -2,15 +2,16 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from typing import Callable, Dict, Tuple, Union
+from typing import Callable
+from typing import Dict
+from typing import Tuple
+from typing import Union
 
 import pandas as pd
 from py_dss_interface import DSS
 
 from py_dss_toolkit.results.SnapShot.snapshot_utils import dataframe_to_column_records
-from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import (
-    create_nodal_smart_voltage_dataframes,
-)
+from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import create_nodal_smart_voltage_dataframes
 
 
 class VoltagesNodalSmart:

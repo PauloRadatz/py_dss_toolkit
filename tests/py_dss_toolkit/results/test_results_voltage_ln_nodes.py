@@ -1,9 +1,9 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
+from untils import expected_outputs
 
 from py_dss_toolkit import dss_tools
-from untils import expected_outputs
 
 
 def assert_voltage_ln_nodes_13bus(dfs):
@@ -30,7 +30,7 @@ def test_snapshot_13bus_results_voltage_ln_nodes(snapshot_study_13bus):
     [
         "snapshot_study_13bus",
         "timeseries_study_13bus",
-    ]
+    ],
 )
 def test_results_voltage_ln_nodes_all_studies(request, study_fixture_name):
     study = request.getfixturevalue(study_fixture_name)

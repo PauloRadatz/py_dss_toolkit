@@ -4,7 +4,8 @@
 # @File    : VoltageProfileBusMarker.py
 # @Software: PyCharm
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 
 
 @dataclass(kw_only=True)
@@ -16,4 +17,3 @@ class InteractiveVoltageProfileBusMarker:
     annotate: bool = field(init=True, repr=True, default=False)
     marker_name: str = field(init=True, repr=True, default=name)
     show_legend: bool = field(init=True, repr=True, default=False)
-

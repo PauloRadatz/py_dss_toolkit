@@ -2,8 +2,10 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from dataclasses import dataclass, field
-from typing import Union, Optional
+from dataclasses import dataclass
+from dataclasses import field
+from typing import Optional
+from typing import Union
 
 from py_dss_interface import DSS
 
@@ -16,6 +18,7 @@ class StudyBase:
     """
     Represents a study configuration with OpenDSS interface integration.
     """
+
     _name: str = field(default=f"scenario_{Utils.generate_random_string()}", init=True, repr=True)
     _dss_file: str = field(init=True, repr=True)
     _base_frequency: Union[int, float] = field(default=60, init=True)

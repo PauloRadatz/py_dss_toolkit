@@ -28,10 +28,10 @@ class ModelBase(
     ModelQueries,
     PCElementsQueries,
 ):
-
     def __init__(self, dss: DSS):
         self._dss = dss
         from py_dss_toolkit.graph.CircuitGraph import CircuitGraph
+
         self._circuit_graph = CircuitGraph(self._dss, self)
         ElementDataDFs.__init__(self, self._dss)
         BusesDataDF.__init__(self, self._dss)

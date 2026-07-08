@@ -9,12 +9,15 @@ from py_dss_toolkit.dss_tools.dss_tools import dss_tools
 from py_dss_toolkit.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSeriesPowerFlowResults
 from py_dss_toolkit.studies.StudyBase import StudyBase
 from py_dss_toolkit.studies.TimeSeriesPowerFlow.StudyTimeSeriesPowerFlowSettings import StudyTimeSeriesPowerFlowSettings
-from py_dss_toolkit.view.dss_view.TimeSeries.DSSViewTimeSeriesPowerFlowResults import \
-    DSSViewTimeSeriesPowerFlowResults as DSSView
-from py_dss_toolkit.view.interactive_view.TimeSeries.InteractiveViewTimeSeriesPowerFlowResults import \
-    InteractiveViewTimeSeriesPowerFlowResults as InteractiveView
-from py_dss_toolkit.view.static_view.TimeSeries.StaticViewTimeSeriesPowerFlowResults import \
-    StaticViewTimeSeriesPowerFlowResults as StaticView
+from py_dss_toolkit.view.dss_view.TimeSeries.DSSViewTimeSeriesPowerFlowResults import (
+    DSSViewTimeSeriesPowerFlowResults as DSSView,
+)
+from py_dss_toolkit.view.interactive_view.TimeSeries.InteractiveViewTimeSeriesPowerFlowResults import (
+    InteractiveViewTimeSeriesPowerFlowResults as InteractiveView,
+)
+from py_dss_toolkit.view.static_view.TimeSeries.StaticViewTimeSeriesPowerFlowResults import (
+    StaticViewTimeSeriesPowerFlowResults as StaticView,
+)
 
 
 @dataclass(kw_only=True)
@@ -75,7 +78,7 @@ class StudyTimeSeriesPowerFlow(StudyBase):
         self.dss.text("solve")
 
     def run_one_step(self, time: Tuple[float, float]):
-        # TODO mention that it will run one more step
+        """Runs the time-series simulation for one additional step at the specified time."""
         self._reset_meter_elements()
 
         self.settings.validate_settings()

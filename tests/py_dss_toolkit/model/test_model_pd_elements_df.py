@@ -1,6 +1,6 @@
 from _dss_script_runner import run_dss_script
-from py_dss_toolkit import dss_tools
 
+from py_dss_toolkit import dss_tools
 
 SCRIPT_WITH_CAPACITOR = """
 ClearAll
@@ -68,8 +68,17 @@ def test_pd_elements_df_columns():
     run_dss_script(SCRIPT_WITH_CAPACITOR)
     df = dss_tools.model.pd_elements_df
     assert list(df.columns) == [
-        "name", "bus1", "nodes1", "bus2", "nodes2",
-        "type", "x1", "y1", "x2", "y2", "enabled",
+        "name",
+        "bus1",
+        "nodes1",
+        "bus2",
+        "nodes2",
+        "type",
+        "x1",
+        "y1",
+        "x2",
+        "y2",
+        "enabled",
     ]
 
 

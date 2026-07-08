@@ -15,4 +15,3 @@ def test_is_element_in_model_case_insensitivity(snapshot_study_13bus):
 def test_is_element_in_model_wrong_class(snapshot_study_13bus):
     # Element name exists but in the wrong class
     assert snapshot_study_13bus.model.is_element_in_model("load", "632633") is False
-

@@ -29,7 +29,7 @@ def test_snapshot_13bus_results_losses_elements(snapshot_study_13bus):
     [
         "snapshot_study_13bus",
         "timeseries_study_13bus",
-    ]
+    ],
 )
 def test_results_losses_elements_all_studies(request, study_fixture_name):
     study = request.getfixturevalue(study_fixture_name)

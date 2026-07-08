@@ -4,11 +4,11 @@ import pathlib
 import subprocess
 import sys
 
+import py_dss_interface
 import pytest
 
-import py_dss_interface
-
-from py_dss_toolkit import CreateStudy, dss_tools
+from py_dss_toolkit import CreateStudy
+from py_dss_toolkit import dss_tools
 
 script_path = os.path.dirname(os.path.abspath(__file__))
 dss_file_13bus = pathlib.Path(script_path).joinpath("cases", "13bus", "IEEE13Nodeckt.dss")
@@ -41,12 +41,14 @@ def snapshot_study_13bus():
 
     return study
 
+
 @pytest.fixture(scope="function")
 def timeseries_study_13bus():
 
     study = CreateStudy.timeseries("My Study", dss_file=dss_file_13bus)
 
     return study
+
 
 @pytest.fixture(scope="function")
 def dss_tools_13bus():
