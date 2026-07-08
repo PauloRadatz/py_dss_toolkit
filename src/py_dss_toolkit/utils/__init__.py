@@ -5,3 +5,4 @@ Project: py_dss_toolkit [set, 2021]
 """
 
 from .Utils import *
+from .dss_parser import DSSParser
