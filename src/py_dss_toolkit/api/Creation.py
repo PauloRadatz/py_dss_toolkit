@@ -1,16 +1,12 @@
 # -*- encoding: utf-8 -*-
 
 import pathlib
+from typing import Optional
+from typing import Union
 
 from py_dss_toolkit.studies.SnapShotPowerFlow.StudySnapShotPowerFlow import StudySnapShotPowerFlow
 from py_dss_toolkit.studies.TimeSeriesPowerFlow.StudyTimeSeriesPowerFlow import StudyTimeSeriesPowerFlow
 
-from typing import Optional, Union
-
-
-# TODO
-# def check_scenario_exist(sc) -> bool:
-#     return isinstance(sc, Scenario)
 
 class CreateStudy:
     """Factory for structured OpenDSS studies (compile DSS, run, visualize).
@@ -24,7 +20,8 @@ class CreateStudy:
         name: str,
         dss_file: Union[str, pathlib.Path],
         base_frequency: Union[int, float] = 60,
-        dss_dll: Optional[str] = None) -> StudySnapShotPowerFlow:
+        dss_dll: Optional[str] = None,
+    ) -> StudySnapShotPowerFlow:
         """Build a snapshot (steady-state) power-flow study.
 
         Args:
@@ -45,7 +42,8 @@ class CreateStudy:
         name: str,
         dss_file: Union[str, pathlib.Path],
         base_frequency: Union[int, float] = 60,
-        dss_dll: Optional[str] = None) -> StudyTimeSeriesPowerFlow:
+        dss_dll: Optional[str] = None,
+    ) -> StudyTimeSeriesPowerFlow:
         """Build a time-series (e.g. QSTS) power-flow study.
 
         Args:
@@ -68,4 +66,3 @@ class CreateStudy:
     #     dss_dll: Optional[str] = None) -> StudyFault:
     #     sc = StudyFault(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
     #     return sc
-

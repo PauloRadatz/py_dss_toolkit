@@ -4,13 +4,19 @@
 # @File    : VoltageProfile.py
 # @Software: PyCharm
 
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
+
 import matplotlib.pyplot as plt
-from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_interface import DSS
-from py_dss_toolkit.view.static_view.StaticCustomPlotStyle import StaticCustomPlotStyle
-from typing import Optional, Union, Tuple, List
+
+from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.view.static_view.SnapShot.StaticVoltageProfileBusMarker import StaticVoltageProfileBusMarker
-from py_dss_toolkit.view.view_base.VoltageProfileBase import VoltageProfileBase, VOLTAGE_TYPE
+from py_dss_toolkit.view.static_view.StaticCustomPlotStyle import StaticCustomPlotStyle
+from py_dss_toolkit.view.view_base.VoltageProfileBase import VOLTAGE_TYPE
+from py_dss_toolkit.view.view_base.VoltageProfileBase import VoltageProfileBase
 
 
 class StaticVoltageProfile(VoltageProfileBase):
@@ -54,11 +60,15 @@ class StaticVoltageProfile(VoltageProfileBase):
         """
         return self._plot_style
 
-    def voltage_profile_get_bus_mark(self, name: str, symbol: str = "x",
-                                     size: float = 10,
-                                     color: str = "black",
-                                     marker_name: Optional[str] = None,
-                                     show_legend: bool = False):
+    def voltage_profile_get_bus_mark(
+        self,
+        name: str,
+        symbol: str = "x",
+        size: float = 10,
+        color: str = "black",
+        marker_name: Optional[str] = None,
+        show_legend: bool = False,
+    ):
         """
         Create a bus marker object for highlighting specific buses in voltage profile plots.
 
@@ -82,30 +92,28 @@ class StaticVoltageProfile(VoltageProfileBase):
         """
         if not marker_name:
             marker_name = name
-        return StaticVoltageProfileBusMarker(name=name,
-                                             symbol=symbol,
-                                             size=size,
-                                             color=color,
-                                             marker_name=marker_name,
-                                             show_legend=show_legend)
+        return StaticVoltageProfileBusMarker(
+            name=name, symbol=symbol, size=size, color=color, marker_name=marker_name, show_legend=show_legend
+        )
 
-    def voltage_profile(self,
-                        voltage_type: VOLTAGE_TYPE = "ln",
-                        title: Optional[str] = "Voltage Profile",
-                        xlabel: Optional[str] = "Distance (km)",
-                        ylabel: Optional[str] = "Voltage (pu)",
-                        xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                        ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                        line_marker_size: Optional[float] = 2,
-                        buses_marker: Optional[List[StaticVoltageProfileBusMarker]] = None,
-                        show_voltage_limits: Optional[bool] = True,
-                        tight_layout: Optional[bool] = True,
-                        legend: Optional[bool] = True,
-                        dpi: Optional[int] = 200,
-                        save_file_path: Optional[str] = None,
-                        show: Optional[bool] = True,
-                        **kwargs
-                        ):
+    def voltage_profile(
+        self,
+        voltage_type: VOLTAGE_TYPE = "ln",
+        title: Optional[str] = "Voltage Profile",
+        xlabel: Optional[str] = "Distance (km)",
+        ylabel: Optional[str] = "Voltage (pu)",
+        xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+        ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+        line_marker_size: Optional[float] = 2,
+        buses_marker: Optional[List[StaticVoltageProfileBusMarker]] = None,
+        show_voltage_limits: Optional[bool] = True,
+        tight_layout: Optional[bool] = True,
+        legend: Optional[bool] = True,
+        dpi: Optional[int] = 200,
+        save_file_path: Optional[str] = None,
+        show: Optional[bool] = True,
+        **kwargs,
+    ):
         """
         Generate a voltage profile plot showing voltage magnitude versus distance.
 
@@ -174,14 +182,13 @@ class StaticVoltageProfile(VoltageProfileBase):
             setattr(fig, key, value)
 
         buses, df, distances, sections = self._prepare_results(voltage_type)
-        node_colors = {1: 'black', 2: 'red', 3: 'blue'}
+        node_colors = {1: "black", 2: "red", 3: "blue"}
 
-        bus_annotated = list()
         legend_handles = [
-            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=node_colors[node], markersize=6)
+            plt.Line2D([0], [0], marker="o", color="w", markerfacecolor=node_colors[node], markersize=6)
             for node in range(1, 4)
         ]
-        legend_labels = [f'Node {node}' for node in range(1, 4)]
+        legend_labels = [f"Node {node}" for node in range(1, 4)]
 
         # Dictionary to track which bus markers have been added to the legend
         legend_added = {}
@@ -191,26 +198,37 @@ class StaticVoltageProfile(VoltageProfileBase):
                 bus1, bus2 = section
                 distance1 = distances[buses.index(bus1)]
                 distance2 = distances[buses.index(bus2)]
-                ax.plot([distance1, distance2], [df.loc[bus1, f'node{node}'], df.loc[bus2, f'node{node}']], marker='o',
-                        color=node_colors[node], markersize=line_marker_size)
+                ax.plot(
+                    [distance1, distance2],
+                    [df.loc[bus1, f"node{node}"], df.loc[bus2, f"node{node}"]],
+                    marker="o",
+                    color=node_colors[node],
+                    markersize=line_marker_size,
+                )
 
                 if buses_marker:
                     bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
                     if bus_marker:
-                        ax.plot(distance1, df.loc[bus1, f'node{node}'],
-                                marker=bus_marker.symbol,
-                                markersize=bus_marker.size,
-                                color=bus_marker.color)
+                        ax.plot(
+                            distance1,
+                            df.loc[bus1, f"node{node}"],
+                            marker=bus_marker.symbol,
+                            markersize=bus_marker.size,
+                            color=bus_marker.color,
+                        )
 
                         # Add the bus marker to the legend if show_legend is True and not already added
                         if bus_marker.show_legend and bus_marker.marker_name not in legend_added:
-                            handle = plt.Line2D([0], [0],
-                                                marker=bus_marker.symbol,
-                                                color=bus_marker.color,
-                                                linestyle='None',
-                                                markersize=bus_marker.size,
-                                                markerfacecolor=bus_marker.color,
-                                                markeredgecolor=bus_marker.color)
+                            handle = plt.Line2D(
+                                [0],
+                                [0],
+                                marker=bus_marker.symbol,
+                                color=bus_marker.color,
+                                linestyle="None",
+                                markersize=bus_marker.size,
+                                markerfacecolor=bus_marker.color,
+                                markeredgecolor=bus_marker.color,
+                            )
                             legend_handles.append(handle)
                             legend_labels.append(bus_marker.marker_name)
                             legend_added[bus_marker.marker_name] = True  # Mark this marker as added
@@ -225,8 +243,22 @@ class StaticVoltageProfile(VoltageProfileBase):
             x_min, x_max = ax.get_xlim()
 
             # Plot horizontal lines for voltage limits
-            ax.axhline(y=normvmaxpu, color='red', linestyle='--', linewidth=1.5, alpha=0.7, label=f'Max Limit ({normvmaxpu:.3f} pu)')
-            ax.axhline(y=normvminpu, color='red', linestyle='--', linewidth=1.5, alpha=0.7, label=f'Min Limit ({normvminpu:.3f} pu)')
+            ax.axhline(
+                y=normvmaxpu,
+                color="red",
+                linestyle="--",
+                linewidth=1.5,
+                alpha=0.7,
+                label=f"Max Limit ({normvmaxpu:.3f} pu)",
+            )
+            ax.axhline(
+                y=normvminpu,
+                color="red",
+                linestyle="--",
+                linewidth=1.5,
+                alpha=0.7,
+                label=f"Min Limit ({normvminpu:.3f} pu)",
+            )
 
         # Create the legend
         if legend:
@@ -244,7 +276,7 @@ class StaticVoltageProfile(VoltageProfileBase):
         fig.set_dpi(dpi)
 
         if save_file_path:
-            fig.savefig(save_file_path, format="png", dpi=300, bbox_inches='tight')
+            fig.savefig(save_file_path, format="png", dpi=300, bbox_inches="tight")
 
         if show:
             plt.show()

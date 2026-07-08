@@ -4,17 +4,24 @@
 # @File    : VoltageProfile.py
 # @Software: PyCharm
 
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
+
 import plotly.graph_objects as go
-from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_interface import DSS
-from typing import Optional, Union, Tuple, List
-from py_dss_toolkit.view.view_base.VoltageProfileBase import VoltageProfileBase, VOLTAGE_TYPE
-from py_dss_toolkit.view.interactive_view.SnapShot.InteractiveVoltageProfileBusMarker import InteractiveVoltageProfileBusMarker
+
+from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.view.interactive_view.InteractiveCustomPlotStyle import InteractiveCustomPlotStyle
+from py_dss_toolkit.view.interactive_view.SnapShot.InteractiveVoltageProfileBusMarker import (
+    InteractiveVoltageProfileBusMarker,
+)
+from py_dss_toolkit.view.view_base.VoltageProfileBase import VOLTAGE_TYPE
+from py_dss_toolkit.view.view_base.VoltageProfileBase import VoltageProfileBase
 
 
 class InteractiveVoltageProfile(VoltageProfileBase):
-
     def __init__(self, dss: DSS, results: SnapShotPowerFlowResults):
         self._results = results
 
@@ -26,33 +33,41 @@ class InteractiveVoltageProfile(VoltageProfileBase):
     def voltage_profile_plot_style(self):
         return self._plot_style
 
-    def voltage_profile_get_bus_marker(self, name: str, symbol: str = "x",
-                                       size: float = 10,
-                                       color: str = "black",
-                                       annotate: bool = False,
-                                       marker_name: Optional[str] = None,
-                                       show_legend: bool = False):
+    def voltage_profile_get_bus_marker(
+        self,
+        name: str,
+        symbol: str = "x",
+        size: float = 10,
+        color: str = "black",
+        annotate: bool = False,
+        marker_name: Optional[str] = None,
+        show_legend: bool = False,
+    ):
         if not marker_name:
             marker_name = name
-        return InteractiveVoltageProfileBusMarker(name=name,
-                                       symbol=symbol,
-                                       size=size,
-                                       color=color,
-                                       annotate=annotate,
-                                       marker_name=marker_name,
-                                       show_legend=show_legend)
+        return InteractiveVoltageProfileBusMarker(
+            name=name,
+            symbol=symbol,
+            size=size,
+            color=color,
+            annotate=annotate,
+            marker_name=marker_name,
+            show_legend=show_legend,
+        )
 
-    def voltage_profile(self,
-                        voltage_type: VOLTAGE_TYPE = "ln",
-                        title: Optional[str] = "Voltage Profile",
-                        xlabel: Optional[str] = "Distance (km)",
-                        ylabel: Optional[str] = "Voltage (pu)",
-                        xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                        ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                        buses_marker: Optional[List[InteractiveVoltageProfileBusMarker]] = None,
-                        show_voltage_limits: Optional[bool] = True,
-                        show: Optional[bool] = False,
-                        save_file_path: Optional[str] = None) -> Optional[go.Figure]:
+    def voltage_profile(
+        self,
+        voltage_type: VOLTAGE_TYPE = "ln",
+        title: Optional[str] = "Voltage Profile",
+        xlabel: Optional[str] = "Distance (km)",
+        ylabel: Optional[str] = "Voltage (pu)",
+        xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+        ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+        buses_marker: Optional[List[InteractiveVoltageProfileBusMarker]] = None,
+        show_voltage_limits: Optional[bool] = True,
+        show: Optional[bool] = False,
+        save_file_path: Optional[str] = None,
+    ) -> Optional[go.Figure]:
         """
         Generate an interactive voltage profile plot showing voltage magnitude versus distance.
 
@@ -105,7 +120,7 @@ class InteractiveVoltageProfile(VoltageProfileBase):
         self._check_energymeter()
 
         buses, df, distances, sections = self._prepare_results(voltage_type)
-        node_colors = {1: 'black', 2: 'red', 3: 'blue'}
+        node_colors = {1: "black", 2: "red", 3: "blue"}
 
         fig = go.Figure()
         self._plot_style.apply_style(fig)
@@ -121,22 +136,24 @@ class InteractiveVoltageProfile(VoltageProfileBase):
                 distance2 = distances[buses.index(bus2)]
 
                 # Add scatter trace for the voltage profile section
-                fig.add_trace(go.Scatter(
-                    x=[distance1, distance2],
-                    y=[df.loc[bus1, f'node{node}'], df.loc[bus2, f'node{node}']],
-                    mode='lines+markers',
-                    marker=dict(color=node_colors[node]),
-                    line=dict(color=node_colors[node]),
-                    legendgroup=f'Node {node}',  # Grouping by node
-                    showlegend=(section == sections[0]),  # Only show one legend item for each node
-                    name=f'Node {node}',
-                    customdata=[[bus1], [bus2]],  # Adding bus name as custom data
-                    hovertemplate=(
-                        "Bus: %{customdata[0]}<br>"  # Display bus name
-                        "Distance: %{x}<br>"
-                        "Voltage: %{y:.3f} pu<extra></extra>"  # Voltage displayed with 3 decimal places
+                fig.add_trace(
+                    go.Scatter(
+                        x=[distance1, distance2],
+                        y=[df.loc[bus1, f"node{node}"], df.loc[bus2, f"node{node}"]],
+                        mode="lines+markers",
+                        marker=dict(color=node_colors[node]),
+                        line=dict(color=node_colors[node]),
+                        legendgroup=f"Node {node}",  # Grouping by node
+                        showlegend=(section == sections[0]),  # Only show one legend item for each node
+                        name=f"Node {node}",
+                        customdata=[[bus1], [bus2]],  # Adding bus name as custom data
+                        hovertemplate=(
+                            "Bus: %{customdata[0]}<br>"  # Display bus name
+                            "Distance: %{x}<br>"
+                            "Voltage: %{y:.3f} pu<extra></extra>"  # Voltage displayed with 3 decimal places
+                        ),
                     )
-                ))
+                )
 
         # Step 2: Add bus markers
         for node in range(1, 4):
@@ -148,11 +165,12 @@ class InteractiveVoltageProfile(VoltageProfileBase):
                 if buses_marker:
                     bus_marker = next((bus for bus in buses_marker if bus.name == bus1), None)
                     if bus_marker:
-                        hovertemplate = (f"<br>{bus_marker.marker_name}<br>"
-                                         "Bus: %{customdata[0]}<br>"
-                                         "Distance: %{x}<br>"
-                                         "Voltage: %{y:.3f} pu"
-                                         )
+                        hovertemplate = (
+                            f"<br>{bus_marker.marker_name}<br>"
+                            "Bus: %{customdata[0]}<br>"
+                            "Distance: %{x}<br>"
+                            "Voltage: %{y:.3f} pu"
+                        )
 
                         hovertemplate += "<extra></extra>"
 
@@ -160,19 +178,19 @@ class InteractiveVoltageProfile(VoltageProfileBase):
                         show_legend = not legend_added.get(bus1, False)
 
                         # Add the scatter plot trace for the bus marker
-                        fig.add_trace(go.Scatter(
-                            x=[distance1],
-                            y=[df.loc[bus1, f'node{node}']],
-                            mode='markers',
-                            marker=dict(symbol=bus_marker.symbol,
-                                        size=bus_marker.size,
-                                        color=bus_marker.color),
-                            legendgroup=f'Bus {bus1}',  # Group markers by bus
-                            showlegend=show_legend,  # Show in legend only if not added before
-                            name=f'{bus_marker.marker_name}',  # Legend name
-                            customdata=[[bus1]],  # Adding bus name to the marker
-                            hovertemplate=hovertemplate  # Apply the combined hovertemplate
-                        ))
+                        fig.add_trace(
+                            go.Scatter(
+                                x=[distance1],
+                                y=[df.loc[bus1, f"node{node}"]],
+                                mode="markers",
+                                marker=dict(symbol=bus_marker.symbol, size=bus_marker.size, color=bus_marker.color),
+                                legendgroup=f"Bus {bus1}",  # Group markers by bus
+                                showlegend=show_legend,  # Show in legend only if not added before
+                                name=f"{bus_marker.marker_name}",  # Legend name
+                                customdata=[[bus1]],  # Adding bus name to the marker
+                                hovertemplate=hovertemplate,  # Apply the combined hovertemplate
+                            )
+                        )
 
                         # Mark this bus as added to the legend
                         legend_added[bus1] = True
@@ -190,8 +208,10 @@ class InteractiveVoltageProfile(VoltageProfileBase):
             # Add horizontal line for maximum voltage limit
             fig.add_shape(
                 type="line",
-                x0=x_min, x1=x_max,
-                y0=normvmaxpu, y1=normvmaxpu,
+                x0=x_min,
+                x1=x_max,
+                y0=normvmaxpu,
+                y1=normvmaxpu,
                 line=dict(dash="dash", color="red", width=2),
                 opacity=0.7,
             )
@@ -199,8 +219,10 @@ class InteractiveVoltageProfile(VoltageProfileBase):
             # Add horizontal line for minimum voltage limit
             fig.add_shape(
                 type="line",
-                x0=x_min, x1=x_max,
-                y0=normvminpu, y1=normvminpu,
+                x0=x_min,
+                x1=x_max,
+                y0=normvminpu,
+                y1=normvminpu,
                 line=dict(dash="dash", color="red", width=2),
                 opacity=0.7,
             )

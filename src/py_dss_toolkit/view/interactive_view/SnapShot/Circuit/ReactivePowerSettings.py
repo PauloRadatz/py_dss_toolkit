@@ -4,7 +4,9 @@
 # @File    : ReactivePowerSettings.py
 # @Software: PyCharm
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
+
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.BaseSettingsNumerical import BaseSettingsNumerical
 
 

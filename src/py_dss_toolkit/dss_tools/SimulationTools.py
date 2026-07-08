@@ -2,11 +2,13 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
+from typing import Dict
+from typing import Union
+
 from py_dss_interface import DSS
-from typing import Dict, Union
+
 
 class SimulationTools:
-
     def __init__(self, dss: DSS):
         self._dss = dss
 
@@ -31,5 +33,6 @@ class SimulationTools:
             "converged": bool(self._dss.solution.converged),
             "control_iterations": self._dss.solution.control_iterations,
             "max_control_iterations": self._dss.solution.max_control_iterations,
-            "control_iteration_limit_hit": self._dss.solution.control_iterations == self._dss.solution.max_control_iterations,
+            "control_iteration_limit_hit": self._dss.solution.control_iterations
+            == self._dss.solution.max_control_iterations,
         }

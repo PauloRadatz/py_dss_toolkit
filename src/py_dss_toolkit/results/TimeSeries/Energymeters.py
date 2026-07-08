@@ -30,10 +30,7 @@ class Energymeters:
                 row = {"name": self._dss.meters.name.lower()}
                 register_values = self._dss.meters.register_values
                 row.update(
-                    {
-                        register_name: register_values[index]
-                        for index, register_name in enumerate(register_names)
-                    }
+                    {register_name: register_values[index] for index, register_name in enumerate(register_names)}
                 )
                 rows.append(row)
             self._dss.meters.next()

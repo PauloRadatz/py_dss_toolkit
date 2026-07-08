@@ -4,17 +4,20 @@
 # @File    : Circuit.py
 # @Software: PyCharm
 
+from typing import List
+from typing import Optional
+
 import plotly.graph_objects as go
-from typing import Optional, List
 from py_dss_interface import DSS
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBase import CircuitPlotParameter
-from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
+
 from py_dss_toolkit.model.ModelBase import ModelBase
+from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBase import CircuitBase
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitPlot import CircuitPlot
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitGeoPlot import CircuitGeoPlot
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBusMarker import CircuitBusMarker
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBase import CircuitPlotParameter
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBase import CircuitSettingsContainer
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitBusMarker import CircuitBusMarker
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitGeoPlot import CircuitGeoPlot
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.CircuitPlot import CircuitPlot
 
 
 class Circuit(CircuitBase):
@@ -38,25 +41,27 @@ class Circuit(CircuitBase):
         self._circuit_plot = CircuitPlot(dss, results, model, settings_container=settings_container)
         self._circuit_geoplot = CircuitGeoPlot(dss, results, model, settings_container=settings_container)
 
-    def circuit_plot(self,
-                     parameter: CircuitPlotParameter = "active power",
-                     title: Optional[str] = "Circuit Plot",
-                     xlabel: Optional[str] = 'X Coordinate',
-                     ylabel: Optional[str] = 'Y Coordinate',
-                     width_3ph: int = 3,
-                     width_2ph: int = 3,
-                     width_1ph: int = 3,
-                     dash_3ph: Optional[str] = None,
-                     dash_2ph: Optional[str] = None,
-                     dash_1ph: Optional[str] = None,
-                     dash_oh: Optional[str] = None,
-                     dash_ug: Optional[str] = None,
-                     mark_buses: bool = True,
-                     bus_markers: Optional[List[CircuitBusMarker]] = None,
-                     show_colorbar: bool = True,
-                     warn_zero_coord_buses: bool = False,
-                     show: bool = False,
-                     save_file_path: Optional[str] = None) -> go.Figure:
+    def circuit_plot(
+        self,
+        parameter: CircuitPlotParameter = "active power",
+        title: Optional[str] = "Circuit Plot",
+        xlabel: Optional[str] = "X Coordinate",
+        ylabel: Optional[str] = "Y Coordinate",
+        width_3ph: int = 3,
+        width_2ph: int = 3,
+        width_1ph: int = 3,
+        dash_3ph: Optional[str] = None,
+        dash_2ph: Optional[str] = None,
+        dash_1ph: Optional[str] = None,
+        dash_oh: Optional[str] = None,
+        dash_ug: Optional[str] = None,
+        mark_buses: bool = True,
+        bus_markers: Optional[List[CircuitBusMarker]] = None,
+        show_colorbar: bool = True,
+        warn_zero_coord_buses: bool = False,
+        show: bool = False,
+        save_file_path: Optional[str] = None,
+    ) -> go.Figure:
         """
         Create an interactive circuit plot.
 
@@ -111,22 +116,24 @@ class Circuit(CircuitBase):
             show_colorbar=show_colorbar,
             warn_zero_coord_buses=warn_zero_coord_buses,
             show=show,
-            save_file_path=save_file_path
+            save_file_path=save_file_path,
         )
 
-    def circuit_geoplot(self,
-                        parameter: CircuitPlotParameter = "active power",
-                        title: Optional[str] = "Circuit Plot",
-                        width_3ph: int = 3,
-                        width_2ph: int = 3,
-                        width_1ph: int = 3,
-                        mark_buses: bool = True,
-                        bus_markers: Optional[List[CircuitBusMarker]] = None,
-                        show_colorbar: bool = True,
-                        warn_zero_coord_buses: bool = False,
-                        show: bool = False,
-                        map_style: Optional[str] = 'open-street-map',
-                        save_file_path: Optional[str] = None) -> go.Figure:
+    def circuit_geoplot(
+        self,
+        parameter: CircuitPlotParameter = "active power",
+        title: Optional[str] = "Circuit Plot",
+        width_3ph: int = 3,
+        width_2ph: int = 3,
+        width_1ph: int = 3,
+        mark_buses: bool = True,
+        bus_markers: Optional[List[CircuitBusMarker]] = None,
+        show_colorbar: bool = True,
+        warn_zero_coord_buses: bool = False,
+        show: bool = False,
+        map_style: Optional[str] = "open-street-map",
+        save_file_path: Optional[str] = None,
+    ) -> go.Figure:
         """
         Create an interactive geographic plot of the circuit.
 
@@ -175,5 +182,5 @@ class Circuit(CircuitBase):
             warn_zero_coord_buses=warn_zero_coord_buses,
             show=show,
             map_style=map_style,
-            save_file_path=save_file_path
+            save_file_path=save_file_path,
         )

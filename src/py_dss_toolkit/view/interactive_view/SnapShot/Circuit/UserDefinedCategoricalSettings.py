@@ -4,15 +4,17 @@
 # @File    : UserDefinedCategoricalSettings.py
 # @Software: PyCharm
 
-from dataclasses import dataclass, field
-from typing import Optional, Union, Tuple, List, Dict
+from dataclasses import dataclass
+from dataclasses import field
+from typing import Optional
+
 import pandas as pd
 
 
 @dataclass(kw_only=True)
 class UserDefinedCategoricalSettings:
-    """Settings for user-defined categorical circuit plot parameter.
-    """
+    """Settings for user-defined categorical circuit plot parameter."""
+
     _parameter: str = field(init=False, repr=True, default="User Categorical Defined")
     results: Optional[pd.Series] = field(init=True, repr=True, default=None)
     color_map: Optional[dict] = field(init=True, repr=True, default=None)

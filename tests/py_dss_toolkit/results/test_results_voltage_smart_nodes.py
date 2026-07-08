@@ -8,11 +8,9 @@ import pandas as pd
 import py_dss_interface
 
 from py_dss_toolkit import dss_tools
-from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import (
-    create_nodal_voltage_dataframes,
-    create_nodal_ll_voltage_dataframes,
-    create_nodal_smart_voltage_dataframes,
-)
+from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import create_nodal_ll_voltage_dataframes
+from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import create_nodal_smart_voltage_dataframes
+from py_dss_toolkit.results.SnapShot.voltages_nodal_utils import create_nodal_voltage_dataframes
 
 # ---------------------------------------------------------------------------
 # DSS Scripts
@@ -81,9 +79,7 @@ def test_smart_util_ll_buses_use_ll_voltages():
     smart_vmags_numeric = smart_vmags.drop(columns=["voltage_type"])
 
     # Bus "a" (LN) should match the LN result
-    pd.testing.assert_series_equal(
-        smart_vmags_numeric.loc["a"].dropna(), ln_vmags.loc["a"].dropna(), check_names=False
-    )
+    pd.testing.assert_series_equal(smart_vmags_numeric.loc["a"].dropna(), ln_vmags.loc["a"].dropna(), check_names=False)
 
     # Bus "b" (LL) should match the LL result (if LL data exists)
     if "b" in ll_vmags.index and not ll_vmags.loc["b"].isna().all():

@@ -3,7 +3,9 @@
 # @Email   : paulo.radatz@gmail.com
 
 
-from typing import Dict, List, Optional
+from typing import Dict
+from typing import List
+from typing import Optional
 
 import pandas as pd
 from py_dss_interface import DSS
@@ -60,10 +62,7 @@ class SegmentsDF(PDElementsDF):
         Elements with an empty bus2 (e.g. delta capacitors) are excluded.
         """
         records = self._create_pd_elements_records()
-        indexes = [
-            i for i, (b1, b2) in enumerate(zip(records["bus1"], records["bus2"]))
-            if b2 and b1 != b2
-        ]
+        indexes = [i for i, (b1, b2) in enumerate(zip(records["bus1"], records["bus2"])) if b2 and b1 != b2]
         return {key: [values[i] for i in indexes] for key, values in records.items()}
 
     def _filter_segments_records(self, enabled: bool) -> Dict[str, List]:

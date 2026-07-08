@@ -3,8 +3,8 @@
 Unit tests for PCElementsQueries: downstream load, load between buses, generation.
 """
 
-import pytest
 import py_dss_interface
+import pytest
 
 from py_dss_toolkit import dss_tools
 

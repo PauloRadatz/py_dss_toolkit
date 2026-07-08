@@ -31,19 +31,13 @@ def test_validate_algorithm_accepts_mixed_case_and_returns_lowercase():
 
 
 def test_validate_mode_raises_for_invalid_value():
-    msg = (
-        "Invalid value for mode. Should be one of the following options: "
-        "['daily', 'yearly', 'dutycycle']."
-    )
+    msg = "Invalid value for mode. Should be one of the following options: ['daily', 'yearly', 'dutycycle']."
     with pytest.raises(ValueError, match=re.escape(msg)):
         settings_utils.validate_mode("snap", settings_utils.VALID_TIMESERIES_MODES)
 
 
 def test_validate_algorithm_raises_for_invalid_value():
-    msg = (
-        "Invalid value for algorithm. Should be one of the following options: "
-        "['normal', 'newton', 'ncim']."
-    )
+    msg = "Invalid value for algorithm. Should be one of the following options: ['normal', 'newton', 'ncim']."
     with pytest.raises(ValueError, match=re.escape(msg)):
         settings_utils.validate_algorithm("fdlf")
 

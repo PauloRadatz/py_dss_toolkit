@@ -1,12 +1,13 @@
 from types import SimpleNamespace
-from unittest.mock import ANY, patch
+from unittest.mock import ANY
+from unittest.mock import patch
 
 import pytest
 
 from py_dss_toolkit.dss_tools.ConfigurationTools import ConfigurationTools
+from py_dss_toolkit.dss_tools.dss_tools import DSSTools
 from py_dss_toolkit.dss_tools.SimulationTools import SimulationTools
 from py_dss_toolkit.dss_tools.UtilitiesTools import UtilitiesTools
-from py_dss_toolkit.dss_tools.dss_tools import DSSTools
 
 
 class FakeDSS:
@@ -124,21 +125,16 @@ def test_utilities_tools_save_circuit_emits_case_commands_and_sets_datapath():
 
 def test_dss_tools_update_dss_refreshes_dependent_objects():
     fake_dss = FakeDSS()
-    with patch("py_dss_toolkit.results.Results.Results", autospec=True) as results_cls, patch(
-        "py_dss_toolkit.model.ModelBase.ModelBase", autospec=True
-    ) as model_cls, patch(
-        "py_dss_toolkit.view.static_view.ViewResults.ViewResults", autospec=True
-    ) as static_cls, patch(
-        "py_dss_toolkit.view.interactive_view.ViewResults.ViewResults", autospec=True
-    ) as interactive_cls, patch(
-        "py_dss_toolkit.view.dss_view.ViewResults.ViewResults", autospec=True
-    ) as dss_view_cls, patch(
-        "py_dss_toolkit.dss_tools.dss_tools.SimulationTools", autospec=True
-    ) as sim_cls, patch(
-        "py_dss_toolkit.dss_tools.dss_tools.ConfigurationTools", autospec=True
-    ) as cfg_cls, patch(
-        "py_dss_toolkit.dss_tools.dss_tools.UtilitiesTools", autospec=True
-    ) as util_cls:
+    with (
+        patch("py_dss_toolkit.results.Results.Results", autospec=True) as results_cls,
+        patch("py_dss_toolkit.model.ModelBase.ModelBase", autospec=True) as model_cls,
+        patch("py_dss_toolkit.view.static_view.ViewResults.ViewResults", autospec=True) as static_cls,
+        patch("py_dss_toolkit.view.interactive_view.ViewResults.ViewResults", autospec=True) as interactive_cls,
+        patch("py_dss_toolkit.view.dss_view.ViewResults.ViewResults", autospec=True) as dss_view_cls,
+        patch("py_dss_toolkit.dss_tools.dss_tools.SimulationTools", autospec=True) as sim_cls,
+        patch("py_dss_toolkit.dss_tools.dss_tools.ConfigurationTools", autospec=True) as cfg_cls,
+        patch("py_dss_toolkit.dss_tools.dss_tools.UtilitiesTools", autospec=True) as util_cls,
+    ):
         tools = DSSTools(None)
         tools.update_dss(fake_dss)
 

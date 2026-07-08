@@ -8,12 +8,9 @@ import pandas as pd
 from py_dss_interface import DSS
 
 from py_dss_toolkit.model.ModelBase import ModelBase
-from py_dss_toolkit.model_verification.NodesConnectionsParentChildDF import (
-    _normalize_nodes,
-    _phase_nodes,
-    _has_phase_issue,
-    _shunt_elements_by_bus,
-)
+from py_dss_toolkit.model_verification.NodesConnectionsParentChildDF import _has_phase_issue
+from py_dss_toolkit.model_verification.NodesConnectionsParentChildDF import _phase_nodes
+from py_dss_toolkit.model_verification.NodesConnectionsParentChildDF import _shunt_elements_by_bus
 
 
 def _get_source_phases(dss: DSS) -> set:
@@ -72,8 +69,7 @@ class NodesConnectionsPropagatedDF:
             return self._empty_df()
         return pd.DataFrame(
             rows,
-            columns=["parent_name", "parent_bus", "parent_node",
-                      "element_name", "element_bus", "element_node"],
+            columns=["parent_name", "parent_bus", "parent_node", "element_name", "element_bus", "element_node"],
         )
 
     def _create_nodes_connections_propagated_records(self) -> list:
@@ -115,14 +111,16 @@ class NodesConnectionsPropagatedDF:
                 if not all_nodes1_phases or not all_nodes1_phases.issubset(parent_validated):
                     combined_nodes1 = sorted(all_nodes1_phases) if all_nodes1_phases else ["1", "2", "3"]
                     parent_label = ", ".join(parent_names) if parent_names else ""
-                    rows.append([
-                        parent_label,
-                        u,
-                        sorted(parent_validated),
-                        ", ".join(edge_names),
-                        u,
-                        combined_nodes1,
-                    ])
+                    rows.append(
+                        [
+                            parent_label,
+                            u,
+                            sorted(parent_validated),
+                            ", ".join(edge_names),
+                            u,
+                            combined_nodes1,
+                        ]
+                    )
                     validated[v] = parent_validated
                 else:
                     validated[v] = all_nodes2_phases
@@ -135,20 +133,21 @@ class NodesConnectionsPropagatedDF:
             parent_label = ", ".join(parent_names) if parent_names else ""
             for elem_name, elem_nodes in pc_at_bus.get(bus, []):
                 if _has_phase_issue(list(valid_phases), elem_nodes):
-                    rows.append([
-                        parent_label,
-                        bus,
-                        sorted(valid_phases),
-                        elem_name,
-                        bus,
-                        elem_nodes,
-                    ])
+                    rows.append(
+                        [
+                            parent_label,
+                            bus,
+                            sorted(valid_phases),
+                            elem_name,
+                            bus,
+                            elem_nodes,
+                        ]
+                    )
 
         return rows
 
     @staticmethod
     def _empty_df() -> pd.DataFrame:
         return pd.DataFrame(
-            columns=["parent_name", "parent_bus", "parent_node",
-                      "element_name", "element_bus", "element_node"],
+            columns=["parent_name", "parent_bus", "parent_node", "element_name", "element_bus", "element_node"],
         )

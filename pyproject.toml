@@ -48,3 +48,40 @@ dev = [
 [tool.setuptools]
 packages = { find = {where = ["src"]} }
 
+[tool.pytest.ini_options]
+norecursedirs = ["migrations"]
+python_files = ["test_*.py", "*_test.py", "tests.py"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--doctest-modules",
+    "--doctest-glob=\\*.rst",
+    "--tb=short"
+]
+testpaths = ["tests"]
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["py_dss_toolkit", "tests"]
+parallel = true
+
+[tool.coverage.report]
+show_missing = true
+precision = 2
+omit = ["*migrations*"]
+
+[tool.ruff]
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E203"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["py_dss_toolkit"]
+force-single-line = true
+

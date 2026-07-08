@@ -7,7 +7,6 @@ from py_dss_toolkit.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSer
 from py_dss_toolkit.studies.SnapShotPowerFlow.StudySnapShotPowerFlow import StudySnapShotPowerFlow
 from py_dss_toolkit.studies.TimeSeriesPowerFlow.StudyTimeSeriesPowerFlow import StudyTimeSeriesPowerFlow
 
-
 SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
 DSS_FILE_13BUS = pathlib.Path(SCRIPT_PATH).joinpath("../cases", "13bus", "IEEE13Nodeckt.dss")
 
@@ -32,5 +31,3 @@ def test_create_study_timeseries_returns_expected_type_and_wiring():
     assert study.static_view is not None
     assert study.interactive_view is not None
     assert study.dss_view is not None
-
-

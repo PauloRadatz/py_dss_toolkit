@@ -280,8 +280,12 @@ def test_parent_child_columns():
     dss_tools.model.refresh_graph()
     df = dss_tools.model_verification.nodes_connections_parent_child_df
     assert list(df.columns) == [
-        "parent_name", "parent_bus", "parent_node",
-        "element_name", "element_bus", "element_node",
+        "parent_name",
+        "parent_bus",
+        "parent_node",
+        "element_name",
+        "element_bus",
+        "element_node",
     ]
 
 
@@ -397,8 +401,12 @@ def test_propagated_columns():
     dss_tools.model.refresh_graph()
     df = dss_tools.model_verification.nodes_connections_propagated_df
     assert list(df.columns) == [
-        "parent_name", "parent_bus", "parent_node",
-        "element_name", "element_bus", "element_node",
+        "parent_name",
+        "parent_bus",
+        "parent_node",
+        "element_name",
+        "element_bus",
+        "element_node",
     ]
 
 

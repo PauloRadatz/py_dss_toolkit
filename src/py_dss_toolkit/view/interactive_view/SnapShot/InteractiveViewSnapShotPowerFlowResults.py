@@ -4,15 +4,15 @@
 # @File    : DSSViewSnapShotPowerFlowResults.py
 # @Software: PyCharm
 
-from py_dss_toolkit.view.interactive_view.SnapShot.InteractiveVoltageProfile import InteractiveVoltageProfile
-from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
 from py_dss_interface import DSS
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ViewCircuitResults import ViewCircuitResults
+
 from py_dss_toolkit.model.ModelBase import ModelBase
+from py_dss_toolkit.results.SnapShot.SnapShotPowerFlowResults import SnapShotPowerFlowResults
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.ViewCircuitResults import ViewCircuitResults
+from py_dss_toolkit.view.interactive_view.SnapShot.InteractiveVoltageProfile import InteractiveVoltageProfile
 
 
 class InteractiveViewSnapShotPowerFlowResults(InteractiveVoltageProfile, ViewCircuitResults):
-
     def __init__(self, dss: DSS, results: SnapShotPowerFlowResults, model: ModelBase):
         InteractiveVoltageProfile.__init__(self, dss, results)
         ViewCircuitResults.__init__(self, dss, results, model)

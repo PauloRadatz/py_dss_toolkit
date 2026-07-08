@@ -27,7 +27,7 @@ dss.text(f"buscoords buscoords.dat")
 # Solve the power flow for the system
 dss.text(f"solve")
 
-dss_tools.interactive_view.circuit_plot(parameter="active power")
+dss_tools.interactive_view.circuit_plot(parameter="active power", show=True)
 
 dss_tools.interactive_view.circuit_plot(parameter="active power", title="Active Power [KW]", width_2ph=2, width_1ph=1)
 

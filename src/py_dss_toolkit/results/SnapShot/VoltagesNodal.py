@@ -6,18 +6,15 @@ from typing import Tuple
 
 import pandas as pd
 from py_dss_interface import DSS
-from .voltages_nodal_utils import (
-    create_nodal_voltage_records,
-    create_nodal_voltage_dataframes,
-    create_nodal_ll_voltage_records,
-    create_nodal_ll_voltage_dataframes,
-)
+
+from .voltages_nodal_utils import create_nodal_ll_voltage_dataframes
+from .voltages_nodal_utils import create_nodal_ll_voltage_records
+from .voltages_nodal_utils import create_nodal_voltage_dataframes
+from .voltages_nodal_utils import create_nodal_voltage_records
 
 
 class VoltagesNodal:
-    """Nodal voltages per bus from OpenDSS (line-to-neutral and line-to-line).
-
-    """
+    """Nodal voltages per bus from OpenDSS (line-to-neutral and line-to-line)."""
 
     def __init__(self, dss: DSS):
         self._dss = dss

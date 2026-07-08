@@ -5,10 +5,11 @@
 # @Software: PyCharm
 
 from py_dss_interface import DSS
+
 from py_dss_toolkit.view.view_base.VoltageProfileBase import VoltageProfileBase
 
-class DSSVoltageProfile(VoltageProfileBase):
 
+class DSSVoltageProfile(VoltageProfileBase):
     def __init__(self, dss: DSS):
         self._dss = dss
         VoltageProfileBase.__init__(self, self._dss, None)
@@ -16,6 +17,6 @@ class DSSVoltageProfile(VoltageProfileBase):
     def voltage_profile(self, phases: str = ""):
         self._check_energymeter()
         if phases == "":
-            self._dss.text(f"plot profile")
+            self._dss.text("plot profile")
         else:
             self._dss.text(f"plot profile phases={phases}")

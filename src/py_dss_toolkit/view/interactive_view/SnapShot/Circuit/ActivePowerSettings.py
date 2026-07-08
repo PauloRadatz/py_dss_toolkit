@@ -4,10 +4,12 @@
 # @File    : ActivePowerSettings.py
 # @Software: PyCharm
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
+
 from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.BaseSettingsNumerical import BaseSettingsNumerical
+
 
 @dataclass(kw_only=True)
 class ActivePowerSettings(BaseSettingsNumerical):
     colorbar_title: str = field(init=True, repr=True, default="Active Power (kW)")
-

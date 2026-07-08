@@ -4,16 +4,19 @@
 # @File    : MonitorBase.py
 # @Software: PyCharm
 
+from typing import Optional
+from typing import Tuple
+from typing import Union
+
 import matplotlib.pyplot as plt
-from py_dss_toolkit.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSeriesPowerFlowResults
 from py_dss_interface import DSS
+
+from py_dss_toolkit.results.TimeSeries.TimeSeriesPowerFlowResults import TimeSeriesPowerFlowResults
 from py_dss_toolkit.view.static_view.StaticCustomPlotStyle import StaticCustomPlotStyle
-from typing import Optional, Union, Tuple
 from py_dss_toolkit.view.view_base.MonitorBase import MonitorBase
 
 
 class StaticMonitor(MonitorBase):
-
     def __init__(self, dss: DSS, results: TimeSeriesPowerFlowResults):
         self._results = results
         self._dss = dss
@@ -25,21 +28,22 @@ class StaticMonitor(MonitorBase):
     def monitor_plot_style(self):
         return self._plot_style
 
-    def vmag_vs_time(self,
-                     name: str,
-                     unit: str = "pu",
-                     title: Optional[str] = "Voltage Vs Time",
-                     xlabel: Optional[str] = "Time",
-                     ylabel: Optional[str] = "Voltage (pu)",
-                     xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                     ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                     tight_layout: Optional[bool] = True,
-                     legend: Optional[bool] = True,
-                     dpi: Optional[int] = 200,
-                     save_file_path: Optional[str] = None,
-                     show: Optional[bool] = True,
-                     **kwargs
-                     ):
+    def vmag_vs_time(
+        self,
+        name: str,
+        unit: str = "pu",
+        title: Optional[str] = "Voltage Vs Time",
+        xlabel: Optional[str] = "Time",
+        ylabel: Optional[str] = "Voltage (pu)",
+        xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+        ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+        tight_layout: Optional[bool] = True,
+        legend: Optional[bool] = True,
+        dpi: Optional[int] = 200,
+        save_file_path: Optional[str] = None,
+        show: Optional[bool] = True,
+        **kwargs,
+    ):
         self._check_v_monitor(name)
 
         elem_nodes, v_base = self._organize_v_results(name)
@@ -52,7 +56,7 @@ class StaticMonitor(MonitorBase):
         for key, value in kwargs.items():
             setattr(fig, key, value)
 
-        node_colors = {1: 'black', 2: 'red', 3: 'blue'}
+        node_colors = {1: "black", 2: "red", 3: "blue"}
 
         for index, node in enumerate(elem_nodes):
             if unit == "kV":
@@ -83,20 +87,21 @@ class StaticMonitor(MonitorBase):
 
         return fig, ax
 
-    def p_vs_time(self,
-                  name: str,
-                  title: Optional[str] = "Active Power Vs Time",
-                  xlabel: Optional[str] = "Time",
-                  ylabel: Optional[str] = "Active Power (kW)",
-                  xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                  ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
-                  tight_layout: Optional[bool] = True,
-                  legend: Optional[bool] = True,
-                  dpi: Optional[int] = 200,
-                  save_file_path: Optional[str] = None,
-                  show: Optional[bool] = True,
-                  **kwargs
-                  ):
+    def p_vs_time(
+        self,
+        name: str,
+        title: Optional[str] = "Active Power Vs Time",
+        xlabel: Optional[str] = "Time",
+        ylabel: Optional[str] = "Active Power (kW)",
+        xlim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+        ylim: Optional[Tuple[Union[int, float], Union[int, float]]] = None,
+        tight_layout: Optional[bool] = True,
+        legend: Optional[bool] = True,
+        dpi: Optional[int] = 200,
+        save_file_path: Optional[str] = None,
+        show: Optional[bool] = True,
+        **kwargs,
+    ):
         self._check_p_monitor(name)
 
         elem_nodes = self._organize_p_results(name)
@@ -108,7 +113,7 @@ class StaticMonitor(MonitorBase):
         fig, ax = plt.subplots()
         for key, value in kwargs.items():
             setattr(fig, key, value)
-        node_colors = {1: 'black', 2: 'red', 3: 'blue'}
+        node_colors = {1: "black", 2: "red", 3: "blue"}
 
         for index, node in enumerate(elem_nodes):
             ax.plot(df["Hour"], df[f" P{index + 1} (kW)"], color=node_colors[node], label=f"P{node}")
@@ -134,5 +139,3 @@ class StaticMonitor(MonitorBase):
             plt.show()
 
         return fig, ax
-
-

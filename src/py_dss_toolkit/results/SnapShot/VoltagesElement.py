@@ -6,6 +6,7 @@ from typing import Tuple
 
 import pandas as pd
 from py_dss_interface import DSS
+
 from .snapshot_utils import create_terminal_list
 
 
@@ -38,11 +39,13 @@ class VoltagesElement:
             num_conductors = self._dss.cktelement.num_conductors
 
             nodes = create_terminal_list(self._dss.cktelement.node_order, num_terminals)
-            vmags = self._dss.cktelement.voltages_mag_ang[: 2 * num_terminals * num_conductors: 2]
-            vangs = self._dss.cktelement.voltages_mag_ang[1: 2 * num_terminals * num_conductors: 2]
+            vmags = self._dss.cktelement.voltages_mag_ang[: 2 * num_terminals * num_conductors : 2]
+            vangs = self._dss.cktelement.voltages_mag_ang[1 : 2 * num_terminals * num_conductors : 2]
 
-            bus1, bus2 = self._dss.cktelement.bus_names[0].split(".")[0].lower(), \
-                self._dss.cktelement.bus_names[1].split(".")[0].lower()
+            bus1, bus2 = (
+                self._dss.cktelement.bus_names[0].split(".")[0].lower(),
+                self._dss.cktelement.bus_names[1].split(".")[0].lower(),
+            )
 
             self._dss.circuit.set_active_bus(bus1)
             kv_base1 = self._dss.bus.kv_base * 1000.0
@@ -71,8 +74,8 @@ class VoltagesElement:
             num_conductors = self._dss.cktelement.num_conductors
 
             nodes = create_terminal_list(self._dss.cktelement.node_order, num_terminals)
-            vmags = self._dss.cktelement.voltages_mag_ang[: 2 * num_terminals * num_conductors: 2]
-            vangs = self._dss.cktelement.voltages_mag_ang[1: 2 * num_terminals * num_conductors: 2]
+            vmags = self._dss.cktelement.voltages_mag_ang[: 2 * num_terminals * num_conductors : 2]
+            vangs = self._dss.cktelement.voltages_mag_ang[1 : 2 * num_terminals * num_conductors : 2]
 
             bus1 = self._dss.cktelement.bus_names[0].split(".")[0].lower()
 
@@ -105,10 +108,10 @@ class VoltagesElement:
     def __create_dataframe(self):
         vmags_records, vangs_records, elements = self._create_voltages_element_records()
 
-        vmags_df = pd.DataFrame.from_dict(vmags_records, orient='index')
+        vmags_df = pd.DataFrame.from_dict(vmags_records, orient="index")
         vmags_df = vmags_df.reindex(elements)
 
-        vangs_df = pd.DataFrame.from_dict(vangs_records, orient='index')
+        vangs_df = pd.DataFrame.from_dict(vangs_records, orient="index")
         vangs_df = vangs_df.reindex(elements)
 
         return vmags_df, vangs_df

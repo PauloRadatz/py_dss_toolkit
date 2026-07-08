@@ -8,8 +8,8 @@ decision logic, making the expected values easy to reason about.
 
 import math
 
-import pytest
 import py_dss_interface
+import pytest
 
 from py_dss_toolkit import dss_tools
 
@@ -818,7 +818,7 @@ def test_segments_path_between_buses_empty_columns_consistency():
     run_dss_script(SCRIPT_RADIAL_ABC)
     dss_tools.model.refresh_graph()
     df_empty = dss_tools.model.segments_path_between_buses_df("b", "b")
-    df_full = dss_tools.model.segments_path_between_buses_df("a", "c")
+    dss_tools.model.segments_path_between_buses_df("a", "c")
     assert "segment" in df_empty.columns
     assert "level" in df_empty.columns
 

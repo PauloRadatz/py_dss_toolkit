@@ -6,7 +6,6 @@ from py_dss_interface import DSS
 
 
 class ModelUtils:
-
     def __init__(self, dss: DSS):
         self._dss = dss
 

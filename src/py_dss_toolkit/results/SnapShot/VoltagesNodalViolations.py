@@ -1,13 +1,15 @@
+from typing import Callable
+from typing import Dict
+from typing import Tuple
+from typing import Union
+
 import pandas as pd
 from py_dss_interface import DSS
-from typing import Callable, Dict, Tuple, Union
 
 from .snapshot_utils import dataframe_to_column_records
-from .voltages_nodal_utils import (
-    create_nodal_ll_voltage_dataframes,
-    create_nodal_smart_voltage_dataframes,
-    create_nodal_voltage_dataframes,
-)
+from .voltages_nodal_utils import create_nodal_ll_voltage_dataframes
+from .voltages_nodal_utils import create_nodal_smart_voltage_dataframes
+from .voltages_nodal_utils import create_nodal_voltage_dataframes
 
 
 def _undervoltage_overvoltage_from_vmags(
@@ -93,9 +95,7 @@ class VoltagesNodalViolations:
             Same structure as :attr:`violation_voltage_ln_nodes`; magnitudes follow
             per-bus LN/LL selection and may include a ``voltage_type`` column.
         """
-        vmags_df, _ = create_nodal_smart_voltage_dataframes(
-            self._dss, self._connection_type_map
-        )
+        vmags_df, _ = create_nodal_smart_voltage_dataframes(self._dss, self._connection_type_map)
         return _undervoltage_overvoltage_from_vmags(vmags_df, self.v_min_pu, self.v_max_pu)
 
     @property

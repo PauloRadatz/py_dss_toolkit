@@ -1,12 +1,11 @@
 import numpy as np
 import pandas as pd
 import pytest
-from py_dss_toolkit.results.SnapShot.snapshot_utils import (
-    create_terminal_list,
-    dataframe_to_column_records,
-    set_violation_current_limit_type,
-    get_violation_current_limit_type,
-)
+
+from py_dss_toolkit.results.SnapShot.snapshot_utils import create_terminal_list
+from py_dss_toolkit.results.SnapShot.snapshot_utils import dataframe_to_column_records
+from py_dss_toolkit.results.SnapShot.snapshot_utils import get_violation_current_limit_type
+from py_dss_toolkit.results.SnapShot.snapshot_utils import set_violation_current_limit_type
 
 
 class TestCreateTerminalList:
@@ -19,17 +18,24 @@ class TestCreateTerminalList:
         nodes = [1, 2, 3, 1, 2, 3]
         result = create_terminal_list(nodes, num_terminals=2)
         assert result == [
-            "Terminal1.1", "Terminal1.2", "Terminal1.3",
-            "Terminal2.1", "Terminal2.2", "Terminal2.3",
+            "Terminal1.1",
+            "Terminal1.2",
+            "Terminal1.3",
+            "Terminal2.1",
+            "Terminal2.2",
+            "Terminal2.3",
         ]
 
     def test_three_terminals(self):
         nodes = [1, 2, 1, 2, 1, 2]
         result = create_terminal_list(nodes, num_terminals=3)
         assert result == [
-            "Terminal1.1", "Terminal1.2",
-            "Terminal2.1", "Terminal2.2",
-            "Terminal3.1", "Terminal3.2",
+            "Terminal1.1",
+            "Terminal1.2",
+            "Terminal2.1",
+            "Terminal2.2",
+            "Terminal3.1",
+            "Terminal3.2",
         ]
 
     def test_empty_nodes(self):

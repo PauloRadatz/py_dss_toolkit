@@ -49,23 +49,24 @@ class SummaryModelData:
                     line_length += self._dss.lines.length
 
         max_line_norm_amps, min_line_norm_amps = self.__get_max_min_norm_amps(elements_list, "line")
-        max_transformer_norm_amps, min_transformer_norm_amps = self.__get_max_min_norm_amps(elements_list,
-                                                                                            "transformer")
+        max_transformer_norm_amps, min_transformer_norm_amps = self.__get_max_min_norm_amps(
+            elements_list, "transformer"
+        )
         max_reactor_norm_amps, min_reactor_norm_amps = self.__get_max_min_norm_amps(elements_list, "reactor")
 
         r_dict["line length"] = line_length
-        if min_line_norm_amps != float('inf'):
+        if min_line_norm_amps != float("inf"):
             r_dict["line min norm amps"] = min_line_norm_amps
             r_dict["line max norm amps"] = max_line_norm_amps
-        if min_transformer_norm_amps != float('inf'):
+        if min_transformer_norm_amps != float("inf"):
             r_dict["transformer min norm amps"] = min_transformer_norm_amps
             r_dict["transformer max norm amps"] = max_transformer_norm_amps
-        if min_reactor_norm_amps != float('inf'):
+        if min_reactor_norm_amps != float("inf"):
             r_dict["reactor min norm amps"] = min_reactor_norm_amps
             r_dict["reactor max norm amps"] = max_reactor_norm_amps
 
-        max_load_kw = float('-inf')
-        min_load_kw = float('inf')
+        max_load_kw = float("-inf")
+        min_load_kw = float("inf")
         for element in elements_list:
             if element.split(".")[0].lower() == "load":
                 self._dss.circuit.set_active_element(element)
@@ -77,18 +78,18 @@ class SummaryModelData:
                     if load_kw > max_load_kw:
                         max_load_kw = load_kw
 
-        if min_load_kw != float('inf'):
+        if min_load_kw != float("inf"):
             r_dict["load min kw"] = min_load_kw
             r_dict["load max kw"] = max_load_kw
 
         return r_dict
 
     def __create_dataframe(self):
-        return pd.DataFrame.from_dict(self._create_summary_records(), orient='index', columns=['count'])
+        return pd.DataFrame.from_dict(self._create_summary_records(), orient="index", columns=["count"])
 
     def __get_max_min_norm_amps(self, elements_list, element_type):
-        max_norm_amps = float('-inf')
-        min_norm_amps = float('inf')
+        max_norm_amps = float("-inf")
+        min_norm_amps = float("inf")
         for element in elements_list:
             if element.split(".")[0].lower() == element_type.lower():
                 self._dss.circuit.set_active_element(element)

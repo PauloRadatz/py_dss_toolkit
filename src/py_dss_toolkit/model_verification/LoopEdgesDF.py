@@ -2,9 +2,8 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-import pandas as pd
-
 import networkx as nx
+import pandas as pd
 
 from py_dss_toolkit.model.ModelBase import ModelBase
 
@@ -93,13 +92,15 @@ class LoopEdgesDF:
             if pair not in bridges:
                 levels = pair_levels.get(pair, [(1, 1)])
                 for cycle_id, level in levels:
-                    rows.append({
-                        "bus1": row["bus1"],
-                        "bus2": row["bus2"],
-                        "name": row["name"],
-                        "type": row["type"],
-                        "cycle_id": cycle_id,
-                        "level": level,
-                    })
+                    rows.append(
+                        {
+                            "bus1": row["bus1"],
+                            "bus2": row["bus2"],
+                            "name": row["name"],
+                            "type": row["type"],
+                            "cycle_id": cycle_id,
+                            "level": level,
+                        }
+                    )
 
         return rows

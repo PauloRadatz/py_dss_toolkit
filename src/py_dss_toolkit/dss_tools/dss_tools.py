@@ -8,7 +8,8 @@ The exported singleton ``dss_tools`` is a :class:`DSSTools` instance with no DSS
 until you call ``dss_tools.update_dss(dss)`` with ``py_dss_interface.DSS()``.
 """
 
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
+from typing import Optional
 
 from py_dss_interface import DSS
 
@@ -17,12 +18,12 @@ from py_dss_toolkit.dss_tools.SimulationTools import SimulationTools
 from py_dss_toolkit.dss_tools.UtilitiesTools import UtilitiesTools
 
 if TYPE_CHECKING:
-    from py_dss_toolkit.results.Results import Results
     from py_dss_toolkit.model.ModelBase import ModelBase
-    from py_dss_toolkit.view.static_view.ViewResults import ViewResults as StaticView
-    from py_dss_toolkit.view.interactive_view.ViewResults import ViewResults as InteractiveView
-    from py_dss_toolkit.view.dss_view.ViewResults import ViewResults as DSSView
     from py_dss_toolkit.model_verification.ModelVerification import ModelVerification
+    from py_dss_toolkit.results.Results import Results
+    from py_dss_toolkit.view.dss_view.ViewResults import ViewResults as DSSView
+    from py_dss_toolkit.view.interactive_view.ViewResults import ViewResults as InteractiveView
+    from py_dss_toolkit.view.static_view.ViewResults import ViewResults as StaticView
 
 
 class DSSTools:
@@ -76,12 +77,13 @@ class DSSTools:
 
     def __load_objects(self):
         """Construct model, results, views, and tool wrappers for ``self._dss``."""
-        from py_dss_toolkit.results.Results import Results
         from py_dss_toolkit.model.ModelBase import ModelBase
         from py_dss_toolkit.model_verification.ModelVerification import ModelVerification
-        from py_dss_toolkit.view.static_view.ViewResults import ViewResults as StaticView
-        from py_dss_toolkit.view.interactive_view.ViewResults import ViewResults as InteractiveView
+        from py_dss_toolkit.results.Results import Results
         from py_dss_toolkit.view.dss_view.ViewResults import ViewResults as DSSView
+        from py_dss_toolkit.view.interactive_view.ViewResults import ViewResults as InteractiveView
+        from py_dss_toolkit.view.static_view.ViewResults import ViewResults as StaticView
+
         self._model = ModelBase(self._dss)
         self._results = Results(self._dss, lambda: self._model.bus_connection_type_map)
         self._model_verification = ModelVerification(self._dss, self._model)
@@ -106,7 +108,9 @@ class DSSTools:
 
     def __raise_if_dss_not_connected(self):
         if self._dss is None:
-            raise RuntimeError("DSS is not connected. Use dss_tools.update_dss(dss) before accessing this property. Where dss is an instance of py_dss_interface.DSS()")
+            raise RuntimeError(
+                "DSS is not connected. Use dss_tools.update_dss(dss) before accessing this property. Where dss is an instance of py_dss_interface.DSS()"
+            )
 
     def __raise_if_dssview_backend_unsupported(self):
         """DSSView.exe (used by dss_view) only works with the Windows Delphi OpenDSS DLL."""

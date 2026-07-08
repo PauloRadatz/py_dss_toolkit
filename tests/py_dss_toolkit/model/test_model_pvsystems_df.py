@@ -1,6 +1,6 @@
 from _dss_script_runner import run_dss_script
-from py_dss_toolkit import dss_tools
 
+from py_dss_toolkit import dss_tools
 
 SCRIPT_ENABLED = """
 ClearAll
@@ -52,4 +52,3 @@ def test_pvsystems_df_none_when_no_pvsystems():
     run_dss_script(SCRIPT_NONE)
     df = dss_tools.model.pvsystems_df
     assert df is None
-

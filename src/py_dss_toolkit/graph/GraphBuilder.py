@@ -3,13 +3,17 @@
 # @Email   : paulo.radatz@gmail.com
 
 import math
-from collections import defaultdict, deque
-from typing import Any, Dict, List, Set, Tuple
+from collections import defaultdict
+from collections import deque
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Set
+from typing import Tuple
 
 import networkx as nx
 from py_dss_interface import DSS
-
-from typing import Optional
 
 from py_dss_toolkit.model.BusesDataDF import BusesDataDF
 from py_dss_toolkit.model.ElementDataDFs import ElementDataDFs
@@ -102,7 +106,9 @@ class GraphBuilder:
         return result
 
     @staticmethod
-    def _collect_edges(dss: DSS, model: Optional[object] = None) -> Tuple[Dict[frozenset, List[Dict[str, Any]]], Dict[str, Set[str]]]:
+    def _collect_edges(
+        dss: DSS, model: Optional[object] = None
+    ) -> Tuple[Dict[frozenset, List[Dict[str, Any]]], Dict[str, Set[str]]]:
         if model is not None and hasattr(model, "segments_df"):
             segments_df = model.segments_df
         else:

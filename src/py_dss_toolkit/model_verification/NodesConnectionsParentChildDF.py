@@ -110,14 +110,16 @@ class NodesConnectionsParentChildDF:
             parent_nodes_list = sorted(parent_phases)
             for child_name, child_nodes in bus_children.get(bus, []):
                 if _has_phase_issue(parent_nodes_list, child_nodes):
-                    rows.append([
-                        parent_label,
-                        bus,
-                        parent_nodes_list,
-                        child_name,
-                        bus,
-                        child_nodes,
-                    ])
+                    rows.append(
+                        [
+                            parent_label,
+                            bus,
+                            parent_nodes_list,
+                            child_name,
+                            bus,
+                            child_nodes,
+                        ]
+                    )
 
         for bus, children in bus_children.items():
             if bus in bus_parent_phases or len(children) < 2:
@@ -131,14 +133,16 @@ class NodesConnectionsParentChildDF:
             ref_nodes = sorted(all_phases)
             for child_name, child_nodes in children:
                 if _has_phase_issue(ref_nodes, child_nodes):
-                    rows.append([
-                        ref_label,
-                        bus,
-                        ref_nodes,
-                        child_name,
-                        bus,
-                        child_nodes,
-                    ])
+                    rows.append(
+                        [
+                            ref_label,
+                            bus,
+                            ref_nodes,
+                            child_name,
+                            bus,
+                            child_nodes,
+                        ]
+                    )
 
         pc_at_bus = _shunt_elements_by_bus(self._model)
 
@@ -149,14 +153,16 @@ class NodesConnectionsParentChildDF:
             parent_nodes_list = sorted(parent_phases)
             for elem_name, elem_nodes in pc_at_bus.get(bus, []):
                 if _has_phase_issue(parent_nodes_list, elem_nodes):
-                    rows.append([
-                        parent_label,
-                        bus,
-                        parent_nodes_list,
-                        elem_name,
-                        bus,
-                        elem_nodes,
-                    ])
+                    rows.append(
+                        [
+                            parent_label,
+                            bus,
+                            parent_nodes_list,
+                            elem_name,
+                            bus,
+                            elem_nodes,
+                        ]
+                    )
 
         all_buses = set(self._model.graph.nodes())
         for bus in all_buses:
@@ -174,13 +180,15 @@ class NodesConnectionsParentChildDF:
             ref_nodes = sorted(all_phases_set)
             for elem_name, elem_nodes in pc_at_bus.get(bus, []):
                 if _has_phase_issue(ref_nodes, elem_nodes):
-                    rows.append([
-                        ref_label,
-                        bus,
-                        ref_nodes,
-                        elem_name,
-                        bus,
-                        elem_nodes,
-                    ])
+                    rows.append(
+                        [
+                            ref_label,
+                            bus,
+                            ref_nodes,
+                            elem_name,
+                            bus,
+                            elem_nodes,
+                        ]
+                    )
 
         return rows

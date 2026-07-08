@@ -1,12 +1,12 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 from py_dss_interface import DSS
+
 from py_dss_toolkit.model.ElementDataDFs import ElementDataDFs
-from .snapshot_utils import (
-    create_currents_elements_records,
-    dataframe_to_column_records,
-    get_violation_current_limit_type,
-)
+
+from .snapshot_utils import create_currents_elements_records
+from .snapshot_utils import dataframe_to_column_records
+from .snapshot_utils import get_violation_current_limit_type
 
 
 def _parse_dss_list(value: str) -> list:
@@ -42,7 +42,7 @@ class CurrentsLoading:
     def current_loading_percent(self) -> pd.DataFrame:
         imags_records, _, elements, element_norm_amps, element_emerg_amps = create_currents_elements_records(self._dss)
 
-        imags_df = pd.DataFrame.from_dict(imags_records, orient='index').reindex(elements)
+        imags_df = pd.DataFrame.from_dict(imags_records, orient="index").reindex(elements)
         limit_type = get_violation_current_limit_type()
         amps_dict = element_norm_amps if limit_type == "norm_amps" else element_emerg_amps
         pd_elements = [e for e in elements if e in amps_dict]
@@ -79,4 +79,3 @@ class CurrentsLoading:
     @property
     def _current_loading_percent_records(self) -> dict:
         return dataframe_to_column_records(self.current_loading_percent)
-

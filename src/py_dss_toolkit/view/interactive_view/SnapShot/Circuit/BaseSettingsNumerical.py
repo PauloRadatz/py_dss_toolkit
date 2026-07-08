@@ -4,8 +4,11 @@
 # @File    : BaseSettingsNumerical.py
 # @Software: PyCharm
 
-from dataclasses import dataclass, field
-from typing import Optional, Union, Tuple, List
+from dataclasses import dataclass
+from dataclasses import field
+from typing import List
+from typing import Optional
+
 
 @dataclass(kw_only=True)
 class BaseSettingsNumerical:

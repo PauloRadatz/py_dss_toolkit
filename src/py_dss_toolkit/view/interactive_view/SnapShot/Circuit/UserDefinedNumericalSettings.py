@@ -4,20 +4,24 @@
 # @File    : UserDefinedNumericalSettings.py
 # @Software: PyCharm
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Optional
-from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.BaseSettingsNumerical import BaseSettingsNumerical
+
 import pandas as pd
+
+from py_dss_toolkit.view.interactive_view.SnapShot.Circuit.BaseSettingsNumerical import BaseSettingsNumerical
+
 
 @dataclass(kw_only=True)
 class UserDefinedNumericalSettings(BaseSettingsNumerical):
-    """Settings for user-defined numerical circuit plot parameter.
-    """
+    """Settings for user-defined numerical circuit plot parameter."""
+
     _parameter: str = field(init=False, repr=True, default="User Numerical Defined")
     unit: str = field(init=True, repr=True, default="Unit")
     results: Optional[pd.Series] = field(init=True, repr=True, default=None)
     num_decimal_points: int = field(init=True, repr=True, default=2)
-    colorbar_title: str =  field(init=True, repr=True, default="Colorbar Title")
+    colorbar_title: str = field(init=True, repr=True, default="Colorbar Title")
 
     def __post_init__(self):
         self._parameter = "User Numerical Defined"

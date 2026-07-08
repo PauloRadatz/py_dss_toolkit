@@ -4,10 +4,9 @@
 # @File    : ShortCircuitImpedances.py
 # @Software: PyCharm
 
-from py_dss_interface import DSS
+
 import pandas as pd
-from dataclasses import dataclass, field
-from typing import Tuple
+from py_dss_interface import DSS
 
 
 class ShortCircuitImpedances:

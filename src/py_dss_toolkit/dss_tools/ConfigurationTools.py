@@ -2,13 +2,14 @@
 # @Author  : Paulo Radatz
 # @Email   : paulo.radatz@gmail.com
 
-from py_dss_interface import DSS
 import pathlib
-from typing import Union, Dict
+from typing import Dict
+from typing import Union
+
+from py_dss_interface import DSS
 
 
 class ConfigurationTools:
-
     def __init__(self, dss: DSS):
         self._dss = dss
 
