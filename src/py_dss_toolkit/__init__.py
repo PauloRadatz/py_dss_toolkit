@@ -18,9 +18,11 @@ __version__ = "0.17.0"
 
 from .api.Creation import CreateStudy
 from .dss_tools.dss_tools import dss_tools
+from .utils.dss_parser import DSSParser
 
 __all__ = [
     "__version__",
     "CreateStudy",
     "dss_tools",
+    "DSSParser",
 ]
