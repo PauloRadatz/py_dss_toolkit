@@ -18,7 +18,8 @@ dependencies = [
 	"pandas>=2.2",
 	"matplotlib>=3.10",
 	"plotly>=5.20",
-	"networkx>=3.0"
+	"networkx>=3.0",
+	"tqdm>=4.66"
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
