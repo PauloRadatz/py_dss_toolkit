@@ -194,14 +194,25 @@ class BDGD2OpenDSS8760:
                 line = re.sub(r'(daily\s*=\s*)"?([^"\s]+)"?', fr'yearly="{name}_8760"', line, flags=re.IGNORECASE)
                 f.write(line + '\n')
 
-    def _write_curvas(self, path, bt_loads, mt_loads):
+    def _write_curvas(self, output_folder, bt_loads, mt_loads):
+        import array
+        loadshapes_dir = os.path.join(output_folder, "loadshapes")
+        os.makedirs(loadshapes_dir, exist_ok=True)
+        
+        path = os.path.join(output_folder, "CurvaCarga.dss")
         with open(path, 'w', encoding='utf-8') as f:
             for loads in [bt_loads, mt_loads]:
                 for name, data in loads.items():
                     curve = data['curve']
                     pts = len(curve)
-                    mults_str = ', '.join([f"{v:.6f}" for v in curve])
-                    f.write(f'New "Loadshape.{name}_8760" npts={pts} sinterval=3600 mult=({mults_str})\n')
+                    
+                    sng_filename = f"{name}_8760.sng"
+                    sng_path = os.path.join(loadshapes_dir, sng_filename)
+                    with open(sng_path, 'wb') as bin_f:
+                        float_array = array.array('f', curve)
+                        float_array.tofile(bin_f)
+                    
+                    f.write(f'New "Loadshape.{name}_8760" npts={pts} interval=1 sngfile="loadshapes/{sng_filename}"\n')
 
     def _write_master_and_copy_grid(self, output_folder: str, total_hours: int, add_nt_redirects: bool = False):
         master_files = self._find_files(r"^Master_.*\.dss$")
@@ -247,6 +258,7 @@ class BDGD2OpenDSS8760:
                     # We change daily to yearly, because we renamed the property to `yearly=` in the load definitions.
                     fout.write(line.replace("daily", "yearly").replace("Daily", "Yearly"))
                     fout.write(f"Set number = {total_hours}\n")
+                    fout.write(f"New monitor.timesteps element=vsource.source terminal=1 mode=5\n")
                 else:
                     fout.write(line)
                     
@@ -348,7 +360,7 @@ class BDGD2OpenDSS8760:
         
         self._write_cargas(os.path.join(output_folder, "CargaBT.dss"), bt_loads)
         self._write_cargas(os.path.join(output_folder, "CargaMT.dss"), mt_loads)
-        self._write_curvas(os.path.join(output_folder, "CurvaCarga.dss"), bt_loads, mt_loads)
+        self._write_curvas(output_folder, bt_loads, mt_loads)
         
         total_days = sum(data['total'] for data in day_counts.values())
         total_hours = total_days * 24
@@ -389,7 +401,7 @@ class BDGD2OpenDSS8760:
         
         self._write_cargas(os.path.join(output_folder, "CargaBT.dss"), bt_loads)
         self._write_cargas(os.path.join(output_folder, "CargaMT.dss"), mt_loads)
-        self._write_curvas(os.path.join(output_folder, "CurvaCarga.dss"), bt_loads, mt_loads)
+        self._write_curvas(output_folder, bt_loads, mt_loads)
         
         total_days = sum(data['total'] for data in day_counts.values())
         total_hours = total_days * 24
