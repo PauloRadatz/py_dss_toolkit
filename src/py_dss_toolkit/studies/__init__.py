@@ -3,3 +3,5 @@
 # @Email   : paulo.radatz@gmail.com
 # @File    : __init__.py.py
 # @Software: PyCharm
+
+from .BDGD2OpenDSS8760 import BDGD2OpenDSS8760
