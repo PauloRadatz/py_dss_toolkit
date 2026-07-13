@@ -167,7 +167,7 @@ If you use `py-dss-toolkit` in your academic work, please reference it as follow
 
 **APA Style:**
 
-Radatz, P. (2026). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI* (Version 0.17.0) [Computer software]. GitHub. https://github.com/PauloRadatz/py_dss_toolkit
+Radatz, P. (2026). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI* (Version 0.18.0) [Computer software]. GitHub. https://github.com/PauloRadatz/py_dss_toolkit
 
 **BibTeX Entry:**
 
@@ -176,7 +176,7 @@ Radatz, P. (2026). *py-dss-toolkit: Advanced Python Tools for OpenDSS powered by
   author = {Paulo Radatz},
   title = {py-dss-toolkit: Advanced Python Tools for OpenDSS powered by EPRI},
   year = {2026},
-  version = {0.17.0},
+  version = {0.18.0},
   url = {https://github.com/PauloRadatz/py_dss_toolkit}
 }
 ```
