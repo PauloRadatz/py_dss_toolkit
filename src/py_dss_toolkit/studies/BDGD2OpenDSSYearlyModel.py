@@ -5,17 +5,27 @@ import re
 import csv
 from datetime import date, timedelta
 import pandas as pd
+from dataclasses import dataclass
+from py_dss_interface import DSS
 
-class BDGD2OpenDSS8760:
+@dataclass(kw_only=True)
+class BDGD2OpenDSSYearlyModel:
     """
     Workflow class to convert BDGD-generated OpenDSS models with 36 representative 
     daily cases into a single 8760 (yearly) base case OpenDSS model.
     """
 
-    def __init__(self, dss_model_folder: str):
-        self.dss_model_folder = os.path.abspath(dss_model_folder)
+    _dss: DSS
+    dss_model_folder: str
+
+    def __post_init__(self):
+        self.dss_model_folder = os.path.abspath(self.dss_model_folder)
         if not os.path.isdir(self.dss_model_folder):
             raise FileNotFoundError(f"Folder not found: {self.dss_model_folder}")
+
+    @property
+    def dss(self) -> DSS:
+        return self._dss
 
     def _find_files(self, pattern: str):
         files = []
@@ -247,6 +257,8 @@ class BDGD2OpenDSS8760:
                                 wrote_new_loads = True
                             continue  # Skip the old ones
                         else:
+                            if (lower_fname.startswith("gd_bt") or lower_fname.startswith("gd_mt")) and line_strip.startswith('!'):
+                                continue
                             grid_files_to_copy.append(fname)
                             fout.write(line)
                 elif re.match(r'^buscoords\s+', line_strip, re.IGNORECASE):
@@ -269,11 +281,10 @@ class BDGD2OpenDSS8760:
                 shutil.copy2(src, dst)
 
     def _create_loading_info(self, output_folder, calendar_dict):
-        from py_dss_interface import DSS
-        from py_dss_toolkit import dss_tools
+        from py_dss_toolkit.dss_tools.dss_tools import dss_tools
         
         master_dss = os.path.join(output_folder, "master.dss")
-        dss = DSS()
+        dss = self._dss
         dss_tools.update_dss(dss)
         dss.text(f"compile [{master_dss}]")
         
@@ -380,7 +391,6 @@ class BDGD2OpenDSS8760:
         max_iterations: int = 20,
         create_loading_info_file: bool = True,
     ):
-        from py_dss_interface import DSS
         
         if output_folder is None:
             folder_name = os.path.basename(self.dss_model_folder)
@@ -472,7 +482,7 @@ class BDGD2OpenDSS8760:
             
         # 4. Iterative Process
         master_dss = os.path.join(output_folder, "master.dss")
-        dss = DSS()
+        dss = self._dss
         dss.text(f"compile [{master_dss}]")
         
         iteration_history = []

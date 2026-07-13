@@ -4,4 +4,4 @@
 # @File    : __init__.py.py
 # @Software: PyCharm
 
-from .BDGD2OpenDSS8760 import BDGD2OpenDSS8760
+from .BDGD2OpenDSSYearlyModel import BDGD2OpenDSSYearlyModel
