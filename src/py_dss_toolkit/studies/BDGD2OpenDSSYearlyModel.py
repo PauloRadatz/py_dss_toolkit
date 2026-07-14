@@ -70,6 +70,17 @@ class BDGD2OpenDSSYearlyModel:
                 }
         return day_counts
 
+    def _get_month_boundaries(self, calendar_dict):
+        month_boundaries = {}
+        current_hour = 0
+        for m in range(1, 13):
+            if m in calendar_dict:
+                days_in_month = len(calendar_dict[m])
+                hours_in_month = days_in_month * 24
+                month_boundaries[m] = (current_hour, current_hour + hours_in_month)
+                current_hour += hours_in_month
+        return month_boundaries
+
     def _build_calendar(self, day_counts):
         calendar_dict = {}
         # Infer leap year if Feb has 29 days total
@@ -224,7 +235,7 @@ class BDGD2OpenDSSYearlyModel:
                     
                     f.write(f'New "Loadshape.{name}_8760" npts={pts} interval=1 sngfile="loadshapes/{sng_filename}"\n')
 
-    def _write_master_and_copy_grid(self, output_folder: str, total_hours: int, add_nt_redirects: bool = False):
+    def _write_master_and_copy_grid(self, output_folder: str, total_hours: int, add_nt_monthly_redirects: bool = False, tolerance_pf: float = 0.0001, max_iterations_pf: int = 15):
         master_files = self._find_files(r"^Master_.*\.dss$")
         if not master_files:
             raise FileNotFoundError(f"No Master file found in {self.dss_model_folder}")
@@ -235,8 +246,14 @@ class BDGD2OpenDSSYearlyModel:
         new_master_path = os.path.join(output_folder, "master.dss")
         with open(base_master, 'r', encoding='utf-8') as fin, open(new_master_path, 'w', encoding='utf-8') as fout:
             wrote_new_loads = False
+            wrote_pf_settings = False
             for line in fin:
                 line_strip = line.strip()
+                
+                if re.match(r'^set\s+tolerance\s*=', line_strip, re.IGNORECASE):
+                    continue
+                if re.match(r'^set\s+maxiterations\s*=', line_strip, re.IGNORECASE) or re.match(r'^set\s+maxi\s*=', line_strip, re.IGNORECASE):
+                    continue
                 
                 # Check for redirects
                 if re.match(r'^!?\s*(?:redirect|compile)\s+', line_strip, re.IGNORECASE):
@@ -250,9 +267,9 @@ class BDGD2OpenDSSYearlyModel:
                                 fout.write('Redirect "CurvaCarga.dss"\n')
                                 fout.write('Redirect "CargaBT.dss"\n')
                                 fout.write('Redirect "CargaMT.dss"\n')
-                                if add_nt_redirects:
-                                    fout.write('Redirect "CargaBT_annual_energy_adjustment.dss"\n')
-                                    fout.write('Redirect "CargaMT_annual_energy_adjustment.dss"\n')
+                                if add_nt_monthly_redirects:
+                                    fout.write('Redirect "CargaBT_monthly_energy_adjustment.dss"\n')
+                                    fout.write('Redirect "CargaMT_monthly_energy_adjustment.dss"\n')
                                 fout.write('\n')
                                 wrote_new_loads = True
                             continue  # Skip the old ones
@@ -271,6 +288,12 @@ class BDGD2OpenDSSYearlyModel:
                     fout.write(line.replace("daily", "yearly").replace("Daily", "Yearly"))
                     fout.write(f"Set number = {total_hours}\n")
                     fout.write(f"New monitor.timesteps element=vsource.source terminal=1 mode=5\n")
+                elif re.match(r'^!?\s*solve', line_strip, re.IGNORECASE):
+                    if not wrote_pf_settings:
+                        fout.write(f"set tolerance={tolerance_pf}\n")
+                        fout.write(f"set maxi={max_iterations_pf}\n")
+                        wrote_pf_settings = True
+                    fout.write(line)
                 else:
                     fout.write(line)
                     
@@ -280,7 +303,7 @@ class BDGD2OpenDSSYearlyModel:
             if os.path.exists(src):
                 shutil.copy2(src, dst)
 
-    def _create_loading_info(self, output_folder, calendar_dict):
+    def _create_loading_info(self, output_folder, calendar_dict, tolerance_pf: float = 0.0001, max_iterations_pf: int = 15):
         from py_dss_toolkit.dss_tools.dss_tools import dss_tools
         
         master_dss = os.path.join(output_folder, "master.dss")
@@ -288,8 +311,16 @@ class BDGD2OpenDSSYearlyModel:
         dss_tools.update_dss(dss)
         dss.text(f"compile [{master_dss}]")
         
+        dss.solution.tolerance = tolerance_pf
+        dss.solution.max_iterations = max_iterations_pf
+        
         dss_tools.model.add_line_in_vsource(add_meter=True, add_monitors=True)
         dss.text("solve")
+        if not dss.solution.converged:
+            raise RuntimeError(f"Power flow did not converge! "
+                               f"Current max_iterations is {dss.solution.max_iterations} and tolerance is {dss.solution.tolerance}. "
+                               f"You can try to change the maxiteration for the power flow (suggested: between 30 and 50) "
+                               f"before changing the tolerance, or increase the tolerance by 10 times.")
         
         dss.monitors.name = "monitor_feeder_head_pq"
         header = dss.monitors.header
@@ -303,14 +334,7 @@ class BDGD2OpenDSSYearlyModel:
                 if i < len(data):
                     total_kw[i] += data[i]
                     
-        month_boundaries = {}
-        current_hour = 0
-        for m in range(1, 13):
-            if m in calendar_dict:
-                days_in_month = len(calendar_dict[m])
-                hours_in_month = days_in_month * 24
-                month_boundaries[m] = (current_hour, current_hour + hours_in_month)
-                current_hour += hours_in_month
+        month_boundaries = self._get_month_boundaries(calendar_dict)
                 
         if not total_kw:
             return
@@ -321,7 +345,9 @@ class BDGD2OpenDSSYearlyModel:
         global_offpeak_ts = total_kw.index(global_offpeak_val) + 1
         
         summary = [
-            {"Scope": "Global", "Peak Value (kW)": round(global_peak_val, 2), "Peak Timestep": global_peak_ts,
+            {"Scope": "Global", 
+             "Start hour": 1, "End hour": len(total_kw),
+             "Peak Value (kW)": round(global_peak_val, 2), "Peak Timestep": global_peak_ts,
              "Off-Peak Value (kW)": round(global_offpeak_val, 2), "Off-Peak Timestep": global_offpeak_ts}
         ]
         
@@ -337,6 +363,8 @@ class BDGD2OpenDSSYearlyModel:
                     
                     summary.append({
                         "Scope": f"Month {m}",
+                        "Start hour": start + 1,
+                        "End hour": end,
                         "Peak Value (kW)": round(m_peak_val, 2),
                         "Peak Timestep": m_peak_ts,
                         "Off-Peak Value (kW)": round(m_offpeak_val, 2),
@@ -345,14 +373,14 @@ class BDGD2OpenDSSYearlyModel:
                     
         csv_path = os.path.join(output_folder, "loading_info.csv")
         with open(csv_path, 'w', newline='', encoding='utf-8') as f:
-            fieldnames = ["Scope", "Peak Value (kW)", "Peak Timestep", "Off-Peak Value (kW)", "Off-Peak Timestep"]
+            fieldnames = ["Scope", "Start hour", "End hour", "Peak Value (kW)", "Peak Timestep", "Off-Peak Value (kW)", "Off-Peak Timestep"]
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             for row in summary:
                 writer.writerow(row)
         print(f"Loading info CSV created at: {csv_path}")
 
-    def execute_base_case(self, output_folder: str = None, create_loading_info_file: bool = True):
+    def execute_base_case(self, output_folder: str = None, create_loading_info_file: bool = True, tolerance_pf: float = 0.0001, max_iterations_pf: int = 15):
         if output_folder is None:
             folder_name = os.path.basename(self.dss_model_folder)
             output_folder = os.path.join(self.dss_model_folder, f"{folder_name}_8760_base_case")
@@ -375,26 +403,31 @@ class BDGD2OpenDSSYearlyModel:
         
         total_days = sum(data['total'] for data in day_counts.values())
         total_hours = total_days * 24
-        self._write_master_and_copy_grid(output_folder, total_hours)
+        self._write_master_and_copy_grid(output_folder, total_hours, tolerance_pf=tolerance_pf, max_iterations_pf=max_iterations_pf)
         
         print(f"8760 Base Case generation complete. Output saved to: {output_folder}")
         
         if create_loading_info_file:
             print("Running simulation to create loading info file...")
-            self._create_loading_info(output_folder, calendar_dict)
+            self._create_loading_info(output_folder, calendar_dict, tolerance_pf=tolerance_pf, max_iterations_pf=max_iterations_pf)
 
-    def execute_annual_energy_case(
+    def execute_monthly_energy_case(
         self,
         output_folder: str = None,
-        tolerance_kwh_per_month: float = 500.0,
+        tolerance_kwh_per_month: float = 100.0,
         lv_energy_share: float = 1.0,
         max_iterations: int = 20,
         create_loading_info_file: bool = True,
+        tolerance_pf: float = 0.0001,
+        max_iterations_pf: int = 15,
     ):
+        import array
+        
+        self._dss.text("clear")
         
         if output_folder is None:
             folder_name = os.path.basename(self.dss_model_folder)
-            output_folder = os.path.join(self.dss_model_folder, f"{folder_name}_8760_annual_energy_case")
+            output_folder = os.path.join(self.dss_model_folder, f"{folder_name}_8760_monthly_energy_case")
             
         output_folder = os.path.abspath(output_folder)
         if os.path.exists(output_folder):
@@ -404,6 +437,7 @@ class BDGD2OpenDSSYearlyModel:
         # 1. Base case setup
         day_counts = self._parse_contagem_dias()
         calendar_dict = self._build_calendar(day_counts)
+        month_boundaries = self._get_month_boundaries(calendar_dict)
         shapes_24h = self._parse_curvacarga()
         
         bt_loads = self._process_loads("CargasBT", calendar_dict, shapes_24h)
@@ -416,10 +450,9 @@ class BDGD2OpenDSSYearlyModel:
         total_days = sum(data['total'] for data in day_counts.values())
         total_hours = total_days * 24
         
-        # We need the NT redirects
-        self._write_master_and_copy_grid(output_folder, total_hours, add_nt_redirects=True)
+        self._write_master_and_copy_grid(output_folder, total_hours, add_nt_monthly_redirects=True, tolerance_pf=tolerance_pf, max_iterations_pf=max_iterations_pf)
         
-        # 2. Extract target energy from CircMT_
+        # 2. Extract target energy from CircMT_ per month
         csv_folder = os.path.join(self.dss_model_folder, "csv_files")
         circ_mt_files = [f for f in os.listdir(csv_folder) if f.lower().startswith("circmt") and f.lower().endswith(".csv")]
         if not circ_mt_files:
@@ -427,163 +460,214 @@ class BDGD2OpenDSSYearlyModel:
         circ_mt_path = os.path.join(csv_folder, circ_mt_files[0])
         
         df_circ = pd.read_csv(circ_mt_path)
-        target_annual_energy_mwh = 0.0
-        for col in df_circ.columns:
-            if col.startswith("EnerCirc") and col.endswith("_MWh"):
-                target_annual_energy_mwh += df_circ[col].sum()
+        target_kwh_m = {}
+        for m in range(1, 13):
+            col_name = f"EnerCirc{m:02d}_MWh"
+            if col_name in df_circ.columns:
+                target_kwh_m[m] = df_circ[col_name].sum() * 1000.0
+            else:
+                target_kwh_m[m] = 0.0
+                
+        # 3. Calculate original base energies and create zeroed NT loadshapes
+        loadshapes_dir = os.path.join(output_folder, "loadshapes")
+        os.makedirs(loadshapes_dir, exist_ok=True)
         
-        target_kwh = target_annual_energy_mwh * 1000.0
-        tolerance_kwh = 12 * tolerance_kwh_per_month
-        
-        # 3. Calculate original base energies and write NT loads
-        original_energies = []
         nt_bt_loads = []
         nt_mt_loads = []
         
-        for k, v in bt_loads.items():
-            ann_energy = sum(v['curve'])
-            original_kw = v['max_kw']
-            shape_sum = (ann_energy / original_kw) if original_kw > 0 else 0.0
-            original_energies.append({"Load": k, "Type": "LV", "Base_kW": original_kw, "Shape_Sum": shape_sum, "Annual_Energy_kWh": ann_energy})
-            if lv_energy_share > 0:
+        # We will keep track of NT load states
+        # nt_loads_info[load_name] = {"Type": ..., "Base_Energy_m": {m: value}, "shape_sum_m": {m: value}, "Base_shape": [], "NT_Energy_m": {m: 0.0}, "NT_shape": [0.0]*8760}
+        nt_loads_info = {}
+        
+        total_lv_energy_m = {m: 0.0 for m in range(1, 13)}
+        total_mv_energy_m = {m: 0.0 for m in range(1, 13)}
+        
+        zero_shape = [0.0] * total_hours
+        zero_array = array.array('f', zero_shape)
+        
+        def process_nt_loads(loads_dict, load_type, nt_list):
+            for k, v in loads_dict.items():
+                original_kw = v['max_kw']
+                base_shape = v['curve']
+                
+                info = {
+                    "Type": load_type,
+                    "Base_Energy_m": {},
+                    "shape_sum_m": {},
+                    "Base_shape": base_shape,
+                    "NT_Energy_m": {m: 0.0 for m in range(1, 13)},
+                    "NT_shape": list(zero_shape)
+                }
+                
+                for m in range(1, 13):
+                    if m in month_boundaries:
+                        start, end = month_boundaries[m]
+                        m_shape = base_shape[start:end]
+                        shape_sum = sum(m_shape)
+                        base_energy = original_kw * shape_sum
+                        info["Base_Energy_m"][m] = base_energy
+                        info["shape_sum_m"][m] = shape_sum
+                        
+                        if load_type == "LV":
+                            total_lv_energy_m[m] += base_energy
+                        else:
+                            total_mv_energy_m[m] += base_energy
+                            
+                nt_loads_info[k] = info
+                
+                # Create load and loadshape definition
                 line = v['template']
                 line = re.sub(fr'(?i)(Load\.{re.escape(k)})', fr'\1_NT', line)
-                line = re.sub(r'(kw\s*=\s*)"?([^"\s]+)"?', 'kw=0.0', line, flags=re.IGNORECASE)
-                line = re.sub(r'((?:daily|yearly)\s*=\s*)"?([^"\s]+)"?', fr'yearly="{k}_8760"', line, flags=re.IGNORECASE)
-                nt_bt_loads.append(line)
+                line = re.sub(r'(kw\s*=\s*)"?([^"\s]+)"?', '', line, flags=re.IGNORECASE)
+                line = re.sub(r'((?:daily|yearly)\s*=\s*)"?([^"\s]+)"?', fr'yearly="{k}_NT_8760"', line, flags=re.IGNORECASE)
                 
-        for k, v in mt_loads.items():
-            ann_energy = sum(v['curve'])
-            original_kw = v['max_kw']
-            shape_sum = (ann_energy / original_kw) if original_kw > 0 else 0.0
-            original_energies.append({"Load": k, "Type": "MV", "Base_kW": original_kw, "Shape_Sum": shape_sum, "Annual_Energy_kWh": ann_energy})
-            if lv_energy_share < 1.0:
-                line = v['template']
-                line = re.sub(fr'(?i)(Load\.{re.escape(k)})', fr'\1_NT', line)
-                line = re.sub(r'(kw\s*=\s*)"?([^"\s]+)"?', 'kw=0.0', line, flags=re.IGNORECASE)
-                line = re.sub(r'((?:daily|yearly)\s*=\s*)"?([^"\s]+)"?', fr'yearly="{k}_8760"', line, flags=re.IGNORECASE)
-                nt_mt_loads.append(line)
-                
-        df_energies = pd.DataFrame(original_energies)
-        df_energies["NT_kW"] = 0.0
-        df_energies["NT_Annual_Energy_kWh"] = 0.0
-        df_energies["Effective_Annual_Energy_kWh"] = df_energies["Annual_Energy_kWh"]
-        
-        total_lv_energy = df_energies[df_energies["Type"] == "LV"]["Annual_Energy_kWh"].sum()
-        total_mv_energy = df_energies[df_energies["Type"] == "MV"]["Annual_Energy_kWh"].sum()
-        
-        # Create empty/initial NT files
-        with open(os.path.join(output_folder, "CargaBT_annual_energy_adjustment.dss"), 'w') as f:
-            if nt_bt_loads:
-                f.write("\n".join(nt_bt_loads))
-        with open(os.path.join(output_folder, "CargaMT_annual_energy_adjustment.dss"), 'w') as f:
-            if nt_mt_loads:
-                f.write("\n".join(nt_mt_loads))
+                # mult=(0) ensures OpenDSS allocates the memory array without throwing Warning 482
+                ls_def = f'New "Loadshape.{k}_NT_8760" npts={total_hours} interval=1 UseActual=Yes mult=(0)'
+                nt_list.append(ls_def)
+                nt_list.append(line)
+
+        if lv_energy_share > 0:
+            process_nt_loads(bt_loads, "LV", nt_bt_loads)
+        if lv_energy_share < 1.0:
+            process_nt_loads(mt_loads, "MV", nt_mt_loads)
+        with open(os.path.join(output_folder, "CargaBT_monthly_energy_adjustment.dss"), 'w') as f:
+            f.write("\n".join(nt_bt_loads))
+        with open(os.path.join(output_folder, "CargaMT_monthly_energy_adjustment.dss"), 'w') as f:
+            f.write("\n".join(nt_mt_loads))
             
         # 4. Iterative Process
         master_dss = os.path.join(output_folder, "master.dss")
         dss = self._dss
         dss.text(f"compile [{master_dss}]")
+        dss.solution.tolerance = tolerance_pf
+        dss.solution.max_iterations = max_iterations_pf
         
         iteration_history = []
         
-        for iteration in range(1, max_iterations + 1):
-            dss.text("set hour=0")
-            dss.meters.first()
-            dss.meters.reset()
-            dss.text("solve")
+        for m in range(1, 13):
+            if m not in month_boundaries:
+                continue
+                
+            start, end = month_boundaries[m]
+            hours_in_month = end - start
             
-            dss.meters.first()
-            simulated_kwh = dss.meters.register_values[0] # register 0 is kWh
+            print(f"\n--- Month {m} ---")
             
-            diff_kwh = target_kwh - simulated_kwh
-            within_tolerance = abs(diff_kwh) <= tolerance_kwh
+            for iteration in range(1, max_iterations + 1):
+                dss.text(f"set hour={start - 1}")
+                dss.text(f"set number={hours_in_month}")
+                dss.meters.first()
+                dss.meters.reset()
+                dss.text("solve")
+                if not dss.solution.converged:
+                    raise RuntimeError(f"Power flow did not converge during Month {m}, Iteration {iteration}. "
+                                       f"Current max_iterations is {dss.solution.max_iterations} and tolerance is {dss.solution.tolerance}. "
+                                       f"You can try to change the maxiteration for the power flow (suggested: between 30 and 50) "
+                                       f"before changing the tolerance, or increase the tolerance by 10 times.")
+                
+                dss.meters.first()
+                sim_kwh = dss.meters.register_values[0]
+                tgt_kwh = target_kwh_m[m]
+                diff_kwh = tgt_kwh - sim_kwh
+                
+                hist_record = {"Month": m, "Iteration": iteration, "Sim_M": sim_kwh, "Tgt_M": tgt_kwh, "Diff_M": diff_kwh}
+                iteration_history.append(hist_record)
+                
+                print(f"Iter {iteration}: Target={tgt_kwh:.2f}, Simulated={sim_kwh:.2f}, Diff={diff_kwh:.2f}")
+                
+                if abs(diff_kwh) <= tolerance_kwh_per_month:
+                    print(f"Month {m} converged in {iteration} iterations!")
+                    break
+
+                lv_alloc_m = diff_kwh * lv_energy_share
+                mv_alloc_m = diff_kwh * (1.0 - lv_energy_share)
+                
+                # Distribute diff to NT loads for this month
+                for k, info in nt_loads_info.items():
+                    l_type = info["Type"]
+                    base_e = info["Base_Energy_m"].get(m, 0.0)
+                    
+                    load_alloc = 0.0
+                    if l_type == "LV" and total_lv_energy_m[m] > 0 and base_e > 0:
+                        share = base_e / total_lv_energy_m[m]
+                        load_alloc = lv_alloc_m * share
+                    elif l_type == "MV" and total_mv_energy_m[m] > 0 and base_e > 0:
+                        share = base_e / total_mv_energy_m[m]
+                        load_alloc = mv_alloc_m * share
+                    
+                    current_nt_e = info["NT_Energy_m"][m]
+                    new_nt_e = current_nt_e + load_alloc
+                    info["NT_Energy_m"][m] = new_nt_e
+                    
+                    # Update loadshape array for this month
+                    nt_shape = info["NT_shape"]
+                    base_shape = info["Base_shape"]
+                    shape_sum = info["shape_sum_m"].get(m, 0.0)
+                    
+                    if shape_sum > 0:
+                        multiplier = info["NT_Energy_m"][m] / shape_sum
+                        for h in range(start, end):
+                            nt_shape[h] = base_shape[h] * multiplier
+                            
+                    mult_str = " ".join(f"{v:.6f}" for v in nt_shape)
+                    dss.text(f"edit loadshape.{k}_NT_8760 mult=({mult_str})")
+                
+        # 5. Overwrite the final NT files with actual shapes
+        final_nt_bt = []
+        final_nt_mt = []
+        
+        for k, info in nt_loads_info.items():
+            nt_shape = info["NT_shape"]
+            l_type = info["Type"]
             
-            lv_alloc = diff_kwh * lv_energy_share
-            mv_alloc = diff_kwh * (1.0 - lv_energy_share)
+            sng_filename = f"{k}_NT_8760.sng"
+            sng_path = os.path.join(loadshapes_dir, sng_filename)
+            with open(sng_path, 'wb') as bin_f:
+                float_array = array.array('f', nt_shape)
+                float_array.tofile(bin_f)
+                
+            # Rewrite load definition
+            if l_type == "LV":
+                base_loads = bt_loads
+                target_list = final_nt_bt
+            else:
+                base_loads = mt_loads
+                target_list = final_nt_mt
+                
+            v = base_loads[k]
+            line = v['template']
+            line = re.sub(fr'(?i)(Load\.{re.escape(k)})', fr'\1_NT', line)
+            line = re.sub(r'(kw\s*=\s*)"?([^"\s]+)"?', '', line, flags=re.IGNORECASE)
+            line = re.sub(r'((?:daily|yearly)\s*=\s*)"?([^"\s]+)"?', fr'yearly="{k}_NT_8760"', line, flags=re.IGNORECASE)
             
-            iteration_history.append({
-                "Iteration": iteration,
-                "Simulated_kWh": simulated_kwh,
-                "Target_kWh": target_kwh,
-                "Diff_kWh": diff_kwh,
-                "LV_Allocated": lv_alloc,
-                "MV_Allocated": mv_alloc,
-                "Within_Tolerance": within_tolerance
-            })
+            ls_def = f'New "Loadshape.{k}_NT_8760" npts={total_hours} interval=1 UseActual=Yes sngfile="loadshapes/{sng_filename}"'
+            target_list.append(ls_def)
+            target_list.append(line)
             
-            print(f"Iter {iteration}: Sim={simulated_kwh:.2f}, Target={target_kwh:.2f}, Diff={diff_kwh:.2f} (Tol={tolerance_kwh:.2f})")
+        with open(os.path.join(output_folder, "CargaBT_monthly_energy_adjustment.dss"), 'w') as f:
+            f.write("\n".join(final_nt_bt))
+        with open(os.path.join(output_folder, "CargaMT_monthly_energy_adjustment.dss"), 'w') as f:
+            f.write("\n".join(final_nt_mt))
+                
+        # Generate energies CSV
+        final_energies = []
+        for k, info in nt_loads_info.items():
+            row = {"Load": k, "Type": info["Type"]}
+            for m in range(1, 13):
+                if m in month_boundaries:
+                    row[f"Base_Energy_M{m}"] = info["Base_Energy_m"][m]
+                    row[f"NT_Energy_M{m}"] = info["NT_Energy_m"][m]
+            final_energies.append(row)
             
-            if within_tolerance:
-                break
-                
-            # Distribute LV alloc
-            if lv_energy_share > 0 and total_lv_energy > 0:
-                for idx, row in df_energies[df_energies["Type"] == "LV"].iterrows():
-                    if row["Shape_Sum"] > 0 and row["Annual_Energy_kWh"] > 0:
-                        share = row["Annual_Energy_kWh"] / total_lv_energy
-                        load_alloc = lv_alloc * share
-                        dss.loads.name = f"{row['Load']}_NT"
-                        dss.loads.kw = dss.loads.kw + (load_alloc / row["Shape_Sum"])
-                        
-            # Distribute MV alloc
-            if lv_energy_share < 1.0 and total_mv_energy > 0:
-                for idx, row in df_energies[df_energies["Type"] == "MV"].iterrows():
-                    if row["Shape_Sum"] > 0 and row["Annual_Energy_kWh"] > 0:
-                        share = row["Annual_Energy_kWh"] / total_mv_energy
-                        load_alloc = mv_alloc * share
-                        dss.loads.name = f"{row['Load']}_NT"
-                        dss.loads.kw = dss.loads.kw + (load_alloc / row["Shape_Sum"])
-                        
-        # 5. After converged (or max iter), rewrite final NT files
-        if lv_energy_share > 0:
-            final_bt = []
-            for idx, row in df_energies[df_energies["Type"] == "LV"].iterrows():
-                dss.loads.name = f"{row['Load']}_NT"
-                final_kw = dss.loads.kw
-                
-                df_energies.at[idx, "NT_kW"] = final_kw
-                nt_energy = final_kw * row["Shape_Sum"]
-                df_energies.at[idx, "NT_Annual_Energy_kWh"] = nt_energy
-                df_energies.at[idx, "Effective_Annual_Energy_kWh"] = row["Annual_Energy_kWh"] + nt_energy
-                
-                v = bt_loads[row['Load']]
-                line = v['template']
-                line = re.sub(fr'(?i)(Load\.{re.escape(row["Load"])})', fr'\1_NT', line)
-                line = re.sub(r'(kw\s*=\s*)"?([^"\s]+)"?', f'kw={final_kw:.6f}', line, flags=re.IGNORECASE)
-                line = re.sub(r'((?:daily|yearly)\s*=\s*)"?([^"\s]+)"?', fr'yearly="{row["Load"]}_8760"', line, flags=re.IGNORECASE)
-                final_bt.append(line)
-            with open(os.path.join(output_folder, "CargaBT_annual_energy_adjustment.dss"), 'w') as f:
-                f.write("\n".join(final_bt))
-                
-        if lv_energy_share < 1.0:
-            final_mt = []
-            for idx, row in df_energies[df_energies["Type"] == "MV"].iterrows():
-                dss.loads.name = f"{row['Load']}_NT"
-                final_kw = dss.loads.kw
-                
-                df_energies.at[idx, "NT_kW"] = final_kw
-                nt_energy = final_kw * row["Shape_Sum"]
-                df_energies.at[idx, "NT_Annual_Energy_kWh"] = nt_energy
-                df_energies.at[idx, "Effective_Annual_Energy_kWh"] = row["Annual_Energy_kWh"] + nt_energy
-                
-                v = mt_loads[row['Load']]
-                line = v['template']
-                line = re.sub(fr'(?i)(Load\.{re.escape(row["Load"])})', fr'\1_NT', line)
-                line = re.sub(r'(kw\s*=\s*)"?([^"\s]+)"?', f'kw={final_kw:.6f}', line, flags=re.IGNORECASE)
-                line = re.sub(r'((?:daily|yearly)\s*=\s*)"?([^"\s]+)"?', fr'yearly="{row["Load"]}_8760"', line, flags=re.IGNORECASE)
-                final_mt.append(line)
-            with open(os.path.join(output_folder, "CargaMT_annual_energy_adjustment.dss"), 'w') as f:
-                f.write("\n".join(final_mt))
-                
-        df_energies.to_csv(os.path.join(output_folder, "original_load_energies.csv"), index=False)
+        df_energies = pd.DataFrame(final_energies)
+        df_energies.to_csv(os.path.join(output_folder, "monthly_load_energies.csv"), index=False)
         
         df_hist = pd.DataFrame(iteration_history)
         df_hist.to_csv(os.path.join(output_folder, "iteration_history.csv"), index=False)
-        print(f"Annual Energy Allocation complete. History saved.")
+        print(f"Monthly Energy Allocation complete. History saved.")
         
         if create_loading_info_file:
             print("Running simulation to create loading info file...")
-            self._create_loading_info(output_folder, calendar_dict)
+            self._create_loading_info(output_folder, calendar_dict, tolerance_pf=tolerance_pf, max_iterations_pf=max_iterations_pf)
             
         return output_folder
