@@ -14,7 +14,7 @@ Exports:
         before using model, results, or views.
 """
 
-__version__ = "0.18.0"
+__version__ = "0.19.0"
 
 from .api.Creation import CreateStudy
 from .dss_tools.dss_tools import dss_tools

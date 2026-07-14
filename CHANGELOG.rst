@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.19.0 (2026-07-14)
+-------------------
+* Studies: Replaced annual energy calibration with a highly accurate month-by-month ``execute_monthly_energy_case`` iteration, optimized OpenDSS loadshape compilation by utilizing binary ``.sng`` arrays directly, and enhanced stability with embedded solver configuration and DSS engine cleanups.
+
 0.18.0 (2026-07-13)
 -------------------
 * Studies: Refactored ``BDGD2OpenDSSYearlyModel`` to use a dataclass and an active ``DSS`` instance, removed the ``include_generators`` flag, and updated the master writer to gracefully exclude commented-out GD redirects.
