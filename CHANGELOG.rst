@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.20.0 (2026-07-29)
+-------------------
+* ``CreateStudy``: Added ``bdgd2opendss_yearly_model`` static factory method for initializing ``BDGD2OpenDSSYearlyModel`` study instances.
+
 0.19.0 (2026-07-14)
 -------------------
 * Studies: Replaced annual energy calibration with a highly accurate month-by-month ``execute_monthly_energy_case`` iteration, optimized OpenDSS loadshape compilation by utilizing binary ``.sng`` arrays directly, and enhanced stability with embedded solver configuration and DSS engine cleanups.

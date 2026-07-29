@@ -6,6 +6,7 @@ from typing import Union
 
 from py_dss_toolkit.studies.SnapShotPowerFlow.StudySnapShotPowerFlow import StudySnapShotPowerFlow
 from py_dss_toolkit.studies.TimeSeriesPowerFlow.StudyTimeSeriesPowerFlow import StudyTimeSeriesPowerFlow
+from py_dss_toolkit.studies.BDGD2OpenDSSYearlyModel import BDGD2OpenDSSYearlyModel
 
 
 class CreateStudy:
@@ -57,6 +58,31 @@ class CreateStudy:
         """
         sc = StudyTimeSeriesPowerFlow(_name=name, _dss_file=dss_file, _base_frequency=base_frequency, _dss_dll=dss_dll)
         return sc
+
+    @staticmethod
+    def bdgd2opendss_yearly_model(
+        name: str,
+        dss_model_folder: Union[str, pathlib.Path],
+        base_frequency: Union[int, float] = 60,
+        dss_dll: Optional[str] = None,
+    ) -> BDGD2OpenDSSYearlyModel:
+        """Build a BDGD to OpenDSS 8760 yearly model study converter.
+
+        Args:
+            name: Study label.
+            dss_model_folder: Path to the BDGD model folder.
+            base_frequency: System base frequency in Hz (default 60).
+            dss_dll: Optional path to the OpenDSS library; if omitted, defaults apply.
+
+        Returns:
+            BDGD2OpenDSSYearlyModel: Configured study for BDGD 8760 conversion.
+        """
+        return BDGD2OpenDSSYearlyModel(
+            _name=name,
+            dss_model_folder=dss_model_folder,
+            _base_frequency=base_frequency,
+            _dss_dll=dss_dll,
+        )
 
     # @staticmethod
     # def fault_study(
