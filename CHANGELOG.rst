@@ -1,6 +1,8 @@
 Changelog
 =========
 
+0.21.0
+
 0.20.0 (2026-07-29)
 -------------------
 * ``CreateStudy``: Added ``bdgd2opendss_yearly_model`` static factory method for initializing ``BDGD2OpenDSSYearlyModel`` study instances.
